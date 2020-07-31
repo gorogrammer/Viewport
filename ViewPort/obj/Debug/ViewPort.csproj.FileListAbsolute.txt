@@ -17,3 +17,4 @@ C:\Users\User\source\repos\gorogrammer\Viewport\ViewPort\bin\Debug\microsoft.win
 C:\Users\User\source\repos\gorogrammer\Viewport\ViewPort\bin\Debug\microsoft.windowsapicodepack.shell.dll
 C:\Users\User\source\repos\gorogrammer\Viewport\ViewPort\bin\Debug\MySql.Data.dll
 C:\Users\User\source\repos\gorogrammer\Viewport\ViewPort\bin\Debug\ViewPortNetwork.dll
+C:\Users\User\source\repos\gorogrammer\Viewport\ViewPort\obj\Debug\ViewPort.Views.ImageViewer.resources
