@@ -47,6 +47,8 @@
             this.Controls.Add(this.label1);
             this.Name = "ImageViewer";
             this.Size = new System.Drawing.Size(1074, 537);
+            this.Load += new System.EventHandler(this.ImageViewer_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageViewer_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

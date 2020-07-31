@@ -303,7 +303,7 @@ namespace ViewPort.Views
             }
             Print_Frame.Sort();
 
-            if (Main.GetLoad_State() == 0)
+            if (Main.LoadState == 0)
             {
                 for (int i = 0; i < EachPage_ImageNum; i++)
                 {
@@ -325,9 +325,9 @@ namespace ViewPort.Views
             }
             else
             {
-                if (Main.GetZipFilePath() != "")
+                if (Main.ZipFilePath != "")
                 {
-                    zip = ZipFile.Open(Main.GetZipFilePath(), ZipArchiveMode.Read);       // Zip파일(Lot) Load
+                    zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
                     string Open_ZipName;
 
                     foreach (ZipArchiveEntry entry in zip.Entries)
