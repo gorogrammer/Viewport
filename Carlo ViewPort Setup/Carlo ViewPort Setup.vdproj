@@ -281,11 +281,6 @@
             "AssemblyAsmDisplayName" = "8:MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_0386333CB16B4A97F49E3C350DFA9B2F"
-                    {
-                    "Name" = "8:MetroFramework.Fonts.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MetroFramework.Fonts.dll"
             "TargetName" = "8:"
@@ -312,11 +307,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_1724362D6EEA7BF6A6B713F76766CAC0"
-                    {
-                    "Name" = "8:microsoft.windowsapicodepack.shell.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:microsoft.windowsapicodepack.shell.dll"
             "TargetName" = "8:"
@@ -343,11 +333,6 @@
             "AssemblyAsmDisplayName" = "8:MetroFramework, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6C75964BFF9F0A1726054E713E3AA027"
-                    {
-                    "Name" = "8:MetroFramework.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MetroFramework.dll"
             "TargetName" = "8:"
@@ -374,11 +359,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_A8B449C4F5FE2730AA8FF9DFF6127BD3"
-                    {
-                    "Name" = "8:microsoft.windowsapicodepack.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:microsoft.windowsapicodepack.dll"
             "TargetName" = "8:"
@@ -436,11 +416,6 @@
             "AssemblyAsmDisplayName" = "8:MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CF1A665D58ACB186825357CD52313E20"
-                    {
-                    "Name" = "8:MySql.Data.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MySql.Data.dll"
             "TargetName" = "8:"
@@ -467,11 +442,6 @@
             "AssemblyAsmDisplayName" = "8:ViewPortNetwork, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_ED9B26419C58D176E8C92B97847290DD"
-                    {
-                    "Name" = "8:ViewPortNetwork.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:ViewPortNetwork.dll"
             "TargetName" = "8:"
@@ -498,11 +468,6 @@
             "AssemblyAsmDisplayName" = "8:MetroFramework.Design, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F95C6885EA2F248FE7C4952B2E980BD7"
-                    {
-                    "Name" = "8:MetroFramework.Design.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MetroFramework.Design.dll"
             "TargetName" = "8:"
@@ -589,15 +554,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ViewPort"
-        "ProductCode" = "8:{E29D1588-895B-4BC0-A31E-1DDC2829B820}"
-        "PackageCode" = "8:{847F5A44-2327-4C96-BC14-4F3AD104A103}"
+        "ProductCode" = "8:{EF123D36-66FD-419D-AAAD-94406F7B8766}"
+        "PackageCode" = "8:{E553260D-A5A9-4E83-8757-11B9C174FA6C}"
         "UpgradeCode" = "8:{69CED34E-F2FC-4A24-803B-A60E9ED38167}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.0.0"
         "Manufacturer" = "8:Carlo"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1139,7 +1104,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2AD2ABC98A5C4D228DB57A01EF5DED96"
             {
-            "SourcePath" = "8:..\\ViewPortChecker\\obj\\Debug\\ViewPortChecker.exe"
+            "SourcePath" = "8:..\\ViewPortChecker\\obj\\Debug\\VPChecker.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9A2654F877C34BBDB5409882F53458CB"

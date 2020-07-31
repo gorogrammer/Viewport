@@ -11,11 +11,13 @@ using System.Threading;
 using System.Net;
 using ViewPortNetwork;
 using MySql.Data.MySqlClient;
+using System.Reflection;
 
 namespace ViewPortChecker
 {
     public partial class FormViewPortChecker : Form
     {
+        public string VersionInfo;
         public FormViewPortChecker()
         {
             InitializeComponent();
@@ -26,6 +28,7 @@ namespace ViewPortChecker
 
         void Init()
         {
+            VersionInfo = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         #region SafeThread Functions
@@ -215,18 +218,14 @@ namespace ViewPortChecker
             EditLabelTextSafe(MSG_STR.CHECK_VER);
             Thread.Sleep(1000);
 
-
-            string LastVer = NetworkFunc.GetLastViewPortVersion(MYSQL_STR.CONNECTION_CARLO);
-            string ThisVer = "";
-                // CheckerFunction.GetAssemblyVersion(CHECKER_STR.PATH);
-
+            string LastVer = NetworkFunc.GetLastViewPortVersion(MYSQL_STR.CONNECTION_CARLO);            
             if (string.IsNullOrEmpty(LastVer))
                 MessageBox.Show(MSG_STR.ERR_CHECK_VER);
 
-            if (string.IsNullOrEmpty(ThisVer))
+            if (string.IsNullOrEmpty(VersionInfo))
                 MessageBox.Show(MSG_STR.ERR_CHECK_VER_THIS);
 
-            if (LastVer != ThisVer)
+            if (LastVer != VersionInfo)
             {
                 if (Update_ViewPort(LastVer))
                     EditLabelTextSafe(MSG_STR.UPDATE_VER);

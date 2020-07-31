@@ -9,7 +9,6 @@ namespace ViewPortChecker
     public class CHECKER_STR
     {
         public const string CHECKER = "Checker";
-
         public const string INSTORAGE = @"C:\Program Files (x86)\Carlo\ViewPort";
         public const string PATH = @"C:\Program Files (x86)\Carlo\ViewPort\ViewPort.exe";
         public const string NAME = "ViewPort.exe";

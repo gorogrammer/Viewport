@@ -12,25 +12,6 @@ namespace ViewPortChecker
 {
     public class CheckerFunction
     {
-        public static string GetAssemblyVersion(string path)
-        {
-            FileInfo exeInfo = new FileInfo(path);
-            string ReturnValue = string.Empty;
-            if (!exeInfo.Exists)
-            {
-                MessageBox.Show("경로가 입력되지 않았거나 Release File이 없습니다.");
-                return ReturnValue;
-            }
-            else
-            {
-                Assembly asm = Assembly.ReflectionOnlyLoadFrom(exeInfo.FullName);
-                ReturnValue = asm.GetName().Version.ToString();
-                asm = null;                
-            }
-            
-            return ReturnValue;
-        }
-
         public static bool Update(string Version)
         {
             try
