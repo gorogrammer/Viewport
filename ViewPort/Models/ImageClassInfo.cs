@@ -13,6 +13,7 @@ namespace ViewPort.Models
         string Image_name, Equipment_DefectName, Image_Size;
         int Frame_No, Camera_No;
         string File_Path;
+        //테스트
 
         public ImageListInfo Clone()
         {
