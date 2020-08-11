@@ -21,3 +21,9 @@ C:\Users\User\Desktop\새 폴더\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetw
 C:\Users\User\Desktop\새 폴더\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
 C:\Users\User\Desktop\새 폴더\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
 C:\Users\User\Desktop\새 폴더\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\코드 0811\Viewport\DLLs\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\코드 0811\Viewport\DLLs\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\코드 0811\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csprojAssemblyReference.cache
+C:\Users\metalheedo\Desktop\스템코\코드 0811\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
+C:\Users\metalheedo\Desktop\스템코\코드 0811\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\코드 0811\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb

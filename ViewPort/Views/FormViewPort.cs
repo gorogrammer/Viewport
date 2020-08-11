@@ -119,6 +119,7 @@ namespace ViewPort
 
             dt.Rows.Clear();
             dataGridView1.RowHeadersWidth = 30;
+            
 
             for (int i = 0; i < FilterList.Count; i++)
             {
@@ -224,7 +225,8 @@ namespace ViewPort
 
 
             Func.SearchTXT_inZip(ZipFilePath, dic_ready, dicTxt_info);
-            Func.SearchJPG_inZip(ZipFilePath, All_LotID_List, All_VerifyDF_List, All_Equipment_DF_List, ImageDatabase, dicInfo, FilterList);
+            Func.SearchJPG_inZip(ZipFilePath, All_LotID_List, All_VerifyDF_List, All_Equipment_DF_List,  ImageDatabase,  dicInfo);
+            FilterList = ImageDatabase.ToList();
 
             All_LotID_List.Sort();
             All_VerifyDF_List.Sort();

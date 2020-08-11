@@ -218,8 +218,9 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(236, 93);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(327, 144);
             this.Equipment_DF_CLB.TabIndex = 0;
+            this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
             // tableLayoutPanel1
             // 
@@ -235,38 +236,41 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(236, 27);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(327, 44);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // _filterAct_bt
             // 
             this._filterAct_bt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._filterAct_bt.Location = new System.Drawing.Point(159, 3);
+            this._filterAct_bt.Location = new System.Drawing.Point(221, 3);
             this._filterAct_bt.Name = "_filterAct_bt";
-            this._filterAct_bt.Size = new System.Drawing.Size(74, 21);
+            this._filterAct_bt.Size = new System.Drawing.Size(103, 38);
             this._filterAct_bt.TabIndex = 0;
             this._filterAct_bt.Text = "필터 적용";
             this._filterAct_bt.UseVisualStyleBackColor = true;
+            this._filterAct_bt.Click += new System.EventHandler(this._filterAct_bt_Click);
             // 
             // Select_All_BTN
             // 
             this.Select_All_BTN.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Select_All_BTN.Location = new System.Drawing.Point(3, 3);
             this.Select_All_BTN.Name = "Select_All_BTN";
-            this.Select_All_BTN.Size = new System.Drawing.Size(72, 21);
+            this.Select_All_BTN.Size = new System.Drawing.Size(103, 38);
             this.Select_All_BTN.TabIndex = 1;
             this.Select_All_BTN.Text = "전체 선택";
             this.Select_All_BTN.UseVisualStyleBackColor = true;
+            this.Select_All_BTN.Click += new System.EventHandler(this.Select_All_BTN_Click);
             // 
             // Select_Empty_BTN
             // 
             this.Select_Empty_BTN.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Select_Empty_BTN.Location = new System.Drawing.Point(81, 3);
+            this.Select_Empty_BTN.Location = new System.Drawing.Point(112, 3);
             this.Select_Empty_BTN.Name = "Select_Empty_BTN";
-            this.Select_Empty_BTN.Size = new System.Drawing.Size(72, 21);
+            this.Select_Empty_BTN.Size = new System.Drawing.Size(103, 38);
             this.Select_Empty_BTN.TabIndex = 1;
             this.Select_Empty_BTN.Text = "전체 해제";
             this.Select_Empty_BTN.UseVisualStyleBackColor = true;
+            this.Select_Empty_BTN.Click += new System.EventHandler(this.Select_Empty_BTN_Click);
             // 
             // splitContainer4
             // 
@@ -284,8 +288,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.BackColor = System.Drawing.Color.DarkGray;
-            this.splitContainer4.Size = new System.Drawing.Size(236, 274);
-            this.splitContainer4.SplitterDistance = 164;
+            this.splitContainer4.Size = new System.Drawing.Size(327, 420);
+            this.splitContainer4.SplitterDistance = 251;
             this.splitContainer4.TabIndex = 0;
             // 
             // dataGridView1
@@ -297,7 +301,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(236, 164);
+            this.dataGridView1.Size = new System.Drawing.Size(327, 251);
             this.dataGridView1.TabIndex = 0;
             // 
             // textBox3
@@ -314,7 +318,7 @@
             this.파일ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1301, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1805, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -329,11 +333,13 @@
             // zipLoadFileToolStripMenuItem
             // 
             this.zipLoadFileToolStripMenuItem.Name = "zipLoadFileToolStripMenuItem";
-            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
+            this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
+            this.splitContainer1.BackColor = System.Drawing.Color.DarkGray;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 24);
@@ -347,8 +353,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.LightGray;
-            this.splitContainer1.Size = new System.Drawing.Size(1301, 564);
-            this.splitContainer1.SplitterDistance = 236;
+            this.splitContainer1.Size = new System.Drawing.Size(1805, 859);
+            this.splitContainer1.SplitterDistance = 327;
             this.splitContainer1.TabIndex = 3;
             // 
             // splitContainer2
@@ -366,8 +372,8 @@
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.Color.DarkGray;
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer2.Size = new System.Drawing.Size(236, 564);
-            this.splitContainer2.SplitterDistance = 286;
+            this.splitContainer2.Size = new System.Drawing.Size(327, 859);
+            this.splitContainer2.SplitterDistance = 435;
             this.splitContainer2.TabIndex = 0;
             // 
             // splitContainer3
@@ -387,8 +393,8 @@
             // 
             this.splitContainer3.Panel2.BackColor = System.Drawing.Color.DarkGray;
             this.splitContainer3.Panel2.Controls.Add(this.tableLayoutPanel1);
-            this.splitContainer3.Size = new System.Drawing.Size(236, 286);
-            this.splitContainer3.SplitterDistance = 255;
+            this.splitContainer3.Size = new System.Drawing.Size(327, 435);
+            this.splitContainer3.SplitterDistance = 387;
             this.splitContainer3.TabIndex = 0;
             // 
             // splitContainer5
@@ -432,8 +438,8 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
-            this.splitContainer5.Size = new System.Drawing.Size(236, 255);
-            this.splitContainer5.SplitterDistance = 158;
+            this.splitContainer5.Size = new System.Drawing.Size(327, 387);
+            this.splitContainer5.SplitterDistance = 239;
             this.splitContainer5.TabIndex = 0;
             // 
             // Cols_TB
@@ -464,6 +470,7 @@
             this.Print_Image_Name.TabIndex = 14;
             this.Print_Image_Name.Text = "Image Name";
             this.Print_Image_Name.UseVisualStyleBackColor = true;
+            this.Print_Image_Name.CheckedChanged += new System.EventHandler(this.Print_Image_Name_CheckedChanged);
             // 
             // textBox4
             // 
@@ -498,6 +505,7 @@
             this.Print_Image_State.TabIndex = 14;
             this.Print_Image_State.Text = "Image State";
             this.Print_Image_State.UseVisualStyleBackColor = true;
+            this.Print_Image_State.CheckedChanged += new System.EventHandler(this.Print_Image_State_CheckedChanged);
             // 
             // label7
             // 
@@ -534,6 +542,7 @@
             this.Rows_TB.TabIndex = 1;
             this.Rows_TB.Text = "5";
             this.Rows_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Rows_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Rows_TB_KeyDown);
             // 
             // label8
             // 
@@ -563,17 +572,21 @@
             this.Width_TB.TabIndex = 2;
             this.Width_TB.Text = "175";
             this.Width_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Width_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Width_TB_KeyDown);
             // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1301, 588);
+            this.BackColor = System.Drawing.Color.DarkGray;
+            this.ClientSize = new System.Drawing.Size(1805, 883);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormViewPort";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Carlo ViewPort";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.tableLayoutPanel1.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();

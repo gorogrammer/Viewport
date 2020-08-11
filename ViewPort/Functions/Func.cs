@@ -42,29 +42,27 @@ namespace ViewPort.Functions
         }
 
         public static void SearchJPG_inZip(string FilePath, List<string> All_LotID_List, List<string> All_VerifyDF_List, List<Tuple<string, int>> All_Equipment_DF_List,
-            List<ImageListInfo> ImageDatabase, Dictionary<string, ImageListInfo> dicInfo, List<ImageListInfo> FilterList)
+             List<ImageListInfo> ImageDatabase,  Dictionary<string, ImageListInfo> dicInfo)
         {
             ZipArchive zip, subZip;
             Stream subEntryMS;
-
             string Lot_ID, Verify_Defect;
             string FileName, Equipment_Name, File_ID;
             string ImageSize;
             int FrameNo, CameraNo;
 
 
+            //ImageDatabase = null;
+            //dicInfo = null;
+
             try
             {
                 zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
 
-
-
                 foreach (ZipArchiveEntry entry in zip.Entries)
                 {
-
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)             // Zip파일 내에 Zip파일이 있을 경우...
                     {
-
                         subEntryMS = entry.Open();           // 2중 압축파일을 MemoryStream으로 읽는다.
                         subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
                         foreach (ZipArchiveEntry subEntry in subZip.Entries)        // 2중 압축파일 내에 있는 파일을 탐색
@@ -102,8 +100,10 @@ namespace ViewPort.Functions
                             }
                         }
                         subZip.Dispose();
+                        
                     }
-                    FilterList = ImageDatabase.ToList();
+                    
+                    
 
                     if (entry.Name.ToUpper().IndexOf("_XY.TXT") != -1)             // Zip파일 내에 Zip파일이 있을 경우...
                     {
@@ -115,6 +115,7 @@ namespace ViewPort.Functions
             catch (System.Exception ex)
             {
                 MessageBox.Show("Extract ERROR!\n" + ex.ToString());
+                
                 return;
             }
         }
