@@ -9,18 +9,19 @@ namespace ViewPort.Models
     public class ImageListInfo
     {
         int Index;
-        string Lot_ID, Verify_DefectName, DL_DefectName, Compare_DL_DefectName, Review_DefectName;
+        string Lot_ID, Verify_DefectName, DL_DefectName, Compare_DL_DefectName, Review_DefectName, File_ID;
         string Image_name, Equipment_DefectName, Image_Size;
         int Frame_No, Camera_No;
         string File_Path;
-        //테스트
 
         public ImageListInfo Clone()
         {
-            return new ImageListInfo(Index, Lot_ID, Verify_DefectName, DL_DefectName, Compare_DL_DefectName, Review_DefectName, Image_name, Frame_No, Camera_No, Equipment_DefectName, Image_Size, File_Path);
+            return new ImageListInfo(Index, Lot_ID, Verify_DefectName, DL_DefectName, Compare_DL_DefectName, Review_DefectName, Image_name, File_ID, Frame_No, Camera_No, Equipment_DefectName, Image_Size, File_Path);
         }
 
-        public ImageListInfo(int _index, string LotID, string Veri_DF, string DL_DF, string Compare_DL_DF, string Review_DF, string ImageName, int FrameNo, int CamNo, string Equipment_DF, string ImageSize, string FilePath)
+
+
+        public ImageListInfo(int _index, string LotID, string Veri_DF, string DL_DF, string Compare_DL_DF, string Review_DF, string ImageName, string FileID, int FrameNo, int CamNo, string Equipment_DF, string ImageSize, string FilePath)
         {
             Index = _index;
             Lot_ID = LotID;
@@ -29,6 +30,7 @@ namespace ViewPort.Models
             Compare_DL_DefectName = Compare_DL_DF;
             Review_DefectName = Review_DF;
             Image_name = ImageName;
+            File_ID = FileID;
             Equipment_DefectName = Equipment_DF;
             Image_Size = ImageSize;
             Frame_No = FrameNo;
@@ -37,7 +39,7 @@ namespace ViewPort.Models
         }
         public string[] GetData()
         {
-            string[] Data = { Lot_ID, Verify_DefectName, DL_DefectName, Compare_DL_DefectName, Review_DefectName, Image_name, Frame_No.ToString(), Camera_No.ToString(), Equipment_DefectName, Image_Size };
+            string[] Data = { Lot_ID, Verify_DefectName, DL_DefectName, Compare_DL_DefectName, Review_DefectName, Image_name, File_ID, Frame_No.ToString(), Camera_No.ToString(), Equipment_DefectName, Image_Size };
 
             return Data;
         }
@@ -48,6 +50,8 @@ namespace ViewPort.Models
         public string CompareDLDefectName { get { return Compare_DL_DefectName; } set { Compare_DL_DefectName = value; } }
         public string ReviewDefectName { get { return Review_DefectName; } set { Review_DefectName = value; } }
         public string Imagename { get { return Image_name; } set { Image_name = value; } }
+
+        public string FileID { get { return File_ID; } set { File_ID = value; } }
         public string EquipmentDefectName { get { return Equipment_DefectName; } set { Equipment_DefectName = value; } }
         public string ImageSize { get { return Image_Size; } set { Image_Size = value; } }
         public int FrameNo { get { return Frame_No; } set { Frame_No = value; } }

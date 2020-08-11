@@ -14,3 +14,10 @@ C:\Users\User\Desktop\텟텟\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.
 C:\Users\User\Desktop\텟텟\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
 C:\Users\User\Desktop\텟텟\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
 C:\Users\User\Desktop\텟텟\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb
+C:\Users\User\Desktop\새 폴더\Viewport\DLLs\ViewPortNetwork.dll
+C:\Users\User\Desktop\새 폴더\Viewport\DLLs\ViewPortNetwork.pdb
+C:\Users\User\Desktop\새 폴더\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csprojAssemblyReference.cache
+C:\Users\User\Desktop\새 폴더\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\새 폴더\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
+C:\Users\User\Desktop\새 폴더\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
+C:\Users\User\Desktop\새 폴더\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb

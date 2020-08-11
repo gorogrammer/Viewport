@@ -82,8 +82,10 @@
     <Compile Include="Functions\Def.cs" />
     <Compile Include="Functions\Func.cs" />
     <Compile Include="Functions\Util.cs" />
-    <Compile Include="Models\ImageClassInfo.cs" />
-    <Compile Include="Models\ViewPortInterface.cs" />
+    <Compile Include="Models\ImageInfo.cs" />
+    <Compile Include="Models\ImageListInfo.cs" />
+    <Compile Include="Models\Interface1.cs" />
+    <Compile Include="Models\txtInfo.cs" />
     <Compile Include="Views\FormViewPort.cs">
       <SubType>Form</SubType>
     </Compile>

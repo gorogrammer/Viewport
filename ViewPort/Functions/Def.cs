@@ -12,5 +12,24 @@ namespace ViewPort.Functions
         public const string NON_SELECTED = "파일이 선택되지 않았습니다";
 
         public const string LOAD_SUCCESS = "Load가 완료되었습니다.";
+
+        public const string SUCCESS = "완료되었습니다.";
+
+    }
+
+    public class FILTER_STR
+    {
+        public const string IMGSIZE_ALL = "전체";
+    }
+
+    public class COLUMN_STR
+    {
+        public const string GRID_IMGNAME = "Image Name";
+        public const string GRID_STATE = "state";
+    }
+
+    public class ZIP_STR
+    {
+        public const string EXETENSION = "Zip Files (*.zip)|*.zip";
     }
 }

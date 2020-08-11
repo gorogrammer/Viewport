@@ -15,7 +15,6 @@ namespace ViewPort.Views
 {
     public partial class ImageViewer : UserControl
     {
-
         public FormViewPort Main;
 
 
@@ -24,6 +23,7 @@ namespace ViewPort.Views
 
         List<PictureBox> PictureData = new List<PictureBox>();
         List<PictureBox> Picture_Glass = new List<PictureBox>();
+        List<string> Select_Pic = new List<string>();
         List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
@@ -35,7 +35,7 @@ namespace ViewPort.Views
         int EachPage_ImageNum;
 
         Point src_Mouse_XY, dst_Mouse_XY;
-        //bool isMousePressed = false, isMouseDraged = false;
+
 
         string Input_Defect_Code;
 
@@ -48,6 +48,11 @@ namespace ViewPort.Views
 
         ZipArchive zip = null;
 
+        public void GetFilterList_Image(List<ImageListInfo> OutputData)
+        {
+            //return FilterList.CopyTo(OutputData);
+            FilteredList.ForEach((item) => { OutputData.Add(item.Clone()); });
+        }
         private void ImageViewer_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control)
@@ -84,6 +89,25 @@ namespace ViewPort.Views
 
                 }
             }
+
+            else if (e.KeyCode == Keys.Delete)
+            {
+                for (int i = 0; i < FilteredList.Count; i++)
+                {
+
+                    if (Select_Pic.FindIndex(s => s.Equals(FilteredList.ElementAt(i).FileID)) >= 0)
+                    {
+
+                        FilteredList.RemoveAt(i);
+                        i--;
+                    }
+
+
+                }
+                Del_Set_View();
+                Main.Dl_PrintList();
+                Select_Pic.Clear();
+            }
         }
 
         public ImageViewer(FormViewPort mainForm)
@@ -91,9 +115,16 @@ namespace ViewPort.Views
             InitializeComponent();
         }
 
-        public ImageViewer()
+        private void ImageViewer_PL_MouseDown(object sender, MouseEventArgs e)
         {
-            InitializeComponent();
+            src_Mouse_XY.X = e.X;
+            src_Mouse_XY.Y = e.Y;
+
+            if (Draged_PB != null)
+            {
+                src_Mouse_XY.X += Draged_PB.Location.X;
+                src_Mouse_XY.Y += Draged_PB.Location.Y;
+            }
         }
 
         private void ImageViewer_Load(object sender, EventArgs e)
@@ -103,6 +134,10 @@ namespace ViewPort.Views
 
         public void Set_View()
         {
+            this.Controls.Clear();
+            PictureData.Clear();
+
+            FilteredList.Clear();
             Main.GetFilterList(FilteredList);
 
             cols = int.Parse(Main.Cols_TB.Text);
@@ -122,6 +157,108 @@ namespace ViewPort.Views
             Last_Picture_Selected_Index = -1;
             this.Focus();
         }
+
+        private void ImageViewer_PL_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void ImageViewer_PL_MouseUp(object sender, MouseEventArgs e)
+        {
+            int tmp_XY;
+
+            dst_Mouse_XY.X = e.X;
+            dst_Mouse_XY.Y = e.Y;
+
+            if (Draged_PB != null)
+            {
+                dst_Mouse_XY.X += Draged_PB.Location.X;
+                dst_Mouse_XY.Y += Draged_PB.Location.Y;
+            }
+
+            if (src_Mouse_XY.X > dst_Mouse_XY.X)
+            {
+                tmp_XY = src_Mouse_XY.X;
+                src_Mouse_XY.X = dst_Mouse_XY.X;
+                dst_Mouse_XY.X = tmp_XY;
+            }
+            if (src_Mouse_XY.Y > dst_Mouse_XY.Y)
+            {
+                tmp_XY = src_Mouse_XY.Y;
+                src_Mouse_XY.Y = dst_Mouse_XY.Y;
+                dst_Mouse_XY.Y = tmp_XY;
+            }
+
+            Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
+            Set_Image();
+
+            src_Mouse_XY.X = -1;
+            src_Mouse_XY.Y = -1;
+            dst_Mouse_XY.X = -1;
+            dst_Mouse_XY.Y = -1;
+        }
+        private void Find_Contain_PB(Point Src, Point Dst)
+        {
+            List<string> Change_Data = new List<string>();
+            Rectangle PB_Area, Drag_Area;
+            int index = ((Current_PageNum - 1) * (cols * rows));
+            string result = "";
+
+            if (Selected_Picture_Index.Count > 0)
+                Selected_Picture_Index.Clear();
+
+            for (int i = 0; i < PictureData.Count; i++)
+            {
+                PB_Area = new Rectangle(PictureData.ElementAt(i).Left, PictureData.ElementAt(i).Top, PictureData.ElementAt(i).Width, PictureData.ElementAt(i).Height);
+                Drag_Area = new Rectangle(Src.X, Src.Y, Dst.X - Src.X, Dst.Y - Src.Y);
+
+                if (PB_Area.IntersectsWith(Drag_Area))
+                    if (FilteredList.Count > (index + i))
+                        Selected_Picture_Index.Add(index + i);
+            }
+            for (int i = 0; i < Selected_Picture_Index.Count; i++)
+            {
+                Last_Picture_Selected_Index = Selected_Picture_Index.ElementAt(i);
+
+                if (FilteredList.Count <= Last_Picture_Selected_Index)
+                {
+                    //Last_Picture_Selected_Index = -1;
+                    return;
+                }
+
+                if (FilteredList.ElementAt(Last_Picture_Selected_Index).ReviewDefectName.Equals("양품"))
+                    result = "불량";
+                else
+                    result = "양품";
+
+                FilteredList.ElementAt(Last_Picture_Selected_Index).ReviewDefectName = result;
+
+            }
+
+        }
+        public void Del_Set_View()
+        {
+            this.Controls.Clear();
+            PictureData.Clear();
+
+            cols = int.Parse(Main.Cols_TB.Text);
+            rows = int.Parse(Main.Rows_TB.Text);
+            width = int.Parse(Main.Width_TB.Text);
+            height = int.Parse(Main.Height_TB.Text);
+
+            Current_PageNum = 1;
+
+
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((FilteredList.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+            Set_PictureBox();
+            Set_Image();
+            Last_Picture_Selected_Index = -1;
+            this.Focus();
+        }
+
         private void Set_PictureBox()
         {
             int pre_cols, pre_rows;
@@ -192,7 +329,7 @@ namespace ViewPort.Views
             for (int i = 0; i < (cols * rows); i++)
             {
                 temp_PB = new PictureBox();
-                //temp_PB.Click += new EventHandler(PictureBox_Click);
+                temp_PB.Click += new EventHandler(PictureBox_Click);
                 temp_PB.Location = new Point(ImageRangeInfo.ElementAt(i).left, ImageRangeInfo.ElementAt(i).top);
                 temp_PB.Size = new Size(ImageRangeInfo.ElementAt(i).width, ImageRangeInfo.ElementAt(i).height);
                 temp_PB.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -203,10 +340,10 @@ namespace ViewPort.Views
             for (int i = 0; i < (cols * rows); i++)
             {
                 temp_PB = new PictureBox();
-                //temp_PB.Click += new EventHandler(PictureBox_Click);
-                //temp_PB.MouseDown += new MouseEventHandler(PictureBox_MouseDown);
-                //temp_PB.MouseMove += new MouseEventHandler(PictureBox_MouseMove);
-                //temp_PB.MouseUp += new MouseEventHandler(PictureBox_MouseUp);
+                temp_PB.Click += new EventHandler(PictureBox_Click);
+                temp_PB.MouseDown += new MouseEventHandler(PictureBox_MouseDown);
+                temp_PB.MouseMove += new MouseEventHandler(PictureBox_MouseMove);
+                temp_PB.MouseUp += new MouseEventHandler(PictureBox_MouseUp);
 
                 temp_PB.Location = new Point(0, 0);
                 temp_PB.Size = new Size(ImageRangeInfo.ElementAt(i).width, ImageRangeInfo.ElementAt(i).height);
@@ -217,6 +354,7 @@ namespace ViewPort.Views
 
                 Picture_Glass.ElementAt(i).BackColor = Color.Transparent;
                 Picture_Glass.ElementAt(i).Parent = PictureData.ElementAt(i);
+
             }
 
             DefectState = new Label[(cols * rows)];
@@ -235,9 +373,7 @@ namespace ViewPort.Views
             ImageNameLB = new Label[(cols * rows)];
             for (int i = 0; i < (cols * rows); i++)
             {
-                //double tmp_Size = 9;
 
-                //tmp_Size *= width / (double)200;
 
                 temp_LB = new Label();
                 temp_LB.Font = new Font("맑은 고딕", 9, FontStyle.Bold);
@@ -252,7 +388,7 @@ namespace ViewPort.Views
             for (int i = 0; i < (cols * rows); i++)
             {
                 this.Controls.Add(PictureData.ElementAt(i));
-                //this.Controls.Add(Picture_Glass.ElementAt(i));
+
             }
 
             Last_Picture_Selected_Index = -1;
@@ -262,12 +398,13 @@ namespace ViewPort.Views
             Main.S_Page_TB.Text = Current_PageNum.ToString();
             Main.E_Page_TB.Text = Total_PageNum.ToString();
 
-            //Changed_Setting = false;
+
         }
 
         private void Set_Image()
         {
             Bitmap tmp_Img = null;
+
             string Current_ImageFrame = "";
             int S_ImageIndex = (cols * rows) * (Current_PageNum - 1);
             int PF_index = 0, Current_Index = 0;
@@ -303,15 +440,55 @@ namespace ViewPort.Views
             }
             Print_Frame.Sort();
 
-            if (Main.LoadState == 0)
-            {
-                for (int i = 0; i < EachPage_ImageNum; i++)
-                {
-                    tmp_Img = new Bitmap(Path.Combine(FilteredList.ElementAt(S_ImageIndex + i).FilePath, FilteredList.ElementAt(S_ImageIndex + i).Imagename + ".jpg"));
-                    ///방향 전환
 
-                    PictureData.ElementAt(Current_Index + i).Image = tmp_Img;
+            if (Main.ZipFilePath != "")
+            {
+                zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
+                string Open_ZipName;
+
+                foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    Open_ZipName = entry.Name.Split('.')[0];
+                    if (Open_ZipName[0].Equals('R'))
+                        Open_ZipName = Open_ZipName.Substring(1, Open_ZipName.Length - 1);
+
+                    if (Print_Frame.Count > PF_index && Open_ZipName.Equals(Print_Frame.ElementAt(PF_index)) && entry.Name.ToUpper().IndexOf(".ZIP") != -1)
+                    {
+                        MemoryStream subEntryMS = new MemoryStream();           // 2중 압축파일을 MemoryStream으로 읽는다.
+                        entry.Open().CopyTo(subEntryMS);
+
+                        ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
+                        foreach (ZipArchiveEntry subEntry in subZip.Entries)       // 2중 압축파일 내에 있는 파일을 탐색
+                        {
+                            if (Current_Index >= EachPage_ImageNum)
+                                break;
+                            if (subEntry.Name.Equals(FilteredList.ElementAt(S_ImageIndex + Current_Index).Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                            {
+                                tmp_Img = new Bitmap(subEntry.Open());
+
+                                //방향
+
+                                PictureData.ElementAt(Current_Index).Image = tmp_Img;
+                                PictureData.ElementAt(Current_Index).Name = FilteredList.ElementAt(S_ImageIndex + Current_Index).FileID;
+                                //PictureData.ElementAt(Current_Index).Name = 
+                                Current_Index++;
+                            }
+
+                            if (Current_Index >= EachPage_ImageNum)
+                                break;
+                            if (!FilteredList.ElementAt(S_ImageIndex + Current_Index).Imagename.Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
+                            {
+                                PF_index++;
+                                break;
+                            }
+                        }
+                        subZip.Dispose();
+                    }
+                    if (Current_Index >= EachPage_ImageNum || Print_Frame.Count <= PF_index)
+                        break;
                 }
+                zip.Dispose();
+
                 for (int i = EachPage_ImageNum; i < (cols * rows); i++)
                 {
                     try
@@ -322,66 +499,7 @@ namespace ViewPort.Views
                     {
                     }
                 }
-            }
-            else
-            {
-                if (Main.ZipFilePath != "")
-                {
-                    zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
-                    string Open_ZipName;
 
-                    foreach (ZipArchiveEntry entry in zip.Entries)
-                    {
-                        Open_ZipName = entry.Name.Split('.')[0];
-                        if (Open_ZipName[0].Equals('R'))
-                            Open_ZipName = Open_ZipName.Substring(1, Open_ZipName.Length - 1);
-
-                        if (Print_Frame.Count > PF_index && Open_ZipName.Equals(Print_Frame.ElementAt(PF_index)) && entry.Name.ToUpper().IndexOf(".ZIP") != -1)
-                        {
-                            MemoryStream subEntryMS = new MemoryStream();           // 2중 압축파일을 MemoryStream으로 읽는다.
-                            entry.Open().CopyTo(subEntryMS);
-
-                            ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
-                            foreach (ZipArchiveEntry subEntry in subZip.Entries)       // 2중 압축파일 내에 있는 파일을 탐색
-                            {
-                                if (Current_Index >= EachPage_ImageNum)
-                                    break;
-                                if (subEntry.Name.Equals(FilteredList.ElementAt(S_ImageIndex + Current_Index).Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
-                                {
-                                    tmp_Img = new Bitmap(subEntry.Open());
-
-                                    //방향
-
-                                    PictureData.ElementAt(Current_Index).Image = tmp_Img;
-                                    Current_Index++;
-                                }
-
-                                if (Current_Index >= EachPage_ImageNum)
-                                    break;
-                                if (!FilteredList.ElementAt(S_ImageIndex + Current_Index).Imagename.Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
-                                {
-                                    PF_index++;
-                                    break;
-                                }
-                            }
-                            subZip.Dispose();
-                        }
-                        if (Current_Index >= EachPage_ImageNum || Print_Frame.Count <= PF_index)
-                            break;
-                    }
-                    zip.Dispose();
-
-                    for (int i = EachPage_ImageNum; i < (cols * rows); i++)
-                    {
-                        try
-                        {
-                            PictureData.ElementAt(i).Image = null;
-                        }
-                        catch (Exception)
-                        {
-                        }
-                    }
-                }
             }
 
             Rectangle regSelection = new Rectangle();
@@ -415,6 +533,49 @@ namespace ViewPort.Views
                 gPic.DrawRectangle(pen, regSelection);
             }
 
+            for (int i = 0; i < EachPage_ImageNum; i++)
+            {
+                int index = ((Current_PageNum - 1) * (cols * rows)) + i;
+                string temp = FilteredList.ElementAt(index).ReviewDefectName;
+
+                if (temp.Equals("양품") || temp.Equals("*"))
+                {
+                    DefectState[i].ForeColor = Color.Yellow;
+                    ImageNameLB[i].ForeColor = Color.Yellow;
+
+                    if (Main.Print_Image_State.Checked)
+                        DefectState[i].Text = temp;
+                    else
+                        DefectState[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked)
+                        ImageNameLB[i].Text = FilteredList.ElementAt(index).Imagename;
+                    else
+                        ImageNameLB[i].Text = "";
+
+                    PictureData.ElementAt(i).Tag = Color.Yellow;
+                }
+                else
+                {
+
+                    DefectState[i].ForeColor = Color.Red;
+                    ImageNameLB[i].ForeColor = Color.Red;
+
+                    if (Main.Print_Image_State.Checked)
+                        DefectState[i].Text = temp;
+                    else
+                        DefectState[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked)
+                        ImageNameLB[i].Text = FilteredList.ElementAt(index).Imagename;
+                    else
+                        ImageNameLB[i].Text = "";
+
+                    PictureData.ElementAt(i).Tag = Color.Red;
+                }
+            }
+
+            Main.Dl_PrintList();
 
 
             if (EachPage_ImageNum < 0)
@@ -435,5 +596,160 @@ namespace ViewPort.Views
             }
         }
 
+        //private void PictureBox_MouseDown(object sender, MouseEventArgs e)
+        //{
+
+        //    PictureBox PB = (PictureBox)sender;
+
+
+        //    for (int i = 0; i < Picture_Glass.Count; i++)
+        //    {
+        //        if (PB.Image == Picture_Glass.ElementAt(i).Image)
+        //        {
+
+        //            Select_Pic.Add(Picture_Glass.ElementAt(i).Parent.Name);
+
+
+        //            Sel_Pic_Change();
+        //            Cheked_State_DF();
+        //        }
+
+        //    }
+        //    ImageViewer_PL_MouseDown(sender, e);
+        //}
+
+        private void Sel_Pic_Change()
+        {
+            for (int i = 0; i < FilteredList.Count; i++)
+            {
+                if (Select_Pic.FindIndex(s => s.Equals(FilteredList.ElementAt(i).FileID)) >= 0)
+                {
+                    if (FilteredList.ElementAt(i).ReviewDefectName == "양품")
+                    {
+                        FilteredList.ElementAt(i).ReviewDefectName = "불량";
+                    }
+                    else
+                    {
+                        FilteredList.ElementAt(i).ReviewDefectName = "양품";
+                    }
+
+                }
+            }
+            Main.Dl_PrintList();
+        }
+
+        public void Cheked_State_DF()
+        {
+
+            for (int i = 0; i < EachPage_ImageNum; i++)
+            {
+                int index = ((Current_PageNum - 1) * (cols * rows)) + i;
+                string temp = FilteredList.ElementAt(index).ReviewDefectName;
+
+                if (temp.Equals("양품") || temp.Equals("*"))
+                {
+                    DefectState[i].ForeColor = Color.Yellow;
+                    ImageNameLB[i].ForeColor = Color.Yellow;
+                    ImageNameLB[i].BackColor = Color.Black;
+
+                    if (Main.Print_Image_State.Checked)
+                        DefectState[i].Text = temp;
+                    else
+                        DefectState[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked)
+                        ImageNameLB[i].Text = FilteredList.ElementAt(index).FileID;
+                    else
+                        ImageNameLB[i].Text = "";
+
+                    PictureData.ElementAt(i).Tag = Color.Yellow;
+                }
+                else
+                {
+
+                    DefectState[i].ForeColor = Color.Red;
+                    ImageNameLB[i].ForeColor = Color.Red;
+                    ImageNameLB[i].BackColor = Color.Black;
+
+                    if (Main.Print_Image_State.Checked)
+                        DefectState[i].Text = temp;
+                    else
+                        DefectState[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked)
+                        ImageNameLB[i].Text = FilteredList.ElementAt(index).FileID;
+                    else
+                        ImageNameLB[i].Text = "";
+
+                    PictureData.ElementAt(i).Tag = Color.Red;
+                }
+            }
+        }
+
+        private void PictureBox_Click(object sender, EventArgs e)
+        {
+            MouseEventArgs MouseEvent = (MouseEventArgs)e;
+            PictureBox PB = (PictureBox)sender;
+
+            int index = ((Current_PageNum - 1) * (cols * rows));
+            int EachPage_ImageNum = cols * rows;
+
+            if (FilteredList.Count - ((cols * rows) * Current_PageNum) < 0)
+                EachPage_ImageNum += FilteredList.Count - ((cols * rows) * Current_PageNum);
+
+            switch (MouseEvent.Button)
+            {
+                case MouseButtons.Left:
+                    {
+                        break;
+                    }
+                case MouseButtons.Right:
+                    {
+                        for (int i = 0; i < EachPage_ImageNum; i++)
+                        {
+                            //if (PB.Image == PictureData.ElementAt(i).Image)
+                            if (PB.Image == Picture_Glass.ElementAt(i).Image)
+                            {
+                                Last_Picture_Selected_Index = index + i;
+                                Selected_Picture_Index.Clear();
+                                Selected_Picture_Index.Add(Last_Picture_Selected_Index);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+            }
+        }
+
+        private void PictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            PictureBox PB = (PictureBox)sender;
+
+            for (int i = 0; i < Picture_Glass.Count; i++)
+            {
+                if (PB.Image == Picture_Glass.ElementAt(i).Image)
+                {
+                    Draged_PB = PictureData.ElementAt(i);
+                    break;
+                }
+            }
+            ImageViewer_PL_MouseDown(sender, e);
+        }
+
+        private void PictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            ImageViewer_PL_MouseMove(sender, e);
+        }
+
+        private void PictureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            ImageViewer_PL_MouseUp(sender, e);
+            Draged_PB = null;
+        }
+
+        public ImageViewer()
+        {
+            InitializeComponent();
+        }
     }
 }
