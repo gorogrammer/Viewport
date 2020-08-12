@@ -24,7 +24,7 @@ namespace ViewPort.Views
         List<PictureBox> PictureData = new List<PictureBox>();
         List<PictureBox> Picture_Glass = new List<PictureBox>();
         List<string> Select_Pic = new List<string>();
-        
+        Dictionary<string, ImageListInfo> dicInfo_Filter = new Dictionary<string, ImageListInfo>();
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
         List<int> Selected_Picture_Index = new List<int>();
@@ -85,7 +85,7 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.Delete)
             {
-                for (int i = 0; i < FilteredList.Count; i++)
+                for (int i = 0; i < dicInfo_Filter.Count; i++)
                 {
 
                     if (Select_Pic.FindIndex(s => s.Equals(FilteredList.ElementAt(i).FileID)) >= 0)
@@ -130,8 +130,12 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            FilteredList.Clear();
-            Main.GetFilterList(FilteredList);
+            //FilteredList.Clear();
+            //Main.GetFilterList(FilteredList);
+
+            dicInfo_Filter.Clear();
+            //Main.GetDicinfo(dicInfo_Filter);
+            dicInfo_Filter = Main.DicInfo;
 
             cols = int.Parse(Main.Cols_TB.Text);
             rows = int.Parse(Main.Rows_TB.Text);
@@ -142,7 +146,7 @@ namespace ViewPort.Views
 
 
             Main.S_Page_TB.Text = Current_PageNum.ToString();
-            Total_PageNum = ((FilteredList.Count - 1) / (cols * rows)) + 1;
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
             Main.E_Page_TB.Text = Total_PageNum.ToString();
 
             Set_PictureBox();
@@ -206,25 +210,25 @@ namespace ViewPort.Views
                 Drag_Area = new Rectangle(Src.X, Src.Y, Dst.X - Src.X, Dst.Y - Src.Y);
 
                 if (PB_Area.IntersectsWith(Drag_Area))
-                    if (FilteredList.Count > (index + i))
+                    if (dicInfo_Filter.Count > (index + i))
                         Selected_Picture_Index.Add(index + i);
             }
             for (int i = 0; i < Selected_Picture_Index.Count; i++)
             {
                 Last_Picture_Selected_Index = Selected_Picture_Index.ElementAt(i);
 
-                if (FilteredList.Count <= Last_Picture_Selected_Index)
+                if (dicInfo_Filter.Count <= Last_Picture_Selected_Index)
                 {
                     //Last_Picture_Selected_Index = -1;
                     return;
                 }
 
-                if (FilteredList.ElementAt(Last_Picture_Selected_Index).ReviewDefectName.Equals("양품"))
+                if (dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index)].ReviewDefectName.Equals("양품"))
                     result = "불량";
                 else
                     result = "양품";
 
-                FilteredList.ElementAt(Last_Picture_Selected_Index).ReviewDefectName = result;
+                dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index)].ReviewDefectName = result;
 
             }
 
@@ -243,7 +247,7 @@ namespace ViewPort.Views
 
 
             Main.S_Page_TB.Text = Current_PageNum.ToString();
-            Total_PageNum = ((FilteredList.Count - 1) / (cols * rows)) + 1;
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
             Main.E_Page_TB.Text = Total_PageNum.ToString();
 
             Set_PictureBox();
@@ -386,7 +390,7 @@ namespace ViewPort.Views
 
             Last_Picture_Selected_Index = -1;
             Current_PageNum = (pre_cols * pre_rows * (Current_PageNum - 1)) / (cols * rows) + 1;
-            Total_PageNum = ((FilteredList.Count - 1) / (cols * rows)) + 1;
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
 
             Main.S_Page_TB.Text = Current_PageNum.ToString();
             Main.E_Page_TB.Text = Total_PageNum.ToString();
@@ -403,7 +407,7 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
-            if (FilteredList.Count <= 0)
+            if (dicInfo_Filter.Count <= 0)
             {
                 for (int i = 0; i < PictureData.Count; i++)
                 {
@@ -415,8 +419,8 @@ namespace ViewPort.Views
                 }
             }
 
-            if (FilteredList.Count - ((cols * rows) * Current_PageNum) < 0)
-                EachPage_ImageNum += FilteredList.Count - ((cols * rows) * Current_PageNum);
+            if (dicInfo_Filter.Count - ((cols * rows) * Current_PageNum) < 0)
+                EachPage_ImageNum += dicInfo_Filter.Count - ((cols * rows) * Current_PageNum);
 
             if (Print_Frame.Count > 0)
             {
@@ -426,7 +430,7 @@ namespace ViewPort.Views
 
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
-                Current_ImageFrame = FilteredList.ElementAt(S_ImageIndex + i).Imagename.Substring(1, 5);
+                Current_ImageFrame = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + i)].FileID.Substring(1, 5);
 
                 if (!Print_Frame.Contains(Current_ImageFrame))
                     Print_Frame.Add(Current_ImageFrame);
@@ -455,21 +459,21 @@ namespace ViewPort.Views
                         {
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
-                            if (subEntry.Name.Equals(FilteredList.ElementAt(S_ImageIndex + Current_Index).Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                            if (subEntry.Name.Equals(dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
                             {
                                 tmp_Img = new Bitmap(subEntry.Open());
 
                                 //방향
 
                                 PictureData.ElementAt(Current_Index).Image = tmp_Img;
-                                PictureData.ElementAt(Current_Index).Name = FilteredList.ElementAt(S_ImageIndex + Current_Index).FileID;
+                                PictureData.ElementAt(Current_Index).Name = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].FileID;
                                
                                 Current_Index++;
                             }
 
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
-                            if (!FilteredList.ElementAt(S_ImageIndex + Current_Index).Imagename.Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
+                            if (!dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].FileID.Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
                             {
                                 PF_index++;
                                 break;
@@ -501,8 +505,9 @@ namespace ViewPort.Views
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
-                string temp = FilteredList.ElementAt(index).ReviewDefectName;
-
+                
+                string temp = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
+               
                 Pen pen;
 
                 if (temp.Equals("양품") || temp.Equals("*"))
@@ -531,7 +536,7 @@ namespace ViewPort.Views
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
-                string temp = FilteredList.ElementAt(index).ReviewDefectName;
+                string temp = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
 
                 if (temp.Equals("양품") || temp.Equals("*"))
                 {
@@ -544,7 +549,8 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = FilteredList.ElementAt(index).Imagename;
+                        
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
                     else
                         ImageNameLB[i].Text = "";
 
@@ -562,7 +568,7 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = FilteredList.ElementAt(index).Imagename;
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
                     else
                         ImageNameLB[i].Text = "";
 
@@ -621,7 +627,7 @@ namespace ViewPort.Views
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
-                string temp = FilteredList.ElementAt(index).ReviewDefectName;
+                string temp = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
 
                 if (temp.Equals("양품") || temp.Equals("*"))
                 {
@@ -635,7 +641,7 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = FilteredList.ElementAt(index).FileID;
+                        ImageNameLB[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].FileID;
                     else
                         ImageNameLB[i].Text = "";
 
@@ -654,7 +660,7 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = FilteredList.ElementAt(index).FileID;
+                        ImageNameLB[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].FileID;
                     else
                         ImageNameLB[i].Text = "";
 
@@ -671,8 +677,8 @@ namespace ViewPort.Views
             int index = ((Current_PageNum - 1) * (cols * rows));
             int EachPage_ImageNum = cols * rows;
 
-            if (FilteredList.Count - ((cols * rows) * Current_PageNum) < 0)
-                EachPage_ImageNum += FilteredList.Count - ((cols * rows) * Current_PageNum);
+            if (dicInfo_Filter.Count - ((cols * rows) * Current_PageNum) < 0)
+                EachPage_ImageNum += dicInfo_Filter.Count - ((cols * rows) * Current_PageNum);
 
             switch (MouseEvent.Button)
             {

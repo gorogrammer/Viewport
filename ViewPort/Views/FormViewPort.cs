@@ -28,9 +28,6 @@ namespace ViewPort
         Dictionary<string, txtInfo> dicTxt_info = new Dictionary<string, txtInfo>();
         string[] dic_ready = null;
 
-        TextBox[] Filter_TB_List = new TextBox[8];
-        CheckBox[] Filter_CB_List = new CheckBox[8];
-        CheckBox[] Exact_Filter_CB_List = new CheckBox[8];
         List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
         List<ImageListInfo> FilterList = new List<ImageListInfo>();
 
@@ -41,10 +38,19 @@ namespace ViewPort
         List<string> Selected_Equipment_DF_List = new List<string>();
         List<string> ImageSizeList = new List<string>();
 
+
+
         private int _load_State; 
         private string dirPath;
         private string zipFilePath;
         private string ref_DirPath;
+
+        public Dictionary<string, ImageListInfo> DicInfo
+        {
+            get { return dicInfo; }
+            set { dicInfo = value; }
+        }
+
 
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
         public string REF_DirPath { get => ref_DirPath; set => ref_DirPath = value; }
@@ -60,6 +66,13 @@ namespace ViewPort
         {
             FilterList.ForEach((item) => { OutputData.Add(item.Clone()); });
         }
+        public Dictionary<string, ImageListInfo> GetDicinfo(Dictionary<string, ImageListInfo> OutputData)
+        {
+            OutputData = dicInfo;
+
+            return OutputData;
+        }
+        
 
         #endregion
 
@@ -124,9 +137,9 @@ namespace ViewPort
             for (int i = 0; i < FilterList.Count; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr[COLUMN_STR.GRID_IMGNAME]    = FilterList[i].Imagename;
-                dr[COLUMN_STR.GRID_STATE] = FilterList[i].ReviewDefectName;
-
+                dr[COLUMN_STR.GRID_IMGNAME] = dicInfo.Keys.ElementAt(i);
+                dr[COLUMN_STR.GRID_STATE] = dicInfo[dicInfo.Keys.ElementAt(i)].ReviewDefectName;
+                
                 dt.Rows.Add(dr);
 
             }
