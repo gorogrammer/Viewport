@@ -527,6 +527,8 @@ namespace ViewPort.Views
                     pen = new System.Drawing.Pen(System.Drawing.Color.Red, 3);
                     regSelection.Location = new Point(1, 1);
                     regSelection.Size = new Size(Picture_Glass.ElementAt(i).Image.Width - 3, Picture_Glass.ElementAt(i).Image.Height - 3);
+
+                    Select_Pic.Add(Picture_Glass.ElementAt(i).Parent.Name);
                 }
 
                 gPic = Graphics.FromImage(Picture_Glass.ElementAt(i).Image);
