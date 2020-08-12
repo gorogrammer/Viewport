@@ -24,7 +24,7 @@ namespace ViewPort.Views
         List<PictureBox> PictureData = new List<PictureBox>();
         List<PictureBox> Picture_Glass = new List<PictureBox>();
         List<string> Select_Pic = new List<string>();
-        List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
+        
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
         List<int> Selected_Picture_Index = new List<int>();
@@ -36,22 +36,15 @@ namespace ViewPort.Views
 
         Point src_Mouse_XY, dst_Mouse_XY;
 
-
-        string Input_Defect_Code;
-
-        List<Tuple<string, int>> Defect_Code_Info = new List<Tuple<string, int>>();
         List<ImageListInfo> FilteredList = new List<ImageListInfo>();
-        TextBox[] Defect_Code_Name = new TextBox[41];
-        TextBox[] Defect_Code_NumName = new TextBox[41];
-        bool CodeModifyMode = false;
+     
         int cols, rows, width, height;
 
         ZipArchive zip = null;
 
         public void GetFilterList_Image(List<ImageListInfo> OutputData)
         {
-            //return FilterList.CopyTo(OutputData);
-            FilteredList.ForEach((item) => { OutputData.Add(item.Clone()); });
+               FilteredList.ForEach((item) => { OutputData.Add(item.Clone()); });
         }
         private void ImageViewer_KeyDown(object sender, KeyEventArgs e)
         {
@@ -81,7 +74,7 @@ namespace ViewPort.Views
                 }
                 else
                 {
-                    Last_Picture_Selected_Index = -1;
+                    Last_Picture_Selected_Index = -1;                  
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
                     Set_Image();
@@ -470,7 +463,7 @@ namespace ViewPort.Views
 
                                 PictureData.ElementAt(Current_Index).Image = tmp_Img;
                                 PictureData.ElementAt(Current_Index).Name = FilteredList.ElementAt(S_ImageIndex + Current_Index).FileID;
-                                //PictureData.ElementAt(Current_Index).Name = 
+                               
                                 Current_Index++;
                             }
 
@@ -620,25 +613,7 @@ namespace ViewPort.Views
         //    ImageViewer_PL_MouseDown(sender, e);
         //}
 
-        private void Sel_Pic_Change()
-        {
-            for (int i = 0; i < FilteredList.Count; i++)
-            {
-                if (Select_Pic.FindIndex(s => s.Equals(FilteredList.ElementAt(i).FileID)) >= 0)
-                {
-                    if (FilteredList.ElementAt(i).ReviewDefectName == "양품")
-                    {
-                        FilteredList.ElementAt(i).ReviewDefectName = "불량";
-                    }
-                    else
-                    {
-                        FilteredList.ElementAt(i).ReviewDefectName = "양품";
-                    }
-
-                }
-            }
-            Main.Dl_PrintList();
-        }
+  
 
         public void Cheked_State_DF()
         {
