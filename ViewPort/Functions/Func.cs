@@ -41,14 +41,15 @@ namespace ViewPort.Functions
             }
         }
 
+        
         public static void SearchJPG_inZip(string FilePath, List<string> All_LotID_List, List<string> All_VerifyDF_List, List<Tuple<string, int>> All_Equipment_DF_List,
-             List<ImageListInfo> ImageDatabase,  Dictionary<string, ImageListInfo> dicInfo)
+               Dictionary<string, ImageInfo> dicInfo)
         {
             ZipArchive zip, subZip;
             Stream subEntryMS;
             string Lot_ID, Verify_Defect;
             string FileName, Equipment_Name, File_ID;
-            string ImageSize;
+           
             int FrameNo, CameraNo;
 
 
@@ -79,7 +80,7 @@ namespace ViewPort.Functions
 
 
 
-                                ImageSize = "-";
+                                
 
 
                                 if (FileName.Split('@').Length >= 3)
@@ -95,8 +96,10 @@ namespace ViewPort.Functions
                                 if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
                                     All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, -1));
 
-                                ImageDatabase.Add(new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
-                                dicInfo.Add(File_ID, new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
+                                //ImageDatabase.Add(new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
+                                //dicInfo.Add(File_ID, new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
+                                dicInfo.Add(File_ID, new ImageInfo(Lot_ID, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품"));
+
                             }
                         }
                         subZip.Dispose();

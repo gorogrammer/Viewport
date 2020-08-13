@@ -20,11 +20,12 @@ namespace ViewPort.Views
 
 
         struct BoxRange { public int left, top, width, height; }
-
+        List<string> Display_Id = new List<string>();
+        List<string> Change_state_List = new List<string>();
         List<PictureBox> PictureData = new List<PictureBox>();
         List<PictureBox> Picture_Glass = new List<PictureBox>();
         List<string> Select_Pic = new List<string>();
-        Dictionary<string, ImageListInfo> dicInfo_Filter = new Dictionary<string, ImageListInfo>();
+        Dictionary<string, ImageInfo> dicInfo_Filter = new Dictionary<string, ImageInfo>();
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
         List<int> Selected_Picture_Index = new List<int>();
@@ -41,7 +42,23 @@ namespace ViewPort.Views
         int cols, rows, width, height;
 
         ZipArchive zip = null;
+        public Dictionary<string, ImageInfo> DicInfo_Filtered
+        {
+            get { return dicInfo_Filter; }
+            set { dicInfo_Filter = value; }
+        }
 
+        public List<string> Select_Pic_List
+        {
+            get { return Select_Pic; }
+            set { Select_Pic = value; }
+        }
+
+        public List<string> Change_state
+        {
+            get { return Change_state_List; }
+            set { Change_state_List = value; }
+        }
         public void GetFilterList_Image(List<ImageListInfo> OutputData)
         {
                FilteredList.ForEach((item) => { OutputData.Add(item.Clone()); });
@@ -88,10 +105,10 @@ namespace ViewPort.Views
                 for (int i = 0; i < dicInfo_Filter.Count; i++)
                 {
 
-                    if (Select_Pic.FindIndex(s => s.Equals(FilteredList.ElementAt(i).FileID)) >= 0)
+                    if (Select_Pic.FindIndex(s => s.Equals(dicInfo_Filter.Keys.ElementAt(i))) >= 0)
                     {
 
-                        FilteredList.RemoveAt(i);
+                        dicInfo_Filter.Remove(dicInfo_Filter.Keys.ElementAt(i));
                         i--;
                     }
 
@@ -133,7 +150,7 @@ namespace ViewPort.Views
             //FilteredList.Clear();
             //Main.GetFilterList(FilteredList);
 
-            dicInfo_Filter.Clear();
+            
             //Main.GetDicinfo(dicInfo_Filter);
             dicInfo_Filter = Main.DicInfo;
 
@@ -188,6 +205,7 @@ namespace ViewPort.Views
 
             Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
             Set_Image();
+            
 
             src_Mouse_XY.X = -1;
             src_Mouse_XY.Y = -1;
@@ -200,6 +218,7 @@ namespace ViewPort.Views
             Rectangle PB_Area, Drag_Area;
             int index = ((Current_PageNum - 1) * (cols * rows));
             string result = "";
+            Change_state_List.Clear();
 
             if (Selected_Picture_Index.Count > 0)
                 Selected_Picture_Index.Clear();
@@ -210,8 +229,15 @@ namespace ViewPort.Views
                 Drag_Area = new Rectangle(Src.X, Src.Y, Dst.X - Src.X, Dst.Y - Src.Y);
 
                 if (PB_Area.IntersectsWith(Drag_Area))
+                {
                     if (dicInfo_Filter.Count > (index + i))
+                    {
                         Selected_Picture_Index.Add(index + i);
+                        Select_Pic.Add(dicInfo_Filter.Keys.ElementAt(index + i));
+                    }
+                }
+                    
+                        
             }
             for (int i = 0; i < Selected_Picture_Index.Count; i++)
             {
@@ -226,11 +252,25 @@ namespace ViewPort.Views
                 if (dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index)].ReviewDefectName.Equals("양품"))
                     result = "불량";
                 else
+                {
                     result = "양품";
+                    for(int p = 0; p < Select_Pic.Count; p++)
+                    {
+                        if (Select_Pic[p].Equals(dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index)))
+                        {
+                            Select_Pic.RemoveAt(p);
+                            p--;
+                        }
+                    }
+                    
+                }
+                    
 
                 dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index)].ReviewDefectName = result;
+                Change_state_List.Add(dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index));
 
             }
+            
 
         }
         public void Del_Set_View()
@@ -430,7 +470,7 @@ namespace ViewPort.Views
 
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
-                Current_ImageFrame = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + i)].FileID.Substring(1, 5);
+                Current_ImageFrame = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + i).Substring(1, 5);
 
                 if (!Print_Frame.Contains(Current_ImageFrame))
                     Print_Frame.Add(Current_ImageFrame);
@@ -466,14 +506,14 @@ namespace ViewPort.Views
                                 //방향
 
                                 PictureData.ElementAt(Current_Index).Image = tmp_Img;
-                                PictureData.ElementAt(Current_Index).Name = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].FileID;
-                               
+                                PictureData.ElementAt(Current_Index).Name = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
+                                
                                 Current_Index++;
                             }
 
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
-                            if (!dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].FileID.Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
+                            if (!dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index).Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
                             {
                                 PF_index++;
                                 break;
@@ -496,7 +536,7 @@ namespace ViewPort.Views
                     {
                     }
                 }
-
+                
             }
 
             Rectangle regSelection = new Rectangle();
@@ -526,7 +566,9 @@ namespace ViewPort.Views
                     regSelection.Location = new Point(1, 1);
                     regSelection.Size = new Size(Picture_Glass.ElementAt(i).Image.Width - 3, Picture_Glass.ElementAt(i).Image.Height - 3);
 
-                    Select_Pic.Add(Picture_Glass.ElementAt(i).Parent.Name);
+
+                    //Select_Pic.Add(Picture_Glass.ElementAt(i).Parent.Name);
+                    
                 }
 
                 gPic = Graphics.FromImage(Picture_Glass.ElementAt(i).Image);
@@ -576,7 +618,7 @@ namespace ViewPort.Views
                 }
             }
 
-            Main.Dl_PrintList();
+            
 
 
             if (EachPage_ImageNum < 0)
@@ -595,6 +637,10 @@ namespace ViewPort.Views
                 ImageNameLB[i].Text = "";
                 PictureData.ElementAt(i).Tag = Color.Black;
             }
+
+            if(Change_state_List.Count>0)
+                Main.Changeed_State();
+
         }
 
         //private void PictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -641,7 +687,7 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].FileID;
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
                     else
                         ImageNameLB[i].Text = "";
 
@@ -660,7 +706,7 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].FileID;
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
                     else
                         ImageNameLB[i].Text = "";
 

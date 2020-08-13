@@ -19,17 +19,18 @@ namespace ViewPort
 {
 
 
-    public partial class FormViewPort : Form, MyInterface
+    public partial class FormViewPort : Form
     {
         #region MEMBER VARIABLES
 
         ImageViewer open = new ImageViewer();
-        Dictionary<string, ImageListInfo> dicInfo = new Dictionary<string, ImageListInfo>();
+        Dictionary<string, ImageInfo> dicInfo = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> dicInfo_Copy = new Dictionary<string, ImageInfo>();
         Dictionary<string, txtInfo> dicTxt_info = new Dictionary<string, txtInfo>();
         string[] dic_ready = null;
 
-        List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
-        List<ImageListInfo> FilterList = new List<ImageListInfo>();
+        //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
+        //List<ImageListInfo> FilterList = new List<ImageListInfo>();
 
         List<string> All_LotID_List = new List<string>();
         List<string> All_VerifyDF_List = new List<string>();
@@ -37,6 +38,8 @@ namespace ViewPort
 
         List<string> Selected_Equipment_DF_List = new List<string>();
         List<string> ImageSizeList = new List<string>();
+        List<string> Selected_Pic = new List<string>();
+        List<string> Change_state_List = new List<string>();
 
 
 
@@ -45,7 +48,7 @@ namespace ViewPort
         private string zipFilePath;
         private string ref_DirPath;
 
-        public Dictionary<string, ImageListInfo> DicInfo
+        public Dictionary<string, ImageInfo> DicInfo
         {
             get { return dicInfo; }
             set { dicInfo = value; }
@@ -62,11 +65,8 @@ namespace ViewPort
             return Load_State;
         }
 
-        public void GetFilterList(List<ImageListInfo> OutputData)
-        {
-            FilterList.ForEach((item) => { OutputData.Add(item.Clone()); });
-        }
-        public Dictionary<string, ImageListInfo> GetDicinfo(Dictionary<string, ImageListInfo> OutputData)
+      
+        public Dictionary<string, ImageInfo> GetDicinfo(Dictionary<string, ImageInfo> OutputData)
         {
             OutputData = dicInfo;
 
@@ -92,6 +92,7 @@ namespace ViewPort
             DataTable dt = new DataTable();
             dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
             dt.Columns.Add(COLUMN_STR.GRID_STATE);
+            dt.PrimaryKey = new DataColumn [] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
             dataGridView1.DataSource = dt;
 
         }
@@ -115,8 +116,8 @@ namespace ViewPort
             for (int i = 0; i < All_Equipment_DF_List.Count; i++)
                 Each_Equipment_DF_Name.Add(All_Equipment_DF_List.ElementAt(i).Item1);
 
-            for (int i = 0; i < ImageDatabase.Count; i++)
-                Each_Equipment_DF_Count[All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(ImageDatabase.ElementAt(i).EquipmentDefectName))]++;
+            for (int i = 0; i < dicInfo.Count; i++)
+                Each_Equipment_DF_Count[All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName))]++;
 
             All_Equipment_DF_List.Clear();
             for (int i = 0; i < Each_Equipment_DF_Name.Count; i++)
@@ -132,9 +133,10 @@ namespace ViewPort
 
             dt.Rows.Clear();
             dataGridView1.RowHeadersWidth = 30;
-            
+            int cols = int.Parse(Cols_TB.Text);
+            int rows = int.Parse(Rows_TB.Text);
 
-            for (int i = 0; i < FilterList.Count; i++)
+            for (int i = 0; i < dicInfo.Count; i++)
             {
                 DataRow dr = dt.NewRow();
                 dr[COLUMN_STR.GRID_IMGNAME] = dicInfo.Keys.ElementAt(i);
@@ -144,34 +146,64 @@ namespace ViewPort
 
             }
 
-
-        }
-
+         }
+        //public void Img_txt_Info_Combine()
+        //{
+        //    for(int i = 0; i < dicTxt_info.Count; i++)
+        //    {
+        //        if(dicInfo.ContainsKey(dicTxt_info.Keys.ElementAt(i)))
+        //        {
+        //            dicInfo[dicTxt_info.Keys.ElementAt(i)].sdip_no = dicTxt_info[dicTxt_info.Keys.ElementAt(i)].SDIP_No;
+        //            dicInfo[dicTxt_info.Keys.ElementAt(i)].sdip_result = dicTxt_info[dicTxt_info.Keys.ElementAt(i)].SDIP_Result;
+        //        }
+        //    }
+        //}
         public void Dl_PrintList()
         {
-            FilterList.Clear();
-            open.GetFilterList_Image(FilterList);
+            int index = 0;
+
+            Selected_Pic = open.Select_Pic_List;
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
 
-            dt.Rows.Clear();
-            dataGridView1.RowHeadersWidth = 30;
 
-            for (int i = 0; i < FilterList.Count; i++)
+            for (int i = 0; i < Selected_Pic.Count; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr[COLUMN_STR.GRID_IMGNAME] = FilterList[i].Imagename;
-                dr[COLUMN_STR.GRID_STATE]       = FilterList[i].ReviewDefectName; ;
+                dr = dt.Rows.Find(Selected_Pic[i]);
+                index = dt.Rows.IndexOf(dr);
+                dt.Rows[index].Delete();
+                dt.AcceptChanges();
+               
+            }
+        }
 
-                dt.Rows.Add(dr);
+        public void Changeed_State()
+        {
+            int index = 0;
+            Change_state_List = open.Change_state;
 
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+                     
+
+            for (int i = 0; i < Change_state_List.Count; i++)
+            {
+                DataRow dr = dt.NewRow();
+                dr = dt.Rows.Find(Change_state_List[i]);
+                index = dt.Rows.IndexOf(dr);
+                if(dicInfo.ContainsKey(Change_state_List[i]))
+                    dt.Rows[index][1] = dicInfo[Change_state_List[i]].ReviewDefectName;
+
+                dt.AcceptChanges();
             }
         }
 
         private void _filterAct_bt_Click(object sender, EventArgs e)
         {
-            FilterList.Clear();
-            FilterList = ImageDatabase.ToList();
+            
+            dicInfo = open.DicInfo_Filtered;
+
+
             Initial_Equipment_DF_FilterList();
             Print_List();
             open.Main = this;
@@ -180,11 +212,11 @@ namespace ViewPort
 
         private void Initial_Equipment_DF_FilterList()
         {
-            for (int i = 0; i < FilterList.Count; i++)
+            for (int i = 0; i < dicInfo.Count; i++)
             {
-                if (Selected_Equipment_DF_List.FindIndex(s => s.Equals(FilterList.ElementAt(i).EquipmentDefectName)) == -1)
+                if (Selected_Equipment_DF_List.FindIndex(s => s.Equals(dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName)) == -1)
                 {
-                    FilterList.RemoveAt(i);
+                    dicInfo.Remove(dicInfo.Keys.ElementAt(i));
                     i--;
                 }
             }
@@ -235,11 +267,13 @@ namespace ViewPort
 
             Load_State = 1;
 
-
+            Func.SearchJPG_inZip(ZipFilePath, All_LotID_List, All_VerifyDF_List, All_Equipment_DF_List,  dicInfo);
 
             Func.SearchTXT_inZip(ZipFilePath, dic_ready, dicTxt_info);
-            Func.SearchJPG_inZip(ZipFilePath, All_LotID_List, All_VerifyDF_List, All_Equipment_DF_List,  ImageDatabase,  dicInfo);
-            FilterList = ImageDatabase.ToList();
+
+            //Img_txt_Info_Combine();
+
+            dicInfo_Copy = dicInfo;
 
             All_LotID_List.Sort();
             All_VerifyDF_List.Sort();

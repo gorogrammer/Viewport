@@ -8,20 +8,50 @@ namespace ViewPort.Models
 {
     public class ImageInfo
     {
-        private string _eq_Name;
-        int _sdip_No;
-        string _sdip_Result;
+        string SDIP_NO;
+        string Lot_ID, Review_DefectName, SDIP_Result;
+        string Equipment_DefectName, Image_name;
+        int Frame_No, Camera_No;
+        
 
-        public ImageInfo(string EqName, int SDIPNo, string SDIPResult)
+        public ImageInfo Clone()
         {
-            _eq_Name = EqName;
-            _sdip_No = SDIPNo;
-            _sdip_Result = SDIPResult;
+            return new ImageInfo(LotID, Image_name, CameraNo, FrameNo, Equipment_DefectName, SDIP_NO, SDIP_Result, Review_DefectName);
+            
+        }
+
+
+
+        public ImageInfo(string LotID, string ImageName, int CamNo, int FrameNo, string Equipment_DF, string sdip_no, string sdip_result, string Review_DF)
+        {
+           
+            Lot_ID = LotID;
+            //File_ID = FileID;
+            Image_name = ImageName;
+            Camera_No = CamNo;
+            Frame_No = FrameNo;
+
+            Equipment_DefectName = Equipment_DF;
+            Review_DefectName = Review_DF;
+                       
+            SDIP_NO = sdip_no;
+            SDIP_Result = sdip_result;
 
         }
-        public string Eq_Name { get { return _eq_Name; } }
-        public int SDIP_No { get { return _sdip_No; } set { _sdip_No = value; } }
-        public string SDIP_Result { get { return _sdip_Result; } set { _sdip_Result = value; } }
+        
+        public string LotID { get { return Lot_ID; } set { Lot_ID = value; } }
+       
+        public string ReviewDefectName { get { return Review_DefectName; } set { Review_DefectName = value; } }
+
+        public string Imagename { get { return Image_name; } set { Image_name = value; } }
+        //public string FileID { get { return File_ID; } set { File_ID = value; } }
+        public string EquipmentDefectName { get { return Equipment_DefectName; } set { Equipment_DefectName = value; } }
+
+        public string sdip_no { get { return SDIP_NO; } set { SDIP_NO = value; } }
+        public string sdip_result { get { return SDIP_Result; } set { SDIP_Result = value; } }
+        public int FrameNo { get { return Frame_No; } set { Frame_No = value; } }
+        public int CameraNo { get { return Camera_No; } set { Camera_No = value; } }
+      
 
     }
 }
