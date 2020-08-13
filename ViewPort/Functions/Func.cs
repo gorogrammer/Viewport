@@ -86,15 +86,24 @@ namespace ViewPort.Functions
                                 if (FileName.Split('@').Length >= 3)
                                 {
                                     Lot_ID = FileName.Split('@')[2].Split('.')[0];
-                                    Verify_Defect = FileName.Split('@')[1];
+                                    
                                 }
 
                                 if (All_LotID_List.FindIndex(s => s.Equals(Lot_ID)) == -1)
                                     All_LotID_List.Add(Lot_ID);
-                                if (All_VerifyDF_List.FindIndex(s => s.Equals(Verify_Defect)) == -1)
-                                    All_VerifyDF_List.Add(Verify_Defect);
+                                int x = 1;
+                                int index = 0;
+                               
                                 if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
-                                    All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, -1));
+                                    All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
+                                else
+                                {
+                                    index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
+                                    x = All_Equipment_DF_List[index].Item2;
+                                    All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
+
+                                }
+
 
                                 //ImageDatabase.Add(new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
                                 //dicInfo.Add(File_ID, new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));

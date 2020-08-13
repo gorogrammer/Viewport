@@ -107,21 +107,23 @@ namespace ViewPort
         #region UI CODE
         private void Initial_Equipment_DF_List()
         {
-            if (All_Equipment_DF_List.Count <= 0)
-                return;
+            
+            //if (All_Equipment_DF_List.Count <= 0)
+            //    return;
 
-            List<string> Each_Equipment_DF_Name = new List<string>();
-            int[] Each_Equipment_DF_Count = new int[All_Equipment_DF_List.Count];
+            //List<string> Each_Equipment_DF_Name = new List<string>();
+            //int[] Each_Equipment_DF_Count = new int[All_Equipment_DF_List.Count];
 
-            for (int i = 0; i < All_Equipment_DF_List.Count; i++)
-                Each_Equipment_DF_Name.Add(All_Equipment_DF_List.ElementAt(i).Item1);
+            //for (int i = 0; i < All_Equipment_DF_List.Count; i++)
+            //    Each_Equipment_DF_Name.Add(All_Equipment_DF_List.ElementAt(i).Item1);
 
-            for (int i = 0; i < dicInfo.Count; i++)
-                Each_Equipment_DF_Count[All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName))]++;
+            //for (int i = 0; i < dicInfo.Count; i++)
+            //    Each_Equipment_DF_Count[All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName))]++;
+               
 
-            All_Equipment_DF_List.Clear();
-            for (int i = 0; i < Each_Equipment_DF_Name.Count; i++)
-                All_Equipment_DF_List.Add(new Tuple<string, int>(Each_Equipment_DF_Name.ElementAt(i), Each_Equipment_DF_Count[i]));
+            //All_Equipment_DF_List.Clear();
+            //for (int i = 0; i < Each_Equipment_DF_Name.Count; i++)
+            //    All_Equipment_DF_List.Add(new Tuple<string, int>(Each_Equipment_DF_Name.ElementAt(i), Each_Equipment_DF_Count[i]));
 
             All_Equipment_DF_List = All_Equipment_DF_List.OrderBy(s => s.Item2).ThenByDescending(s => s.Item2).ToList();
             All_Equipment_DF_List.Reverse();
@@ -140,24 +142,25 @@ namespace ViewPort
             {
                 DataRow dr = dt.NewRow();
                 dr[COLUMN_STR.GRID_IMGNAME] = dicInfo.Keys.ElementAt(i);
-                dr[COLUMN_STR.GRID_STATE] = dicInfo[dicInfo.Keys.ElementAt(i)].ReviewDefectName;
+                dr[COLUMN_STR.GRID_STATE] = dicInfo[dr[COLUMN_STR.GRID_IMGNAME].ToString()].ReviewDefectName;
                 
                 dt.Rows.Add(dr);
 
             }
 
          }
-        //public void Img_txt_Info_Combine()
-        //{
-        //    for(int i = 0; i < dicTxt_info.Count; i++)
-        //    {
-        //        if(dicInfo.ContainsKey(dicTxt_info.Keys.ElementAt(i)))
-        //        {
-        //            dicInfo[dicTxt_info.Keys.ElementAt(i)].sdip_no = dicTxt_info[dicTxt_info.Keys.ElementAt(i)].SDIP_No;
-        //            dicInfo[dicTxt_info.Keys.ElementAt(i)].sdip_result = dicTxt_info[dicTxt_info.Keys.ElementAt(i)].SDIP_Result;
-        //        }
-        //    }
-        //}
+        public void Img_txt_Info_Combine()
+        {
+            for (int i = 0; i < dicTxt_info.Count; i++)
+            {
+                if (dicInfo.ContainsKey(dicTxt_info.Keys.ElementAt(i)))
+                {
+                    dicInfo[dicTxt_info.Keys.ElementAt(i)].sdip_no = dicTxt_info[dicTxt_info.Keys.ElementAt(i)].SDIP_No;
+                    dicInfo[dicTxt_info.Keys.ElementAt(i)].sdip_result = dicTxt_info[dicTxt_info.Keys.ElementAt(i)].SDIP_Result;
+                }
+            }
+            
+        }
         public void Dl_PrintList()
         {
             int index = 0;
@@ -271,15 +274,14 @@ namespace ViewPort
 
             Func.SearchTXT_inZip(ZipFilePath, dic_ready, dicTxt_info);
 
-            //Img_txt_Info_Combine();
+            Img_txt_Info_Combine();
 
             dicInfo_Copy = dicInfo;
 
             All_LotID_List.Sort();
-            All_VerifyDF_List.Sort();
+            
             Initial_Equipment_DF_List();
-            ImageSizeList.Sort();
-            ImageSizeList.Insert(0, FILTER_STR.IMGSIZE_ALL);
+           
 
 
 
