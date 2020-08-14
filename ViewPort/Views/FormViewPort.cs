@@ -135,31 +135,18 @@ namespace ViewPort
 
             dt.Rows.Clear();
             dataGridView1.RowHeadersWidth = 30;
-            int cols = int.Parse(Cols_TB.Text);
-            int rows = int.Parse(Rows_TB.Text);
 
-            for (int i = 0; i < dicInfo.Count; i++)
-            {
-                DataRow dr = dt.NewRow();
-                dr[COLUMN_STR.GRID_IMGNAME] = dicInfo.Keys.ElementAt(i);
-                dr[COLUMN_STR.GRID_STATE] = dicInfo[dr[COLUMN_STR.GRID_IMGNAME].ToString()].ReviewDefectName;
-                
-                dt.Rows.Add(dr);
+            foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo)
+                dt.Rows.Add(kvp.Key, kvp.Value.ReviewDefectName);
 
-            }
-
-         }
+        }
         public void Img_txt_Info_Combine()
         {
-            for (int i = 0; i < dicTxt_info.Count; i++)
+            foreach (KeyValuePair<string, Models.txtInfo> kvp in dicTxt_info)
             {
-                if (dicInfo.ContainsKey(dicTxt_info.Keys.ElementAt(i)))
-                {
-                    dicInfo[dicTxt_info.Keys.ElementAt(i)].sdip_no = dicTxt_info[dicTxt_info.Keys.ElementAt(i)].SDIP_No;
-                    dicInfo[dicTxt_info.Keys.ElementAt(i)].sdip_result = dicTxt_info[dicTxt_info.Keys.ElementAt(i)].SDIP_Result;
-                }
+                dicInfo[kvp.Key].sdip_no = kvp.Value.SDIP_No;
+                dicInfo[kvp.Key].sdip_result = kvp.Value.SDIP_Result;
             }
-            
         }
         public void Dl_PrintList()
         {
