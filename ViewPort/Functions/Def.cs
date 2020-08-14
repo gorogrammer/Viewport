@@ -15,6 +15,13 @@ namespace ViewPort.Functions
 
         public const string SUCCESS = "완료되었습니다.";
 
+        public const string LOAD_ZIP = "zip files Loading...";
+
+        public const string LOAD_SDIP_TXT = "SDIP txt files Loading...";
+
+        public const string LOAD_ROWS = "Rows and JPG Loading...";
+
+        public const string NONE_SDIP_TXT = "SDIP txt 파일이 없습니다.";
     }
 
     public class FILTER_STR
