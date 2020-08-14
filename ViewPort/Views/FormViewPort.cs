@@ -107,23 +107,6 @@ namespace ViewPort
         #region UI CODE
         private void Initial_Equipment_DF_List()
         {
-            
-            //if (All_Equipment_DF_List.Count <= 0)
-            //    return;
-
-            //List<string> Each_Equipment_DF_Name = new List<string>();
-            //int[] Each_Equipment_DF_Count = new int[All_Equipment_DF_List.Count];
-
-            //for (int i = 0; i < All_Equipment_DF_List.Count; i++)
-            //    Each_Equipment_DF_Name.Add(All_Equipment_DF_List.ElementAt(i).Item1);
-
-            //for (int i = 0; i < dicInfo.Count; i++)
-            //    Each_Equipment_DF_Count[All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName))]++;
-               
-
-            //All_Equipment_DF_List.Clear();
-            //for (int i = 0; i < Each_Equipment_DF_Name.Count; i++)
-            //    All_Equipment_DF_List.Add(new Tuple<string, int>(Each_Equipment_DF_Name.ElementAt(i), Each_Equipment_DF_Count[i]));
 
             All_Equipment_DF_List = All_Equipment_DF_List.OrderBy(s => s.Item2).ThenByDescending(s => s.Item2).ToList();
             All_Equipment_DF_List.Reverse();
@@ -237,51 +220,44 @@ namespace ViewPort
             Equipment_DF_CLB_SelectedValueChanged(null, null);
         }
 
+        private void ZipLoadFile_Async()
+        {
+            Load_State = 1;
+            string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
+
+            DirPath = Directory.GetParent(path).ToString();
+            ZipFilePath = path;
+
+            FormLoading formLoading = new FormLoading(path);
+            formLoading.ShowDialog();
+
+            dicInfo = formLoading.Dic_Load;
+            dicTxt_info = formLoading.DicTxt_info;
+            All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
+            All_LotID_List = formLoading.All_LotID_List;
+
+            dataGridView1.DataSource = formLoading.Dt;
+            dataGridView1.RowHeadersWidth = 30;
+
+            formLoading.Dispose();
+        }
+
         private void zipLoadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ZipFileDialog = new OpenFileDialog();
-
-            ZipFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            //ZipFileDialog.Multiselect = true;
-            ZipFileDialog.Filter = ZIP_STR.EXETENSION;
-
-            if (ZipFileDialog.ShowDialog() != DialogResult.OK)
-                return;
-
             InitialData();
-
-
-
-            DirPath = Directory.GetParent(ZipFileDialog.FileName).ToString();
-            ZipFilePath = ZipFileDialog.FileName;
-
-            Load_State = 1;
-
-            Func.SearchJPG_inZip(ZipFilePath, All_LotID_List, All_VerifyDF_List, All_Equipment_DF_List,  dicInfo);
-
-            Func.SearchTXT_inZip(ZipFilePath, dic_ready, dicTxt_info);
-
+            ZipLoadFile_Async();
             Img_txt_Info_Combine();
-
             dicInfo_Copy = dicInfo;
-
             All_LotID_List.Sort();
-            
             Initial_Equipment_DF_List();
-           
-
-
 
             for (int i = 0; i < All_Equipment_DF_List.Count; i++)
                 Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + " - " + All_Equipment_DF_List.ElementAt(i).Item2);
 
-            Print_List();
             MessageBox.Show(MSG_STR.SUCCESS);
 
             open.Main = this;
             open.Set_View();
-
-
         }
 
         private void Width_TB_TextChanged(object sender, EventArgs e)

@@ -12,6 +12,27 @@ namespace ViewPort.Functions
 {
     public class Util
     {
+        public static string OpenFileDlg(string FilterName)
+        {
+            try
+            {
+                OpenFileDialog folderDlg = new OpenFileDialog();
+
+                if (string.IsNullOrEmpty(FilterName))
+                    folderDlg.Filter = FilterName;
+
+                if (folderDlg.ShowDialog() == DialogResult.OK)
+                    return folderDlg.FileName;
+                else
+                    return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return string.Empty;
+        }
+
         public static string OpenFolderDlg()
         {
             try

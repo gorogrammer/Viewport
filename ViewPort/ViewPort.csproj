@@ -86,6 +86,12 @@
     <Compile Include="Models\ImageListInfo.cs" />
     <Compile Include="Models\Interface1.cs" />
     <Compile Include="Models\txtInfo.cs" />
+    <Compile Include="Views\FormLoading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FormLoading.Designer.cs">
+      <DependentUpon>FormLoading.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\FormViewPort.cs">
       <SubType>Form</SubType>
     </Compile>
