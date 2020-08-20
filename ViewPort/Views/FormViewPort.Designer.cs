@@ -49,6 +49,7 @@
             this.Select_Empty_BTN = new System.Windows.Forms.Button();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,11 +72,14 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -204,7 +208,7 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(222, 116);
+            this.checkBox3.Location = new System.Drawing.Point(221, 218);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(116, 16);
             this.checkBox3.TabIndex = 15;
@@ -288,6 +292,7 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer4.Panel2.Controls.Add(this.dataGridView2);
             this.splitContainer4.Size = new System.Drawing.Size(327, 420);
             this.splitContainer4.SplitterDistance = 251;
             this.splitContainer4.TabIndex = 0;
@@ -303,6 +308,17 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(327, 251);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView2.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowTemplate.Height = 23;
+            this.dataGridView2.Size = new System.Drawing.Size(327, 165);
+            this.dataGridView2.TabIndex = 0;
             // 
             // textBox3
             // 
@@ -406,6 +422,7 @@
             // 
             // splitContainer5.Panel1
             // 
+            this.splitContainer5.Panel1.Controls.Add(this.button2);
             this.splitContainer5.Panel1.Controls.Add(this.button1);
             this.splitContainer5.Panel1.Controls.Add(this.textBox7);
             this.splitContainer5.Panel1.Controls.Add(this.label5);
@@ -464,7 +481,7 @@
             // Print_Image_Name
             // 
             this.Print_Image_Name.AutoSize = true;
-            this.Print_Image_Name.Location = new System.Drawing.Point(222, 92);
+            this.Print_Image_Name.Location = new System.Drawing.Point(221, 194);
             this.Print_Image_Name.Name = "Print_Image_Name";
             this.Print_Image_Name.Size = new System.Drawing.Size(97, 16);
             this.Print_Image_Name.TabIndex = 14;
@@ -499,7 +516,7 @@
             // Print_Image_State
             // 
             this.Print_Image_State.AutoSize = true;
-            this.Print_Image_State.Location = new System.Drawing.Point(222, 68);
+            this.Print_Image_State.Location = new System.Drawing.Point(221, 170);
             this.Print_Image_State.Name = "Print_Image_State";
             this.Print_Image_State.Size = new System.Drawing.Size(91, 16);
             this.Print_Image_State.TabIndex = 14;
@@ -574,6 +591,16 @@
             this.Width_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Width_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Width_TB_KeyDown);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(223, 61);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(104, 49);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "삭제대기 확인";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -589,9 +616,11 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.tableLayoutPanel1.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -659,6 +688,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         public System.Windows.Forms.TextBox Width_TB;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Button button2;
     }
 }
 

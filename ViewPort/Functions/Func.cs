@@ -77,10 +77,7 @@ namespace ViewPort.Functions
                                 CameraNo = int.Parse(subEntry.Name.Substring(6, 2));
                                 Equipment_Name = subEntry.Name.Substring(13, FileName.Length - 13).Split('@')[0].Split('.')[0];
 
-
-
-
-
+                                
 
                                 if (FileName.Split('@').Length >= 3)
                                 {
@@ -106,7 +103,7 @@ namespace ViewPort.Functions
 
                                 //ImageDatabase.Add(new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
                                 //dicInfo.Add(File_ID, new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
-                                dicInfo.TryAdd(File_ID, new ImageInfo(Lot_ID, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품"));
+                                dicInfo.TryAdd(File_ID, new ImageInfo(Lot_ID, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품","O"));
 
                             }
                         }

@@ -66,14 +66,6 @@ namespace ViewPort
         }
 
       
-        public Dictionary<string, ImageInfo> GetDicinfo(Dictionary<string, ImageInfo> OutputData)
-        {
-            OutputData = dicInfo;
-
-            return OutputData;
-        }
-        
-
         #endregion
 
         #region Initialize CODE
@@ -94,6 +86,12 @@ namespace ViewPort
             dt.Columns.Add(COLUMN_STR.GRID_STATE);
             dt.PrimaryKey = new DataColumn [] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
             dataGridView1.DataSource = dt;
+
+            DataTable dt_del = new DataTable();
+            dt_del.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+            dt_del.Columns.Add(COLUMN_STR.GRID_STATE);
+            dt_del.PrimaryKey = new DataColumn[] { dt_del.Columns[COLUMN_STR.GRID_IMGNAME] };
+            dataGridView2.DataSource = dt_del;
 
         }
         private void InitialData()
@@ -122,6 +120,17 @@ namespace ViewPort
             foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo)
                 dt.Rows.Add(kvp.Key, kvp.Value.ReviewDefectName);
 
+        }
+
+        public void Wait_Del_Print_List()
+        {
+          
+            DataTable dt = (DataTable)dataGridView2.DataSource;
+            dt.Rows.Clear();
+            dataGridView2.RowHeadersWidth = 30;
+
+            foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
+                dt.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
         }
         public void Img_txt_Info_Combine()
         {
@@ -293,5 +302,11 @@ namespace ViewPort
         }
 
         #endregion
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DeleteWaiting deleteWaiting = new DeleteWaiting();
+            deleteWaiting.Show();
+        }
     }
 }

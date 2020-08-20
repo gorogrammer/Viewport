@@ -26,6 +26,8 @@ namespace ViewPort.Views
         List<PictureBox> Picture_Glass = new List<PictureBox>();
         List<string> Select_Pic = new List<string>();
         Dictionary<string, ImageInfo> dicInfo_Filter = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> dicInfo_Delete = new Dictionary<string, ImageInfo>();
+
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
         List<int> Selected_Picture_Index = new List<int>();
@@ -46,6 +48,12 @@ namespace ViewPort.Views
         {
             get { return dicInfo_Filter; }
             set { dicInfo_Filter = value; }
+        }
+
+        public Dictionary<string, ImageInfo> DicInfo_Delete
+        {
+            get { return dicInfo_Delete; }
+            set { dicInfo_Delete = value; }
         }
 
         public List<string> Select_Pic_List
@@ -102,27 +110,43 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.Delete)
             {
-                for (int i = 0; i < dicInfo_Filter.Count; i++)
+                Get_Delete_IMG();
+
+                for (int i = 0; i < Select_Pic.Count; i++)
                 {
-
-                    if (Select_Pic.FindIndex(s => s.Equals(dicInfo_Filter.Keys.ElementAt(i))) >= 0)
+                    if (dicInfo_Filter.ContainsKey(Select_Pic[i]))
                     {
-
-                        dicInfo_Filter.Remove(dicInfo_Filter.Keys.ElementAt(i));
-                        i--;
+                        dicInfo_Filter.Remove(Select_Pic[i]);
                     }
 
-
                 }
+                
                 Del_Set_View();
                 Main.Dl_PrintList();
+                Main.Wait_Del_Print_List();
                 Select_Pic.Clear();
             }
         }
+       
 
         public ImageViewer(FormViewPort mainForm)
         {
             InitializeComponent();
+        }
+
+        public void Get_Delete_IMG()
+        {
+            for(int p = 0; p < Select_Pic.Count; p++)
+            {
+                if(dicInfo_Filter.ContainsKey(Select_Pic[p]))
+                {
+                    
+                    dicInfo_Delete.Add(Select_Pic[p], dicInfo_Filter[Select_Pic[p]]);
+
+                    dicInfo_Delete[Select_Pic[p]].DeleteCheck = "삭제대기";
+                }
+            }
+          
         }
 
         private void ImageViewer_PL_MouseDown(object sender, MouseEventArgs e)

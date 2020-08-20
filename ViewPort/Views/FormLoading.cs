@@ -196,7 +196,7 @@ namespace ViewPort.Views
                     All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
 
                 }
-                Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품"));
+                Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품","O"));
             }
 
             subZip.Dispose();

@@ -8,7 +8,7 @@ namespace ViewPort.Models
 {
     public class ImageInfo
     {
-        string SDIP_NO;
+        string SDIP_NO, Delete_Check;
         string Lot_ID, Review_DefectName, SDIP_Result;
         string Equipment_DefectName, Image_name;
         int Frame_No, Camera_No;
@@ -16,13 +16,13 @@ namespace ViewPort.Models
 
         public ImageInfo Clone()
         {
-            return new ImageInfo(LotID, Image_name, CameraNo, FrameNo, Equipment_DefectName, SDIP_NO, SDIP_Result, Review_DefectName);
+            return new ImageInfo(LotID, Image_name, CameraNo, FrameNo, Equipment_DefectName, SDIP_NO, SDIP_Result, Review_DefectName, Delete_Check);
             
         }
 
 
 
-        public ImageInfo(string LotID, string ImageName, int CamNo, int FrameNo, string Equipment_DF, string sdip_no, string sdip_result, string Review_DF)
+        public ImageInfo(string LotID, string ImageName, int CamNo, int FrameNo, string Equipment_DF, string sdip_no, string sdip_result, string Review_DF, string DeleteNo)
         {
            
             Lot_ID = LotID;
@@ -30,7 +30,7 @@ namespace ViewPort.Models
             Image_name = ImageName;
             Camera_No = CamNo;
             Frame_No = FrameNo;
-
+            Delete_Check = DeleteCheck;
             Equipment_DefectName = Equipment_DF;
             Review_DefectName = Review_DF;
                        
@@ -51,7 +51,8 @@ namespace ViewPort.Models
         public string sdip_result { get { return SDIP_Result; } set { SDIP_Result = value; } }
         public int FrameNo { get { return Frame_No; } set { Frame_No = value; } }
         public int CameraNo { get { return Camera_No; } set { Camera_No = value; } }
-      
+
+        public string DeleteCheck { get { return Delete_Check; } set { Delete_Check = value; } }
 
     }
 }
