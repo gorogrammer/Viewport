@@ -110,6 +110,17 @@ namespace ViewPort
             All_Equipment_DF_List.Reverse();
         }
 
+        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            StringFormat drawFormat = new StringFormat();
+            //drawFormat.FormatFlags = StringFormatFlags.DirectionVertical;
+            drawFormat.FormatFlags = StringFormatFlags.DirectionRightToLeft;
+
+            
+        }
+
+
+        
         private void Print_List()
         {
             DataTable dt = (DataTable)dataGridView1.DataSource;
@@ -307,6 +318,13 @@ namespace ViewPort
         {
             DeleteWaiting deleteWaiting = new DeleteWaiting();
             deleteWaiting.Show();
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string id = dataGridView1.Rows[e.RowIndex].Cells["Image Name"].Value.ToString();
+
+            open.SelectGrid_Img_View(id);
         }
     }
 }

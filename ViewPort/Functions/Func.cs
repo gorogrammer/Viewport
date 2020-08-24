@@ -68,7 +68,7 @@ namespace ViewPort.Functions
                         foreach (ZipArchiveEntry subEntry in subZip.Entries)        // 2중 압축파일 내에 있는 파일을 탐색
                         {
                             if (subEntry.Name.ToUpper().IndexOf(".JPG") != -1)  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
-                            {
+                            { 
                                 Lot_ID = Path.GetFileName(FilePath).Replace(".zip", "");
                                 Verify_Defect = "-";
                                 FileName = subEntry.Name.Replace(".jpg", "");

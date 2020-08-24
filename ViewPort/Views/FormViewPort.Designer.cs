@@ -58,6 +58,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.button2 = new System.Windows.Forms.Button();
             this.Cols_TB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.Print_Image_Name = new System.Windows.Forms.CheckBox();
@@ -72,7 +73,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -308,6 +308,7 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(327, 251);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // dataGridView2
             // 
@@ -349,7 +350,7 @@
             // zipLoadFileToolStripMenuItem
             // 
             this.zipLoadFileToolStripMenuItem.Name = "zipLoadFileToolStripMenuItem";
-            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
             this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
             // 
@@ -458,6 +459,16 @@
             this.splitContainer5.Size = new System.Drawing.Size(327, 387);
             this.splitContainer5.SplitterDistance = 239;
             this.splitContainer5.TabIndex = 0;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(223, 61);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(104, 49);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "삭제대기 확인";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Cols_TB
             // 
@@ -590,16 +601,6 @@
             this.Width_TB.Text = "175";
             this.Width_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Width_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Width_TB_KeyDown);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(223, 61);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(104, 49);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "삭제대기 확인";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // FormViewPort
             // 

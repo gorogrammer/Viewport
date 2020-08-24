@@ -39,7 +39,6 @@ namespace ViewPort.Views
 
         Point src_Mouse_XY, dst_Mouse_XY;
 
-        List<ImageListInfo> FilteredList = new List<ImageListInfo>();
      
         int cols, rows, width, height;
 
@@ -67,9 +66,23 @@ namespace ViewPort.Views
             get { return Change_state_List; }
             set { Change_state_List = value; }
         }
-        public void GetFilterList_Image(List<ImageListInfo> OutputData)
+      
+        
+        public void SelectGrid_Img_View(string id)
         {
-               FilteredList.ForEach((item) => { OutputData.Add(item.Clone()); });
+            List<string> dic_index_List = dicInfo_Filter.Keys.ToList();
+
+            cols = int.Parse(Main.Cols_TB.Text);
+            rows = int.Parse(Main.Rows_TB.Text);
+
+            int index = dic_index_List.IndexOf(id);
+            double quotient = (index / (cols * rows));
+            int view_page = Convert.ToInt32(System.Math.Truncate(quotient));
+
+            Last_Picture_Selected_Index = -1;
+            Current_PageNum = view_page + 1;
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Set_Image();
         }
         private void ImageViewer_KeyDown(object sender, KeyEventArgs e)
         {
