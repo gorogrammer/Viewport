@@ -161,7 +161,7 @@ namespace ViewPort.Views
             }
           
         }
-
+        
         private void ImageViewer_PL_MouseDown(object sender, MouseEventArgs e)
         {
             src_Mouse_XY.X = e.X;

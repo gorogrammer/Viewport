@@ -36,6 +36,7 @@ namespace ViewPort
         List<string> All_VerifyDF_List = new List<string>();
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
 
+        List<string> Wait_Del_Img_List = new List<string>();
         List<string> Selected_Equipment_DF_List = new List<string>();
         List<string> ImageSizeList = new List<string>();
         List<string> Selected_Pic = new List<string>();
@@ -316,7 +317,11 @@ namespace ViewPort
 
         private void button2_Click(object sender, EventArgs e)
         {
+            Wait_Del_Img_List = open.DicInfo_Delete.Keys.ToList();
             DeleteWaiting deleteWaiting = new DeleteWaiting();
+            deleteWaiting.Waiting_Img = open.DicInfo_Delete;
+            deleteWaiting.ZipFilePath = zipFilePath;
+            deleteWaiting.Set_View_Del();
             deleteWaiting.Show();
         }
 
