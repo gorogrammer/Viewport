@@ -128,6 +128,49 @@ namespace ViewPort.Functions
             }
         }
 
+        public static void DeleteJPG_inZIP(string FilePath, Dictionary<string, ImageInfo> dicInfo_del)
+        {
+            ZipArchive zip, subZip;
+            Stream subEntryMS;
+          try
+            {
+                zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);       // Zip파일(Lot) Load
+
+                
+                foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    
+                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)             // Zip파일 내에 Zip파일이 있을 경우...
+                    {   
+
+                        subEntryMS = entry.Open();           // 2중 압축파일을 MemoryStream으로 읽는다.
+                        subZip = new ZipArchive(subEntryMS, ZipArchiveMode.Update);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
+                   
+                        for(int i = 0; i < subZip.Entries.Count; i++ )
+                        {
+                            if (dicInfo_del.ContainsKey(subZip.Entries[i].Name.Substring(0, 12)))
+                            {
+
+                                ZipArchiveEntry del_entry = subZip.GetEntry(subZip.Entries[i].Name);
+                                del_entry.Delete();
+
+                                i--;
+                            }
+                        }
+
+                        subZip.Dispose();
+                       
+                    }
+                    zip.Dispose();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Extract ERROR!\n" + ex.ToString());
+
+                return;
+            }
+        }
         public static string GetFileNameWithoutJPG(string str)
         {
             return str.Replace(".jpg", "");

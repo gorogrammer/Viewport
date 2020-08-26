@@ -24,9 +24,11 @@ namespace ViewPort
         #region MEMBER VARIABLES
 
         ImageViewer open = new ImageViewer();
+
         Dictionary<string, ImageInfo> dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Copy = new Dictionary<string, ImageInfo>();
         Dictionary<string, txtInfo> dicTxt_info = new Dictionary<string, txtInfo>();
+        Dictionary<string, ImageInfo> dicInfo_Waiting_Del = new Dictionary<string, ImageInfo>();
         string[] dic_ready = null;
 
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
@@ -44,7 +46,7 @@ namespace ViewPort
 
 
 
-        private int _load_State; 
+        private int _load_State;
         private string dirPath;
         private string zipFilePath;
         private string ref_DirPath;
@@ -55,6 +57,7 @@ namespace ViewPort
             set { dicInfo = value; }
         }
 
+        public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
         public string REF_DirPath { get => ref_DirPath; set => ref_DirPath = value; }
@@ -66,7 +69,7 @@ namespace ViewPort
             return Load_State;
         }
 
-      
+
         #endregion
 
         #region Initialize CODE
@@ -85,7 +88,7 @@ namespace ViewPort
             DataTable dt = new DataTable();
             dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
             dt.Columns.Add(COLUMN_STR.GRID_STATE);
-            dt.PrimaryKey = new DataColumn [] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
+            dt.PrimaryKey = new DataColumn[] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
             dataGridView1.DataSource = dt;
 
             DataTable dt_del = new DataTable();
@@ -100,7 +103,7 @@ namespace ViewPort
             Load_State = -1;
             DirPath = string.Empty;
             REF_DirPath = string.Empty;
-        } 
+        }
         #endregion
 
         #region UI CODE
@@ -117,11 +120,11 @@ namespace ViewPort
             //drawFormat.FormatFlags = StringFormatFlags.DirectionVertical;
             drawFormat.FormatFlags = StringFormatFlags.DirectionRightToLeft;
 
-            
+
         }
 
 
-        
+
         private void Print_List()
         {
             DataTable dt = (DataTable)dataGridView1.DataSource;
@@ -136,7 +139,7 @@ namespace ViewPort
 
         public void Wait_Del_Print_List()
         {
-          
+
             DataTable dt = (DataTable)dataGridView2.DataSource;
             dt.Rows.Clear();
             dataGridView2.RowHeadersWidth = 30;
@@ -168,7 +171,7 @@ namespace ViewPort
                 index = dt.Rows.IndexOf(dr);
                 dt.Rows[index].Delete();
                 dt.AcceptChanges();
-               
+
             }
         }
 
@@ -178,14 +181,14 @@ namespace ViewPort
             Change_state_List = open.Change_state;
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
-                     
+
 
             for (int i = 0; i < Change_state_List.Count; i++)
             {
                 DataRow dr = dt.NewRow();
                 dr = dt.Rows.Find(Change_state_List[i]);
                 index = dt.Rows.IndexOf(dr);
-                if(dicInfo.ContainsKey(Change_state_List[i]))
+                if (dicInfo.ContainsKey(Change_state_List[i]))
                     dt.Rows[index][1] = dicInfo[Change_state_List[i]].ReviewDefectName;
 
                 dt.AcceptChanges();
@@ -194,7 +197,7 @@ namespace ViewPort
 
         private void _filterAct_bt_Click(object sender, EventArgs e)
         {
-            
+
             dicInfo = open.DicInfo_Filtered;
 
 
@@ -331,5 +334,30 @@ namespace ViewPort
 
             open.SelectGrid_Img_View(id);
         }
+
+        private void Delete_ZipImg()
+        {
+
+            Func.DeleteJPG_inZIP(zipFilePath, dicInfo_Waiting_Del);
+
+        }
+
+        private void FormViewPort_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("" + open.DicInfo_Delete.Count + "개의 이미지를 삭제하시겠습니까?", "서버종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Delete_ZipImg();
+                Dispose(true);
+            }
+
+            else
+            {
+                e.Cancel = true;
+                return;
+            }
+        }
     }
+
+
 }
+ 

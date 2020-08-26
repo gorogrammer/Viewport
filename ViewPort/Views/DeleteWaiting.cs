@@ -18,7 +18,7 @@ namespace ViewPort.Views
         
 
         FormViewPort Main = new FormViewPort();
-        ImageViewer Image_View = new ImageViewer();
+        
 
         List<PictureBox> PictureData = new List<PictureBox>();
         List<PictureBox> Picture_Glass = new List<PictureBox>();
@@ -337,7 +337,7 @@ namespace ViewPort.Views
 
                 }
 
-               
+                Main.Waiting_Del = dicInfo_Filter_Del;
                 Select_Pic.Clear();
             }
         }

@@ -159,7 +159,7 @@ namespace ViewPort.Views
                     dicInfo_Delete[Select_Pic[p]].DeleteCheck = "삭제대기";
                 }
             }
-          
+            Main.Waiting_Del = dicInfo_Delete;
         }
         
         private void ImageViewer_PL_MouseDown(object sender, MouseEventArgs e)
