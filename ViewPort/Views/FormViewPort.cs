@@ -14,12 +14,13 @@ using ViewPort.Functions;
 using ViewPort.Models;
 using ViewPort.Views;
 using ViewPortNetwork;
+using MetroFramework.Forms;
 
 namespace ViewPort
 {
 
 
-    public partial class FormViewPort : Form
+    public partial class FormViewPort : MetroForm
     {
         #region MEMBER VARIABLES
 

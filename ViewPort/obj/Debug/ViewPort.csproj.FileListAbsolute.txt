@@ -94,7 +94,6 @@ C:\Users\metalheedo\Desktop\스템코\코드 0811\Viewport\ViewPort\obj\Debug\Vi
 C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\bin\Debug\ViewPort.exe.config
 C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\bin\Debug\ViewPort.exe
 C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\bin\Debug\ViewPort.pdb
-C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\bin\Debug\MetroFramework.Design.dll
 C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\bin\Debug\MetroFramework.dll
 C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\bin\Debug\MetroFramework.Fonts.dll
 C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\bin\Debug\microsoft.windowsapicodepack.dll

@@ -219,17 +219,18 @@
             // 
             // Equipment_DF_CLB
             // 
-            this.Equipment_DF_CLB.BackColor = System.Drawing.Color.DarkGray;
+            this.Equipment_DF_CLB.BackColor = System.Drawing.Color.WhiteSmoke;
             this.Equipment_DF_CLB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(327, 144);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 130);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -242,15 +243,15 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(327, 44);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(319, 40);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // _filterAct_bt
             // 
             this._filterAct_bt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._filterAct_bt.Location = new System.Drawing.Point(221, 3);
+            this._filterAct_bt.Location = new System.Drawing.Point(215, 3);
             this._filterAct_bt.Name = "_filterAct_bt";
-            this._filterAct_bt.Size = new System.Drawing.Size(103, 38);
+            this._filterAct_bt.Size = new System.Drawing.Size(101, 34);
             this._filterAct_bt.TabIndex = 0;
             this._filterAct_bt.Text = "필터 적용";
             this._filterAct_bt.UseVisualStyleBackColor = true;
@@ -261,7 +262,7 @@
             this.Select_All_BTN.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Select_All_BTN.Location = new System.Drawing.Point(3, 3);
             this.Select_All_BTN.Name = "Select_All_BTN";
-            this.Select_All_BTN.Size = new System.Drawing.Size(103, 38);
+            this.Select_All_BTN.Size = new System.Drawing.Size(100, 34);
             this.Select_All_BTN.TabIndex = 1;
             this.Select_All_BTN.Text = "전체 선택";
             this.Select_All_BTN.UseVisualStyleBackColor = true;
@@ -270,9 +271,9 @@
             // Select_Empty_BTN
             // 
             this.Select_Empty_BTN.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Select_Empty_BTN.Location = new System.Drawing.Point(112, 3);
+            this.Select_Empty_BTN.Location = new System.Drawing.Point(109, 3);
             this.Select_Empty_BTN.Name = "Select_Empty_BTN";
-            this.Select_Empty_BTN.Size = new System.Drawing.Size(103, 38);
+            this.Select_Empty_BTN.Size = new System.Drawing.Size(100, 34);
             this.Select_Empty_BTN.TabIndex = 1;
             this.Select_Empty_BTN.Text = "전체 해제";
             this.Select_Empty_BTN.UseVisualStyleBackColor = true;
@@ -280,7 +281,7 @@
             // 
             // splitContainer4
             // 
-            this.splitContainer4.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer4.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer4.Location = new System.Drawing.Point(0, 0);
             this.splitContainer4.Name = "splitContainer4";
@@ -288,39 +289,41 @@
             // 
             // splitContainer4.Panel1
             // 
-            this.splitContainer4.Panel1.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer4.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer4.Panel1.Controls.Add(this.dataGridView1);
             // 
             // splitContainer4.Panel2
             // 
-            this.splitContainer4.Panel2.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer4.Panel2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer4.Panel2.Controls.Add(this.dataGridView2);
-            this.splitContainer4.Size = new System.Drawing.Size(327, 420);
-            this.splitContainer4.SplitterDistance = 251;
+            this.splitContainer4.Size = new System.Drawing.Size(319, 381);
+            this.splitContainer4.SplitterDistance = 227;
             this.splitContainer4.TabIndex = 0;
             // 
             // dataGridView1
             // 
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.GridColor = System.Drawing.Color.DarkGray;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(327, 251);
+            this.dataGridView1.Size = new System.Drawing.Size(319, 227);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // dataGridView2
             // 
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView2.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView2.Location = new System.Drawing.Point(0, 0);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 23;
-            this.dataGridView2.Size = new System.Drawing.Size(327, 165);
+            this.dataGridView2.Size = new System.Drawing.Size(319, 150);
             this.dataGridView2.TabIndex = 0;
             // 
             // textBox3
@@ -332,12 +335,12 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.DarkGray;
+            this.menuStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.파일ToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1805, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1765, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -358,22 +361,22 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Location = new System.Drawing.Point(20, 84);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.LightGray;
-            this.splitContainer1.Size = new System.Drawing.Size(1805, 859);
-            this.splitContainer1.SplitterDistance = 327;
+            this.splitContainer1.Size = new System.Drawing.Size(1765, 779);
+            this.splitContainer1.SplitterDistance = 319;
             this.splitContainer1.TabIndex = 3;
             // 
             // splitContainer2
@@ -391,13 +394,13 @@
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.Color.DarkGray;
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer2.Size = new System.Drawing.Size(327, 859);
-            this.splitContainer2.SplitterDistance = 435;
+            this.splitContainer2.Size = new System.Drawing.Size(319, 779);
+            this.splitContainer2.SplitterDistance = 394;
             this.splitContainer2.TabIndex = 0;
             // 
             // splitContainer3
             // 
-            this.splitContainer3.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer3.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer3.Location = new System.Drawing.Point(0, 0);
             this.splitContainer3.Name = "splitContainer3";
@@ -405,19 +408,20 @@
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.BackColor = System.Drawing.Color.DarkGray;
+            this.splitContainer3.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer3.Panel1.Controls.Add(this.splitContainer5);
             // 
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.BackColor = System.Drawing.Color.DarkGray;
             this.splitContainer3.Panel2.Controls.Add(this.tableLayoutPanel1);
-            this.splitContainer3.Size = new System.Drawing.Size(327, 435);
-            this.splitContainer3.SplitterDistance = 387;
+            this.splitContainer3.Size = new System.Drawing.Size(319, 394);
+            this.splitContainer3.SplitterDistance = 350;
             this.splitContainer3.TabIndex = 0;
             // 
             // splitContainer5
             // 
+            this.splitContainer5.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer5.Location = new System.Drawing.Point(0, 0);
             this.splitContainer5.Name = "splitContainer5";
@@ -425,6 +429,7 @@
             // 
             // splitContainer5.Panel1
             // 
+            this.splitContainer5.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer5.Panel1.Controls.Add(this.button2);
             this.splitContainer5.Panel1.Controls.Add(this.button1);
             this.splitContainer5.Panel1.Controls.Add(this.textBox7);
@@ -458,8 +463,8 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
-            this.splitContainer5.Size = new System.Drawing.Size(327, 387);
-            this.splitContainer5.SplitterDistance = 239;
+            this.splitContainer5.Size = new System.Drawing.Size(319, 350);
+            this.splitContainer5.SplitterDistance = 216;
             this.splitContainer5.TabIndex = 0;
             // 
             // button2
@@ -613,13 +618,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1805, 883);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormViewPort";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Carlo ViewPort";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormViewPort_FormClosing);
