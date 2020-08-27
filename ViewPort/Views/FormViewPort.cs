@@ -146,7 +146,11 @@ namespace ViewPort
             dataGridView2.RowHeadersWidth = 30;
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
-                dt.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
+            {
+                 kvp.Value.DeleteCheck = "삭제대기";
+;                dt.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
+            }
+                
         }
         public void Img_txt_Info_Combine()
         {

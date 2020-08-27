@@ -400,8 +400,7 @@ namespace ViewPort.Views
                         }
                         subZip.Dispose();
                     }
-                    //if (Current_Index >= EachPage_ImageNum || Print_Frame.Count <= PF_index)
-                    //   // break;
+                    
                 }
                 zip.Dispose();
 
