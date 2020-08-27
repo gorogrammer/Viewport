@@ -10,10 +10,11 @@ using System.Windows.Forms;
 using ViewPort.Models;
 using System.IO.Compression;
 using System.IO;
+using MetroFramework.Forms;
 
 namespace ViewPort.Views
 {
-    public partial class DeleteWaiting : Form
+    public partial class DeleteWaiting : MetroForm
     {
         
 
@@ -57,7 +58,7 @@ namespace ViewPort.Views
 
             
 
-            cols = 8;
+            cols = 7;
             rows = 5;
             width = 120;
             height = 120;

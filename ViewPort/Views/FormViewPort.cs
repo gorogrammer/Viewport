@@ -345,15 +345,20 @@ namespace ViewPort
 
         private void FormViewPort_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("" + open.DicInfo_Delete.Count + "개의 이미지를 삭제하시겠습니까?", "서버종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if(Waiting_Del.Count > 0)
             {
-                Delete_ZipImg();
-                Dispose(true);
+                if (MessageBox.Show("" + open.DicInfo_Delete.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    Delete_ZipImg();
+                    Dispose(true);
+                }
+             
+
             }
 
-            else
+            else if(MessageBox.Show( "프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                e.Cancel = true;
+                e.Cancel = false;
                 return;
             }
         }
