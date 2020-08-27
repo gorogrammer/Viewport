@@ -327,6 +327,7 @@ namespace ViewPort
             deleteWaiting.ZipFilePath = zipFilePath;
             deleteWaiting.Set_View_Del();
             deleteWaiting.Show();
+           
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -393,6 +394,8 @@ namespace ViewPort
             Dl_PrintList();
             Wait_Del_Print_List();
         }
+
+     
     }
 
 

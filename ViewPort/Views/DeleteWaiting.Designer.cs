@@ -59,6 +59,7 @@
             this.splitContainer1.Size = new System.Drawing.Size(998, 511);
             this.splitContainer1.SplitterDistance = 31;
             this.splitContainer1.TabIndex = 0;
+            this.splitContainer1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DeleteWaiting_KeyDown);
             // 
             // label4
             // 
@@ -74,6 +75,7 @@
             // 
             this.S_Page_TB.Location = new System.Drawing.Point(101, 5);
             this.S_Page_TB.Name = "S_Page_TB";
+            this.S_Page_TB.ReadOnly = true;
             this.S_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.S_Page_TB.TabIndex = 9;
             // 
@@ -81,6 +83,7 @@
             // 
             this.E_Page_TB.Location = new System.Drawing.Point(158, 5);
             this.E_Page_TB.Name = "E_Page_TB";
+            this.E_Page_TB.ReadOnly = true;
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 11;
             // 
@@ -93,7 +96,6 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "DeleteWaiting";
             this.Text = "삭제대기 이미지";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DeleteWaiting_KeyDown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

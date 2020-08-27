@@ -55,6 +55,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zipLoadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.중간저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.저장불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -75,9 +78,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.중간저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.저장불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -363,6 +363,29 @@
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
             this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
             // 
+            // 저장ToolStripMenuItem
+            // 
+            this.저장ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.중간저장ToolStripMenuItem,
+            this.저장불러오기ToolStripMenuItem});
+            this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
+            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.저장ToolStripMenuItem.Text = "저장";
+            // 
+            // 중간저장ToolStripMenuItem
+            // 
+            this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
+            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.중간저장ToolStripMenuItem.Text = "중간 저장";
+            this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
+            // 
+            // 저장불러오기ToolStripMenuItem
+            // 
+            this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
+            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
+            this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -619,29 +642,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // 저장ToolStripMenuItem
-            // 
-            this.저장ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.중간저장ToolStripMenuItem,
-            this.저장불러오기ToolStripMenuItem});
-            this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
-            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.저장ToolStripMenuItem.Text = "저장";
-            // 
-            // 중간저장ToolStripMenuItem
-            // 
-            this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
-            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.중간저장ToolStripMenuItem.Text = "중간 저장";
-            this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
-            // 
-            // 저장불러오기ToolStripMenuItem
-            // 
-            this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
-            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
-            this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
-            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -654,6 +654,7 @@
             this.Text = "Carlo ViewPort";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormViewPort_FormClosing);
+            
             this.tableLayoutPanel1.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);

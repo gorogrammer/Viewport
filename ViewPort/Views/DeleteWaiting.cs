@@ -48,15 +48,17 @@ namespace ViewPort.Views
         public DeleteWaiting() 
         {
             InitializeComponent();
-            
+       
+
+
         }
         public void Set_View_Del()
         {
+            this.KeyPreview = true;
+
             splitContainer1.Panel2.Controls.Clear();
             PictureData.Clear();
 
-
-            
 
             cols = 7;
             rows = 5;
@@ -290,6 +292,8 @@ namespace ViewPort.Views
 
         private void DeleteWaiting_KeyDown(object sender, KeyEventArgs e)
         {
+            this.Focus();
+            this.KeyPreview = true;
             if (e.Control)
             {
                 if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) <= 1)
@@ -352,17 +356,7 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
-            if (dicInfo_Filter_Del.Count <= 0)
-            {
-                for (int i = 0; i < PictureData.Count; i++)
-                {
-                    if (PictureData.ElementAt(i).Image != null)
-                    {
-                        PictureData.ElementAt(i).Image.Dispose();
-                        PictureData.ElementAt(i).Image = null;
-                    }
-                }
-            }
+         
 
 
             if (ZipFilePath != "")
@@ -406,8 +400,8 @@ namespace ViewPort.Views
                         }
                         subZip.Dispose();
                     }
-                    if (Current_Index >= EachPage_ImageNum || Print_Frame.Count <= PF_index)
-                        break;
+                    //if (Current_Index >= EachPage_ImageNum || Print_Frame.Count <= PF_index)
+                    //   // break;
                 }
                 zip.Dispose();
 
@@ -486,6 +480,7 @@ namespace ViewPort.Views
         }
         private void PictureBox_Click(object sender, EventArgs e)
         {
+            this.Focus();
             MouseEventArgs MouseEvent = (MouseEventArgs)e;
             PictureBox PB = (PictureBox)sender;
 
@@ -521,6 +516,7 @@ namespace ViewPort.Views
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+            this.Focus();
             PictureBox PB = (PictureBox)sender;
 
             for (int i = 0; i < Picture_Glass.Count; i++)
@@ -536,16 +532,19 @@ namespace ViewPort.Views
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+            this.Focus();
             splitContainer1_Panel2_MouseMove(sender, e);
         }
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
+            this.Focus();
             splitContainer1_Panel2_MouseUp(sender, e);
             Draged_PB = null;
         }
         private void ImageViewer_PL_MouseDown(object sender, MouseEventArgs e)
         {
+            this.Focus();
             src_Mouse_XY.X = e.X;
             src_Mouse_XY.Y = e.Y;
 

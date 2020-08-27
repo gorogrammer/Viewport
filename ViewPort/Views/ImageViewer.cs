@@ -769,6 +769,7 @@ namespace ViewPort.Views
 
         private void PictureBox_Click(object sender, EventArgs e)
         {
+            this.Focus();
             MouseEventArgs MouseEvent = (MouseEventArgs)e;
             PictureBox PB = (PictureBox)sender;
 
@@ -804,6 +805,7 @@ namespace ViewPort.Views
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+            this.Focus();
             PictureBox PB = (PictureBox)sender;
 
             for (int i = 0; i < Picture_Glass.Count; i++)
@@ -823,7 +825,7 @@ namespace ViewPort.Views
         }
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
-        {
+        {this.Focus();
             ImageViewer_PL_MouseUp(sender, e);
             Draged_PB = null;
         }
