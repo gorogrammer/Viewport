@@ -388,6 +388,10 @@ namespace ViewPort
         private void 저장불러오기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Func.LoadDelFileID(Waiting_Del, dicInfo_Copy);
+            open.DicInfo_Delete = Waiting_Del;
+            open.Load_Del();
+            Dl_PrintList();
+            Wait_Del_Print_List();
         }
     }
 

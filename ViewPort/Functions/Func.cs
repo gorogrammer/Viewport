@@ -244,6 +244,7 @@ namespace ViewPort.Functions
         public static void LoadDelFileID(Dictionary<string, ImageInfo> Waiting_Del, Dictionary<string, ImageInfo> dicInfo)
         {
             FormViewPort Main = new FormViewPort();
+            
             string txtFilePath = string.Empty;
 
             OpenFileDialog loadFile = new OpenFileDialog();

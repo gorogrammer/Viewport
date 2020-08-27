@@ -147,6 +147,21 @@ namespace ViewPort.Views
             InitializeComponent();
         }
 
+        public void Load_Del()
+        {
+            foreach(var key in dicInfo_Delete.Keys.ToList())
+            {
+                dicInfo_Delete[key].DeleteCheck = "삭제대기";
+
+                if (dicInfo_Filter.ContainsKey(key))
+                {
+                    dicInfo_Filter.Remove(key);
+                }
+            }
+            Del_Set_View();
+            
+        }
+
         public void Get_Delete_IMG()
         {
             for(int p = 0; p < Select_Pic.Count; p++)

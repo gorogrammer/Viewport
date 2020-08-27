@@ -41,7 +41,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Location = new System.Drawing.Point(20, 60);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -56,8 +56,8 @@
             this.splitContainer1.Panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseDown);
             this.splitContainer1.Panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseMove);
             this.splitContainer1.Panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseUp);
-            this.splitContainer1.Size = new System.Drawing.Size(1038, 591);
-            this.splitContainer1.SplitterDistance = 36;
+            this.splitContainer1.Size = new System.Drawing.Size(998, 511);
+            this.splitContainer1.SplitterDistance = 31;
             this.splitContainer1.TabIndex = 0;
             // 
             // label4
@@ -92,7 +92,7 @@
             this.ClientSize = new System.Drawing.Size(1038, 591);
             this.Controls.Add(this.splitContainer1);
             this.Name = "DeleteWaiting";
-            this.Text = "Form1";
+            this.Text = "삭제대기 이미지";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DeleteWaiting_KeyDown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
