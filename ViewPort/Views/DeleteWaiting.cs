@@ -19,7 +19,7 @@ namespace ViewPort.Views
         
 
         FormViewPort Main = new FormViewPort();
-        
+        ImageViewer open = new ImageViewer();
 
         List<PictureBox> PictureData = new List<PictureBox>();
         List<PictureBox> Picture_Glass = new List<PictureBox>();
@@ -342,9 +342,10 @@ namespace ViewPort.Views
 
                 }
 
-                Main.Waiting_Del = dicInfo_Filter_Del;
+                Set_View_Del();
                 Select_Pic.Clear();
             }
+
         }
 
         private void Set_Image()
@@ -403,7 +404,7 @@ namespace ViewPort.Views
                     
                 }
                 zip.Dispose();
-
+             
                 for (int i = EachPage_ImageNum; i < (cols * rows); i++)
                 {
                     try
@@ -477,6 +478,15 @@ namespace ViewPort.Views
             }
           
         }
+
+        private void DeleteWaiting_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
+            //Main.Dl_Wait_Del_Print_List();
+        }
+
+      
+
         private void PictureBox_Click(object sender, EventArgs e)
         {
             this.Focus();

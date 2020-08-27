@@ -60,6 +60,7 @@ namespace ViewPort
 
         public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
+        public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
         public string REF_DirPath { get => ref_DirPath; set => ref_DirPath = value; }
         public string DirPath { get => dirPath; set => dirPath = value; }
@@ -147,7 +148,7 @@ namespace ViewPort
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
             {
-                 kvp.Value.DeleteCheck = "삭제대기";
+                 
 ;                dt.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
             }
                 
@@ -159,6 +160,27 @@ namespace ViewPort
                 dicInfo[kvp.Key].sdip_no = kvp.Value.SDIP_No;
                 dicInfo[kvp.Key].sdip_result = kvp.Value.SDIP_Result;
             }
+        }
+
+        public void Dl_Wait_Del_Print_List()
+        {
+
+            int index = 0;
+
+
+            DataTable dt = (DataTable)dataGridView2.DataSource;
+
+
+            for (int i = 0; i < Selected_Pic.Count; i++)
+            {
+                DataRow dr = dt.NewRow();
+                dr = dt.Rows.Find(Selected_Pic[i]);
+                index = dt.Rows.IndexOf(dr);
+                dt.Rows[index].Delete();
+                dt.AcceptChanges();
+
+            }
+
         }
         public void Dl_PrintList()
         {
