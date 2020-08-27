@@ -65,9 +65,9 @@ namespace ViewPort.Views
 
             Current_PageNum = 1;
 
-            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            S_Page_TB.Text = Current_PageNum.ToString();
             Total_PageNum = ((dicInfo_Filter_Del.Count - 1) / (cols * rows)) + 1;
-            Main.E_Page_TB.Text = Total_PageNum.ToString();
+            E_Page_TB.Text = Total_PageNum.ToString();
 
 
             Set_PictureBox();
@@ -300,7 +300,7 @@ namespace ViewPort.Views
                 {
                     Last_Picture_Selected_Index = -1;
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) - 1;
-                    Main.S_Page_TB.Text = Current_PageNum.ToString();
+                    S_Page_TB.Text = Current_PageNum.ToString();
                     Set_Image();
 
 
@@ -318,7 +318,7 @@ namespace ViewPort.Views
                 {
                     Last_Picture_Selected_Index = -1;
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
-                    Main.S_Page_TB.Text = Current_PageNum.ToString();
+                    S_Page_TB.Text = Current_PageNum.ToString();
                     Set_Image();
 
 

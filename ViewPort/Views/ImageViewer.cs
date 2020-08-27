@@ -354,8 +354,8 @@ namespace ViewPort.Views
             BoxRange t_RangeInfo = new BoxRange();
             for (int i = 0; i < (cols * rows); i++)
             {
-                t_RangeInfo.left = (width * (i % (cols))) + ((i % (cols)) * 16) + 16;// + 375;
-                t_RangeInfo.top = (height * (i / cols)) + ((i / cols) * 16) + 16;// + 35;
+                t_RangeInfo.left = (width * (i % (cols))) + ((i % (cols)) * 8) + 8;// + 375;
+                t_RangeInfo.top = (height * (i / cols)) + ((i / cols) * 8) + 8;// + 35;
                 t_RangeInfo.width = width;
                 t_RangeInfo.height = height;
 

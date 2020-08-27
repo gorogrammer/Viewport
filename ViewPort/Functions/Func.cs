@@ -201,5 +201,91 @@ namespace ViewPort.Functions
             return Path.GetFileNameWithoutExtension(str) + "_Img.txt";
         }
 
+        public static void SaveDelFileID( Dictionary<string, ImageInfo> Waiting_Del)
+        {
+
+            string txtFilePath = string.Empty;
+
+            SaveFileDialog saveFile = new SaveFileDialog();
+
+            saveFile.InitialDirectory = Application.StartupPath; ;
+            saveFile.FileName = "Save Waiting Del.txt";
+            
+            saveFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if(File.Exists(saveFile.FileName))
+            {
+                txtFilePath = saveFile.InitialDirectory + "\\" + saveFile.FileName;
+
+                File.Delete(txtFilePath);
+
+                if (saveFile.ShowDialog() == DialogResult.OK)
+                {
+                    
+                    
+                    txtFilePath = saveFile.FileName;
+                    File.WriteAllLines(txtFilePath, Waiting_Del.Keys);
+                }
+
+
+            }
+            else
+            {
+                if (saveFile.ShowDialog() == DialogResult.OK)
+                {
+                    txtFilePath = saveFile.FileName;
+                    File.WriteAllLines(txtFilePath, Waiting_Del.Keys);
+                }
+            }
+
+
+        }
+       
+        public static void LoadDelFileID(Dictionary<string, ImageInfo> Waiting_Del, Dictionary<string, ImageInfo> dicInfo)
+        {
+            FormViewPort Main = new FormViewPort();
+            string txtFilePath = string.Empty;
+
+            OpenFileDialog loadFile = new OpenFileDialog();
+
+            loadFile.InitialDirectory = Application.StartupPath;
+            loadFile.FileName = "*.txt";
+            loadFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            StringBuilder sb = new StringBuilder();
+
+            if (File.Exists("Save Waiting Del.txt"))
+            {
+                if(loadFile.ShowDialog() == DialogResult.OK)
+                {
+                    txtFilePath = loadFile.FileName;
+                    StreamReader SR = new StreamReader(txtFilePath, Encoding.Default);
+                    
+                    string text = SR.ReadToEnd();
+                    string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                    int index = items.Count() - 1;
+                    items = items.Where(s => s != items[index]).ToArray();
+                    
+                   
+
+                    foreach(string ID in items)
+                    {
+                        if (Waiting_Del.ContainsKey(ID))
+                            break;
+                        else
+                        {
+                            Waiting_Del.Add(ID, dicInfo[ID]);
+
+                        }
+                    }
+                        
+
+                }
+
+                Main.Waiting_Del = Waiting_Del;
+               
+            }
+          
+        }
     }
 }

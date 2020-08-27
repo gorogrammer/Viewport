@@ -124,3 +124,36 @@ C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\obj\Deb
 C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\obj\Debug\ViewPort.exe
 C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\obj\Debug\ViewPort.pdb
 C:\Users\metalheedo\Desktop\스템코\0820\gorogrammer\Viewport\ViewPort\obj\Debug\ViewPort.Views.DeleteWaiting.resources
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\ViewPort.exe.config
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\ViewPort.exe
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\ViewPort.pdb
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\MetroFramework.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\microsoft.windowsapicodepack.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\microsoft.windowsapicodepack.shell.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\MySql.Data.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\Google.Protobuf.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\Zstandard.Net.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\Ubiety.Dns.Core.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\Renci.SshNet.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\System.Buffers.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\System.Memory.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\MySql.Data.xml
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\bin\Debug\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.csprojAssemblyReference.cache
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.exe.config
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.Views.DeleteWaiting.resources
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.FormViewPort.resources
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.Properties.Resources.resources
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.Views.ImageViewer.resources
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.csproj.GenerateResource.cache
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.csproj.CopyComplete
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.exe
+C:\Users\metalheedo\Desktop\스템코\새 폴더\Viewport\ViewPort\obj\Debug\ViewPort.pdb

@@ -352,15 +352,42 @@ namespace ViewPort
                     Delete_ZipImg();
                     Dispose(true);
                 }
-             
+                else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    Dispose(true);
+
+                }
+                else
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
 
             }
 
             else if(MessageBox.Show( "프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                e.Cancel = false;
+                Dispose(true);
+                
+            }
+            else
+            {
+                e.Cancel = true;
                 return;
             }
+          
+        }
+
+        private void 중간저장ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Func.SaveDelFileID(Waiting_Del);
+
+        }
+
+        private void 저장불러오기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Func.LoadDelFileID(Waiting_Del, dicInfo_Copy);
         }
     }
 

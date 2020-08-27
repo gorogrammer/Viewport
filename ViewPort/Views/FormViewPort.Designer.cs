@@ -75,6 +75,9 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.중간저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.저장불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -102,9 +105,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(206, 3);
+            this.button1.Location = new System.Drawing.Point(224, 5);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(132, 50);
+            this.button1.Size = new System.Drawing.Size(92, 26);
             this.button1.TabIndex = 13;
             this.button1.Text = "Print Image";
             this.button1.UseVisualStyleBackColor = true;
@@ -337,7 +340,8 @@
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.파일ToolStripMenuItem});
+            this.파일ToolStripMenuItem,
+            this.저장ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1765, 24);
@@ -365,6 +369,7 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(20, 84);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(1);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -469,9 +474,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(223, 61);
+            this.button2.Location = new System.Drawing.Point(224, 37);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(104, 49);
+            this.button2.Size = new System.Drawing.Size(92, 29);
             this.button2.TabIndex = 4;
             this.button2.Text = "삭제대기 확인";
             this.button2.UseVisualStyleBackColor = true;
@@ -483,7 +488,7 @@
             this.Cols_TB.Name = "Cols_TB";
             this.Cols_TB.Size = new System.Drawing.Size(38, 21);
             this.Cols_TB.TabIndex = 1;
-            this.Cols_TB.Text = "8";
+            this.Cols_TB.Text = "11";
             this.Cols_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label2
@@ -566,7 +571,7 @@
             this.Height_TB.ReadOnly = true;
             this.Height_TB.Size = new System.Drawing.Size(38, 21);
             this.Height_TB.TabIndex = 3;
-            this.Height_TB.Text = "175";
+            this.Height_TB.Text = "120";
             this.Height_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Rows_TB
@@ -575,7 +580,7 @@
             this.Rows_TB.Name = "Rows_TB";
             this.Rows_TB.Size = new System.Drawing.Size(38, 21);
             this.Rows_TB.TabIndex = 1;
-            this.Rows_TB.Text = "5";
+            this.Rows_TB.Text = "7";
             this.Rows_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Rows_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Rows_TB_KeyDown);
             // 
@@ -605,7 +610,7 @@
             this.Width_TB.Name = "Width_TB";
             this.Width_TB.Size = new System.Drawing.Size(38, 21);
             this.Width_TB.TabIndex = 2;
-            this.Width_TB.Text = "175";
+            this.Width_TB.Text = "120";
             this.Width_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Width_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Width_TB_KeyDown);
             // 
@@ -613,6 +618,29 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // 저장ToolStripMenuItem
+            // 
+            this.저장ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.중간저장ToolStripMenuItem,
+            this.저장불러오기ToolStripMenuItem});
+            this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
+            this.저장ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.저장ToolStripMenuItem.Text = "저장";
+            // 
+            // 중간저장ToolStripMenuItem
+            // 
+            this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
+            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.중간저장ToolStripMenuItem.Text = "중간 저장";
+            this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
+            // 
+            // 저장불러오기ToolStripMenuItem
+            // 
+            this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
+            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
+            this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
             // 
             // FormViewPort
             // 
@@ -703,6 +731,9 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 저장ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 중간저장ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 저장불러오기ToolStripMenuItem;
     }
 }
 
