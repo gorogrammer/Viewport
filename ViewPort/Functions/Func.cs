@@ -284,7 +284,12 @@ namespace ViewPort.Functions
                 }
 
                 Main.Waiting_Del = Waiting_Del;
-               
+                Main.Load_saveFile();
+            }
+            else
+            {
+                MessageBox.Show("저장 파일이 존재하지 않습니다.");
+                
             }
           
         }

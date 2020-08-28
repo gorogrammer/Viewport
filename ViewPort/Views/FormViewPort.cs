@@ -45,8 +45,7 @@ namespace ViewPort
         List<string> Selected_Pic = new List<string>();
         List<string> Change_state_List = new List<string>();
 
-        private DataTable dt_del;
-        public DataTable Dt_del { get => dt_del; set => dt_del = value; }
+      
         private int _load_State;
         private string dirPath;
         private string zipFilePath;
@@ -414,13 +413,19 @@ namespace ViewPort
         private void 저장불러오기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Func.LoadDelFileID(Waiting_Del, dicInfo_Copy);
-            open.DicInfo_Delete = Waiting_Del;
-            open.Load_Del();
-            Dl_PrintList();
-            Wait_Del_Print_List();
+
+            
+            
         }
 
      
+        public void Load_saveFile()
+        {
+            open.DicInfo_Delete = Waiting_Del;
+            open.Load_Del( );
+            Dl_PrintList();
+            Wait_Del_Print_List();
+        }
     }
 
 
