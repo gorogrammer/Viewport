@@ -241,9 +241,9 @@ namespace ViewPort.Functions
 
         }
        
-        public static void LoadDelFileID(Dictionary<string, ImageInfo> Waiting_Del, Dictionary<string, ImageInfo> dicInfo)
+        public static void LoadDelFileID(FormViewPort parent, Dictionary<string, ImageInfo> Waiting_Del, Dictionary<string, ImageInfo> dicInfo)
         {
-            FormViewPort Main = new FormViewPort();
+            FormViewPort Main = parent;
             
             string txtFilePath = string.Empty;
 

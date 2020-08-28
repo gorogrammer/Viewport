@@ -412,7 +412,7 @@ namespace ViewPort
 
         private void 저장불러오기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Func.LoadDelFileID(Waiting_Del, dicInfo_Copy);
+            Func.LoadDelFileID(this, Waiting_Del, dicInfo_Copy);
 
             
             
