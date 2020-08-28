@@ -45,8 +45,8 @@ namespace ViewPort
         List<string> Selected_Pic = new List<string>();
         List<string> Change_state_List = new List<string>();
 
-
-
+        private DataTable dt_del;
+        public DataTable Dt_del { get => dt_del; set => dt_del = value; }
         private int _load_State;
         private string dirPath;
         private string zipFilePath;
@@ -142,16 +142,17 @@ namespace ViewPort
         public void Wait_Del_Print_List()
         {
 
-            DataTable dt = (DataTable)dataGridView2.DataSource;
-            dt.Rows.Clear();
+            DataTable dt_del = (DataTable)dataGridView2.DataSource;
+            //dt_del.Rows.Clear();
             dataGridView2.RowHeadersWidth = 30;
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
             {
-                 
-;                dt.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
+
+                dt_del.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
             }
-                
+
+            dataGridView2.DataSource = dt_del;
         }
         public void Img_txt_Info_Combine()
         {
@@ -167,20 +168,18 @@ namespace ViewPort
 
             int index = 0;
 
-
-            DataTable dt = (DataTable)dataGridView2.DataSource;
-
+            DataTable dt_del = (DataTable)dataGridView2.DataSource;
 
             for (int i = 0; i < Selected_Pic.Count; i++)
             {
-                DataRow dr = dt.NewRow();
-                dr = dt.Rows.Find(Selected_Pic[i]);
-                index = dt.Rows.IndexOf(dr);
-                dt.Rows[index].Delete();
-                dt.AcceptChanges();
+                DataRow dr = dt_del.NewRow();
+                dr = dt_del.Rows.Find(Selected_Pic[i]);
+                index = dt_del.Rows.IndexOf(dr);
+                dt_del.Rows[index].Delete();
+                dt_del.AcceptChanges();
 
             }
-
+            
         }
         public void Dl_PrintList()
         {
@@ -348,7 +347,7 @@ namespace ViewPort
         private void button2_Click(object sender, EventArgs e)
         {
             Wait_Del_Img_List = open.DicInfo_Delete.Keys.ToList();
-            DeleteWaiting deleteWaiting = new DeleteWaiting();
+            DeleteWaiting deleteWaiting = new DeleteWaiting(this);
             deleteWaiting.Waiting_Img = open.DicInfo_Delete;
             deleteWaiting.ZipFilePath = zipFilePath;
             deleteWaiting.Set_View_Del();

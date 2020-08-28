@@ -16,9 +16,10 @@ namespace ViewPort.Views
 {
     public partial class DeleteWaiting : MetroForm
     {
-        
 
-        FormViewPort Main = new FormViewPort();
+
+        FormViewPort Main;
+            
         ImageViewer open = new ImageViewer();
 
         List<PictureBox> PictureData = new List<PictureBox>();
@@ -45,12 +46,11 @@ namespace ViewPort.Views
         public Dictionary<string, ImageInfo> Waiting_Img { get => dicInfo_Filter_Del; set => dicInfo_Filter_Del = value; }
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
 
-        public DeleteWaiting() 
+        public DeleteWaiting(FormViewPort parent) 
         {
             InitializeComponent();
-       
-
-
+            Main = parent;
+            
         }
         public void Set_View_Del()
         {
@@ -296,7 +296,7 @@ namespace ViewPort.Views
             this.KeyPreview = true;
             if (e.Control)
             {
-                if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) <= 1)
+                if (S_Page_TB.Text == "" || int.Parse(S_Page_TB.Text) <= 1)
                 {
                     MessageBox.Show("첫 페이지 입니다.");
                 }
@@ -314,7 +314,7 @@ namespace ViewPort.Views
             else if (e.Alt)
             {
                 e.Handled = true;
-                if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) >= int.Parse(Main.E_Page_TB.Text))
+                if (S_Page_TB.Text == "" || int.Parse(S_Page_TB.Text) >= int.Parse(E_Page_TB.Text))
                 {
                     MessageBox.Show("마지막 페이지 입니다.");
                 }
@@ -481,8 +481,8 @@ namespace ViewPort.Views
 
         private void DeleteWaiting_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
-            //Main.Dl_Wait_Del_Print_List();
+            Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
+            Main.Dl_Wait_Del_Print_List();
         }
 
       
