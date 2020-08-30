@@ -371,12 +371,24 @@ namespace ViewPort.Views
                     if (Open_ZipName[0].Equals('R'))
                         Open_ZipName = Open_ZipName.Substring(1, Open_ZipName.Length - 1);
 
-                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
+                    if (Current_Index >= dicInfo_Filter_Del.Count)
+                        break;
+
+                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && entry.Name.Contains(dicInfo_Filter_Del[dicInfo_Filter_Del.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename.Substring(1, 5)))
                     {
                         MemoryStream subEntryMS = new MemoryStream();           // 2중 압축파일을 MemoryStream으로 읽는다.
                         entry.Open().CopyTo(subEntryMS);
 
                         ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
+
+                        //for(int i = 0; i <= dicInfo_Delete_Sel.Count; i++)
+                        //{
+                        //    if(subZip.Entries.Equals(dicInfo_Delete_Sel[dicInfo_Delete_Sel.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename.Substring(0,5)))
+                        //    {
+                                
+                        //    }
+
+                        //}
                         foreach (ZipArchiveEntry subEntry in subZip.Entries)       // 2중 압축파일 내에 있는 파일을 탐색
                         {
                             if (Current_Index >= EachPage_ImageNum)
@@ -395,6 +407,7 @@ namespace ViewPort.Views
                                 Current_Index++;
                             }
 
+                            
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
                            

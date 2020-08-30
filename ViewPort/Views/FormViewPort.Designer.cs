@@ -375,14 +375,14 @@
             // 중간저장ToolStripMenuItem
             // 
             this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
-            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.중간저장ToolStripMenuItem.Text = "중간 저장";
             this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
             // 
             // 저장불러오기ToolStripMenuItem
             // 
             this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
-            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
             this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
             // 
@@ -511,7 +511,7 @@
             this.Cols_TB.Name = "Cols_TB";
             this.Cols_TB.Size = new System.Drawing.Size(38, 21);
             this.Cols_TB.TabIndex = 1;
-            this.Cols_TB.Text = "11";
+            this.Cols_TB.Text = "12";
             this.Cols_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label2
@@ -654,7 +654,6 @@
             this.Text = "Carlo ViewPort";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormViewPort_FormClosing);
-            
             this.tableLayoutPanel1.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
