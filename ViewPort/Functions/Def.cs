@@ -33,6 +33,7 @@ namespace ViewPort.Functions
     {
         public const string GRID_IMGNAME = "Image Name";
         public const string GRID_STATE = "state";
+        public const string GRID_SELECT = "select";
     }
 
     public class ZIP_STR

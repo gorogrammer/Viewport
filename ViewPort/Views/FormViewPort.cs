@@ -44,8 +44,8 @@ namespace ViewPort
         List<string> ImageSizeList = new List<string>();
         List<string> Selected_Pic = new List<string>();
         List<string> Change_state_List = new List<string>();
+        int btnColumnIdx;
 
-      
         private int _load_State;
         private string dirPath;
         private string zipFilePath;
@@ -89,8 +89,14 @@ namespace ViewPort
             DataTable dt = new DataTable();
             dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
             dt.Columns.Add(COLUMN_STR.GRID_STATE);
+            
             dt.PrimaryKey = new DataColumn[] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
             dataGridView1.DataSource = dt;
+
+            DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
+            btnColumn.HeaderText = COLUMN_STR.GRID_SELECT;
+            btnColumn.Name = "buttonColumn";
+            btnColumnIdx = dataGridView1.Columns.Add(btnColumn);
 
             DataTable dt_del = new DataTable();
             dt_del.Columns.Add(COLUMN_STR.GRID_IMGNAME);
@@ -132,10 +138,12 @@ namespace ViewPort
 
             dt.Rows.Clear();
             dataGridView1.RowHeadersWidth = 30;
+                                 
 
             foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo)
                 dt.Rows.Add(kvp.Key, kvp.Value.ReviewDefectName);
 
+            
         }
 
         public void Wait_Del_Print_List()

@@ -695,27 +695,6 @@ namespace ViewPort.Views
 
         }
 
-        //private void PictureBox_MouseDown(object sender, MouseEventArgs e)
-        //{
-
-        //    PictureBox PB = (PictureBox)sender;
-
-
-        //    for (int i = 0; i < Picture_Glass.Count; i++)
-        //    {
-        //        if (PB.Image == Picture_Glass.ElementAt(i).Image)
-        //        {
-
-        //            Select_Pic.Add(Picture_Glass.ElementAt(i).Parent.Name);
-
-
-        //            Sel_Pic_Change();
-        //            Cheked_State_DF();
-        //        }
-
-        //    }
-        //    ImageViewer_PL_MouseDown(sender, e);
-        //}
 
   
 
