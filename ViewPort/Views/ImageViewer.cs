@@ -256,7 +256,7 @@ namespace ViewPort.Views
             }
 
             Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
-            Set_Image();
+            change_Glass();
             
 
             src_Mouse_XY.X = -1;
@@ -591,15 +591,32 @@ namespace ViewPort.Views
                 
             }
 
+
+
+            change_Glass();
+
+
+
+
+
+            if (Change_state_List.Count>0)
+                Main.Changeed_State();
+
+        }
+
+
+  
+        public void change_Glass()
+        {
             Rectangle regSelection = new Rectangle();
             Graphics gPic;
 
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
-                
+
                 string temp = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
-               
+
                 Pen pen;
 
                 if (temp.Equals("양품") || temp.Equals("*"))
@@ -614,13 +631,16 @@ namespace ViewPort.Views
 
                 else
                 {
+                    Picture_Glass.ElementAt(i).Image.Dispose();
+                    Picture_Glass.ElementAt(i).Image = new Bitmap(width, height);
+
                     pen = new System.Drawing.Pen(System.Drawing.Color.Red, 3);
                     regSelection.Location = new Point(1, 1);
                     regSelection.Size = new Size(Picture_Glass.ElementAt(i).Image.Width - 3, Picture_Glass.ElementAt(i).Image.Height - 3);
 
 
                     //Select_Pic.Add(Picture_Glass.ElementAt(i).Parent.Name);
-                    
+
                 }
 
                 gPic = Graphics.FromImage(Picture_Glass.ElementAt(i).Image);
@@ -643,7 +663,7 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
-                        
+
                         ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
                     else
                         ImageNameLB[i].Text = "";
@@ -669,10 +689,6 @@ namespace ViewPort.Views
                     PictureData.ElementAt(i).Tag = Color.Red;
                 }
             }
-
-            
-
-
             if (EachPage_ImageNum < 0)
                 EachPage_ImageNum = 0;
 
@@ -689,15 +705,7 @@ namespace ViewPort.Views
                 ImageNameLB[i].Text = "";
                 PictureData.ElementAt(i).Tag = Color.Black;
             }
-
-            if(Change_state_List.Count>0)
-                Main.Changeed_State();
-
         }
-
-
-  
-
         public void Cheked_State_DF()
         {
 
