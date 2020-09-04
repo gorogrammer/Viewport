@@ -240,7 +240,7 @@ namespace ViewPort.Views
 
             foreach (KeyValuePair<string, ImageInfo> kvp in dic_Load)
             {
-                Dt.Rows.Add(kvp.Key, kvp.Value.ReviewDefectName);
+                Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
                 AddProgressBarValueSafe(1);
             }
 

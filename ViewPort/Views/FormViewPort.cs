@@ -141,7 +141,7 @@ namespace ViewPort
                                  
 
             foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo)
-                dt.Rows.Add(kvp.Key, kvp.Value.ReviewDefectName);
+                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
 
             
         }
@@ -219,7 +219,7 @@ namespace ViewPort
             for (int i = 0; i < Change_state_List.Count; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr = dt.Rows.Find(Change_state_List[i]);
+                dr = dt.Rows.Find(dicInfo[Change_state_List[i]].Imagename);
                 index = dt.Rows.IndexOf(dr);
                 if (dicInfo.ContainsKey(Change_state_List[i]))
                     dt.Rows[index][1] = dicInfo[Change_state_List[i]].ReviewDefectName;
