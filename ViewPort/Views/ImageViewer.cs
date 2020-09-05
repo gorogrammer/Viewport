@@ -257,7 +257,9 @@ namespace ViewPort.Views
 
             Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
             change_Glass();
-            
+
+            if (Change_state_List.Count > 0)
+                Main.Changeed_State();
 
             src_Mouse_XY.X = -1;
             src_Mouse_XY.Y = -1;
@@ -599,8 +601,8 @@ namespace ViewPort.Views
 
 
 
-            if (Change_state_List.Count>0)
-                Main.Changeed_State();
+            //if (Change_state_List.Count>0)
+            //    Main.Changeed_State();
 
         }
 

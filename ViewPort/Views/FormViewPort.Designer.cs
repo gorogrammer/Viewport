@@ -78,6 +78,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.Fixed_CB = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -458,6 +459,7 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitContainer5.Panel1.Controls.Add(this.Fixed_CB);
             this.splitContainer5.Panel1.Controls.Add(this.button2);
             this.splitContainer5.Panel1.Controls.Add(this.button1);
             this.splitContainer5.Panel1.Controls.Add(this.textBox7);
@@ -642,6 +644,18 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // Fixed_CB
+            // 
+            this.Fixed_CB.AutoSize = true;
+            this.Fixed_CB.Checked = true;
+            this.Fixed_CB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Fixed_CB.Location = new System.Drawing.Point(194, 6);
+            this.Fixed_CB.Name = "Fixed_CB";
+            this.Fixed_CB.Size = new System.Drawing.Size(15, 14);
+            this.Fixed_CB.TabIndex = 19;
+            this.Fixed_CB.UseVisualStyleBackColor = true;
+            this.Fixed_CB.CheckedChanged += new System.EventHandler(this.Fixed_CB_CheckedChanged);
+            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -734,6 +748,7 @@
         private System.Windows.Forms.ToolStripMenuItem 저장ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 중간저장ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 저장불러오기ToolStripMenuItem;
+        private System.Windows.Forms.CheckBox Fixed_CB;
     }
 }
 

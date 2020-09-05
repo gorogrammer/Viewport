@@ -155,8 +155,11 @@ namespace ViewPort
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
             {
-
-                dt_del.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
+                DataRow dr = dt_del.NewRow();
+                if (dt_del.Rows.Contains(kvp.Key))
+                    continue;
+                else
+                    dt_del.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
             }
 
             dataGridView2.DataSource = dt_del;
@@ -200,7 +203,7 @@ namespace ViewPort
             for (int i = 0; i < Selected_Pic.Count; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr = dt.Rows.Find(Selected_Pic[i]);
+                dr = dt.Rows.Find(Waiting_Del[Selected_Pic[i]].Imagename);
                 index = dt.Rows.IndexOf(dr);
                 dt.Rows[index].Delete();
                 dt.AcceptChanges();
@@ -364,9 +367,16 @@ namespace ViewPort
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            string id = dataGridView1.Rows[e.RowIndex].Cells["Image Name"].Value.ToString();
+            
+            if(e.ColumnIndex == 0)
+            {
+                string id = dataGridView1.Rows[e.RowIndex].Cells["Image Name"].Value.ToString().Substring(0,12);
 
-            open.SelectGrid_Img_View(id);
+                open.SelectGrid_Img_View(id);
+
+            }
+            
+           
         }
 
         private void Delete_ZipImg()
@@ -433,6 +443,17 @@ namespace ViewPort
             open.Load_Del( );
             Dl_PrintList();
             Wait_Del_Print_List();
+        }
+
+        private void Fixed_CB_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Fixed_CB.Checked == true)
+            {
+                Height_TB.Enabled = false;
+                Height_TB.Text = Width_TB.Text;
+            }
+            else
+                Height_TB.Enabled = true;
         }
     }
 

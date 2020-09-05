@@ -31,6 +31,7 @@ namespace ViewPort.Views
         List<string> Select_Pic = new List<string>();
         Dictionary<string, ImageInfo> dicInfo_Filter_Del = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Delete_Sel = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         int cols, rows, width, height;
         int Current_PageNum, Total_PageNum;
         Point src_Mouse_XY, dst_Mouse_XY;
@@ -61,7 +62,7 @@ namespace ViewPort.Views
 
 
             cols = 7;
-            rows = 5;
+            rows = 3;
             width = 120;
             height = 120;
 
@@ -357,9 +358,9 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
-         
-
-
+            Sorted_dic= dicInfo_Filter_Del.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value );
+            
+            
             if (ZipFilePath != "")
             {
                 zip = ZipFile.Open(ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
@@ -374,40 +375,45 @@ namespace ViewPort.Views
                     if (Current_Index >= dicInfo_Filter_Del.Count)
                         break;
 
-                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && entry.Name.Contains(dicInfo_Filter_Del[dicInfo_Filter_Del.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename.Substring(1, 5)))
+                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && entry.Name.Contains(Sorted_dic[Sorted_dic.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename.Substring(1, 5)))
                     {
                         MemoryStream subEntryMS = new MemoryStream();           // 2중 압축파일을 MemoryStream으로 읽는다.
                         entry.Open().CopyTo(subEntryMS);
 
                         ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
-                        //for(int i = 0; i <= dicInfo_Delete_Sel.Count; i++)
+                        //for (int i = 0; i < dicInfo_Delete_Sel.Count; i++)
                         //{
-                        //    if(subZip.Entries.Equals(dicInfo_Delete_Sel[dicInfo_Delete_Sel.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename.Substring(0,5)))
+                        //    if (subZip.Entries.Equals(dicInfo_Delete_Sel[dicInfo_Delete_Sel.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename.Substring(0, 5)))
                         //    {
-                                
+
                         //    }
 
                         //}
+
+                
+
+
+
                         foreach (ZipArchiveEntry subEntry in subZip.Entries)       // 2중 압축파일 내에 있는 파일을 탐색
                         {
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
-                            if (Current_Index >= dicInfo_Filter_Del.Count)
+                            if (Current_Index >= Sorted_dic.Count)
                                 break;
-                            if (subEntry.Name.Equals(dicInfo_Filter_Del[dicInfo_Filter_Del.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename+".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                            if (subEntry.Name.Equals(Sorted_dic[Sorted_dic.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename+".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
                             {
                                 tmp_Img = new Bitmap(subEntry.Open());
 
                                 //방향
-
+                                
                                 PictureData.ElementAt(Current_Index).Image = tmp_Img;
-                                PictureData.ElementAt(Current_Index).Name = dicInfo_Filter_Del.Keys.ElementAt(S_ImageIndex + Current_Index);
+                                PictureData.ElementAt(Current_Index).Name = Sorted_dic.Keys.ElementAt(S_ImageIndex + Current_Index);
 
                                 Current_Index++;
                             }
+                          
 
-                            
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
                            

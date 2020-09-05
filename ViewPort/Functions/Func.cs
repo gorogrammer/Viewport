@@ -205,11 +205,11 @@ namespace ViewPort.Functions
         {
 
             string txtFilePath = string.Empty;
-
+            string Lot_Name = Waiting_Del.Values.ElementAt(0).LotID;
             SaveFileDialog saveFile = new SaveFileDialog();
 
             saveFile.InitialDirectory = Application.StartupPath; ;
-            saveFile.FileName = "Save Waiting Del.txt";
+            saveFile.FileName = Lot_Name + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
             
             saveFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
 
