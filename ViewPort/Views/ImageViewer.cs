@@ -205,6 +205,7 @@ namespace ViewPort.Views
             
             //Main.GetDicinfo(dicInfo_Filter);
             dicInfo_Filter = Main.DicInfo;
+        
 
             cols = int.Parse(Main.Cols_TB.Text);
             rows = int.Parse(Main.Rows_TB.Text);

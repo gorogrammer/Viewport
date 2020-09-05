@@ -187,7 +187,7 @@ namespace ViewPort
                 index = dt_del.Rows.IndexOf(dr);
                 dt_del.Rows[index].Delete();
                 dt_del.AcceptChanges();
-
+                
             }
             
         }

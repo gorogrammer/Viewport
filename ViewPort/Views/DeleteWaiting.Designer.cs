@@ -32,6 +32,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
             this.E_Page_TB = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.Delete_wait_img_bt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -47,6 +49,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.Delete_wait_img_bt);
+            this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.label4);
             this.splitContainer1.Panel1.Controls.Add(this.S_Page_TB);
             this.splitContainer1.Panel1.Controls.Add(this.E_Page_TB);
@@ -86,6 +90,26 @@
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 11;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(676, 4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "Update";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // Delete_wait_img_bt
+            // 
+            this.Delete_wait_img_bt.Location = new System.Drawing.Point(582, 4);
+            this.Delete_wait_img_bt.Name = "Delete_wait_img_bt";
+            this.Delete_wait_img_bt.Size = new System.Drawing.Size(75, 23);
+            this.Delete_wait_img_bt.TabIndex = 20;
+            this.Delete_wait_img_bt.Text = "Delete";
+            this.Delete_wait_img_bt.UseVisualStyleBackColor = true;
+            this.Delete_wait_img_bt.Click += new System.EventHandler(this.Delete_wait_img_bt_Click);
+            // 
             // DeleteWaiting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -111,5 +135,7 @@
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.TextBox S_Page_TB;
         public System.Windows.Forms.TextBox E_Page_TB;
+        private System.Windows.Forms.Button Delete_wait_img_bt;
+        private System.Windows.Forms.Button button1;
     }
 }

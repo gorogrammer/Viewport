@@ -227,6 +227,7 @@ namespace ViewPort.Views
             src_Mouse_XY.Y = -1;
             dst_Mouse_XY.X = -1;
             dst_Mouse_XY.Y = -1;
+            this.Focus();
         }
         private void Find_Contain_PB(Point Src, Point Dst)
         {
@@ -293,7 +294,7 @@ namespace ViewPort.Views
 
         private void DeleteWaiting_KeyDown(object sender, KeyEventArgs e)
         {
-            this.Focus();
+            
             this.KeyPreview = true;
             if (e.Control)
             {
@@ -500,11 +501,31 @@ namespace ViewPort.Views
 
         private void DeleteWaiting_FormClosing(object sender, FormClosingEventArgs e)
         {
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
             Main.Dl_Wait_Del_Print_List();
         }
 
-      
+        private void Delete_wait_img_bt_Click(object sender, EventArgs e)
+        {
+            Get_Delete_IMG();
+
+            for (int i = 0; i < Select_Pic.Count; i++)
+            {
+                if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
+                {
+                    dicInfo_Filter_Del.Remove(Select_Pic[i]);
+                }
+
+            }
+
+            Set_View_Del();
+            Select_Pic.Clear();
+        }
 
         private void PictureBox_Click(object sender, EventArgs e)
         {
