@@ -27,6 +27,7 @@ namespace ViewPort.Views
         List<string> Select_Pic = new List<string>();
         Dictionary<string, ImageInfo> dicInfo_Filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Delete = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
 
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
@@ -164,6 +165,7 @@ namespace ViewPort.Views
 
         public void Get_Delete_IMG()
         {
+            
             for(int p = 0; p < Select_Pic.Count; p++)
             {
                 if(dicInfo_Filter.ContainsKey(Select_Pic[p]))
@@ -493,7 +495,8 @@ namespace ViewPort.Views
 
         }
 
-        private void Set_Image()
+     
+        public void Set_Image()
         {
             Bitmap tmp_Img = null;
 
@@ -501,6 +504,7 @@ namespace ViewPort.Views
             int S_ImageIndex = (cols * rows) * (Current_PageNum - 1);
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
+           
 
             if (dicInfo_Filter.Count <= 0)
             {
@@ -550,6 +554,9 @@ namespace ViewPort.Views
                         entry.Open().CopyTo(subEntryMS);
 
                         ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
+
+
+                        subZip.Entries.OrderBy(x => x.Name);
                         foreach (ZipArchiveEntry subEntry in subZip.Entries)       // 2중 압축파일 내에 있는 파일을 탐색
                         {
                             if (Current_Index >= EachPage_ImageNum)

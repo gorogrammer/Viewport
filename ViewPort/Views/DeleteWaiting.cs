@@ -29,8 +29,10 @@ namespace ViewPort.Views
         List<int> Selected_Picture_Index = new List<int>();
         PictureBox Draged_PB;
         List<string> Select_Pic = new List<string>();
+   
         Dictionary<string, ImageInfo> dicInfo_Filter_Del = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Delete_Sel = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> dicInfo_Delete_Return = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         int cols, rows, width, height;
         int Current_PageNum, Total_PageNum;
@@ -44,6 +46,8 @@ namespace ViewPort.Views
         string zipFilePath = null;
         List<string> Change_state_List = new List<string>();
 
+        public List<string> Return_Img { get => Select_Pic; set => Select_Pic = value; }
+        
         public Dictionary<string, ImageInfo> Waiting_Img { get => dicInfo_Filter_Del; set => dicInfo_Filter_Del = value; }
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
 
@@ -375,6 +379,8 @@ namespace ViewPort.Views
 
                     if (Current_Index >= dicInfo_Filter_Del.Count)
                         break;
+                    if (S_ImageIndex + Current_Index >= Sorted_dic.Count)
+                        break;
 
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && entry.Name.Contains(Sorted_dic[Sorted_dic.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename.Substring(1, 5)))
                     {
@@ -383,18 +389,9 @@ namespace ViewPort.Views
 
                         ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
-                        //for (int i = 0; i < dicInfo_Delete_Sel.Count; i++)
-                        //{
-                        //    if (subZip.Entries.Equals(dicInfo_Delete_Sel[dicInfo_Delete_Sel.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename.Substring(0, 5)))
-                        //    {
-
-                        //    }
-
-                        //}
-
-                
 
 
+                        
 
                         foreach (ZipArchiveEntry subEntry in subZip.Entries)       // 2중 압축파일 내에 있는 파일을 탐색
                         {
@@ -402,6 +399,9 @@ namespace ViewPort.Views
                                 break;
                             if (Current_Index >= Sorted_dic.Count)
                                 break;
+                            if (S_ImageIndex + Current_Index >= Sorted_dic.Count)
+                                break;
+
                             if (subEntry.Name.Equals(Sorted_dic[Sorted_dic.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename+".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
                             {
                                 tmp_Img = new Bitmap(subEntry.Open());
@@ -446,6 +446,9 @@ namespace ViewPort.Views
                     break;
 
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
+
+                if (index >= dicInfo_Filter_Del.Count)
+                    break;
 
                 string temp = dicInfo_Filter_Del[dicInfo_Filter_Del.Keys.ElementAt(index)].DeleteCheck;
 
@@ -507,22 +510,33 @@ namespace ViewPort.Views
         private void button1_Click(object sender, EventArgs e)
         {
             Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
+
             Main.Dl_Wait_Del_Print_List();
+            Main.Return_Img_Print();
+            
         }
 
         private void Delete_wait_img_bt_Click(object sender, EventArgs e)
         {
             Get_Delete_IMG();
-
+            
             for (int i = 0; i < Select_Pic.Count; i++)
             {
                 if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
                 {
+                    dicInfo_Filter_Del[Select_Pic[i]].ReviewDefectName = "양품";
+                    dicInfo_Filter_Del[Select_Pic[i]].DeleteCheck = "0";
+                    Main.DicInfo.Add(Select_Pic[i], dicInfo_Filter_Del[Select_Pic[i]]);
+
+                    Main.selected_Pic.Add(Select_Pic[i]);
                     dicInfo_Filter_Del.Remove(Select_Pic[i]);
                 }
+                
 
             }
 
+            
+           
             Set_View_Del();
             Select_Pic.Clear();
         }

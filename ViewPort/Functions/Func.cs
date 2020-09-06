@@ -254,9 +254,8 @@ namespace ViewPort.Functions
             loadFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
 
             StringBuilder sb = new StringBuilder();
-
-            if (File.Exists("Save Waiting Del.txt"))
-            {
+            
+           
                 if(loadFile.ShowDialog() == DialogResult.OK)
                 {
                     txtFilePath = loadFile.FileName;
@@ -286,12 +285,6 @@ namespace ViewPort.Functions
                 Main.Waiting_Del = Waiting_Del;
                 Main.Load_saveFile();
             }
-            else
-            {
-                MessageBox.Show("저장 파일이 존재하지 않습니다.");
-                
-            }
           
-        }
     }
 }

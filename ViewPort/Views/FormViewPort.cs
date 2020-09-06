@@ -45,7 +45,7 @@ namespace ViewPort
         List<string> Selected_Pic = new List<string>();
         List<string> Change_state_List = new List<string>();
         int btnColumnIdx;
-
+        Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         private int _load_State;
         private string dirPath;
         private string zipFilePath;
@@ -146,6 +146,30 @@ namespace ViewPort
             
         }
 
+        public void Return_Img_Print()
+        {
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+           
+            dataGridView1.RowHeadersWidth = 30;
+
+            for(int i = 0; i < selected_Pic.Count; i++)
+            {
+                if (dt.Rows.Contains(selected_Pic[i]))
+                    continue;
+                else
+                    dt.Rows.Add(dicInfo[selected_Pic[i]].Imagename, dicInfo[selected_Pic[i]].ReviewDefectName);
+            }
+
+            dt.DefaultView.Sort = "Image Name";
+            selected_Pic.Clear();
+            Sorted_dic = dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            DicInfo = Sorted_dic;
+            open.DicInfo_Filtered = DicInfo;
+
+            open.Set_Image();
+
+        }
         public void Wait_Del_Print_List()
         {
 
@@ -189,6 +213,7 @@ namespace ViewPort
                 dt_del.AcceptChanges();
                 
             }
+            
             
         }
         public void Dl_PrintList()
