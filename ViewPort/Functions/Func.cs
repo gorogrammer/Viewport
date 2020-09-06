@@ -33,7 +33,7 @@ namespace ViewPort.Functions
                     for (int i = 0; i < items.Length - 2; i++)
                     {
                         string[] dic_ready = items[i + 1].Split(',');
-                        dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품"));
+                        dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품","0","0"));
 
                     }
 
@@ -103,7 +103,7 @@ namespace ViewPort.Functions
 
                                 //ImageDatabase.Add(new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
                                 //dicInfo.Add(File_ID, new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
-                                dicInfo.TryAdd(File_ID, new ImageInfo(Lot_ID, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품","O"));
+                                dicInfo.TryAdd(File_ID, new ImageInfo(Lot_ID, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품","O","0","0"));
 
                             }
                         }
@@ -199,6 +199,15 @@ namespace ViewPort.Functions
         public static string GetLotNameFromPath(string str)
         {
             return Path.GetFileNameWithoutExtension(str) + "_Img.txt";
+        }
+
+        public static string GetXYFromPath(string str)
+        {
+            return Path.GetFileNameWithoutExtension(str) + "_XY.txt";
+        }
+        public static string GetMapFromPath(string str)
+        {
+            return Path.GetFileNameWithoutExtension(str) + ".txt";
         }
 
         public static void SaveDelFileID( Dictionary<string, ImageInfo> Waiting_Del)

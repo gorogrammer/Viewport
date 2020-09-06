@@ -38,6 +38,7 @@ namespace ViewPort
         List<string> All_LotID_List = new List<string>();
         List<string> All_VerifyDF_List = new List<string>();
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
+        List<string> MAP_LIST = new List<string>();
 
         List<string> Wait_Del_Img_List = new List<string>();
         List<string> Selected_Equipment_DF_List = new List<string>();
@@ -320,6 +321,7 @@ namespace ViewPort
             dicTxt_info = formLoading.DicTxt_info;
             All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
             All_LotID_List = formLoading.All_LotID_List;
+            MAP_LIST = formLoading.Map_List;
 
             dataGridView1.DataSource = formLoading.Dt;
             dataGridView1.RowHeadersWidth = 30;

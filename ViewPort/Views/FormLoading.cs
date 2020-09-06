@@ -25,11 +25,13 @@ namespace ViewPort.Views
         private List<string> all_LotID_List;
         private List<string> all_VerifyDF_List;
         private List<Tuple<string, int>> all_Equipment_DF_List;
+        private List<string> map_List;
 
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
+        public List<string> Map_List { get => map_List; set => map_List = value; }
         public List<Tuple<string, int>> All_Equipment_DF_List { get => all_Equipment_DF_List; set => all_Equipment_DF_List = value; }
         public DataTable Dt { get => dt; set => dt = value; }
 
@@ -123,6 +125,7 @@ namespace ViewPort.Views
             All_LotID_List = new List<string>();
             All_Equipment_DF_List = new List<Tuple<string, int>>();
             All_VerifyDF_List = new List<string>();
+            Map_List = new List<string>();
 
             InitializeComponent();
 
@@ -151,6 +154,9 @@ namespace ViewPort.Views
 
             EditFormNameSafe(MSG_STR.LOAD_SDIP_TXT);
             LoadTxtAsync(FilePath);
+
+            Load_XY_TxtAsync(FilePath);
+            Load_Map_TxtAsync(FilePath);
 
             EditFormNameSafe(MSG_STR.LOAD_ROWS);
             MakeDataTables();
@@ -196,7 +202,7 @@ namespace ViewPort.Views
                     All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
 
                 }
-                Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품","O"));
+                Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품","O","0","0"));
             }
 
             subZip.Dispose();
@@ -223,9 +229,71 @@ namespace ViewPort.Views
                 for (int i = 0; i < items.Length - 2; i++)
                 {
                     string[] dic_ready = items[i + 1].Split(',');
-                    dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품"));
+                    dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0"));
                 }
             }
+        }
+
+        private void Load_XY_TxtAsync(string FilePath)
+        {
+            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+            {
+                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetXYFromPath(FilePath));
+
+                if (ImgEntry == null)
+                {
+                    MessageBox.Show(MSG_STR.NONE_XY_TXT);
+                    return;
+                }
+
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                string text = SR.ReadToEnd();
+                string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                
+
+                for (int i = 0; i < items.Length - 4; i++)
+                {
+                    string[] dic_ready = items[i + 3].Split(',');
+                    dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
+                    dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
+                    
+                }
+            }
+            
+        }
+
+        private void Load_Map_TxtAsync(string FilePath)
+        {
+            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+            {
+                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetMapFromPath(FilePath));
+
+                if (ImgEntry == null)
+                {
+                    MessageBox.Show(MSG_STR.NONE_XY_TXT);
+                    return;
+                }
+
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                string text = SR.ReadToEnd();
+                
+                string[] items = text.Split(' ');
+
+
+                for (int i = 0; i < items.Length; i++)
+                {
+                    if(items[i].Length <= 9 && items[i].Length > 5)
+                        Map_List.Add(items[i]);
+
+                }
+                if(Map_List[Map_List.Count-1].Contains("E@"))
+                {
+                   string change =  Map_List[Map_List.Count - 1].Replace("E@", "");
+                   Map_List[Map_List.Count - 1] = change;
+
+                }
+            }
+
         }
 
         private void MakeDataTables()
