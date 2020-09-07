@@ -211,7 +211,7 @@ namespace ViewPort
                 dr = dt_del.Rows.Find(Selected_Pic[i]);
                 index = dt_del.Rows.IndexOf(dr);
                 dt_del.Rows[index].Delete();
-                dt_del.AcceptChanges();
+                //dt_del.AcceptChanges();
                 
             }
             
@@ -232,7 +232,7 @@ namespace ViewPort
                 dr = dt.Rows.Find(Waiting_Del[Selected_Pic[i]].Imagename);
                 index = dt.Rows.IndexOf(dr);
                 dt.Rows[index].Delete();
-                dt.AcceptChanges();
+                //dt.AcceptChanges();
 
             }
         }
@@ -253,7 +253,7 @@ namespace ViewPort
                 if (dicInfo.ContainsKey(Change_state_List[i]))
                     dt.Rows[index][1] = dicInfo[Change_state_List[i]].ReviewDefectName;
 
-                dt.AcceptChanges();
+                //dt.AcceptChanges();
             }
         }
 

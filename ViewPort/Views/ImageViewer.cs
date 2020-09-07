@@ -37,6 +37,7 @@ namespace ViewPort.Views
         int Current_PageNum, Total_PageNum;
         int Last_Picture_Selected_Index;        // -3 : 리스트 전체 선택,  -2 : 다중 선택, -1 : 미선택, 그 외, 선택한 Image Index
         int EachPage_ImageNum;
+        List<string> imglist = new List<string>();
 
         Point src_Mouse_XY, dst_Mouse_XY;
 
@@ -146,6 +147,7 @@ namespace ViewPort.Views
         public ImageViewer(FormViewPort mainForm)
         {
             InitializeComponent();
+            
         }
 
         public void Load_Del()
@@ -505,7 +507,11 @@ namespace ViewPort.Views
             int S_ImageIndex = (cols * rows) * (Current_PageNum - 1);
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
-           
+            
+            if(imglist.Count>0)
+                imglist.Clear();
+            
+            imglist = dicInfo_Filter.Keys.ToList();
 
             if (dicInfo_Filter.Count <= 0)
             {
@@ -556,15 +562,40 @@ namespace ViewPort.Views
 
                         ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
+                        //for (int i = 0; i < cols * rows; i++)
+                        //{
+                        //    ZipArchiveEntry findedEntry = subZip.Entries.First(x => x.Name == dicInfo_Filter[imglist[S_ImageIndex + i]].Imagename + ".jpg");
+                        //    if (findedEntry == null)
+                        //        continue;
+                        //    else
+                        //    {
+                        //        tmp_Img = new Bitmap(findedEntry.Open());
+
+                        //        //방향
+
+                        //        PictureData.ElementAt(Current_Index).Image = tmp_Img;
+                        //        PictureData.ElementAt(Current_Index).Name = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
+
+                        //        Current_Index++;
+                        //    }
+
+                        //    if (Current_Index >= EachPage_ImageNum)
+                        //        break;
+                        //    if (!dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index).Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
+                        //    {
+                        //        PF_index++;
+                        //        break;
+                        //    }
+                        //}
                         var sub =
                                             from ent in subZip.Entries
                                             orderby ent.Name
                                             select ent;
-                        
-                       
+
+
                         foreach (ZipArchiveEntry subEntry in sub)       // 2중 압축파일 내에 있는 파일을 탐색
                         {
-                            if(dicInfo_Filter.ContainsKey(subEntry.Name.Substring(0,12)))
+                            if (dicInfo_Filter.ContainsKey(subEntry.Name.Substring(0, 12)))
                             {
 
                             }
@@ -578,7 +609,7 @@ namespace ViewPort.Views
 
                                 PictureData.ElementAt(Current_Index).Image = tmp_Img;
                                 PictureData.ElementAt(Current_Index).Name = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
-                                
+
                                 Current_Index++;
                             }
 
@@ -711,19 +742,7 @@ namespace ViewPort.Views
             if (EachPage_ImageNum < 0)
                 EachPage_ImageNum = 0;
 
-            for (int i = EachPage_ImageNum; i < cols * rows; i++)
-            {
-                Picture_Glass.ElementAt(i).Image.Dispose();
-                Picture_Glass.ElementAt(i).Image = new Bitmap(width, height);
-
-                Pen pen = new System.Drawing.Pen(System.Drawing.Color.Black, 1);
-                regSelection.Location = new Point(0, 0);
-                regSelection.Size = new Size(Picture_Glass.ElementAt(i).Image.Width - 1, Picture_Glass.ElementAt(i).Image.Height - 1);
-
-                DefectState[i].Text = "";
-                ImageNameLB[i].Text = "";
-                PictureData.ElementAt(i).Tag = Color.Black;
-            }
+    
         }
         public void Cheked_State_DF()
         {

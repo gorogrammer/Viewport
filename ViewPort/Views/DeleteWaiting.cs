@@ -309,7 +309,7 @@ namespace ViewPort.Views
                 else
                 {
                     Last_Picture_Selected_Index = -1;
-                    Current_PageNum = int.Parse(Main.S_Page_TB.Text) - 1;
+                    Current_PageNum = int.Parse(this.S_Page_TB.Text) - 1;
                     S_Page_TB.Text = Current_PageNum.ToString();
                     Set_Image();
 
@@ -327,7 +327,7 @@ namespace ViewPort.Views
                 else
                 {
                     Last_Picture_Selected_Index = -1;
-                    Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
+                    Current_PageNum = int.Parse(this.S_Page_TB.Text) + 1;
                     S_Page_TB.Text = Current_PageNum.ToString();
                     Set_Image();
 
