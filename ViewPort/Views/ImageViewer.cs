@@ -207,7 +207,8 @@ namespace ViewPort.Views
             
             //Main.GetDicinfo(dicInfo_Filter);
             dicInfo_Filter = Main.DicInfo;
-        
+            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            DicInfo_Filtered = Sorted_dic;
 
             cols = int.Parse(Main.Cols_TB.Text);
             rows = int.Parse(Main.Rows_TB.Text);
@@ -555,10 +556,18 @@ namespace ViewPort.Views
 
                         ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
-
-                        subZip.Entries.OrderBy(x => x.Name);
-                        foreach (ZipArchiveEntry subEntry in subZip.Entries)       // 2중 압축파일 내에 있는 파일을 탐색
+                        var sub =
+                                            from ent in subZip.Entries
+                                            orderby ent.Name
+                                            select ent;
+                        
+                       
+                        foreach (ZipArchiveEntry subEntry in sub)       // 2중 압축파일 내에 있는 파일을 탐색
                         {
+                            if(dicInfo_Filter.ContainsKey(subEntry.Name.Substring(0,12)))
+                            {
+
+                            }
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
                             if (subEntry.Name.Equals(dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )

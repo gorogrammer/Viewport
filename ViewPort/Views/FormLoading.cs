@@ -254,8 +254,12 @@ namespace ViewPort.Views
                 for (int i = 0; i < items.Length - 4; i++)
                 {
                     string[] dic_ready = items[i + 3].Split(',');
-                    dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
-                    dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
+                    if(dicTxt_info.ContainsKey(dic_ready[0].Substring(0, 12)))
+                    {
+                        dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
+                        dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
+                    }
+                    
                     
                 }
             }

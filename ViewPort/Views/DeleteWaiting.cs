@@ -390,10 +390,13 @@ namespace ViewPort.Views
                         ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
 
+                        var sub =
+                                        from ent in subZip.Entries
+                                        orderby ent.Name
+                                        select ent;
 
-                        
 
-                        foreach (ZipArchiveEntry subEntry in subZip.Entries)       // 2중 압축파일 내에 있는 파일을 탐색
+                        foreach (ZipArchiveEntry subEntry in sub)       // 2중 압축파일 내에 있는 파일을 탐색
                         {
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
@@ -526,7 +529,7 @@ namespace ViewPort.Views
                 {
                     dicInfo_Filter_Del[Select_Pic[i]].ReviewDefectName = "양품";
                     dicInfo_Filter_Del[Select_Pic[i]].DeleteCheck = "0";
-                    Main.DicInfo.Add(Select_Pic[i], dicInfo_Filter_Del[Select_Pic[i]]);
+                    Main.DicInfo[Select_Pic[i]] = dicInfo_Filter_Del[Select_Pic[i]];
 
                     Main.selected_Pic.Add(Select_Pic[i]);
                     dicInfo_Filter_Del.Remove(Select_Pic[i]);
