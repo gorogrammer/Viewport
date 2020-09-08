@@ -516,7 +516,10 @@ namespace ViewPort.Views
 
             Main.Dl_Wait_Del_Print_List();
             Main.Return_Img_Print();
-            
+            dicInfo_Delete_Sel.Clear();
+
+
+
         }
 
         private void Delete_wait_img_bt_Click(object sender, EventArgs e)
@@ -531,7 +534,7 @@ namespace ViewPort.Views
                     dicInfo_Filter_Del[Select_Pic[i]].DeleteCheck = "0";
                     Main.DicInfo[Select_Pic[i]] = dicInfo_Filter_Del[Select_Pic[i]];
 
-                    Main.selected_Pic.Add(Select_Pic[i]);
+                    //Main.selected_Pic.Add(Select_Pic[i]);
                     dicInfo_Filter_Del.Remove(Select_Pic[i]);
                 }
                 

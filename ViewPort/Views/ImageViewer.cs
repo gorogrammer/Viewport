@@ -137,7 +137,9 @@ namespace ViewPort.Views
                 Main.Dl_PrintList();
                 Main.Wait_Del_Print_List();
                 Eq_cb_need_del = new List<string>(Select_Pic);
+                
                 Select_Pic.Clear();
+                //Eq_cb_need_del.Clear();
             }
         }
        
@@ -257,6 +259,35 @@ namespace ViewPort.Views
             this.Focus();
         }
 
+        public void Eq_CB_Set_View_ING()
+        {
+            this.Controls.Clear();
+            PictureData.Clear();
+
+
+            dicInfo_Filter = Main.Return_dicInfo;
+            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            DicInfo_Filtered = Sorted_dic;
+            Eq_cb_need_del = Main.selected_Pic;
+           
+
+            cols = int.Parse(Main.Cols_TB.Text);
+            rows = int.Parse(Main.Rows_TB.Text);
+            width = int.Parse(Main.Width_TB.Text);
+            height = int.Parse(Main.Height_TB.Text);
+
+            Current_PageNum = 1;
+
+
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+            Set_PictureBox();
+            Set_Image();
+            Last_Picture_Selected_Index = -1;
+            this.Focus();
+        }
         public void Filter_CB_after_Set_View()
         {
             this.Controls.Clear();
@@ -385,8 +416,8 @@ namespace ViewPort.Views
                 Change_state_List.Add(dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index));
 
             }
-            
 
+            
         }
         public void Del_Set_View()
         {
@@ -617,31 +648,7 @@ namespace ViewPort.Views
 
                         ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
-                        //for (int i = 0; i < cols * rows; i++)
-                        //{
-                        //    ZipArchiveEntry findedEntry = subZip.Entries.First(x => x.Name == dicInfo_Filter[imglist[S_ImageIndex + i]].Imagename + ".jpg");
-                        //    if (findedEntry == null)
-                        //        continue;
-                        //    else
-                        //    {
-                        //        tmp_Img = new Bitmap(findedEntry.Open());
-
-                        //        //방향
-
-                        //        PictureData.ElementAt(Current_Index).Image = tmp_Img;
-                        //        PictureData.ElementAt(Current_Index).Name = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
-
-                        //        Current_Index++;
-                        //    }
-
-                        //    if (Current_Index >= EachPage_ImageNum)
-                        //        break;
-                        //    if (!dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index).Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
-                        //    {
-                        //        PF_index++;
-                        //        break;
-                        //    }
-                        //}
+                    
                         var sub =
                                             from ent in subZip.Entries
                                             orderby ent.Name

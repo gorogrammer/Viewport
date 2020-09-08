@@ -31,6 +31,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> dicInfo_Copy = new Dictionary<string, ImageInfo>();
         Dictionary<string, txtInfo> dicTxt_info = new Dictionary<string, txtInfo>();
         Dictionary<string, ImageInfo> dicInfo_Waiting_Del = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> return_dicInfo = new Dictionary<string, ImageInfo>();
         string[] dic_ready = null;
 
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
@@ -40,6 +41,8 @@ namespace ViewPort
         List<string> All_VerifyDF_List = new List<string>();
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
         List<string> MAP_LIST = new List<string>();
+
+        List<string> Eq_Filter_Select_Key_List = new List<string>();
 
         List<string> Wait_Del_Img_List = new List<string>();
         List<string> Selected_Equipment_DF_List = new List<string>();
@@ -59,6 +62,7 @@ namespace ViewPort
             set { dicInfo = value; }
         }
         public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
+        public Dictionary<string, ImageInfo> Return_dicInfo { get => return_dicInfo; set => return_dicInfo = value; }
         public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
         public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
@@ -164,11 +168,13 @@ namespace ViewPort
         {
             DataTable dt = (DataTable)dataGridView1.DataSource;
 
-           
+            Return_dicInfo = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
             dataGridView1.RowHeadersWidth = 30;
 
             for(int i = 0; i < selected_Pic.Count; i++)
             {
+                Return_dicInfo.Add(selected_Pic[i], dicInfo[selected_Pic[i]]);
+
                 if (dt.Rows.Contains(selected_Pic[i]))
                     continue;
                 else
@@ -176,13 +182,23 @@ namespace ViewPort
             }
 
             dt.DefaultView.Sort = "Image Name";
+            
+            
+            Sorted_dic = Return_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Return_dicInfo = Sorted_dic;
+
+            
+
+            //open.DicInfo_Filtered = Return_dicInfo;
+
+
+
+            if (Selected_Equipment_DF_List.Count > 0)
+                open.Eq_CB_Set_View_ING();
+            else
+                open.Set_Image();
+
             selected_Pic.Clear();
-            Sorted_dic = dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            DicInfo = Sorted_dic;
-            open.DicInfo_Filtered = DicInfo;
-
-            open.Set_Image();
-
         }
         public void Wait_Del_Print_List()
         {
@@ -218,6 +234,8 @@ namespace ViewPort
 
             DataTable dt_del = (DataTable)dataGridView2.DataSource;
 
+            Return_update_Equipment_DF_CLB(Selected_Pic);
+
             for (int i = 0; i < Selected_Pic.Count; i++)
             {
                 DataRow dr = dt_del.NewRow();
@@ -228,7 +246,8 @@ namespace ViewPort
                 
             }
             
-            
+
+
         }
         public void Dl_PrintList()
         {
@@ -276,7 +295,7 @@ namespace ViewPort
         private void _filterAct_bt_Click(object sender, EventArgs e)
         {
 
-            eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
+            //eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
             if(Waiting_Del.Count >0)
             {
                 foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
@@ -290,17 +309,26 @@ namespace ViewPort
             open.Main = this;
             open.Eq_CB_Set_View();
         }
-
+        
         private void Initial_Equipment_DF_FilterList()
         {
-            for (int i = 0; i < Eq_CB_dicInfo.Count; i++)
+            
+            for (int i = 0; i < Selected_Equipment_DF_List.Count; i++)
             {
-                if (Selected_Equipment_DF_List.FindIndex(s => s.Equals(Eq_CB_dicInfo[Eq_CB_dicInfo.Keys.ElementAt(i)].EquipmentDefectName)) == -1)
+                foreach(KeyValuePair<string, ImageInfo> pair in dicInfo)
                 {
-                    Eq_CB_dicInfo.Remove(Eq_CB_dicInfo.Keys.ElementAt(i));
-                    i--;
+                   
+                        if (pair.Value.EquipmentDefectName == Selected_Equipment_DF_List[i])
+                        {
+                             if(Eq_CB_dicInfo.ContainsKey(pair.Key) == false)   
+                                Eq_CB_dicInfo.Add(pair.Key, pair.Value);
+                        }
+                   
                 }
+
             }
+
+            
         }
 
         private void Equipment_DF_CLB_SelectedValueChanged(object sender, EventArgs e)
@@ -361,7 +389,7 @@ namespace ViewPort
             Initial_Equipment_DF_List();
 
             for (int i = 0; i < All_Equipment_DF_List.Count; i++)
-                Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + " - " + All_Equipment_DF_List.ElementAt(i).Item2);
+                Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
 
             MessageBox.Show(MSG_STR.SUCCESS);
 
@@ -375,7 +403,7 @@ namespace ViewPort
             List<string> changed_eq = new List<string>();
             int x = 1;
             int index = 0;
-            Char[] sd = { '_', ' ' };
+            Char[] sd = {'-'};
             for (int i = 0; i < deleted_pic.Count; i++)
             {
                 if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[deleted_pic[i]].EquipmentDefectName)) == -1)
@@ -385,14 +413,12 @@ namespace ViewPort
                     index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[deleted_pic[i]].EquipmentDefectName));
                     x = All_Equipment_DF_List[index].Item2;
                     All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[deleted_pic[i]].EquipmentDefectName, --x);
+                    
                     if(x==0)
                     {
                         All_Equipment_DF_List.RemoveAt(index);
                     }
                    
-
-                    
-
                 }
                     
             }
@@ -411,7 +437,7 @@ namespace ViewPort
                     string[] rep = changed_eq[p].Split(sd);
                     int index2 = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(rep[0]));
 
-                    Equipment_DF_CLB.Items[index] = All_Equipment_DF_List.ElementAt(index2).Item1 + " - " + All_Equipment_DF_List.ElementAt(index2).Item2;
+                    Equipment_DF_CLB.Items[index] = All_Equipment_DF_List.ElementAt(index2).Item1 + "-" + All_Equipment_DF_List.ElementAt(index2).Item2;
                 }
 
             }
@@ -419,6 +445,56 @@ namespace ViewPort
            
         }
 
+        private void Return_update_Equipment_DF_CLB(List<string> deleted_pic)
+        {
+            Initial_Equipment_DF_List();
+            List<string> changed_eq = new List<string>();
+            int x = 1;
+            int index = 0;
+            Char[] sd = {'-'};
+            for (int i = 0; i < deleted_pic.Count; i++)
+            {
+                if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[deleted_pic[i]].EquipmentDefectName)) == -1)
+                    continue;
+                else
+                {
+                    index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[deleted_pic[i]].EquipmentDefectName));
+                    x = All_Equipment_DF_List[index].Item2;
+                    All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[deleted_pic[i]].EquipmentDefectName, ++x);
+
+                    if (x == 0)
+                    {
+                        All_Equipment_DF_List.RemoveAt(index);
+                    }
+
+
+
+
+                }
+
+            }
+            for (int p = 0; p < Equipment_DF_CLB.CheckedItems.Count; p++)
+            {
+                changed_eq.Add(Equipment_DF_CLB.CheckedItems[p].ToString());
+            }
+
+
+            for (int p = 0; p < changed_eq.Count; p++)
+            {
+                if (Equipment_DF_CLB.Items.Contains(changed_eq[p]))
+                {
+                    index = Equipment_DF_CLB.Items.IndexOf(changed_eq[p]);
+
+                    string[] rep = changed_eq[p].Split(sd);
+                    int index2 = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(rep[0]));
+
+                    Equipment_DF_CLB.Items[index] = All_Equipment_DF_List.ElementAt(index2).Item1 + "-" + All_Equipment_DF_List.ElementAt(index2).Item2;
+                }
+
+            }
+
+
+        }
         private void Width_TB_TextChanged(object sender, EventArgs e)
         {
             Height_TB.Text = Width_TB.Text;
