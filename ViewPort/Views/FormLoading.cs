@@ -274,7 +274,7 @@ namespace ViewPort.Views
 
                 if (ImgEntry == null)
                 {
-                    MessageBox.Show(MSG_STR.NONE_XY_TXT);
+                    MessageBox.Show(MSG_STR.NONE_MAP_TXT);
                     return;
                 }
 

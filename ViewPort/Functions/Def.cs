@@ -24,6 +24,9 @@ namespace ViewPort.Functions
         public const string NONE_SDIP_TXT = "SDIP txt 파일이 없습니다.";
 
         public const string NONE_XY_TXT = "XY 좌표 txt 파일이 없습니다.";
+
+        public const string NONE_MAP_TXT = "MAP txt 파일이 없습니다.";
+
     }
 
     public class FILTER_STR

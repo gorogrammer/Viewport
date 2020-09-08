@@ -361,40 +361,51 @@ namespace ViewPort
             Load_State = 1;
             string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
 
-            DirPath = Directory.GetParent(path).ToString();
-            ZipFilePath = path;
+            if (string.IsNullOrEmpty(path) == false)
+            {
+                DirPath = Directory.GetParent(path).ToString();
+                ZipFilePath = path;
 
-            FormLoading formLoading = new FormLoading(path);
-            formLoading.ShowDialog();
 
-            dicInfo = formLoading.Dic_Load;
-            dicTxt_info = formLoading.DicTxt_info;
-            All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
-            All_LotID_List = formLoading.All_LotID_List;
-            MAP_LIST = formLoading.Map_List;
 
-            dataGridView1.DataSource = formLoading.Dt;
-            dataGridView1.RowHeadersWidth = 30;
 
-            formLoading.Dispose();
+
+                FormLoading formLoading = new FormLoading(path);
+                formLoading.ShowDialog();
+
+                dicInfo = formLoading.Dic_Load;
+                dicTxt_info = formLoading.DicTxt_info;
+                All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
+                All_LotID_List = formLoading.All_LotID_List;
+                MAP_LIST = formLoading.Map_List;
+
+                dataGridView1.DataSource = formLoading.Dt;
+                dataGridView1.RowHeadersWidth = 30;
+
+                formLoading.Dispose();
+            }
         }
 
         private void zipLoadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InitialData();
             ZipLoadFile_Async();
-            Img_txt_Info_Combine();
-            dicInfo_Copy = dicInfo;
-            All_LotID_List.Sort();
-            Initial_Equipment_DF_List();
+            if(ZipFilePath != null)
+            {
+                Img_txt_Info_Combine();
+                dicInfo_Copy = dicInfo;
+                All_LotID_List.Sort();
+                Initial_Equipment_DF_List();
 
-            for (int i = 0; i < All_Equipment_DF_List.Count; i++)
-                Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
+                for (int i = 0; i < All_Equipment_DF_List.Count; i++)
+                    Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
 
-            MessageBox.Show(MSG_STR.SUCCESS);
+                MessageBox.Show(MSG_STR.SUCCESS);
 
-            open.Main = this;
-            open.Set_View();
+                open.Main = this;
+                open.Set_View();
+            }
+            
         }
 
         private void update_Equipment_DF_CLB(List<string> deleted_pic)
