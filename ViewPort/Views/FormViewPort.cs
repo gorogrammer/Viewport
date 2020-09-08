@@ -415,8 +415,7 @@ namespace ViewPort
 
             }
 
-            //for (int i = 0; i < All_Equipment_DF_List.Count; i++)
-            //    Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + " - " + All_Equipment_DF_List.ElementAt(i).Item2);
+           
         }
 
         private void Width_TB_TextChanged(object sender, EventArgs e)
