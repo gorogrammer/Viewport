@@ -101,7 +101,6 @@ namespace ViewPort.Views
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) - 1;
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
                     Set_Image();
-
                 }
             }
 
