@@ -102,7 +102,6 @@ namespace ViewPort.Views
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
                     Set_Image();
 
-
                 }
             }
 
