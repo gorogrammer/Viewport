@@ -247,6 +247,7 @@ namespace ViewPort
                 index = dt.Rows.IndexOf(dr);
                 dt.Rows[index].Delete();
              
+
                 //dt.AcceptChanges();
             }
             
