@@ -17,8 +17,7 @@ namespace ViewPort.Views
     {
         public FormViewPort Main;
 
-
-
+        
         struct BoxRange { public int left, top, width, height; }
         List<string> Display_Id = new List<string>();
         List<string> Change_state_List = new List<string>();
