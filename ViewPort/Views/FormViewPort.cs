@@ -246,6 +246,7 @@ namespace ViewPort
                 dr = dt.Rows.Find(Waiting_Del[Selected_Pic[i]].Imagename);
                 index = dt.Rows.IndexOf(dr);
                 dt.Rows[index].Delete();
+             
                 //dt.AcceptChanges();
             }
             
