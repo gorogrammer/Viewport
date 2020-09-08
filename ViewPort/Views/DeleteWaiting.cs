@@ -335,22 +335,22 @@ namespace ViewPort.Views
                 }
             }
 
-            else if (e.KeyCode == Keys.Delete)
-            {
-                Get_Delete_IMG();
+            //else if (e.KeyCode == Keys.Delete)
+            //{
+            //    Get_Delete_IMG();
 
-                for (int i = 0; i < Select_Pic.Count; i++)
-                {
-                    if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
-                    {
-                        dicInfo_Filter_Del.Remove(Select_Pic[i]);
-                    }
+            //    for (int i = 0; i < Select_Pic.Count; i++)
+            //    {
+            //        if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
+            //        {
+            //            dicInfo_Filter_Del.Remove(Select_Pic[i]);
+            //        }
 
-                }
+            //    }
 
-                Set_View_Del();
-                Select_Pic.Clear();
-            }
+            //    Set_View_Del();
+            //    Select_Pic.Clear();
+            //}
 
         }
 

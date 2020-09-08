@@ -25,6 +25,7 @@ namespace ViewPort.Views
         List<PictureBox> PictureData = new List<PictureBox>();
         List<PictureBox> Picture_Glass = new List<PictureBox>();
         List<string> Select_Pic = new List<string>();
+        List<string> Eq_cb_need_del = new List<string>();
         Dictionary<string, ImageInfo> dicInfo_Filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Delete = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
@@ -135,10 +136,11 @@ namespace ViewPort.Views
                     }
 
                 }
-                
+               
                 Del_Set_View();
                 Main.Dl_PrintList();
                 Main.Wait_Del_Print_List();
+                Eq_cb_need_del = new List<string>(Select_Pic);
                 Select_Pic.Clear();
             }
         }
@@ -203,11 +205,68 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            //FilteredList.Clear();
-            //Main.GetFilterList(FilteredList);
+           
+            dicInfo_Filter = Main.DicInfo;
+            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            DicInfo_Filtered = Sorted_dic;
 
+            cols = int.Parse(Main.Cols_TB.Text);
+            rows = int.Parse(Main.Rows_TB.Text);
+            width = int.Parse(Main.Width_TB.Text);
+            height = int.Parse(Main.Height_TB.Text);
+
+            Current_PageNum = 1;
+
+
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+            Set_PictureBox();
+            Set_Image();
+            Last_Picture_Selected_Index = -1;
+            this.Focus();
+        }
+
+        public void Eq_CB_Set_View()
+        {
+            this.Controls.Clear();
+            PictureData.Clear();
+
+
+            dicInfo_Filter = Main.Eq_CB_dicInfo;
+            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            DicInfo_Filtered = Sorted_dic;
             
-            //Main.GetDicinfo(dicInfo_Filter);
+            for(int i = 0;  i < Eq_cb_need_del.Count; i++)
+            {
+                dicInfo_Filter.Remove(Eq_cb_need_del[i]);
+            }
+
+            cols = int.Parse(Main.Cols_TB.Text);
+            rows = int.Parse(Main.Rows_TB.Text);
+            width = int.Parse(Main.Width_TB.Text);
+            height = int.Parse(Main.Height_TB.Text);
+
+            Current_PageNum = 1;
+
+
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+            Set_PictureBox();
+            Set_Image();
+            Last_Picture_Selected_Index = -1;
+            this.Focus();
+        }
+
+        public void Filter_CB_after_Set_View()
+        {
+            this.Controls.Clear();
+            PictureData.Clear();
+
+
             dicInfo_Filter = Main.DicInfo;
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
             DicInfo_Filtered = Sorted_dic;

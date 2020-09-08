@@ -26,6 +26,7 @@ namespace ViewPort
 
         ImageViewer open = new ImageViewer();
 
+        Dictionary<string, ImageInfo> eq_CB_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Copy = new Dictionary<string, ImageInfo>();
         Dictionary<string, txtInfo> dicTxt_info = new Dictionary<string, txtInfo>();
@@ -57,7 +58,7 @@ namespace ViewPort
             get { return dicInfo; }
             set { dicInfo = value; }
         }
-
+        public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
         public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
         public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
@@ -139,14 +140,26 @@ namespace ViewPort
 
             dt.Rows.Clear();
             dataGridView1.RowHeadersWidth = 30;
-                                 
-
-            foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo)
-                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+           
+                foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo)
+                    dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+           
+            
 
             
         }
 
+        private void Eq_Filter_after_Print_List()
+        {
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            dt.Rows.Clear();
+            dataGridView1.RowHeadersWidth = 30;
+
+            foreach (KeyValuePair<string, ImageInfo> kvp in eq_CB_dicInfo)
+                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+            
+        }
         public void Return_Img_Print()
         {
             DataTable dt = (DataTable)dataGridView1.DataSource;
@@ -225,6 +238,7 @@ namespace ViewPort
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
 
+            update_Equipment_DF_CLB(Selected_Pic);
 
             for (int i = 0; i < Selected_Pic.Count; i++)
             {
@@ -235,6 +249,7 @@ namespace ViewPort
                 //dt.AcceptChanges();
 
             }
+            
         }
 
         public void Changeed_State()
@@ -260,22 +275,28 @@ namespace ViewPort
         private void _filterAct_bt_Click(object sender, EventArgs e)
         {
 
-            dicInfo = open.DicInfo_Filtered;
+            eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
+            if(Waiting_Del.Count >0)
+            {
+                foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
+                    eq_CB_dicInfo.Remove(kvp.Key);
+                             
+            }
 
 
             Initial_Equipment_DF_FilterList();
-            Print_List();
+            Eq_Filter_after_Print_List();
             open.Main = this;
-            open.Set_View();
+            open.Eq_CB_Set_View();
         }
 
         private void Initial_Equipment_DF_FilterList()
         {
-            for (int i = 0; i < dicInfo.Count; i++)
+            for (int i = 0; i < Eq_CB_dicInfo.Count; i++)
             {
-                if (Selected_Equipment_DF_List.FindIndex(s => s.Equals(dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName)) == -1)
+                if (Selected_Equipment_DF_List.FindIndex(s => s.Equals(Eq_CB_dicInfo[Eq_CB_dicInfo.Keys.ElementAt(i)].EquipmentDefectName)) == -1)
                 {
-                    dicInfo.Remove(dicInfo.Keys.ElementAt(i));
+                    Eq_CB_dicInfo.Remove(Eq_CB_dicInfo.Keys.ElementAt(i));
                     i--;
                 }
             }
@@ -345,6 +366,57 @@ namespace ViewPort
 
             open.Main = this;
             open.Set_View();
+        }
+
+        private void update_Equipment_DF_CLB(List<string> deleted_pic)
+        {
+            Initial_Equipment_DF_List();
+            List<string> changed_eq = new List<string>();
+            int x = 1;
+            int index = 0;
+            Char[] sd = { '_', ' ' };
+            for (int i = 0; i < deleted_pic.Count; i++)
+            {
+                if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[deleted_pic[i]].EquipmentDefectName)) == -1)
+                    continue;
+                else
+                {
+                    index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[deleted_pic[i]].EquipmentDefectName));
+                    x = All_Equipment_DF_List[index].Item2;
+                    All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[deleted_pic[i]].EquipmentDefectName, --x);
+                    if(x==0)
+                    {
+                        All_Equipment_DF_List.RemoveAt(index);
+                    }
+                   
+
+                    
+
+                }
+                    
+            }
+            for (int p = 0; p < Equipment_DF_CLB.CheckedItems.Count; p++)
+            {
+                changed_eq.Add(Equipment_DF_CLB.CheckedItems[p].ToString());
+            }
+
+
+            for (int p = 0; p < changed_eq.Count; p++)
+            {
+                if (Equipment_DF_CLB.Items.Contains(changed_eq[p]))
+                {
+                    index = Equipment_DF_CLB.Items.IndexOf(changed_eq[p]);
+
+                    string[] rep = changed_eq[p].Split(sd);
+                    int index2 = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(rep[0]));
+
+                    Equipment_DF_CLB.Items[index] = All_Equipment_DF_List.ElementAt(index2).Item1 + " - " + All_Equipment_DF_List.ElementAt(index2).Item2;
+                }
+
+            }
+
+            //for (int i = 0; i < All_Equipment_DF_List.Count; i++)
+            //    Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + " - " + All_Equipment_DF_List.ElementAt(i).Item2);
         }
 
         private void Width_TB_TextChanged(object sender, EventArgs e)

@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Delete_wait_img_bt = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
             this.E_Page_TB = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.Delete_wait_img_bt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -64,6 +64,26 @@
             this.splitContainer1.SplitterDistance = 31;
             this.splitContainer1.TabIndex = 0;
             // 
+            // Delete_wait_img_bt
+            // 
+            this.Delete_wait_img_bt.Location = new System.Drawing.Point(562, 4);
+            this.Delete_wait_img_bt.Name = "Delete_wait_img_bt";
+            this.Delete_wait_img_bt.Size = new System.Drawing.Size(95, 23);
+            this.Delete_wait_img_bt.TabIndex = 20;
+            this.Delete_wait_img_bt.Text = "삭제대기 제외";
+            this.Delete_wait_img_bt.UseVisualStyleBackColor = true;
+            this.Delete_wait_img_bt.Click += new System.EventHandler(this.Delete_wait_img_bt_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(676, 4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "Update";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -89,26 +109,6 @@
             this.E_Page_TB.ReadOnly = true;
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 11;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(676, 4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Update";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // Delete_wait_img_bt
-            // 
-            this.Delete_wait_img_bt.Location = new System.Drawing.Point(582, 4);
-            this.Delete_wait_img_bt.Name = "Delete_wait_img_bt";
-            this.Delete_wait_img_bt.Size = new System.Drawing.Size(75, 23);
-            this.Delete_wait_img_bt.TabIndex = 20;
-            this.Delete_wait_img_bt.Text = "Delete";
-            this.Delete_wait_img_bt.UseVisualStyleBackColor = true;
-            this.Delete_wait_img_bt.Click += new System.EventHandler(this.Delete_wait_img_bt_Click);
             // 
             // DeleteWaiting
             // 

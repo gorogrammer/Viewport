@@ -62,6 +62,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.Fixed_CB = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.Cols_TB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -78,7 +79,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.Fixed_CB = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -224,6 +224,7 @@
             // Equipment_DF_CLB
             // 
             this.Equipment_DF_CLB.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.Equipment_DF_CLB.CheckOnClick = true;
             this.Equipment_DF_CLB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
@@ -497,6 +498,18 @@
             this.splitContainer5.SplitterDistance = 216;
             this.splitContainer5.TabIndex = 0;
             // 
+            // Fixed_CB
+            // 
+            this.Fixed_CB.AutoSize = true;
+            this.Fixed_CB.Checked = true;
+            this.Fixed_CB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Fixed_CB.Location = new System.Drawing.Point(194, 6);
+            this.Fixed_CB.Name = "Fixed_CB";
+            this.Fixed_CB.Size = new System.Drawing.Size(15, 14);
+            this.Fixed_CB.TabIndex = 19;
+            this.Fixed_CB.UseVisualStyleBackColor = true;
+            this.Fixed_CB.CheckedChanged += new System.EventHandler(this.Fixed_CB_CheckedChanged);
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(224, 37);
@@ -643,18 +656,6 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // Fixed_CB
-            // 
-            this.Fixed_CB.AutoSize = true;
-            this.Fixed_CB.Checked = true;
-            this.Fixed_CB.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Fixed_CB.Location = new System.Drawing.Point(194, 6);
-            this.Fixed_CB.Name = "Fixed_CB";
-            this.Fixed_CB.Size = new System.Drawing.Size(15, 14);
-            this.Fixed_CB.TabIndex = 19;
-            this.Fixed_CB.UseVisualStyleBackColor = true;
-            this.Fixed_CB.CheckedChanged += new System.EventHandler(this.Fixed_CB_CheckedChanged);
             // 
             // FormViewPort
             // 
