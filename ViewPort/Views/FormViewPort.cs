@@ -647,7 +647,7 @@ namespace ViewPort
 
         private void Frame_View_CB_CheckedChanged(object sender, EventArgs e)
         {
-
+            open.Set_View();
         }
     }
 

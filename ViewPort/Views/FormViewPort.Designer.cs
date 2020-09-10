@@ -62,6 +62,10 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.Frame_View_CB = new System.Windows.Forms.CheckBox();
             this.Fixed_CB = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.Cols_TB = new System.Windows.Forms.TextBox();
@@ -79,10 +83,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.Frame_View_CB = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -507,6 +507,44 @@
             this.splitContainer5.SplitterDistance = 250;
             this.splitContainer5.TabIndex = 0;
             // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(281, 195);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(38, 21);
+            this.textBox8.TabIndex = 23;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(196, 198);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(86, 12);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "■ 초과 IMG 수";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(268, 227);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(103, 16);
+            this.checkBox2.TabIndex = 21;
+            this.checkBox2.Text = "초과 IMG 검사";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // Frame_View_CB
+            // 
+            this.Frame_View_CB.AutoSize = true;
+            this.Frame_View_CB.Location = new System.Drawing.Point(194, 227);
+            this.Frame_View_CB.Name = "Frame_View_CB";
+            this.Frame_View_CB.Size = new System.Drawing.Size(76, 16);
+            this.Frame_View_CB.TabIndex = 20;
+            this.Frame_View_CB.Text = "Frame 別";
+            this.Frame_View_CB.UseVisualStyleBackColor = true;
+            this.Frame_View_CB.CheckedChanged += new System.EventHandler(this.Frame_View_CB_CheckedChanged);
+            // 
             // Fixed_CB
             // 
             this.Fixed_CB.AutoSize = true;
@@ -666,44 +704,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // Frame_View_CB
-            // 
-            this.Frame_View_CB.AutoSize = true;
-            this.Frame_View_CB.Location = new System.Drawing.Point(194, 227);
-            this.Frame_View_CB.Name = "Frame_View_CB";
-            this.Frame_View_CB.Size = new System.Drawing.Size(76, 16);
-            this.Frame_View_CB.TabIndex = 20;
-            this.Frame_View_CB.Text = "Frame 別";
-            this.Frame_View_CB.UseVisualStyleBackColor = true;
-            this.Frame_View_CB.CheckedChanged += new System.EventHandler(this.Frame_View_CB_CheckedChanged);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(268, 227);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(103, 16);
-            this.checkBox2.TabIndex = 21;
-            this.checkBox2.Text = "초과 IMG 검사";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(196, 198);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(86, 12);
-            this.label11.TabIndex = 22;
-            this.label11.Text = "■ 초과 IMG 수";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // textBox8
-            // 
-            this.textBox8.Location = new System.Drawing.Point(281, 195);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(38, 21);
-            this.textBox8.TabIndex = 23;
-            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -800,7 +800,7 @@
         public System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox Frame_View_CB;
+        public System.Windows.Forms.CheckBox Frame_View_CB;
     }
 }
 

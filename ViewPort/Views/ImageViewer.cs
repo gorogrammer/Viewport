@@ -29,13 +29,15 @@ namespace ViewPort.Views
         Dictionary<string, ImageInfo> dicInfo_Filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Delete = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
-        
+        Dictionary<string, ImageInfo> frame_dicInfo_Filter = new Dictionary<string, ImageInfo>();
+
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
         List<int> Selected_Picture_Index = new List<int>();
         PictureBox Draged_PB;
         Label[] DefectState, ImageNameLB;
         int Current_PageNum, Total_PageNum;
+        int Current_Frame_PageNum, Total_Frame_PageNum;
         int Last_Picture_Selected_Index;        // -3 : 리스트 전체 선택,  -2 : 다중 선택, -1 : 미선택, 그 외, 선택한 Image Index
         int EachPage_ImageNum;
         List<string> imglist = new List<string>();
@@ -100,7 +102,16 @@ namespace ViewPort.Views
                     Last_Picture_Selected_Index = -1;
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) - 1;
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
-                    Set_Image();
+
+
+
+                    if (Main.Frame_View_CB.Checked)
+                        Frame_Set_Image();
+                    else
+                        Set_Image();
+
+                    
+
                 }
             }
 
@@ -116,9 +127,15 @@ namespace ViewPort.Views
                     Last_Picture_Selected_Index = -1;                  
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
+                    
                     Set_PictureBox();
-                    Set_Image();
-                    change_Glass();
+
+                    if (Main.Frame_View_CB.Checked)
+                        Frame_Set_Image();
+                    else
+                        Set_Image();
+
+                   
 
 
                 }
@@ -144,6 +161,26 @@ namespace ViewPort.Views
                 
                 Select_Pic.Clear();
                 //Eq_cb_need_del.Clear();
+            }
+
+            else if (e.KeyCode == Keys.X)
+            {
+                e.Handled = true;
+                if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) >= int.Parse(Main.Frame_E_Page_TB.Text))
+                {
+                    MessageBox.Show("마지막 페이지 입니다.");
+                }
+                else
+                {
+                    Last_Picture_Selected_Index = -1;
+                    Current_PageNum = int.Parse(Main.Frame_S_Page_TB.Text) + 1;
+                    Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
+                    Set_PictureBox();
+                    Set_Image();
+                    change_Glass();
+
+
+                }
             }
         }
        
@@ -207,7 +244,7 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-           
+            frame_List_Img = Main.Frame_List_Main;
             dicInfo_Filter = Main.DicInfo;
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
             DicInfo_Filtered = Sorted_dic;
@@ -218,14 +255,26 @@ namespace ViewPort.Views
             height = int.Parse(Main.Height_TB.Text);
 
             Current_PageNum = 1;
-
+            Current_Frame_PageNum = 1;
+            
+           
 
             Main.S_Page_TB.Text = Current_PageNum.ToString();
             Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
             Main.E_Page_TB.Text = Total_PageNum.ToString();
 
             Set_PictureBox();
-            Set_Image();
+
+            if (Main.Frame_View_CB.Checked)
+            {
+                Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
+                Total_Frame_PageNum = frame_List_Img.Count;
+                Main.Frame_E_Page_TB.Text = Total_PageNum.ToString();
+                Frame_Set_Image();
+            }
+            else
+                Set_Image();
+
             Last_Picture_Selected_Index = -1;
             this.Focus();
         }
@@ -248,6 +297,7 @@ namespace ViewPort.Views
             height = int.Parse(Main.Height_TB.Text);
 
             Current_PageNum = 1;
+            Current_Frame_PageNum = 1;
 
             Main.S_Page_TB.Text = Current_PageNum.ToString();
             Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
@@ -255,11 +305,11 @@ namespace ViewPort.Views
 
 
             Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
-            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Total_Frame_PageNum = frame_List_Img.Count;
             Main.Frame_E_Page_TB.Text = Total_PageNum.ToString();
 
             Set_PictureBox();
-            Set_Image();
+            Frame_Set_Image();
             Last_Picture_Selected_Index = -1;
             this.Focus();
         }
@@ -621,7 +671,6 @@ namespace ViewPort.Views
 
         }
 
-     
         public void Set_Image()
         {
             Bitmap tmp_Img = null;
@@ -630,10 +679,10 @@ namespace ViewPort.Views
             int S_ImageIndex = (cols * rows) * (Current_PageNum - 1);
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
-            
-            if(imglist.Count>0)
+
+            if (imglist.Count > 0)
                 imglist.Clear();
-            
+
             imglist = dicInfo_Filter.Keys.ToList();
 
             if (dicInfo_Filter.Count <= 0)
@@ -672,15 +721,11 @@ namespace ViewPort.Views
                 zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
                 string Open_ZipName;
 
-
-
                 foreach (ZipArchiveEntry entry in zip.Entries)
                 {
                     Open_ZipName = entry.Name.Split('.')[0];
                     if (Open_ZipName[0].Equals('R'))
                         Open_ZipName = Open_ZipName.Substring(1, Open_ZipName.Length - 1);
-
-                    
 
                     if (Print_Frame.Count > PF_index && Open_ZipName.Equals(Print_Frame.ElementAt(PF_index)) && entry.Name.ToUpper().IndexOf(".ZIP") != -1)
                     {
@@ -689,7 +734,7 @@ namespace ViewPort.Views
 
                         ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
-                    
+
                         var sub =
                                             from ent in subZip.Entries
                                             orderby ent.Name
@@ -730,23 +775,18 @@ namespace ViewPort.Views
                         break;
                 }
                 zip.Dispose();
-                
-                
-               
-
 
                 for (int i = EachPage_ImageNum; i < (cols * rows); i++)
                 {
                     try
                     {
                         PictureData.ElementAt(i).Image = null;
-                        Picture_Glass.RemoveAt(i);
                     }
                     catch (Exception)
                     {
                     }
                 }
-                
+
             }
 
 
@@ -754,15 +794,165 @@ namespace ViewPort.Views
             change_Glass();
 
 
-
-
-
-            //if (Change_state_List.Count>0)
-            //    Main.Changeed_State();
-
         }
 
 
+        public void Frame_Set_Image()
+        {
+
+
+            Bitmap tmp_Img = null;
+
+            string Current_ImageFrame = "";
+            int S_ImageIndex = (cols * rows) * (Current_PageNum - 1);
+
+            int Frame_List_Index = Current_Frame_PageNum - 1;
+            
+            int PF_index = 0, Current_Index = 0;
+            EachPage_ImageNum = cols * rows;
+
+            foreach(KeyValuePair<string, ImageInfo> kvp in dicInfo_Filter)
+            {
+                if (kvp.Value.FrameNo == Convert.ToInt32(frame_List_Img[Frame_List_Index]))
+                    if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
+                        break;
+                    else
+                        frame_dicInfo_Filter.Add(kvp.Key, kvp.Value);
+            }
+            if (frame_dicInfo_Filter.Count <= 0)
+            {
+                for (int i = 0; i < PictureData.Count; i++)
+                {
+                    if (PictureData.ElementAt(i).Image != null)
+                    {
+                        PictureData.ElementAt(i).Image.Dispose();
+                        PictureData.ElementAt(i).Image = null;
+                    }
+                }
+            }
+
+            if (frame_dicInfo_Filter.Count - ((cols * rows) * Current_PageNum) < 0)
+                EachPage_ImageNum += frame_dicInfo_Filter.Count - ((cols * rows) * Current_PageNum);
+            if (Main.ZipFilePath != "")
+            {
+                zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
+                string Open_ZipName;
+
+                foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    Open_ZipName = entry.Name.Split('.')[0];
+                    if (Open_ZipName[0].Equals('R'))
+                        Open_ZipName = Open_ZipName.Substring(1, Open_ZipName.Length - 1);
+                    
+                    if(Main.Frame_View_CB.Checked)
+                    {
+                        if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && entry.Name.Split('.')[0].Equals(frame_List_Img[Frame_List_Index]))
+                        {
+                            MemoryStream subEntryMS = new MemoryStream();           // 2중 압축파일을 MemoryStream으로 읽는다.
+                            entry.Open().CopyTo(subEntryMS);
+
+                            ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
+
+
+                            var sub =
+                                                from ent in subZip.Entries
+                                                orderby ent.Name
+                                                select ent;
+
+
+                            foreach (ZipArchiveEntry subEntry in sub)       // 2중 압축파일 내에 있는 파일을 탐색
+                            {
+
+                                if (Current_Index >= EachPage_ImageNum)
+                                    break;
+                                if (subEntry.Name.Equals(frame_dicInfo_Filter[frame_dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                                {
+                                    tmp_Img = new Bitmap(subEntry.Open());
+
+                                    //방향
+
+                                    PictureData.ElementAt(Current_Index).Image = tmp_Img;
+                                    PictureData.ElementAt(Current_Index).Name = frame_dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
+
+                                    Current_Index++;
+                                }
+
+                                if (Current_Index >= EachPage_ImageNum)
+                                    break;
+                                
+                            }
+                            subZip.Dispose();
+                        }
+                    }
+                    else
+                    {
+                        if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && entry.Name.Split('.')[0].Equals(frame_List_Img[Frame_List_Index]))
+                        {
+                            MemoryStream subEntryMS = new MemoryStream();           // 2중 압축파일을 MemoryStream으로 읽는다.
+                            entry.Open().CopyTo(subEntryMS);
+
+                            ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
+
+
+                            var sub =
+                                                from ent in subZip.Entries
+                                                orderby ent.Name
+                                                select ent;
+
+
+                            foreach (ZipArchiveEntry subEntry in sub)       // 2중 압축파일 내에 있는 파일을 탐색
+                            {
+
+                                if (Current_Index >= EachPage_ImageNum)
+                                    break;
+                                if (subEntry.Name.Equals(frame_dicInfo_Filter[frame_dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                                {
+                                    tmp_Img = new Bitmap(subEntry.Open());
+
+                                    //방향
+
+                                    PictureData.ElementAt(Current_Index).Image = tmp_Img;
+                                    PictureData.ElementAt(Current_Index).Name = frame_dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
+
+                                    Current_Index++;
+                                }
+
+                                if (Current_Index >= EachPage_ImageNum)
+                                    break;
+                                if (!frame_dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index).Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
+                                {
+                                    PF_index++;
+                                    break;
+                                }
+                            }
+                            subZip.Dispose();
+                        }
+                    }
+
+                    
+                    if (Current_Index >= EachPage_ImageNum || Print_Frame.Count <= PF_index)
+                        break;
+                }
+                zip.Dispose();
+
+
+
+
+
+                for (int i = EachPage_ImageNum; i < (cols * rows); i++)
+                {
+                    try
+                    {
+                        PictureData.ElementAt(i).Image = null;
+                        
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
+            }
+        }
   
         public void change_Glass()
         {
