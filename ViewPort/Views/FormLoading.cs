@@ -26,12 +26,15 @@ namespace ViewPort.Views
         private List<string> all_VerifyDF_List;
         private List<Tuple<string, int>> all_Equipment_DF_List;
         private List<string> map_List;
+        private List<string> frame_List;
 
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
         public List<string> Map_List { get => map_List; set => map_List = value; }
+
+        public List<string> Frame_List { get => frame_List; set => frame_List = value; }
         public List<Tuple<string, int>> All_Equipment_DF_List { get => all_Equipment_DF_List; set => all_Equipment_DF_List = value; }
         public DataTable Dt { get => dt; set => dt = value; }
 
@@ -126,6 +129,7 @@ namespace ViewPort.Views
             All_Equipment_DF_List = new List<Tuple<string, int>>();
             All_VerifyDF_List = new List<string>();
             Map_List = new List<string>();
+            Frame_List = new List<string>();
 
             InitializeComponent();
 
@@ -149,7 +153,16 @@ namespace ViewPort.Views
             {
                 SetProgressBarMaxSafe(zip.Entries.Count);
                 foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
+                    {
+                        Frame_List.Add(entry.Name.Substring(0, 5));
+                    }
+
                     LoadSubZipAsync(LotName, entry);
+                   
+                }
+                    
             }
 
             EditFormNameSafe(MSG_STR.LOAD_SDIP_TXT);
@@ -186,6 +199,7 @@ namespace ViewPort.Views
                 int FrameNo = Func.GetFrameNumber(subEntry.Name);
                 int CameraNo = Func.GetCamNumber(subEntry.Name);
 
+                
 
                 if (All_LotID_List.FindIndex(s => s.Equals(LotName)) == -1)
                     All_LotID_List.Add(LotName);

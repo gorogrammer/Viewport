@@ -25,10 +25,11 @@ namespace ViewPort.Views
         List<PictureBox> Picture_Glass = new List<PictureBox>();
         List<string> Select_Pic = new List<string>();
         List<string> Eq_cb_need_del = new List<string>();
+        List<string> frame_List_Img = new List<string>();
         Dictionary<string, ImageInfo> dicInfo_Filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Delete = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
-
+        
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
         List<int> Selected_Picture_Index = new List<int>();
@@ -68,8 +69,8 @@ namespace ViewPort.Views
             get { return Change_state_List; }
             set { Change_state_List = value; }
         }
-      
-        
+
+        public List<string> Frame_List_Img { get => frame_List_Img; set => frame_List_Img = value; }
         public void SelectGrid_Img_View(string id)
         {
             List<string> dic_index_List = dicInfo_Filter.Keys.ToList();
@@ -115,8 +116,11 @@ namespace ViewPort.Views
                     Last_Picture_Selected_Index = -1;                  
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
+                    Set_PictureBox();
                     Set_Image();
-                                
+                    change_Glass();
+
+
                 }
             }
 
@@ -226,6 +230,39 @@ namespace ViewPort.Views
             this.Focus();
         }
 
+        public void Frame_Set_View()
+        {
+            this.Controls.Clear();
+            PictureData.Clear();
+
+            frame_List_Img = Main.Frame_List_Main;
+            dicInfo_Filter = Main.DicInfo;
+
+
+            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            DicInfo_Filtered = Sorted_dic;
+
+            cols = int.Parse(Main.Cols_TB.Text);
+            rows = int.Parse(Main.Rows_TB.Text);
+            width = int.Parse(Main.Width_TB.Text);
+            height = int.Parse(Main.Height_TB.Text);
+
+            Current_PageNum = 1;
+
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+
+            Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.Frame_E_Page_TB.Text = Total_PageNum.ToString();
+
+            Set_PictureBox();
+            Set_Image();
+            Last_Picture_Selected_Index = -1;
+            this.Focus();
+        }
         public void Eq_CB_Set_View()
         {
             this.Controls.Clear();
@@ -635,11 +672,15 @@ namespace ViewPort.Views
                 zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
                 string Open_ZipName;
 
+
+
                 foreach (ZipArchiveEntry entry in zip.Entries)
                 {
                     Open_ZipName = entry.Name.Split('.')[0];
                     if (Open_ZipName[0].Equals('R'))
                         Open_ZipName = Open_ZipName.Substring(1, Open_ZipName.Length - 1);
+
+                    
 
                     if (Print_Frame.Count > PF_index && Open_ZipName.Equals(Print_Frame.ElementAt(PF_index)) && entry.Name.ToUpper().IndexOf(".ZIP") != -1)
                     {
@@ -689,12 +730,17 @@ namespace ViewPort.Views
                         break;
                 }
                 zip.Dispose();
+                
+                
+               
+
 
                 for (int i = EachPage_ImageNum; i < (cols * rows); i++)
                 {
                     try
                     {
                         PictureData.ElementAt(i).Image = null;
+                        Picture_Glass.RemoveAt(i);
                     }
                     catch (Exception)
                     {

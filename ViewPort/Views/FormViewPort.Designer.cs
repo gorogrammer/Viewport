@@ -34,11 +34,11 @@
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.Frame_E_Page_TB = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.Frame_S_Page_TB = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -79,6 +79,10 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.Frame_View_CB = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBox8 = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -117,7 +121,7 @@
             // 
             this.textBox7.Location = new System.Drawing.Point(109, 222);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(48, 21);
+            this.textBox7.Size = new System.Drawing.Size(79, 21);
             this.textBox7.TabIndex = 18;
             // 
             // label5
@@ -140,12 +144,12 @@
             this.label4.Text = "■ 페이지 번호";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox6
+            // Frame_E_Page_TB
             // 
-            this.textBox6.Location = new System.Drawing.Point(163, 189);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(53, 21);
-            this.textBox6.TabIndex = 17;
+            this.Frame_E_Page_TB.Location = new System.Drawing.Point(156, 195);
+            this.Frame_E_Page_TB.Name = "Frame_E_Page_TB";
+            this.Frame_E_Page_TB.Size = new System.Drawing.Size(38, 21);
+            this.Frame_E_Page_TB.TabIndex = 17;
             // 
             // label6
             // 
@@ -177,12 +181,12 @@
             this.comboBox1.Size = new System.Drawing.Size(95, 20);
             this.comboBox1.TabIndex = 7;
             // 
-            // textBox5
+            // Frame_S_Page_TB
             // 
-            this.textBox5.Location = new System.Drawing.Point(109, 189);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(48, 21);
-            this.textBox5.TabIndex = 16;
+            this.Frame_S_Page_TB.Location = new System.Drawing.Point(109, 195);
+            this.Frame_S_Page_TB.Name = "Frame_S_Page_TB";
+            this.Frame_S_Page_TB.Size = new System.Drawing.Size(38, 21);
+            this.Frame_S_Page_TB.TabIndex = 16;
             // 
             // label10
             // 
@@ -214,7 +218,7 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(221, 218);
+            this.checkBox3.Location = new System.Drawing.Point(228, 120);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(116, 16);
             this.checkBox3.TabIndex = 15;
@@ -229,7 +233,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 130);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 96);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -308,6 +312,7 @@
             // dataGridView1
             // 
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -460,17 +465,21 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitContainer5.Panel1.Controls.Add(this.textBox8);
+            this.splitContainer5.Panel1.Controls.Add(this.label11);
+            this.splitContainer5.Panel1.Controls.Add(this.checkBox2);
+            this.splitContainer5.Panel1.Controls.Add(this.Frame_View_CB);
             this.splitContainer5.Panel1.Controls.Add(this.Fixed_CB);
             this.splitContainer5.Panel1.Controls.Add(this.button2);
             this.splitContainer5.Panel1.Controls.Add(this.button1);
             this.splitContainer5.Panel1.Controls.Add(this.textBox7);
             this.splitContainer5.Panel1.Controls.Add(this.label5);
             this.splitContainer5.Panel1.Controls.Add(this.label4);
-            this.splitContainer5.Panel1.Controls.Add(this.textBox6);
+            this.splitContainer5.Panel1.Controls.Add(this.Frame_E_Page_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label6);
             this.splitContainer5.Panel1.Controls.Add(this.S_Page_TB);
             this.splitContainer5.Panel1.Controls.Add(this.comboBox1);
-            this.splitContainer5.Panel1.Controls.Add(this.textBox5);
+            this.splitContainer5.Panel1.Controls.Add(this.Frame_S_Page_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label10);
             this.splitContainer5.Panel1.Controls.Add(this.textBox1);
             this.splitContainer5.Panel1.Controls.Add(this.label3);
@@ -495,7 +504,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
             this.splitContainer5.Size = new System.Drawing.Size(319, 350);
-            this.splitContainer5.SplitterDistance = 216;
+            this.splitContainer5.SplitterDistance = 250;
             this.splitContainer5.TabIndex = 0;
             // 
             // Fixed_CB
@@ -542,7 +551,7 @@
             // Print_Image_Name
             // 
             this.Print_Image_Name.AutoSize = true;
-            this.Print_Image_Name.Location = new System.Drawing.Point(221, 194);
+            this.Print_Image_Name.Location = new System.Drawing.Point(228, 96);
             this.Print_Image_Name.Name = "Print_Image_Name";
             this.Print_Image_Name.Size = new System.Drawing.Size(97, 16);
             this.Print_Image_Name.TabIndex = 14;
@@ -577,7 +586,7 @@
             // Print_Image_State
             // 
             this.Print_Image_State.AutoSize = true;
-            this.Print_Image_State.Location = new System.Drawing.Point(221, 170);
+            this.Print_Image_State.Location = new System.Drawing.Point(228, 72);
             this.Print_Image_State.Name = "Print_Image_State";
             this.Print_Image_State.Size = new System.Drawing.Size(91, 16);
             this.Print_Image_State.TabIndex = 14;
@@ -597,7 +606,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(163, 116);
+            this.textBox2.Location = new System.Drawing.Point(156, 114);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(53, 21);
             this.textBox2.TabIndex = 1;
@@ -657,6 +666,44 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // Frame_View_CB
+            // 
+            this.Frame_View_CB.AutoSize = true;
+            this.Frame_View_CB.Location = new System.Drawing.Point(194, 227);
+            this.Frame_View_CB.Name = "Frame_View_CB";
+            this.Frame_View_CB.Size = new System.Drawing.Size(76, 16);
+            this.Frame_View_CB.TabIndex = 20;
+            this.Frame_View_CB.Text = "Frame 別";
+            this.Frame_View_CB.UseVisualStyleBackColor = true;
+            this.Frame_View_CB.CheckedChanged += new System.EventHandler(this.Frame_View_CB_CheckedChanged);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(268, 227);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(103, 16);
+            this.checkBox2.TabIndex = 21;
+            this.checkBox2.Text = "초과 IMG 검사";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(196, 198);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(86, 12);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "■ 초과 IMG 수";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(281, 195);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(38, 21);
+            this.textBox8.TabIndex = 23;
+            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -705,11 +752,11 @@
         public System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        public System.Windows.Forms.TextBox textBox6;
+        public System.Windows.Forms.TextBox Frame_E_Page_TB;
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.TextBox S_Page_TB;
         private System.Windows.Forms.ComboBox comboBox1;
-        public System.Windows.Forms.TextBox textBox5;
+        public System.Windows.Forms.TextBox Frame_S_Page_TB;
         private System.Windows.Forms.Label label10;
         public System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
@@ -750,6 +797,10 @@
         private System.Windows.Forms.ToolStripMenuItem 중간저장ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 저장불러오기ToolStripMenuItem;
         private System.Windows.Forms.CheckBox Fixed_CB;
+        public System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox Frame_View_CB;
     }
 }
 
