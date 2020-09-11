@@ -163,24 +163,62 @@ namespace ViewPort.Views
                 //Eq_cb_need_del.Clear();
             }
 
-            else if (e.KeyCode == Keys.X)
+            else if (e.KeyCode == Keys.Z)
             {
-                e.Handled = true;
-                if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) >= int.Parse(Main.Frame_E_Page_TB.Text))
+                if (Main.Frame_View_CB.Checked)
                 {
-                    MessageBox.Show("마지막 페이지 입니다.");
+                    e.Handled = true;
+                    if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) <= 1)
+                    {
+                        MessageBox.Show("첫 페이지 입니다.");
+                    }
+                    else
+                    {
+
+
+                        Last_Picture_Selected_Index = -1;
+                        Current_Frame_PageNum = int.Parse(Main.Frame_S_Page_TB.Text) - 1;
+                        Main.Frame_S_Page_TB.Text = Current_Frame_PageNum.ToString();
+                        Set_PictureBox();
+                        Frame_Set_Image();
+
+
+
+                    }
+
                 }
                 else
-                {
-                    Last_Picture_Selected_Index = -1;
-                    Current_PageNum = int.Parse(Main.Frame_S_Page_TB.Text) + 1;
-                    Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
-                    Set_PictureBox();
-                    Set_Image();
-                    change_Glass();
+                    MessageBox.Show("Frame 별 체크 후에 사용 부탁드립니다.");
 
+            }
+
+            else if (e.KeyCode == Keys.X)
+            {
+                if (Main.Frame_View_CB.Checked)
+                {
+                    e.Handled = true;
+                    if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) >= int.Parse(Main.Frame_E_Page_TB.Text))
+                    {
+                        MessageBox.Show("마지막 페이지 입니다.");
+                    }
+                    else
+                    {
+                        
+                        
+                        Last_Picture_Selected_Index = -1;
+                        Current_Frame_PageNum = int.Parse(Main.Frame_S_Page_TB.Text) + 1;
+                        Main.Frame_S_Page_TB.Text = Current_Frame_PageNum.ToString();
+                        Set_PictureBox();
+                        Frame_Set_Image(); 
+                        
+
+
+                    }
 
                 }
+                else
+                    MessageBox.Show("Frame 별 체크 후에 사용 부탁드립니다.");
+               
             }
         }
        
@@ -269,7 +307,10 @@ namespace ViewPort.Views
             {
                 Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
                 Total_Frame_PageNum = frame_List_Img.Count;
-                Main.Frame_E_Page_TB.Text = Total_PageNum.ToString();
+                Main.Frame_E_Page_TB.Text = Total_Frame_PageNum.ToString();
+
+                
+
                 Frame_Set_Image();
             }
             else
@@ -435,7 +476,11 @@ namespace ViewPort.Views
             }
 
             Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
-            change_Glass();
+
+            if (Main.Frame_View_CB.Checked)
+                Frame_change_Glass();
+            else
+                change_Glass();
 
             if (Change_state_List.Count > 0)
                 Main.Changeed_State();
@@ -802,23 +847,43 @@ namespace ViewPort.Views
 
 
             Bitmap tmp_Img = null;
-
+            
             string Current_ImageFrame = "";
             int S_ImageIndex = (cols * rows) * (Current_PageNum - 1);
-
+            List<string> Frame_Del_Range = new List<string>();
             int Frame_List_Index = Current_Frame_PageNum - 1;
             
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
+            
+            if (Frame_List_Index != 0)
+            {
+                Frame_Del_Range = frame_dicInfo_Filter.Keys.ToList();
+            }
 
-            foreach(KeyValuePair<string, ImageInfo> kvp in dicInfo_Filter)
+
+            foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo_Filter)
             {
                 if (kvp.Value.FrameNo == Convert.ToInt32(frame_List_Img[Frame_List_Index]))
                     if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
                         break;
                     else
                         frame_dicInfo_Filter.Add(kvp.Key, kvp.Value);
+               
             }
+
+            if (Frame_List_Index != 0)
+            {
+                for(int i =0; i < Frame_Del_Range.Count; i++)
+                {
+                    frame_dicInfo_Filter.Remove(Frame_Del_Range[i]);
+                    
+                }
+            }
+
+            Frame_Del_Range.Clear();
+
+
             if (frame_dicInfo_Filter.Count <= 0)
             {
                 for (int i = 0; i < PictureData.Count; i++)
@@ -830,6 +895,17 @@ namespace ViewPort.Views
                     }
                 }
             }
+
+            var Sorted_frame_dic =
+                                                from ent in frame_dicInfo_Filter
+                                                orderby ent.Key
+                                                select ent;
+
+            frame_dicInfo_Filter = Sorted_frame_dic.ToDictionary(pair=>pair.Key, pair => pair.Value);
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
+
 
             if (frame_dicInfo_Filter.Count - ((cols * rows) * Current_PageNum) < 0)
                 EachPage_ImageNum += frame_dicInfo_Filter.Count - ((cols * rows) * Current_PageNum);
@@ -952,12 +1028,16 @@ namespace ViewPort.Views
                 }
 
             }
+            Frame_change_Glass();
+
         }
   
         public void change_Glass()
         {
             Rectangle regSelection = new Rectangle();
             Graphics gPic;
+
+          
 
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
@@ -1004,6 +1084,7 @@ namespace ViewPort.Views
                 {
                     DefectState[i].ForeColor = Color.Yellow;
                     ImageNameLB[i].ForeColor = Color.Yellow;
+                    ImageNameLB[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
@@ -1023,6 +1104,7 @@ namespace ViewPort.Views
 
                     DefectState[i].ForeColor = Color.Red;
                     ImageNameLB[i].ForeColor = Color.Red;
+                    ImageNameLB[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
@@ -1040,7 +1122,101 @@ namespace ViewPort.Views
             if (EachPage_ImageNum < 0)
                 EachPage_ImageNum = 0;
 
-    
+            this.Focus();
+
+        }
+
+        public void Frame_change_Glass()
+        {
+            Rectangle regSelection = new Rectangle();
+            Graphics gPic;
+
+
+
+            for (int i = 0; i < EachPage_ImageNum; i++)
+            {
+                int index = ((Current_PageNum - 1) * (cols * rows)) + i;
+
+                string temp = frame_dicInfo_Filter[frame_dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
+
+                Pen pen;
+
+                if (temp.Equals("양품") || temp.Equals("*"))
+                {
+                    Picture_Glass.ElementAt(i).Image.Dispose();
+                    Picture_Glass.ElementAt(i).Image = new Bitmap(width, height);
+
+                    pen = new System.Drawing.Pen(System.Drawing.Color.Black, 1);
+                    regSelection.Location = new Point(0, 0);
+                    regSelection.Size = new Size(Picture_Glass.ElementAt(i).Image.Width - 1, Picture_Glass.ElementAt(i).Image.Height - 1);
+                }
+
+                else
+                {
+                    Picture_Glass.ElementAt(i).Image.Dispose();
+                    Picture_Glass.ElementAt(i).Image = new Bitmap(width, height);
+
+                    pen = new System.Drawing.Pen(System.Drawing.Color.Red, 3);
+                    regSelection.Location = new Point(1, 1);
+                    regSelection.Size = new Size(Picture_Glass.ElementAt(i).Image.Width - 3, Picture_Glass.ElementAt(i).Image.Height - 3);
+
+
+                    //Select_Pic.Add(Picture_Glass.ElementAt(i).Parent.Name);
+
+                }
+
+                gPic = Graphics.FromImage(Picture_Glass.ElementAt(i).Image);
+                gPic.DrawRectangle(pen, regSelection);
+            }
+
+            for (int i = 0; i < EachPage_ImageNum; i++)
+            {
+                int index = ((Current_PageNum - 1) * (cols * rows)) + i;
+                string temp = frame_dicInfo_Filter[frame_dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
+
+                if (temp.Equals("양품") || temp.Equals("*"))
+                {
+                    DefectState[i].ForeColor = Color.Yellow;
+                    ImageNameLB[i].ForeColor = Color.Yellow;
+                    ImageNameLB[i].BackColor = Color.Black;
+
+                    if (Main.Print_Image_State.Checked)
+                        DefectState[i].Text = temp;
+                    else
+                        DefectState[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked)
+
+                        ImageNameLB[i].Text = frame_dicInfo_Filter.Keys.ElementAt(index);
+                    else
+                        ImageNameLB[i].Text = "";
+
+                    PictureData.ElementAt(i).Tag = Color.Yellow;
+                }
+                else
+                {
+
+                    DefectState[i].ForeColor = Color.Red;
+                    ImageNameLB[i].ForeColor = Color.Red;
+                    ImageNameLB[i].BackColor = Color.Black;
+
+                    if (Main.Print_Image_State.Checked)
+                        DefectState[i].Text = temp;
+                    else
+                        DefectState[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked)
+                        ImageNameLB[i].Text = frame_dicInfo_Filter.Keys.ElementAt(index);
+                    else
+                        ImageNameLB[i].Text = "";
+
+                    PictureData.ElementAt(i).Tag = Color.Red;
+                }
+            }
+            if (EachPage_ImageNum < 0)
+                EachPage_ImageNum = 0;
+
+            this.Focus();
         }
         public void Cheked_State_DF()
         {
@@ -1082,6 +1258,53 @@ namespace ViewPort.Views
 
                     if (Main.Print_Image_Name.Checked)
                         ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                    else
+                        ImageNameLB[i].Text = "";
+
+                    PictureData.ElementAt(i).Tag = Color.Red;
+                }
+            }
+        }
+        public void Frame_Cheked_State_DF()
+        {
+
+            for (int i = 0; i < EachPage_ImageNum; i++)
+            {
+                int index = ((Current_PageNum - 1) * (cols * rows)) + i;
+                string temp = frame_dicInfo_Filter[frame_dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
+
+                if (temp.Equals("양품") || temp.Equals("*"))
+                {
+                    DefectState[i].ForeColor = Color.Yellow;
+                    ImageNameLB[i].ForeColor = Color.Yellow;
+                    ImageNameLB[i].BackColor = Color.Black;
+
+                    if (Main.Print_Image_State.Checked)
+                        DefectState[i].Text = temp;
+                    else
+                        DefectState[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked)
+                        ImageNameLB[i].Text = frame_dicInfo_Filter.Keys.ElementAt(index);
+                    else
+                        ImageNameLB[i].Text = "";
+
+                    PictureData.ElementAt(i).Tag = Color.Yellow;
+                }
+                else
+                {
+
+                    DefectState[i].ForeColor = Color.Red;
+                    ImageNameLB[i].ForeColor = Color.Red;
+                    ImageNameLB[i].BackColor = Color.Black;
+
+                    if (Main.Print_Image_State.Checked)
+                        DefectState[i].Text = temp;
+                    else
+                        DefectState[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked)
+                        ImageNameLB[i].Text = frame_dicInfo_Filter.Keys.ElementAt(index);
                     else
                         ImageNameLB[i].Text = "";
 

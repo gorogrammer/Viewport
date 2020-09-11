@@ -92,3 +92,9 @@ C:\Users\metalheedo\Source\Repos\gorogrammer\Viewport\ViewPortNetwork\obj\Debug\
 C:\Users\metalheedo\Source\Repos\gorogrammer\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
 C:\Users\metalheedo\Source\Repos\gorogrammer\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
 C:\Users\metalheedo\Source\Repos\gorogrammer\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\0911\Viewport\DLLs\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\0911\Viewport\DLLs\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\0911\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csprojAssemblyReference.cache
+C:\Users\metalheedo\Desktop\스템코\0911\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
+C:\Users\metalheedo\Desktop\스템코\0911\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\0911\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb

@@ -538,7 +538,13 @@ namespace ViewPort
 
         private void Print_Image_Name_CheckedChanged(object sender, EventArgs e)
         {
-            open.Cheked_State_DF();
+            
+            if (Frame_View_CB.Checked)
+                open.Frame_Cheked_State_DF();
+            else
+                open.Cheked_State_DF();
+
+
         }
 
         #endregion
@@ -647,7 +653,15 @@ namespace ViewPort
 
         private void Frame_View_CB_CheckedChanged(object sender, EventArgs e)
         {
-            open.Set_View();
+            if(Frame_View_CB.Checked)
+                open.Set_View();
+            else
+            {
+                Frame_S_Page_TB.Text = "";
+                Frame_E_Page_TB.Text = "";
+
+                open.Set_View();
+            }
         }
     }
 
