@@ -25,7 +25,7 @@ namespace ViewPort.Views
         List<PictureBox> Picture_Glass = new List<PictureBox>();
         List<string> Select_Pic = new List<string>();
         List<string> Eq_cb_need_del = new List<string>();
-        List<string> frame_List_Img = new List<string>();
+        List<int> frame_List_Img = new List<int>();
         Dictionary<string, ImageInfo> dicInfo_Filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Delete = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
@@ -72,7 +72,7 @@ namespace ViewPort.Views
             set { Change_state_List = value; }
         }
 
-        public List<string> Frame_List_Img { get => frame_List_Img; set => frame_List_Img = value; }
+        public List<int> Frame_List_Img { get => frame_List_Img; set => frame_List_Img = value; }
         public void SelectGrid_Img_View(string id)
         {
             List<string> dic_index_List = dicInfo_Filter.Keys.ToList();
@@ -864,7 +864,7 @@ namespace ViewPort.Views
 
             foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo_Filter)
             {
-                if (kvp.Value.FrameNo == Convert.ToInt32(frame_List_Img[Frame_List_Index]))
+                if (kvp.Value.FrameNo == frame_List_Img[Frame_List_Index])
                     if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
                         break;
                     else

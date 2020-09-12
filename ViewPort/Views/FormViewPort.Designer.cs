@@ -62,6 +62,8 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.Manual_Mode_RB = new System.Windows.Forms.RadioButton();
+            this.View_Mode_RB = new System.Windows.Forms.RadioButton();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -233,7 +235,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 96);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 71);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -312,7 +314,6 @@
             // dataGridView1
             // 
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -465,6 +466,8 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitContainer5.Panel1.Controls.Add(this.Manual_Mode_RB);
+            this.splitContainer5.Panel1.Controls.Add(this.View_Mode_RB);
             this.splitContainer5.Panel1.Controls.Add(this.textBox8);
             this.splitContainer5.Panel1.Controls.Add(this.label11);
             this.splitContainer5.Panel1.Controls.Add(this.checkBox2);
@@ -504,8 +507,30 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
             this.splitContainer5.Size = new System.Drawing.Size(319, 350);
-            this.splitContainer5.SplitterDistance = 250;
+            this.splitContainer5.SplitterDistance = 275;
             this.splitContainer5.TabIndex = 0;
+            // 
+            // Manual_Mode_RB
+            // 
+            this.Manual_Mode_RB.AutoSize = true;
+            this.Manual_Mode_RB.Checked = true;
+            this.Manual_Mode_RB.Location = new System.Drawing.Point(169, 258);
+            this.Manual_Mode_RB.Name = "Manual_Mode_RB";
+            this.Manual_Mode_RB.Size = new System.Drawing.Size(101, 16);
+            this.Manual_Mode_RB.TabIndex = 24;
+            this.Manual_Mode_RB.TabStop = true;
+            this.Manual_Mode_RB.Text = "Manual Mode";
+            this.Manual_Mode_RB.UseVisualStyleBackColor = true;
+            // 
+            // View_Mode_RB
+            // 
+            this.View_Mode_RB.AutoSize = true;
+            this.View_Mode_RB.Location = new System.Drawing.Point(57, 258);
+            this.View_Mode_RB.Name = "View_Mode_RB";
+            this.View_Mode_RB.Size = new System.Drawing.Size(87, 16);
+            this.View_Mode_RB.TabIndex = 24;
+            this.View_Mode_RB.Text = "View Mode";
+            this.View_Mode_RB.UseVisualStyleBackColor = true;
             // 
             // textBox8
             // 
@@ -801,6 +826,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox checkBox2;
         public System.Windows.Forms.CheckBox Frame_View_CB;
+        public System.Windows.Forms.RadioButton Manual_Mode_RB;
+        public System.Windows.Forms.RadioButton View_Mode_RB;
     }
 }
 

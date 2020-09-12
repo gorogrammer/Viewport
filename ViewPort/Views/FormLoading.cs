@@ -26,18 +26,22 @@ namespace ViewPort.Views
         private List<string> all_VerifyDF_List;
         private List<Tuple<string, int>> all_Equipment_DF_List;
         private List<string> map_List;
-        private List<string> frame_List;
+        private List<int> frame_List;
+        private List<string> map_List_Compare;
+        private Dictionary<int,int> map_List_Dic;
+        private Dictionary<int, int> map_List_Dic_Compare;
 
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
         public List<string> Map_List { get => map_List; set => map_List = value; }
-
-        public List<string> Frame_List { get => frame_List; set => frame_List = value; }
+        public List<string> Map_List_Compare { get => map_List_Compare; set => map_List_Compare = value; }
+        public List<int> Frame_List { get => frame_List; set => frame_List = value; }
         public List<Tuple<string, int>> All_Equipment_DF_List { get => all_Equipment_DF_List; set => all_Equipment_DF_List = value; }
         public DataTable Dt { get => dt; set => dt = value; }
-
+        public Dictionary<int, int> Map_List_Dic { get => map_List_Dic; set => map_List_Dic = value; }
+        public Dictionary<int, int> Map_List_Dic_Compare { get => map_List_Dic_Compare; set => map_List_Dic_Compare = value; }
         #endregion
 
         #region SAFE FUNCTION
@@ -129,7 +133,10 @@ namespace ViewPort.Views
             All_Equipment_DF_List = new List<Tuple<string, int>>();
             All_VerifyDF_List = new List<string>();
             Map_List = new List<string>();
-            Frame_List = new List<string>();
+            Map_List_Compare = new List<string>();
+            Frame_List = new List<int>();
+            Map_List_Dic = new Dictionary<int, int>();
+            Map_List_Dic_Compare = new Dictionary<int, int>();
 
             InitializeComponent();
 
@@ -149,14 +156,19 @@ namespace ViewPort.Views
 
             EditFormNameSafe(MSG_STR.LOAD_ZIP);
 
+            Load_Map_TxtAsync(FilePath);
+
             ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);   // Zip파일(Lot) Load
             {
                 SetProgressBarMaxSafe(zip.Entries.Count);
+
+               
                 foreach (ZipArchiveEntry entry in zip.Entries)
                 {
+                  
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
                     {
-                        Frame_List.Add(entry.Name.Substring(0, 5));
+                        Frame_List.Add(int.Parse(entry.Name.Substring(0, 5)));
                     }
 
                     LoadSubZipAsync(LotName, entry);
@@ -169,7 +181,7 @@ namespace ViewPort.Views
             LoadTxtAsync(FilePath);
 
             Load_XY_TxtAsync(FilePath);
-            Load_Map_TxtAsync(FilePath);
+            Load_DL_TxtAsync(FilePath);
 
             EditFormNameSafe(MSG_STR.LOAD_ROWS);
             MakeDataTables();
@@ -185,11 +197,19 @@ namespace ViewPort.Views
                 return;
             }
 
+            for(int i =0; i < Map_List.Count; i++)
+            {
+                if (int.Parse(entry.Name.Split('.')[0]) == int.Parse(Map_List[i]))
+                    return;
+            }
+
             Stream subEntryMS = entry.Open();
             ZipArchive subZip = new ZipArchive(subEntryMS);
 
+            
             foreach (ZipArchiveEntry subEntry in subZip.Entries)        // 2중 압축파일 내에 있는 파일을 탐색
             {
+                
                 if (!subEntry.Name.ToUpper().Contains(".JPG"))
                     continue;
 
@@ -280,6 +300,38 @@ namespace ViewPort.Views
             
         }
 
+        private void Load_DL_TxtAsync(string FilePath)
+        {
+            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+            {
+                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetDLFromPath(FilePath));
+
+                if (ImgEntry == null)
+                {
+                    MessageBox.Show(MSG_STR.NONE_DL_TXT);
+                    return;
+                }
+
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                string text = SR.ReadToEnd();
+                string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+
+                for (int i = 0; i < items.Length - 4; i++)
+                {
+                    string[] dic_ready = items[i + 3].Split(',');
+                    if (dicTxt_info.ContainsKey(dic_ready[0].Substring(0, 12)))
+                    {
+                        dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
+                        dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
+                    }
+
+
+                }
+            }
+
+        }
+
         private void Load_Map_TxtAsync(string FilePath)
         {
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
@@ -295,23 +347,62 @@ namespace ViewPort.Views
                 StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
                 
-                string[] items = text.Split(' ');
+                string[] items = text.Split(' ', '!');
+                var items_List = items.ToList();
+                int index = items_List.IndexOf("");
 
 
                 for (int i = 0; i < items.Length; i++)
                 {
-                    if(items[i].Length <= 9 && items[i].Length > 5)
-                        Map_List.Add(items[i]);
+                    if (i < index && items[i].Length <= 9 && items[i].Length > 5)
+                    {
+                        
+                        map_List_Dic.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                    }
+                        
+                    else if (i > index && items[i].Length <= 9 && items[i].Length > 5)
+                    {
+                        Map_List_Compare.Add(items[i]);
+                        if(items[i].Contains("E@"))
+                        {
+                            string change = items[i].Replace("E@", "");
+                            items[i] = change;
+                            Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                        }
+                        else
+                            Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                    }
+                        
 
                 }
-                if(Map_List[Map_List.Count-1].Contains("E@"))
+                if(Map_List_Compare[Map_List_Compare.Count-1].Contains("E@"))
                 {
-                   string change =  Map_List[Map_List.Count - 1].Replace("E@", "");
-                   Map_List[Map_List.Count - 1] = change;
+                   string change = Map_List_Compare[Map_List_Compare.Count - 1].Replace("E@", "");
+                   Map_List_Compare[Map_List_Compare.Count - 1] = change;
 
                 }
             }
 
+            foreach (KeyValuePair<int, int> pair in map_List_Dic)
+            {
+                //if(pair.Value != 88 && map_List_Dic_Compare.ContainsKey(pair.Key))
+                //{
+                //    if (map_List_Dic_Compare[pair.Key] == 39 || map_List_Dic_Compare[pair.Key] == 40)
+                //    {
+                //        map_List.Add(pair.Key.ToString()) ;
+                //    }
+                //}
+                if (pair.Value != 88 )
+                {
+                    map_List.Add(pair.Key.ToString());
+                    //if (map_List_Dic_Compare[pair.Key] != 39 || map_List_Dic_Compare[pair.Key] != 40)
+                    //{
+                    //    map_List.Add(pair.Key.ToString());
+                    //}
+                }
+
+            }
+            
         }
 
         private void MakeDataTables()

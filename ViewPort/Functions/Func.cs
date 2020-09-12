@@ -209,6 +209,11 @@ namespace ViewPort.Functions
             return Path.GetFileNameWithoutExtension(str) + ".txt";
         }
 
+        public static string GetDLFromPath(string str)
+        {
+            return Path.GetFileNameWithoutExtension(str) + "_DL.txt";
+        }
+
         public static void SaveDelFileID( Dictionary<string, ImageInfo> Waiting_Del)
         {
 

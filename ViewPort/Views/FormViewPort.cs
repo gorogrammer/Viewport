@@ -41,7 +41,7 @@ namespace ViewPort
         List<string> All_VerifyDF_List = new List<string>();
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
         List<string> MAP_LIST = new List<string>();
-        List<string> frame_List_main = new List<string>();
+        List<int> frame_List_main = new List<int>();
         List<string> Eq_Filter_Select_Key_List = new List<string>();
 
         List<string> Wait_Del_Img_List = new List<string>();
@@ -49,6 +49,7 @@ namespace ViewPort
         List<string> ImageSizeList = new List<string>();
         List<string> Selected_Pic = new List<string>();
         List<string> Change_state_List = new List<string>();
+        
         int btnColumnIdx;
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         private int _load_State;
@@ -65,7 +66,7 @@ namespace ViewPort
         public Dictionary<string, ImageInfo> Return_dicInfo { get => return_dicInfo; set => return_dicInfo = value; }
         public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
-        public List<string> Frame_List_Main { get => frame_List_main; set => frame_List_main = value; }
+        public List<int> Frame_List_Main { get => frame_List_main; set => frame_List_main = value; }
         public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
         public string REF_DirPath { get => ref_DirPath; set => ref_DirPath = value; }
@@ -375,12 +376,31 @@ namespace ViewPort
                 FormLoading formLoading = new FormLoading(path);
                 formLoading.ShowDialog();
 
+                
                 dicInfo = formLoading.Dic_Load;
+
+                MAP_LIST = formLoading.Map_List;
+
+              
+
+                Frame_List_Main = formLoading.Frame_List;
+
+                for (int i = 0; i < MAP_LIST.Count; i++)
+                {
+                    if(Frame_List_Main.Contains(int.Parse(MAP_LIST[i])))
+                    {
+                        Frame_List_Main.Remove(int.Parse(MAP_LIST[i]));
+                        
+                    }
+                }
+
+
                 dicTxt_info = formLoading.DicTxt_info;
+                
                 All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
                 All_LotID_List = formLoading.All_LotID_List;
-                MAP_LIST = formLoading.Map_List;
-                Frame_List_Main = formLoading.Frame_List;
+                
+                
 
                 dataGridView1.DataSource = formLoading.Dt;
                 dataGridView1.RowHeadersWidth = 30;

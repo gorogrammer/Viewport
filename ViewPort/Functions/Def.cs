@@ -27,6 +27,8 @@ namespace ViewPort.Functions
 
         public const string NONE_MAP_TXT = "MAP txt 파일이 없습니다.";
 
+        public const string NONE_DL_TXT = "DL txt 파일이 없습니다.";
+
     }
 
     public class FILTER_STR
