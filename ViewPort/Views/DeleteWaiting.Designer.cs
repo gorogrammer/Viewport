@@ -34,6 +34,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
             this.E_Page_TB = new System.Windows.Forms.TextBox();
+            this.Delete_Img_In_ZIp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -49,6 +50,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.Delete_Img_In_ZIp);
             this.splitContainer1.Panel1.Controls.Add(this.Delete_wait_img_bt);
             this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.label4);
@@ -110,6 +112,16 @@
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 11;
             // 
+            // Delete_Img_In_ZIp
+            // 
+            this.Delete_Img_In_ZIp.Location = new System.Drawing.Point(891, 4);
+            this.Delete_Img_In_ZIp.Name = "Delete_Img_In_ZIp";
+            this.Delete_Img_In_ZIp.Size = new System.Drawing.Size(94, 23);
+            this.Delete_Img_In_ZIp.TabIndex = 21;
+            this.Delete_Img_In_ZIp.Text = "Image 삭제";
+            this.Delete_Img_In_ZIp.UseVisualStyleBackColor = true;
+            this.Delete_Img_In_ZIp.Click += new System.EventHandler(this.Delete_Img_In_ZIp_Click);
+            // 
             // DeleteWaiting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -137,5 +149,6 @@
         public System.Windows.Forms.TextBox E_Page_TB;
         private System.Windows.Forms.Button Delete_wait_img_bt;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Delete_Img_In_ZIp;
     }
 }

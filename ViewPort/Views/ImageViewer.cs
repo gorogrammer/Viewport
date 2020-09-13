@@ -220,6 +220,15 @@ namespace ViewPort.Views
                     MessageBox.Show("Frame 별 체크 후에 사용 부탁드립니다.");
                
             }
+
+            else if (e.KeyCode == Keys.L)
+            {
+                DL_ViewFrom DL = new DL_ViewFrom(Main);
+                DL.Dl_LIst_ADD(Main.Dl_List_Main);
+                DL.Show();
+               
+
+            }
         }
        
 

@@ -34,6 +34,8 @@ namespace ViewPort.Views
         Dictionary<string, ImageInfo> dicInfo_Delete_Sel = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Delete_Return = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
+
+        Dictionary<string, ImageInfo> Waiting_Del_DLView = new Dictionary<string, ImageInfo>();
         int cols, rows, width, height;
         int Current_PageNum, Total_PageNum;
         Point src_Mouse_XY, dst_Mouse_XY;
@@ -545,6 +547,26 @@ namespace ViewPort.Views
            
             Set_View_Del();
             Select_Pic.Clear();
+        }
+
+        private void Delete_Img_In_ZIp_Click(object sender, EventArgs e)
+        {
+            Waiting_Del_DLView = Main.Waiting_Del;
+            if (Waiting_Del_DLView.Count > 0)
+            {
+                if (MessageBox.Show("" + Waiting_Del_DLView.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    Main.Delete_ZipImg();
+                    Dispose(true);
+                }
+                else
+                {
+                    
+                    return;
+                }
+
+
+            }
         }
 
         private void PictureBox_Click(object sender, EventArgs e)

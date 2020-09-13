@@ -28,15 +28,22 @@ namespace ViewPort.Views
         private List<string> map_List;
         private List<int> frame_List;
         private List<string> map_List_Compare;
+        private List<string> dl_List;
         private Dictionary<int,int> map_List_Dic;
         private Dictionary<int, int> map_List_Dic_Compare;
-
+        private List<string> dl_Apply_List;
+        private List<string> dl_NOt_Apply_List;
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
         public List<string> Map_List { get => map_List; set => map_List = value; }
         public List<string> Map_List_Compare { get => map_List_Compare; set => map_List_Compare = value; }
+        public List<string> Dl_List { get => dl_List; set => dl_List = value; }
+
+        public List<string> Dl_Apply_List { get => dl_Apply_List; set => dl_Apply_List = value; }
+
+        public List<string> Dl_NOt_Apply_List { get => dl_NOt_Apply_List; set => dl_NOt_Apply_List = value; }
         public List<int> Frame_List { get => frame_List; set => frame_List = value; }
         public List<Tuple<string, int>> All_Equipment_DF_List { get => all_Equipment_DF_List; set => all_Equipment_DF_List = value; }
         public DataTable Dt { get => dt; set => dt = value; }
@@ -137,6 +144,9 @@ namespace ViewPort.Views
             Frame_List = new List<int>();
             Map_List_Dic = new Dictionary<int, int>();
             Map_List_Dic_Compare = new Dictionary<int, int>();
+            Dl_List = new List<string>();
+            Dl_Apply_List = new List<string>();
+            Dl_NOt_Apply_List = new List<string>();
 
             InitializeComponent();
 
@@ -316,18 +326,23 @@ namespace ViewPort.Views
                 string text = SR.ReadToEnd();
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
-
-                for (int i = 0; i < items.Length - 4; i++)
+                for(int i = 1; i < items.Length - 1; i++ )
                 {
-                    string[] dic_ready = items[i + 3].Split(',');
-                    if (dicTxt_info.ContainsKey(dic_ready[0].Substring(0, 12)))
-                    {
-                        dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
-                        dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
-                    }
-
-
+                    Dl_List.Add(items[i]);
+                    
                 }
+
+                for(int p = 2; p < Dl_List.Count-1; p++)
+                {
+                    string[] split_string = Dl_List[p].Split(',', '%', ' ');
+                    if (double.Parse(split_string[6]) < double.Parse(split_string[8]))
+                        Dl_Apply_List.Add(split_string[0]);
+                    else
+                        Dl_NOt_Apply_List.Add(split_string[0]);
+                    
+                }
+                
+               
             }
 
         }

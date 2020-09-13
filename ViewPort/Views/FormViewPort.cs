@@ -49,7 +49,8 @@ namespace ViewPort
         List<string> ImageSizeList = new List<string>();
         List<string> Selected_Pic = new List<string>();
         List<string> Change_state_List = new List<string>();
-        
+        List<string> dl_List_Main = new List<string>();
+
         int btnColumnIdx;
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         private int _load_State;
@@ -68,6 +69,8 @@ namespace ViewPort
 
         public List<int> Frame_List_Main { get => frame_List_main; set => frame_List_main = value; }
         public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
+
+        public List<string> Dl_List_Main { get => dl_List_Main; set => dl_List_Main = value; }
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
         public string REF_DirPath { get => ref_DirPath; set => ref_DirPath = value; }
         public string DirPath { get => dirPath; set => dirPath = value; }
@@ -223,10 +226,15 @@ namespace ViewPort
         }
         public void Img_txt_Info_Combine()
         {
+            
             foreach (KeyValuePair<string, Models.txtInfo> kvp in dicTxt_info)
             {
-                dicInfo[kvp.Key].sdip_no = kvp.Value.SDIP_No;
-                dicInfo[kvp.Key].sdip_result = kvp.Value.SDIP_Result;
+                if(dicInfo.ContainsKey(kvp.Key))
+                {
+                    dicInfo[kvp.Key].sdip_no = kvp.Value.SDIP_No;
+                    dicInfo[kvp.Key].sdip_result = kvp.Value.SDIP_Result;
+                }
+                
             }
         }
 
@@ -377,11 +385,11 @@ namespace ViewPort
                 formLoading.ShowDialog();
 
                 
-                dicInfo = formLoading.Dic_Load;
+                DicInfo = formLoading.Dic_Load;
 
                 MAP_LIST = formLoading.Map_List;
 
-              
+                Dl_List_Main = formLoading.Dl_List;
 
                 Frame_List_Main = formLoading.Frame_List;
 
@@ -594,10 +602,15 @@ namespace ViewPort
            
         }
 
-        private void Delete_ZipImg()
+        public void Delete_ZipImg()
         {
 
             Func.DeleteJPG_inZIP(zipFilePath, dicInfo_Waiting_Del);
+
+            dicInfo_Waiting_Del.Clear();
+            ((DataTable)dataGridView2.DataSource).Rows.Clear();
+
+            int ci = open.DicInfo_Delete.Count;
 
         }
 

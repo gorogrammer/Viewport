@@ -131,6 +131,7 @@ namespace ViewPort.Functions
         {
             ZipArchive zip, subZip;
             Stream subEntryMS;
+            int dl_no = 0;
           try
             {
                 zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);       // Zip파일(Lot) Load
@@ -152,16 +153,21 @@ namespace ViewPort.Functions
 
                                 ZipArchiveEntry del_entry = subZip.GetEntry(subZip.Entries[i].Name);
                                 del_entry.Delete();
-
+                                dl_no++;
                                 i--;
                             }
+
+                            
                         }
 
                         subZip.Dispose();
                        
                     }
-                    zip.Dispose();
+                    if (dl_no == dicInfo_del.Count)
+                        break;
                 }
+                zip.Dispose();
+
             }
             catch (System.Exception ex)
             {
@@ -169,6 +175,8 @@ namespace ViewPort.Functions
 
                 return;
             }
+            
+            
         }
         public static string GetFileNameWithoutJPG(string str)
         {

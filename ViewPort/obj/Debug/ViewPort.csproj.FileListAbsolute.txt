@@ -526,3 +526,4 @@ C:\Users\metalheedo\Desktop\스템코 뷰어\0912\Viewport\ViewPort\obj\Debug\Vi
 C:\Users\metalheedo\Desktop\스템코 뷰어\0912\Viewport\ViewPort\obj\Debug\ViewPort.csproj.CopyComplete
 C:\Users\metalheedo\Desktop\스템코 뷰어\0912\Viewport\ViewPort\obj\Debug\ViewPort.exe
 C:\Users\metalheedo\Desktop\스템코 뷰어\0912\Viewport\ViewPort\obj\Debug\ViewPort.pdb
+C:\Users\metalheedo\Desktop\스템코 뷰어\0912\Viewport\ViewPort\obj\Debug\ViewPort.Views.DL_ViewFrom.resources
