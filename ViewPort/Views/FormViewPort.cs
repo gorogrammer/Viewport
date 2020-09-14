@@ -424,7 +424,7 @@ namespace ViewPort
             if(ZipFilePath != null)
             {
                 Img_txt_Info_Combine();
-                dicInfo_Copy = dicInfo;
+                dicInfo_Copy = new Dictionary<string, ImageInfo>(DicInfo);
                 All_LotID_List.Sort();
                 Initial_Equipment_DF_List();
 
@@ -694,6 +694,22 @@ namespace ViewPort
                 Frame_E_Page_TB.Text = "";
 
                 open.Set_View();
+            }
+        }
+
+        private void Manual_Mode_RB_CheckedChanged(object sender, EventArgs e)
+        {
+            if(View_Mode_RB.Checked)
+            {
+
+            }
+        }
+
+        private void View_Mode_RB_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Manual_Mode_RB.Checked)
+            {
+
             }
         }
     }

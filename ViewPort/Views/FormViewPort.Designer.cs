@@ -521,6 +521,7 @@
             this.Manual_Mode_RB.TabStop = true;
             this.Manual_Mode_RB.Text = "Manual Mode";
             this.Manual_Mode_RB.UseVisualStyleBackColor = true;
+            this.Manual_Mode_RB.CheckedChanged += new System.EventHandler(this.Manual_Mode_RB_CheckedChanged);
             // 
             // View_Mode_RB
             // 
@@ -531,6 +532,7 @@
             this.View_Mode_RB.TabIndex = 24;
             this.View_Mode_RB.Text = "View Mode";
             this.View_Mode_RB.UseVisualStyleBackColor = true;
+            this.View_Mode_RB.CheckedChanged += new System.EventHandler(this.View_Mode_RB_CheckedChanged);
             // 
             // textBox8
             // 

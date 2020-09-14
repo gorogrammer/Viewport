@@ -294,6 +294,7 @@ namespace ViewPort.Views
             frame_List_Img = Main.Frame_List_Main;
             dicInfo_Filter = Main.DicInfo;
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
             DicInfo_Filtered = Sorted_dic;
 
             cols = int.Parse(Main.Cols_TB.Text);
