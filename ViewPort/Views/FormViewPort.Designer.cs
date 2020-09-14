@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormViewPort));
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.List_Count_TB = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.Frame_E_Page_TB = new System.Windows.Forms.TextBox();
@@ -119,12 +119,12 @@
             this.button1.Text = "Print Image";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // textBox7
+            // List_Count_TB
             // 
-            this.textBox7.Location = new System.Drawing.Point(109, 222);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(79, 21);
-            this.textBox7.TabIndex = 18;
+            this.List_Count_TB.Location = new System.Drawing.Point(109, 222);
+            this.List_Count_TB.Name = "List_Count_TB";
+            this.List_Count_TB.Size = new System.Drawing.Size(79, 21);
+            this.List_Count_TB.TabIndex = 18;
             // 
             // label5
             // 
@@ -475,7 +475,7 @@
             this.splitContainer5.Panel1.Controls.Add(this.Fixed_CB);
             this.splitContainer5.Panel1.Controls.Add(this.button2);
             this.splitContainer5.Panel1.Controls.Add(this.button1);
-            this.splitContainer5.Panel1.Controls.Add(this.textBox7);
+            this.splitContainer5.Panel1.Controls.Add(this.List_Count_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label5);
             this.splitContainer5.Panel1.Controls.Add(this.label4);
             this.splitContainer5.Panel1.Controls.Add(this.Frame_E_Page_TB);
@@ -776,7 +776,7 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        public System.Windows.Forms.TextBox textBox7;
+        public System.Windows.Forms.TextBox List_Count_TB;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         public System.Windows.Forms.TextBox Frame_E_Page_TB;

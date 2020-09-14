@@ -280,7 +280,30 @@ namespace ViewPort
 
                 //dt.AcceptChanges();
             }
+            Select_All_BTN_Click(null, null);
+        }
+
+        public void Filter_NO_1_PrintList()
+        {
+            int index = 0;
+
+            Selected_Pic = open.Select_Pic_List;
+
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
             
+
+            for (int i = 0; i < Selected_Pic.Count; i++)
+            {
+                DataRow dr = dt.NewRow();
+                dr = dt.Rows.Find(dicInfo[Selected_Pic[i]].Imagename);
+                index = dt.Rows.IndexOf(dr);
+                dt.Rows[index].Delete();
+
+
+                //dt.AcceptChanges();
+            }
+            Selected_Pic.Clear();
         }
 
         public void Changeed_State()
@@ -303,19 +326,46 @@ namespace ViewPort
             }
         }
 
+        public void ALL_Changeed_State()
+        {
+            int index = 0;
+            Change_state_List = open.Change_state;
+
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+           
+            dt.Rows.Clear();
+            dataGridView1.RowHeadersWidth = 30;
+            
+            foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+            //for (int i = 0; i < Change_state_List.Count; i++)
+            //{
+            //    DataRow dr = dt.NewRow();
+            //    dr = dt.Rows.Find(dicInfo[Change_state_List[i]].Imagename);
+            //    index = dt.Rows.IndexOf(dr);
+            //    if (dicInfo.ContainsKey(Change_state_List[i]))
+            //        dt.Rows[index][1] = dicInfo[Change_state_List[i]].ReviewDefectName;
+
+            //    //dt.AcceptChanges();
+            //}
+        }
         private void _filterAct_bt_Click(object sender, EventArgs e)
         {
+            Eq_CB_dicInfo.Clear();
+            Initial_Equipment_DF_FilterList();
 
             //eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
-            if(Waiting_Del.Count >0)
+
+            if (Waiting_Del.Count > 0)
             {
                 foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
                     eq_CB_dicInfo.Remove(kvp.Key);
-                             
+
             }
 
+            Sorted_dic = eq_CB_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Eq_CB_dicInfo = Sorted_dic;
 
-            Initial_Equipment_DF_FilterList();
             Eq_Filter_after_Print_List();
             open.Main = this;
             open.Eq_CB_Set_View();
@@ -413,6 +463,8 @@ namespace ViewPort
                 dataGridView1.DataSource = formLoading.Dt;
                 dataGridView1.RowHeadersWidth = 30;
 
+                List_Count_TB.Text = formLoading.Dt.Rows.Count.ToString();
+
                 formLoading.Dispose();
             }
         }
@@ -431,6 +483,8 @@ namespace ViewPort
                 for (int i = 0; i < All_Equipment_DF_List.Count; i++)
                     Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
 
+
+                Select_All_BTN_Click(null, null);
                 MessageBox.Show(MSG_STR.SUCCESS);
 
                 open.Main = this;
@@ -441,7 +495,7 @@ namespace ViewPort
 
         private void update_Equipment_DF_CLB(List<string> deleted_pic)
         {
-            Initial_Equipment_DF_List();
+            
             List<string> changed_eq = new List<string>();
             int x = 1;
             int index = 0;
@@ -459,11 +513,18 @@ namespace ViewPort
                     if(x==0)
                     {
                         All_Equipment_DF_List.RemoveAt(index);
+                        
                     }
                    
                 }
                     
             }
+            Equipment_DF_CLB.Items.Clear();
+            Initial_Equipment_DF_List();
+
+            for (int i = 0; i < All_Equipment_DF_List.Count; i++)
+                Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
+
             for (int p = 0; p < Equipment_DF_CLB.CheckedItems.Count; p++)
             {
                 changed_eq.Add(Equipment_DF_CLB.CheckedItems[p].ToString());
