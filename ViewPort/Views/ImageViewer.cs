@@ -282,6 +282,22 @@ namespace ViewPort.Views
                 Set_Image();
                 Main.ALL_Changeed_State();
             }
+
+            else if (e.KeyCode == Keys.F9)
+            {
+                dicInfo_Filter.Clear();
+                foreach(KeyValuePair<string, ImageInfo> pair in Main.DicInfo_Copy)
+                {
+                    for(int i =0; i < Main.Dl_Apply_List_Main.Count; i++)
+                    {
+                        if (pair.Value.sdip_no == Main.Dl_Apply_List_Main[i])
+                            dicInfo_Filter.Add(pair.Key,pair.Value);
+                    }
+                    
+                }
+            }
+
+            Set_Image();
         }
        
 

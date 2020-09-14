@@ -51,6 +51,9 @@ namespace ViewPort
         List<string> Change_state_List = new List<string>();
         List<string> dl_List_Main = new List<string>();
 
+        List<string> dl_Apply_List_Main = new List<string>();
+        List<string> dl_NotApply_List_Main = new List<string>();
+
         int btnColumnIdx;
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         private int _load_State;
@@ -63,13 +66,18 @@ namespace ViewPort
             get { return dicInfo; }
             set { dicInfo = value; }
         }
+
         public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
+        public Dictionary<string, ImageInfo> DicInfo_Copy { get => dicInfo_Copy; set => dicInfo_Copy = value; }
         public Dictionary<string, ImageInfo> Return_dicInfo { get => return_dicInfo; set => return_dicInfo = value; }
         public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
         public List<int> Frame_List_Main { get => frame_List_main; set => frame_List_main = value; }
         public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
 
+        public List<string> Dl_Apply_List_Main { get => dl_Apply_List_Main; set => dl_Apply_List_Main = value; }
+
+        public List<string> Dl_NotApply_List_Main { get => dl_NotApply_List_Main; set => dl_NotApply_List_Main = value; }
         public List<string> Dl_List_Main { get => dl_List_Main; set => dl_List_Main = value; }
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
         public string REF_DirPath { get => ref_DirPath; set => ref_DirPath = value; }
@@ -457,8 +465,10 @@ namespace ViewPort
                 
                 All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
                 All_LotID_List = formLoading.All_LotID_List;
-                
-                
+                Dl_Apply_List_Main = formLoading.Dl_Apply_List;
+                Dl_NotApply_List_Main = formLoading.Dl_NOt_Apply_List;
+
+
 
                 dataGridView1.DataSource = formLoading.Dt;
                 dataGridView1.RowHeadersWidth = 30;
@@ -473,10 +483,43 @@ namespace ViewPort
         {
             InitialData();
             ZipLoadFile_Async();
-            if(ZipFilePath != null)
+            int x = 1;
+            int index = 0;
+            if (ZipFilePath != null)
             {
                 Img_txt_Info_Combine();
+                                
                 dicInfo_Copy = new Dictionary<string, ImageInfo>(DicInfo);
+
+                if(Manual_Mode_RB.Checked)
+                {
+                    foreach (string pair in dicInfo.Keys.ToList())
+                    {
+                        if (211 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 230)
+                        {
+                            if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[pair].EquipmentDefectName)) == -1)
+                                continue;
+                            else
+                            {
+                                index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[pair].EquipmentDefectName));
+                                x = All_Equipment_DF_List[index].Item2;
+                                All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[pair].EquipmentDefectName, --x);
+
+                                if (x == 0)
+                                {
+                                    All_Equipment_DF_List.RemoveAt(index);
+
+                                }
+
+                            }
+
+                            dicInfo.Remove(pair);
+                        }
+
+                    }
+                }
+               
+
                 All_LotID_List.Sort();
                 Initial_Equipment_DF_List();
 
