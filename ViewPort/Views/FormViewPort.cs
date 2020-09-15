@@ -152,14 +152,14 @@ namespace ViewPort
 
 
 
-        private void Print_List()
+        public void Print_List()
         {
             DataTable dt = (DataTable)dataGridView1.DataSource;
 
             dt.Rows.Clear();
             dataGridView1.RowHeadersWidth = 30;
            
-                foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo)
+                foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
                     dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
            
             
@@ -325,10 +325,10 @@ namespace ViewPort
             for (int i = 0; i < Change_state_List.Count; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr = dt.Rows.Find(dicInfo[Change_state_List[i]].Imagename);
+                dr = dt.Rows.Find(dicInfo_Copy[Change_state_List[i]].Imagename);
                 index = dt.Rows.IndexOf(dr);
-                if (dicInfo.ContainsKey(Change_state_List[i]))
-                    dt.Rows[index][1] = dicInfo[Change_state_List[i]].ReviewDefectName;
+                if (dicInfo_Copy.ContainsKey(Change_state_List[i]))
+                    dt.Rows[index][1] = dicInfo_Copy[Change_state_List[i]].ReviewDefectName;
 
                 //dt.AcceptChanges();
             }
@@ -337,7 +337,7 @@ namespace ViewPort
         public void ALL_Changeed_State()
         {
             int index = 0;
-            Change_state_List = open.Change_state;
+            
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
            
@@ -346,16 +346,7 @@ namespace ViewPort
             
             foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
                 dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
-            //for (int i = 0; i < Change_state_List.Count; i++)
-            //{
-            //    DataRow dr = dt.NewRow();
-            //    dr = dt.Rows.Find(dicInfo[Change_state_List[i]].Imagename);
-            //    index = dt.Rows.IndexOf(dr);
-            //    if (dicInfo.ContainsKey(Change_state_List[i]))
-            //        dt.Rows[index][1] = dicInfo[Change_state_List[i]].ReviewDefectName;
-
-            //    //dt.AcceptChanges();
-            //}
+      
         }
         private void _filterAct_bt_Click(object sender, EventArgs e)
         {
@@ -495,7 +486,7 @@ namespace ViewPort
                 {
                     foreach (string pair in dicInfo.Keys.ToList())
                     {
-                        if (211 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 230)
+                        if (dicInfo[pair].sdip_no != "-" && 211 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 230)
                         {
                             if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[pair].EquipmentDefectName)) == -1)
                                 continue;
@@ -790,7 +781,7 @@ namespace ViewPort
 
         private void Frame_View_CB_CheckedChanged(object sender, EventArgs e)
         {
-            if(Frame_View_CB.Checked)
+             if(Frame_View_CB.Checked)
                 open.Set_View();
             else
             {
