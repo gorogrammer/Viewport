@@ -146,22 +146,45 @@ namespace ViewPort.Views
             {
                 Get_Delete_IMG();
 
-                for (int i = 0; i < Select_Pic.Count; i++)
+                if(Main.Frame_View_CB.Checked)
                 {
-                    if (dicInfo_Filter.ContainsKey(Select_Pic[i]))
+                    for (int i = 0; i < Select_Pic.Count; i++)
                     {
-                        dicInfo_Filter.Remove(Select_Pic[i]);
+                        if (frame_dicInfo_Filter.ContainsKey(Select_Pic[i]))
+                        {
+                            frame_dicInfo_Filter.Remove(Select_Pic[i]);
+                        }
+
+                    }
+                    Frame_Set_View();
+
+                    Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
+                }
+                else
+                {
+                    for (int i = 0; i < Select_Pic.Count; i++)
+                    {
+                        if (dicInfo_Filter.ContainsKey(Select_Pic[i]))
+                        {
+                            dicInfo_Filter.Remove(Select_Pic[i]);
+                        }
+
                     }
 
+                    Del_Set_View();
+                    Main.Dl_PrintList();
+
+
+                    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
                 }
+
                
-                Del_Set_View();
-                Main.Dl_PrintList();
+
                 Main.Wait_Del_Print_List();
                 Eq_cb_need_del = new List<string>(Select_Pic);
                 
                 Select_Pic.Clear();
-                Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                
                 //Eq_cb_need_del.Clear();
             }
 
@@ -433,17 +456,33 @@ namespace ViewPort.Views
 
         public void Get_Delete_IMG()
         {
-            
-            for(int p = 0; p < Select_Pic.Count; p++)
+            if(Main.Frame_View_CB.Checked)
             {
-                if(dicInfo_Filter.ContainsKey(Select_Pic[p]))
+                for (int p = 0; p < Select_Pic.Count; p++)
                 {
-                    
-                    dicInfo_Delete.Add(Select_Pic[p], dicInfo_Filter[Select_Pic[p]]);
+                    if (frame_dicInfo_Filter.ContainsKey(Select_Pic[p]))
+                    {
 
-                    dicInfo_Delete[Select_Pic[p]].DeleteCheck = "삭제대기";
+                        dicInfo_Delete.Add(Select_Pic[p], frame_dicInfo_Filter[Select_Pic[p]]);
+
+                        dicInfo_Delete[Select_Pic[p]].DeleteCheck = "삭제대기";
+                    }
                 }
             }
+            else
+            {
+                for (int p = 0; p < Select_Pic.Count; p++)
+                {
+                    if (dicInfo_Filter.ContainsKey(Select_Pic[p]))
+                    {
+
+                        dicInfo_Delete.Add(Select_Pic[p], dicInfo_Filter[Select_Pic[p]]);
+
+                        dicInfo_Delete[Select_Pic[p]].DeleteCheck = "삭제대기";
+                    }
+                }
+            }
+            
             Main.Waiting_Del = dicInfo_Delete;
         }
         
@@ -531,12 +570,19 @@ namespace ViewPort.Views
             width = int.Parse(Main.Width_TB.Text);
             height = int.Parse(Main.Height_TB.Text);
 
-            Current_PageNum = 1;
-            Current_Frame_PageNum = 1;
+            
+           
 
-            Main.S_Page_TB.Text = Current_PageNum.ToString();
-            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
-            Main.E_Page_TB.Text = Total_PageNum.ToString();
+            //if (((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1 < Current_PageNum)
+            //    Current_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            //else
+            //    Current_PageNum = int.Parse(Main.S_Page_TB.Text);
+
+            //Main.S_Page_TB.Text = Current_PageNum.ToString();
+            //Total_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            //Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+
 
 
             Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
@@ -828,12 +874,14 @@ namespace ViewPort.Views
             width = int.Parse(Main.Width_TB.Text);
             height = int.Parse(Main.Height_TB.Text);
 
-            Current_PageNum = 1;
+         
 
-            if(Main.Frame_View_CB.Checked)
-            {
-                Frame_Set_View();
-            }
+            if (((dicInfo_Filter.Count - 1) / (cols * rows)) + 1 < int.Parse(Main.S_Page_TB.Text))
+                Current_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            else
+                Current_PageNum = int.Parse(Main.S_Page_TB.Text);
+
+            
 
             Main.S_Page_TB.Text = Current_PageNum.ToString();
             Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
@@ -1115,6 +1163,9 @@ namespace ViewPort.Views
 
         public void Frame_Set_Image()
         {
+            
+
+           
 
 
             Bitmap tmp_Img = null;
@@ -1126,11 +1177,8 @@ namespace ViewPort.Views
             
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
+
             
-            //if (Frame_List_Index != 0)
-            //{
-            //    Frame_Del_Range = frame_dicInfo_Filter.Keys.ToList();
-            //}
 
 
             foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo_Filter)
@@ -1150,17 +1198,21 @@ namespace ViewPort.Views
                 else
                     frame_dicInfo_Filter.Remove(pair);
             }
-
-            //if (Frame_List_Index != 0)
-            //{
-            //    for(int i =0; i < Frame_Del_Range.Count; i++)
-            //    {
-            //        frame_dicInfo_Filter.Remove(Frame_Del_Range[i]);
-                    
-            //    }
-            //}
+            if(DicInfo_Delete.Count > 0)
+            {
+                foreach(string pair in frame_dicInfo_Filter.Keys.ToList())
+                {
+                    if(DicInfo_Delete.ContainsKey(pair))
+                    {
+                        frame_dicInfo_Filter.Remove(pair);
+                    }
+                }
+            }
+      
 
             Frame_Del_Range.Clear();
+
+            
 
 
             if (frame_dicInfo_Filter.Count <= 0)
@@ -1181,13 +1233,13 @@ namespace ViewPort.Views
                                                 select ent;
 
             frame_dicInfo_Filter = Sorted_frame_dic.ToDictionary(pair=>pair.Key, pair => pair.Value);
-            Main.S_Page_TB.Text = Current_PageNum.ToString();
-            Total_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
-            Main.E_Page_TB.Text = Total_PageNum.ToString();
+            
+            
 
 
             if (frame_dicInfo_Filter.Count - ((cols * rows) * Current_PageNum) < 0)
                 EachPage_ImageNum += frame_dicInfo_Filter.Count - ((cols * rows) * Current_PageNum);
+
             if (Main.ZipFilePath != "")
             {
                 zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
