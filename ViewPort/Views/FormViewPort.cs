@@ -368,6 +368,14 @@ namespace ViewPort
             Eq_Filter_after_Print_List();
             open.Main = this;
             open.Eq_CB_Set_View();
+
+            if (Frame_View_CB.Checked)
+            {
+                Frame_View_CB.Checked = false;
+                Frame_S_Page_TB.Text = " ";
+                Frame_E_Page_TB.Text = " ";
+            }
+                
         }
         
         private void Initial_Equipment_DF_FilterList()
@@ -656,7 +664,10 @@ namespace ViewPort
 
         private void Print_Image_State_CheckedChanged(object sender, EventArgs e)
         {
-            open.Cheked_State_DF();
+            if (Frame_View_CB.Checked)
+                open.Frame_Cheked_State_DF();
+            else
+                open.Cheked_State_DF();
         }
 
         private void Print_Image_Name_CheckedChanged(object sender, EventArgs e)
@@ -781,8 +792,8 @@ namespace ViewPort
 
         private void Frame_View_CB_CheckedChanged(object sender, EventArgs e)
         {
-             if(Frame_View_CB.Checked)
-                open.Set_View();
+            if(Frame_View_CB.Checked)
+                open.Frame_Set_View();
             else
             {
                 Frame_S_Page_TB.Text = "";

@@ -39,6 +39,7 @@
             this.Load += new System.EventHandler(this.ImageViewer_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageViewer_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ImageViewer_PL_MouseDown);
+            
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ImageViewer_PL_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ImageViewer_PL_MouseUp);
             this.ResumeLayout(false);

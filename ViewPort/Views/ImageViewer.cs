@@ -31,7 +31,7 @@ namespace ViewPort.Views
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> frame_dicInfo_Filter = new Dictionary<string, ImageInfo>();
         int Filter_NO_1 = 0;
-
+        Image expand_img = null;
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
         List<int> Selected_Picture_Index = new List<int>();
@@ -44,8 +44,8 @@ namespace ViewPort.Views
         List<string> imglist = new List<string>();
 
         Point src_Mouse_XY, dst_Mouse_XY;
+        Point A_Mouse_XY, B_Mouse_XY;
 
-     
         int cols, rows, width, height;
 
         ZipArchive zip = null;
@@ -156,9 +156,12 @@ namespace ViewPort.Views
                         }
 
                     }
-                    Frame_Set_View();
+                    DL_Frame_Set_View();
+                    Main.Dl_PrintList();
 
                     Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
+                    Main.Wait_Del_Print_List();
+                    Eq_cb_need_del = new List<string>(Select_Pic);
                 }
                 else
                 {
@@ -176,12 +179,13 @@ namespace ViewPort.Views
 
 
                     Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                    Main.Wait_Del_Print_List();
+                    Eq_cb_need_del = new List<string>(Select_Pic);
                 }
 
                
 
-                Main.Wait_Del_Print_List();
-                Eq_cb_need_del = new List<string>(Select_Pic);
+                
                 
                 Select_Pic.Clear();
                 
@@ -430,8 +434,22 @@ namespace ViewPort.Views
 
             }
 
+            else if (e.KeyCode == Keys.R)
+            {
+                
+                //A_Mouse_XY = this.PointToClient(new Point(MousePosition.X, MousePosition.Y));
+
+                ExpandImage expand = new ExpandImage(this);
+                Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
+                
+                expand.Set_Expand_Img(expand_img);
+                expand.Show();
+
+            }
+
         }
-       
+
+        
 
         public ImageViewer(FormViewPort mainForm)
         {
@@ -510,13 +528,22 @@ namespace ViewPort.Views
             
             if(Filter_NO_1 != 1)
             {
-                frame_List_Img = Main.Frame_List_Main;
+                //frame_List_Img = Main.Frame_List_Main;
                 dicInfo_Filter = Main.DicInfo;
                 
             }
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 
             DicInfo_Filtered = Sorted_dic;
+
+            if(Main.Waiting_Del.Count > 0)
+            {
+                foreach(string pair in DicInfo_Filtered.Keys.ToList())
+                {
+                    if (Main.Waiting_Del.ContainsKey(pair))
+                        DicInfo_Filtered.Remove(pair);
+                }
+            }
 
             cols = int.Parse(Main.Cols_TB.Text);
             rows = int.Parse(Main.Rows_TB.Text);
@@ -558,8 +585,56 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            frame_List_Img = Main.Frame_List_Main;
-            dicInfo_Filter = Main.DicInfo;
+            //frame_List_Img = Main.Frame_List_Main;
+            //dicInfo_Filter = Main.DicInfo;
+
+            foreach(KeyValuePair<string, ImageInfo> pair in DicInfo_Filtered)
+            {
+                if (frame_List_Img.Contains(pair.Value.FrameNo))
+                    continue;
+                else
+                    frame_List_Img.Add(pair.Value.FrameNo);
+            }
+
+
+            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            
+            DicInfo_Filtered = Sorted_dic;
+
+            cols = int.Parse(Main.Cols_TB.Text);
+            rows = int.Parse(Main.Rows_TB.Text);
+            width = int.Parse(Main.Width_TB.Text);
+            height = int.Parse(Main.Height_TB.Text);
+
+
+            Current_PageNum = 1;
+            Current_Frame_PageNum = 1;
+
+
+            Set_PictureBox();
+            Frame_Set_Image();
+
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+    
+            Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
+            Total_Frame_PageNum = frame_List_Img.Count;
+            Main.Frame_E_Page_TB.Text = Total_Frame_PageNum.ToString();
+
+            
+            Last_Picture_Selected_Index = -1;
+            this.Focus();
+        }
+
+        public void DL_Frame_Set_View()
+        {
+            this.Controls.Clear();
+            PictureData.Clear();
+
+            //frame_List_Img = Main.Frame_List_Main;
+            //dicInfo_Filter = Main.DicInfo;
 
 
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
@@ -570,24 +645,29 @@ namespace ViewPort.Views
             width = int.Parse(Main.Width_TB.Text);
             height = int.Parse(Main.Height_TB.Text);
 
-            
-           
+            if (frame_dicInfo_Filter.Count == 0)
+            {
+                frame_List_Img.RemoveAt(Current_Frame_PageNum-1);
+                Current_Frame_PageNum = Current_Frame_PageNum - 1;
+            }
 
-            //if (((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1 < Current_PageNum)
-            //    Current_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
-            //else
-            //    Current_PageNum = int.Parse(Main.S_Page_TB.Text);
+            if (((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1 < Current_PageNum)
+                Current_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            else
+                Current_PageNum = int.Parse(Main.S_Page_TB.Text);
 
-            //Main.S_Page_TB.Text = Current_PageNum.ToString();
-            //Total_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
-            //Main.E_Page_TB.Text = Total_PageNum.ToString();
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
 
+            if (frame_List_Img.Count <= Current_Frame_PageNum)
+                Current_Frame_PageNum = frame_List_Img.Count;
+            else
+                Current_Frame_PageNum = int.Parse(Main.Frame_S_Page_TB.Text);
 
-
-
-            Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
+            Main.Frame_S_Page_TB.Text = Current_Frame_PageNum.ToString();
             Total_Frame_PageNum = frame_List_Img.Count;
-            Main.Frame_E_Page_TB.Text = Total_PageNum.ToString();
+            Main.Frame_E_Page_TB.Text = Total_Frame_PageNum.ToString();
 
             Set_PictureBox();
             Frame_Set_Image();
@@ -689,6 +769,7 @@ namespace ViewPort.Views
         private void ImageViewer_PL_MouseMove(object sender, MouseEventArgs e)
         {
 
+            A_Mouse_XY = this.PointToClient(Cursor.Position);
         }
 
         private void ImageViewer_PL_MouseUp(object sender, MouseEventArgs e)
@@ -800,6 +881,35 @@ namespace ViewPort.Views
             }
 
             
+        }
+        private void Expand_Find_Contain_PB(Point Src, Point Dst)
+        {
+            Rectangle PB_Area, Drag_Area;
+            
+            int index = ((Current_PageNum - 1) * (cols * rows));
+           
+
+            if (Selected_Picture_Index.Count > 0)
+                Selected_Picture_Index.Clear();
+
+            for (int i = 0; i < PictureData.Count; i++)
+            {
+                PB_Area = new Rectangle(PictureData.ElementAt(i).Left, PictureData.ElementAt(i).Top, PictureData.ElementAt(i).Width, PictureData.ElementAt(i).Height);
+                Drag_Area = new Rectangle(Src.X, Src.Y, Dst.X - Src.X, Dst.Y - Src.Y);
+                
+                if (PB_Area.IntersectsWith(Drag_Area))
+                {
+                    if (dicInfo_Filter.Count > (index + i))
+                    {                       
+                        expand_img = PictureData[index + i].Image;
+
+                    }
+                }
+
+                
+            }
+            
+
         }
 
         private void Frame_Find_Contain_PB(Point Src, Point Dst)
@@ -1165,9 +1275,6 @@ namespace ViewPort.Views
         {
             
 
-           
-
-
             Bitmap tmp_Img = null;
             
             string Current_ImageFrame = "";
@@ -1233,8 +1340,10 @@ namespace ViewPort.Views
                                                 select ent;
 
             frame_dicInfo_Filter = Sorted_frame_dic.ToDictionary(pair=>pair.Key, pair => pair.Value);
-            
-            
+
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
 
 
             if (frame_dicInfo_Filter.Count - ((cols * rows) * Current_PageNum) < 0)
@@ -1457,6 +1566,8 @@ namespace ViewPort.Views
 
         }
 
+     
+
         public void Frame_change_Glass()
         {
             Rectangle regSelection = new Rectangle();
@@ -1549,6 +1660,9 @@ namespace ViewPort.Views
 
             this.Focus();
         }
+
+        
+
         public void Cheked_State_DF()
         {
 

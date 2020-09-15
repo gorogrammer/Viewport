@@ -96,6 +96,12 @@
     <Compile Include="Views\DL_ViewFrom.Designer.cs">
       <DependentUpon>DL_ViewFrom.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExpandImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ExpandImage.Designer.cs">
+      <DependentUpon>ExpandImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\FormLoading.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DL_ViewFrom.resx">
       <DependentUpon>DL_ViewFrom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ExpandImage.resx">
+      <DependentUpon>ExpandImage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FormViewPort.resx">
       <DependentUpon>FormViewPort.cs</DependentUpon>
