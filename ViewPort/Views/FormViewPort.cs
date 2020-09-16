@@ -44,6 +44,7 @@ namespace ViewPort
         List<int> frame_List_main = new List<int>();
         List<string> Eq_Filter_Select_Key_List = new List<string>();
 
+        List<string> accu_wait_Del_Img_List = new List<string>();
         List<string> Wait_Del_Img_List = new List<string>();
         List<string> Selected_Equipment_DF_List = new List<string>();
         List<string> ImageSizeList = new List<string>();
@@ -444,7 +445,7 @@ namespace ViewPort
                 
                 DicInfo = formLoading.Dic_Load;
 
-                MAP_LIST = formLoading.Map_List;
+                MAP_LIST = formLoading.Ignore_map_List;
 
                 Dl_List_Main = formLoading.Dl_List;
 
@@ -490,10 +491,42 @@ namespace ViewPort
                                 
                 dicInfo_Copy = new Dictionary<string, ImageInfo>(DicInfo);
 
-                if(Manual_Mode_RB.Checked)
+                if (Manual_Mode_RB.Checked)
                 {
+                    //MAP 정보에서 제외될 프레임 적용
+                    for (int i = 0; i < MAP_LIST.Count; i++)
+                    {
+                        foreach(string key in DicInfo.Keys.ToList())
+                        {
+                            if (dicInfo[key].FrameNo == int.Parse(MAP_LIST[i]))
+                            {
+
+                                if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName)) == -1)
+                                    continue;
+                                else
+                                {
+                                    index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName));
+                                    x = All_Equipment_DF_List[index].Item2;
+                                    All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[key].EquipmentDefectName, --x);
+
+                                    if (x == 0)
+                                    {
+                                        All_Equipment_DF_List.RemoveAt(index);
+
+                                    }
+
+                                }
+
+                                dicInfo.Remove(key);
+                            }
+                                
+                        }
+                    }
+                    //SDIP 코드 211~230 제외
                     foreach (string pair in dicInfo.Keys.ToList())
                     {
+
+
                         if (dicInfo[pair].sdip_no != "-" && 211 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 230)
                         {
                             if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[pair].EquipmentDefectName)) == -1)
@@ -599,44 +632,24 @@ namespace ViewPort
             Char[] sd = {'-'};
             for (int i = 0; i < deleted_pic.Count; i++)
             {
+               
                 if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[deleted_pic[i]].EquipmentDefectName)) == -1)
-                    continue;
+                    All_Equipment_DF_List.Add(new Tuple<string, int>(dicInfo[deleted_pic[i]].EquipmentDefectName, x));
                 else
                 {
                     index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[deleted_pic[i]].EquipmentDefectName));
                     x = All_Equipment_DF_List[index].Item2;
                     All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[deleted_pic[i]].EquipmentDefectName, ++x);
 
-                    if (x == 0)
-                    {
-                        All_Equipment_DF_List.RemoveAt(index);
-                    }
-
-
-
-
                 }
 
             }
-            for (int p = 0; p < Equipment_DF_CLB.CheckedItems.Count; p++)
-            {
-                changed_eq.Add(Equipment_DF_CLB.CheckedItems[p].ToString());
-            }
 
+            Equipment_DF_CLB.Items.Clear();
+            Initial_Equipment_DF_List();
 
-            for (int p = 0; p < changed_eq.Count; p++)
-            {
-                if (Equipment_DF_CLB.Items.Contains(changed_eq[p]))
-                {
-                    index = Equipment_DF_CLB.Items.IndexOf(changed_eq[p]);
-
-                    string[] rep = changed_eq[p].Split(sd);
-                    int index2 = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(rep[0]));
-
-                    Equipment_DF_CLB.Items[index] = All_Equipment_DF_List.ElementAt(index2).Item1 + "-" + All_Equipment_DF_List.ElementAt(index2).Item2;
-                }
-
-            }
+            for (int i = 0; i < All_Equipment_DF_List.Count; i++)
+                Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
 
 
         }

@@ -30,6 +30,13 @@ namespace ViewPort.Views
         Dictionary<string, ImageInfo> dicInfo_Delete = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> frame_dicInfo_Filter = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> expand_ImgInfo = new Dictionary<string, ImageInfo>();
+
+        Dictionary<string, ImageInfo> Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>();
+
+        List<int> apply_List_opne = new List<int>();
+        List<int> Notapply_List_opne = new List<int>();
+
         int Filter_NO_1 = 0;
         Image expand_img = null;
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
@@ -261,6 +268,8 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.F11)
             {
+                Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
+
                 foreach(string NO_1 in dicInfo_Filter.Keys.ToList())
                 {
                     if (dicInfo_Filter[NO_1].sdip_no == "1")
@@ -372,7 +381,7 @@ namespace ViewPort.Views
 
                 if (Main.Dl_Apply_List_Main.Count > 0)
                 {
-                    dicInfo_Filter.Clear();
+                    
                     Select_Pic_List.Clear();
 
                     foreach (KeyValuePair<string, ImageInfo> pair in Main.DicInfo_Copy)
@@ -382,11 +391,16 @@ namespace ViewPort.Views
                         {
                             if (pair.Value.sdip_no == Main.Dl_Apply_List_Main[i])
                             {
-                                dicInfo_Filter.Add(pair.Key, pair.Value);
-                                //Select_Pic_List.Add(pair.Key);
+                                if (apply_List_opne.Contains(pair.Value.FrameNo))
+                                    continue;
+                                else
+                                    apply_List_opne.Add(pair.Value.FrameNo);
+                                                               
                             }
 
                         }
+
+
 
                     }
                     Set_PictureBox();
@@ -441,9 +455,31 @@ namespace ViewPort.Views
 
                 ExpandImage expand = new ExpandImage(this);
                 Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
-                
+                expand.Expand_ImgInfo.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
                 expand.Set_Expand_Img(expand_img);
                 expand.Show();
+
+            }
+
+            else if (e.KeyCode == Keys.F5)
+            {
+
+                if (Main.Dl_Apply_List_Main.Count > 0)
+                {
+                    
+                    Select_Pic_List.Clear();
+
+                  
+
+                    
+                    Set_PictureBox();
+
+                    Set_Image();
+                    Main.Print_List();
+                    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                }
+                else
+                    MessageBox.Show("221, 222 code 부품이 없습니다.");
 
             }
 
@@ -902,6 +938,7 @@ namespace ViewPort.Views
                     if (dicInfo_Filter.Count > (index + i))
                     {                       
                         expand_img = PictureData[index + i].Image;
+                        expand_ImgInfo.Add(PictureData[index + i].Name, dicInfo_Filter[PictureData[index + i].Name]);
 
                     }
                 }

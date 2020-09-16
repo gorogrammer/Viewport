@@ -16,8 +16,15 @@ namespace ViewPort.Views
     public partial class ExpandImage : Form
     {
         FormViewPort Main;
-
+        
         ImageViewer open;
+        Dictionary<string, ImageInfo> expand_ImgInfo = new Dictionary<string, ImageInfo>();
+
+        public Dictionary<string, ImageInfo> Expand_ImgInfo
+        {
+            get { return expand_ImgInfo; }
+            set { expand_ImgInfo = value; }
+        }
         public ExpandImage(ImageViewer img)
         {
             InitializeComponent();
@@ -26,9 +33,12 @@ namespace ViewPort.Views
 
         public void Set_Expand_Img(Image img)
         {
-            pictureBox1.Size = new Size(1000, 600);
+            this.Text = Expand_ImgInfo[Expand_ImgInfo.Keys.ElementAt(0)].Imagename;
+            pictureBox1.Size = new Size(869, 390);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            img.RotateFlip(RotateFlipType.Rotate90FlipNone);
             pictureBox1.Image = img;
+            
         }
     }
 }

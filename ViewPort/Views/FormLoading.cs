@@ -26,6 +26,7 @@ namespace ViewPort.Views
         private List<string> all_VerifyDF_List;
         private List<Tuple<string, int>> all_Equipment_DF_List;
         private List<string> map_List;
+        private List<string> ignore_map_List;
         private List<int> frame_List;
         private List<string> map_List_Compare;
         private List<string> dl_List;
@@ -36,6 +37,7 @@ namespace ViewPort.Views
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
+        public List<string> Ignore_map_List { get => ignore_map_List; set => ignore_map_List = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
         public List<string> Map_List { get => map_List; set => map_List = value; }
         public List<string> Map_List_Compare { get => map_List_Compare; set => map_List_Compare = value; }
@@ -147,6 +149,7 @@ namespace ViewPort.Views
             Dl_List = new List<string>();
             Dl_Apply_List = new List<string>();
             Dl_NOt_Apply_List = new List<string>();
+            Ignore_map_List = new List<string>();
 
             InitializeComponent();
 
@@ -207,11 +210,12 @@ namespace ViewPort.Views
                 return;
             }
 
-            for(int i =0; i < Map_List.Count; i++)
-            {
-                if (int.Parse(entry.Name.Split('.')[0]) == int.Parse(Map_List[i]))
-                    return;
-            }
+            
+            //for(int i =0; i < Ignore_map_List.Count; i++)
+            //{
+            //    if (int.Parse(entry.Name.Split('.')[0]) == int.Parse(Ignore_map_List[i]))
+            //        return;
+            //}
 
             Stream subEntryMS = entry.Open();
             ZipArchive subZip = new ZipArchive(subEntryMS);
@@ -407,14 +411,17 @@ namespace ViewPort.Views
                 //        map_List.Add(pair.Key.ToString()) ;
                 //    }
                 //}
-                if (pair.Value != 88 )
+                if (pair.Value == 88 )
                 {
-                    map_List.Add(pair.Key.ToString());
-                    //if (map_List_Dic_Compare[pair.Key] != 39 || map_List_Dic_Compare[pair.Key] != 40)
-                    //{
-                    //    map_List.Add(pair.Key.ToString());
-                    //}
+
+                    if (map_List_Dic_Compare[pair.Key] != 39 || map_List_Dic_Compare[pair.Key] != 40)
+                    {
+                        map_List.Add(pair.Key.ToString());
+                    }
+                    
                 }
+                else
+                    Ignore_map_List.Add(pair.Key.ToString());
 
             }
             
