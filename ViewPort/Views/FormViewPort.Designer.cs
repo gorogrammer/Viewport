@@ -85,6 +85,10 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.EQ_Search_TB = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -235,7 +239,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 71);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 93);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -466,6 +470,10 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitContainer5.Panel1.Controls.Add(this.button4);
+            this.splitContainer5.Panel1.Controls.Add(this.button3);
+            this.splitContainer5.Panel1.Controls.Add(this.label12);
+            this.splitContainer5.Panel1.Controls.Add(this.EQ_Search_TB);
             this.splitContainer5.Panel1.Controls.Add(this.Manual_Mode_RB);
             this.splitContainer5.Panel1.Controls.Add(this.View_Mode_RB);
             this.splitContainer5.Panel1.Controls.Add(this.textBox8);
@@ -507,7 +515,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
             this.splitContainer5.Size = new System.Drawing.Size(319, 350);
-            this.splitContainer5.SplitterDistance = 275;
+            this.splitContainer5.SplitterDistance = 253;
             this.splitContainer5.TabIndex = 0;
             // 
             // Manual_Mode_RB
@@ -731,6 +739,43 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // EQ_Search_TB
+            // 
+            this.EQ_Search_TB.Location = new System.Drawing.Point(93, 280);
+            this.EQ_Search_TB.Name = "EQ_Search_TB";
+            this.EQ_Search_TB.Size = new System.Drawing.Size(95, 21);
+            this.EQ_Search_TB.TabIndex = 25;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(4, 283);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(71, 12);
+            this.label12.TabIndex = 26;
+            this.label12.Text = "■ 설비 검색";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(215, 278);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(45, 23);
+            this.button3.TabIndex = 27;
+            this.button3.Text = "검색";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(268, 277);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(45, 23);
+            this.button4.TabIndex = 27;
+            this.button4.Text = "전체";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -830,6 +875,10 @@
         public System.Windows.Forms.CheckBox Frame_View_CB;
         public System.Windows.Forms.RadioButton Manual_Mode_RB;
         public System.Windows.Forms.RadioButton View_Mode_RB;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label12;
+        public System.Windows.Forms.TextBox EQ_Search_TB;
     }
 }
 

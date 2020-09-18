@@ -25,7 +25,7 @@ namespace ViewPort.Views
         private List<string> all_LotID_List;
         private List<string> all_VerifyDF_List;
         private List<Tuple<string, int>> all_Equipment_DF_List;
-        private List<string> map_List;
+        private List<int> map_List;
         private List<string> ignore_map_List;
         private List<int> frame_List;
         private List<string> map_List_Compare;
@@ -34,14 +34,19 @@ namespace ViewPort.Views
         private Dictionary<int, int> map_List_Dic_Compare;
         private List<string> dl_Apply_List;
         private List<string> dl_NOt_Apply_List;
+        private List<string> contain_200_Frame_List;
+
+
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> Ignore_map_List { get => ignore_map_List; set => ignore_map_List = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
-        public List<string> Map_List { get => map_List; set => map_List = value; }
+        public List<int> Map_List { get => map_List; set => map_List = value; }
         public List<string> Map_List_Compare { get => map_List_Compare; set => map_List_Compare = value; }
         public List<string> Dl_List { get => dl_List; set => dl_List = value; }
+
+        public List<string> Contain_200_Frame_List { get => contain_200_Frame_List; set => contain_200_Frame_List = value; }
 
         public List<string> Dl_Apply_List { get => dl_Apply_List; set => dl_Apply_List = value; }
 
@@ -141,7 +146,7 @@ namespace ViewPort.Views
             All_LotID_List = new List<string>();
             All_Equipment_DF_List = new List<Tuple<string, int>>();
             All_VerifyDF_List = new List<string>();
-            Map_List = new List<string>();
+            Map_List = new List<int>();
             Map_List_Compare = new List<string>();
             Frame_List = new List<int>();
             Map_List_Dic = new Dictionary<int, int>();
@@ -150,6 +155,7 @@ namespace ViewPort.Views
             Dl_Apply_List = new List<string>();
             Dl_NOt_Apply_List = new List<string>();
             Ignore_map_List = new List<string>();
+            Contain_200_Frame_List = new List<string>();
 
             InitializeComponent();
 
@@ -241,16 +247,42 @@ namespace ViewPort.Views
                 int x = 1;
                 int index = 0;
 
-                if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
-                    All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
+                if(Map_List.Count>0)
+                {
+                    if (Map_List.Contains(FrameNo))
+                    {
+                        if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
+                            All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
+                        else
+                        {
+                            index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
+                            x = All_Equipment_DF_List[index].Item2;
+                            All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
+
+                        }
+
+
+                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0"));
+                    }
+
+                   
+                }
                 else
                 {
-                    index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
-                    x = All_Equipment_DF_List[index].Item2;
-                    All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
+                    if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
+                        All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
+                    else
+                    {
+                        index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
+                        x = All_Equipment_DF_List[index].Item2;
+                        All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
 
+                    }
+                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0"));
                 }
-                Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품","O","0","0"));
+                   
+
+
             }
 
             subZip.Dispose();
@@ -278,6 +310,11 @@ namespace ViewPort.Views
                 {
                     string[] dic_ready = items[i + 1].Split(',');
                     dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0"));
+                    if(int.Parse(dic_ready[8]) >= 200 && int.Parse(dic_ready[8]) <= 299)
+                    {
+                        Contain_200_Frame_List.Add(dic_ready[0].Substring(0, 12));
+                    }
+
                 }
             }
         }
@@ -416,7 +453,7 @@ namespace ViewPort.Views
 
                     if (map_List_Dic_Compare[pair.Key] != 39 || map_List_Dic_Compare[pair.Key] != 40)
                     {
-                        map_List.Add(pair.Key.ToString());
+                        map_List.Add(pair.Key);
                     }
                     
                 }

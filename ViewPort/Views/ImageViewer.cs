@@ -81,6 +81,8 @@ namespace ViewPort.Views
         }
 
         public List<int> Frame_List_Img { get => frame_List_Img; set => frame_List_Img = value; }
+
+        
         public void SelectGrid_Img_View(string id)
         {
             List<string> dic_index_List = dicInfo_Filter.Keys.ToList();
@@ -163,8 +165,9 @@ namespace ViewPort.Views
                         }
 
                     }
-                    DL_Frame_Set_View();
                     Main.Dl_PrintList();
+                    DL_Frame_Set_View();
+                    
 
                     Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
                     Main.Wait_Del_Print_List();
@@ -181,8 +184,9 @@ namespace ViewPort.Views
 
                     }
 
-                    Del_Set_View();
                     Main.Dl_PrintList();
+                    Del_Set_View();
+                    
 
 
                     Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
@@ -277,12 +281,13 @@ namespace ViewPort.Views
                     else
                     {
                         dicInfo_Filter.Remove(NO_1);
+                        
                         Select_Pic_List.Add(NO_1);
                     }
                         
                     
                 }
-
+                
                 Filter_NO_1 = 1;
                 Set_View();
                 Main.Filter_NO_1_PrintList();
@@ -483,9 +488,60 @@ namespace ViewPort.Views
 
             }
 
+
+            else if (e.KeyCode == Keys.F12)
+            {
+                //Get_Delete_IMG();
+
+                if (Main.Frame_View_CB.Checked)
+                {
+                    for (int i = 0; i < Select_Pic.Count; i++)
+                    {
+                        if (frame_dicInfo_Filter.ContainsKey(Select_Pic[i]))
+                        {
+                            frame_dicInfo_Filter.Remove(Select_Pic[i]);
+                        }
+
+                    }
+                    Main.Dl_PrintList();
+                    DL_Frame_Set_View();
+                    
+
+                    Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
+                   
+                    Eq_cb_need_del = new List<string>(Select_Pic);
+                }
+                else
+                {
+                    for (int i = 0; i < Select_Pic.Count; i++)
+                    {
+                        if (dicInfo_Filter.ContainsKey(Select_Pic[i]))
+                        {
+                            dicInfo_Filter.Remove(Select_Pic[i]);
+                        }
+
+                    }
+
+                    Main.Dl_PrintList();
+                    Del_Set_View();
+                    
+
+
+                    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                    
+                    Eq_cb_need_del = new List<string>(Select_Pic);
+                }
+
+
+
+
+
+                Select_Pic.Clear();
+            }
+
         }
 
-        
+
 
         public ImageViewer(FormViewPort mainForm)
         {
@@ -559,6 +615,9 @@ namespace ViewPort.Views
 
         public void Set_View()
         {
+            Main.ViewType = "SetView";
+
+
             this.Controls.Clear();
             PictureData.Clear();
             
@@ -618,19 +677,19 @@ namespace ViewPort.Views
 
         public void Frame_Set_View()
         {
+
+            Main.ViewType = "FrameSetView";
+
             this.Controls.Clear();
             PictureData.Clear();
 
             //frame_List_Img = Main.Frame_List_Main;
             //dicInfo_Filter = Main.DicInfo;
 
-            foreach(KeyValuePair<string, ImageInfo> pair in DicInfo_Filtered)
-            {
-                if (frame_List_Img.Contains(pair.Value.FrameNo))
-                    continue;
-                else
-                    frame_List_Img.Add(pair.Value.FrameNo);
-            }
+            if (Main.mAP_LIST.Count > 0)
+                Frame_List_Img = Main.mAP_LIST;
+            else
+                Frame_List_Img = Main.Frame_List_Main;
 
 
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
@@ -666,13 +725,15 @@ namespace ViewPort.Views
 
         public void DL_Frame_Set_View()
         {
+            Main.ViewType = "DLFrameSetView";
+
             this.Controls.Clear();
             PictureData.Clear();
 
             //frame_List_Img = Main.Frame_List_Main;
             //dicInfo_Filter = Main.DicInfo;
 
-
+            DicInfo_Filtered = Main.DicInfo;
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
             DicInfo_Filtered = Sorted_dic;
 
@@ -712,6 +773,7 @@ namespace ViewPort.Views
         }
         public void Eq_CB_Set_View()
         {
+            Main.ViewType = "EQCBSetView";
             this.Controls.Clear();
             PictureData.Clear();
 
@@ -747,6 +809,8 @@ namespace ViewPort.Views
 
         public void Eq_CB_Set_View_ING()
         {
+
+            Main.ViewType = "EQCBSetView_ING";
             this.Controls.Clear();
             PictureData.Clear();
 
@@ -776,6 +840,8 @@ namespace ViewPort.Views
         }
         public void Filter_CB_after_Set_View()
         {
+
+            Main.ViewType = "FilterCBafterSetView";
             this.Controls.Clear();
             PictureData.Clear();
 
@@ -1322,14 +1388,14 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
-            
 
+            frame_dicInfo_Filter.Clear();
 
             foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo_Filter)
             {
                 if (kvp.Value.FrameNo == frame_List_Img[Frame_List_Index])
                     if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
-                        break;
+                        continue;
                     else
                         frame_dicInfo_Filter.Add(kvp.Key, kvp.Value);
                
@@ -1506,6 +1572,7 @@ namespace ViewPort.Views
 
             }
             Frame_change_Glass();
+            Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
 
         }
   

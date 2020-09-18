@@ -33,14 +33,14 @@ namespace ViewPort
         Dictionary<string, ImageInfo> dicInfo_Waiting_Del = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> return_dicInfo = new Dictionary<string, ImageInfo>();
         string[] dic_ready = null;
-
+        string viewType = null;
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
         //List<ImageListInfo> FilterList = new List<ImageListInfo>();
-
+        
         List<string> All_LotID_List = new List<string>();
         List<string> All_VerifyDF_List = new List<string>();
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
-        List<string> MAP_LIST = new List<string>();
+        List<int> MAP_LIST = new List<int>();
         List<int> frame_List_main = new List<int>();
         List<string> Eq_Filter_Select_Key_List = new List<string>();
 
@@ -67,13 +67,15 @@ namespace ViewPort
             get { return dicInfo; }
             set { dicInfo = value; }
         }
-
+        public string ViewType { get => viewType; set => viewType = value; }
         public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
         public Dictionary<string, ImageInfo> DicInfo_Copy { get => dicInfo_Copy; set => dicInfo_Copy = value; }
         public Dictionary<string, ImageInfo> Return_dicInfo { get => return_dicInfo; set => return_dicInfo = value; }
         public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
         public List<int> Frame_List_Main { get => frame_List_main; set => frame_List_main = value; }
+
+        public List<int> mAP_LIST { get => MAP_LIST; set => MAP_LIST = value; }
         public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
 
         public List<string> Dl_Apply_List_Main { get => dl_Apply_List_Main; set => dl_Apply_List_Main = value; }
@@ -282,11 +284,11 @@ namespace ViewPort
             for (int i = 0; i < Selected_Pic.Count; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr = dt.Rows.Find(Waiting_Del[Selected_Pic[i]].Imagename);
+                dr = dt.Rows.Find(DicInfo_Copy[Selected_Pic[i]].Imagename);
                 index = dt.Rows.IndexOf(dr);
                 dt.Rows[index].Delete();
-             
 
+                DicInfo.Remove(Selected_Pic[i]);
                 //dt.AcceptChanges();
             }
             Select_All_BTN_Click(null, null);
@@ -403,9 +405,9 @@ namespace ViewPort
         private void Equipment_DF_CLB_SelectedValueChanged(object sender, EventArgs e)
         {
             Selected_Equipment_DF_List.Clear();
-
+            
             foreach (int index in Equipment_DF_CLB.CheckedIndices)
-                Selected_Equipment_DF_List.Add(All_Equipment_DF_List.ElementAt(index).Item1);
+                Selected_Equipment_DF_List.Add(Equipment_DF_CLB.Items[index].ToString().Split('-')[0]);
         }
 
         private void Select_All_BTN_Click(object sender, EventArgs e)
@@ -445,7 +447,7 @@ namespace ViewPort
                 
                 DicInfo = formLoading.Dic_Load;
 
-                MAP_LIST = formLoading.Ignore_map_List;
+                MAP_LIST = formLoading.Map_List;
 
                 Dl_List_Main = formLoading.Dl_List;
 
@@ -453,11 +455,10 @@ namespace ViewPort
 
                 for (int i = 0; i < MAP_LIST.Count; i++)
                 {
-                    if(Frame_List_Main.Contains(int.Parse(MAP_LIST[i])))
-                    {
-                        Frame_List_Main.Remove(int.Parse(MAP_LIST[i]));
+                    if (Frame_List_Main.Contains(MAP_LIST[i]))
+                       Frame_List_Main.Remove(MAP_LIST[i]);
+                   
                         
-                    }
                 }
 
 
@@ -494,40 +495,40 @@ namespace ViewPort
                 if (Manual_Mode_RB.Checked)
                 {
                     //MAP 정보에서 제외될 프레임 적용
-                    for (int i = 0; i < MAP_LIST.Count; i++)
-                    {
-                        foreach(string key in DicInfo.Keys.ToList())
-                        {
-                            if (dicInfo[key].FrameNo == int.Parse(MAP_LIST[i]))
-                            {
+                    //for (int i = 0; i < Frame_List_Main.Count; i++)
+                    //{
+                    //    foreach(string key in DicInfo.Keys.ToList())
+                    //    {
+                    //        if (dicInfo[key].FrameNo == Frame_List_Main[i])
+                    //        {
 
-                                if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName)) == -1)
-                                    continue;
-                                else
-                                {
-                                    index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName));
-                                    x = All_Equipment_DF_List[index].Item2;
-                                    All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[key].EquipmentDefectName, --x);
+                    //            if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName)) == -1)
+                    //                continue;
+                    //            else
+                    //            {
+                    //                index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName));
+                    //                x = All_Equipment_DF_List[index].Item2;
+                    //                All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[key].EquipmentDefectName, --x);
 
-                                    if (x == 0)
-                                    {
-                                        All_Equipment_DF_List.RemoveAt(index);
+                    //                if (x == 0)
+                    //                {
+                    //                    All_Equipment_DF_List.RemoveAt(index);
 
-                                    }
+                    //                }
 
-                                }
+                    //            }
 
-                                dicInfo.Remove(key);
-                            }
+                    //            dicInfo.Remove(key);
+                    //        }
                                 
-                        }
-                    }
+                    //    }
+                    //}
                     //SDIP 코드 211~230 제외
                     foreach (string pair in dicInfo.Keys.ToList())
                     {
 
 
-                        if (dicInfo[pair].sdip_no != "-" && 211 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 230)
+                        if (dicInfo[pair].sdip_no  != "-" && 200 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 299)
                         {
                             if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[pair].EquipmentDefectName)) == -1)
                                 continue;
@@ -596,9 +597,15 @@ namespace ViewPort
             }
             Equipment_DF_CLB.Items.Clear();
             Initial_Equipment_DF_List();
-
             for (int i = 0; i < All_Equipment_DF_List.Count; i++)
                 Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
+
+            if (EQ_Search_TB != null)
+            {
+                EQ_Search();
+
+            }
+           
 
             for (int p = 0; p < Equipment_DF_CLB.CheckedItems.Count; p++)
             {
@@ -651,12 +658,47 @@ namespace ViewPort
             for (int i = 0; i < All_Equipment_DF_List.Count; i++)
                 Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
 
+            if (EQ_Search_TB != null)
+            {
+                EQ_Search();
+
+            }
+           
+               
+
 
         }
         private void Width_TB_TextChanged(object sender, EventArgs e)
         {
             Height_TB.Text = Width_TB.Text;
-            open.Set_View();
+
+            switch (ViewType)
+            {
+                case "SetView":
+                    open.Set_View();
+                    break;
+
+                case "FrameSetView":
+                    open.Frame_Set_View();
+                    break;
+
+                case "DLFrameSetView":
+                    open.DL_Frame_Set_View();
+                    break;
+
+                case "EQCBSetView":
+                    open.Eq_CB_Set_View();
+                    break;
+
+                case "EQCBSetView_ING":
+                    open.Eq_CB_Set_View_ING();
+                    break;
+
+                case "FilterCBafterSetView":
+                    open.Filter_CB_after_Set_View();
+                    break;
+
+            }
         }
 
         private void Width_TB_KeyDown(object sender, KeyEventArgs e)
@@ -664,15 +706,74 @@ namespace ViewPort
             if (e.KeyCode == Keys.Enter)
             {
                 Height_TB.Text = Width_TB.Text;
-                open.Set_View();
+                {
+                    switch (ViewType)
+                    {
+                        case "SetView":
+                            open.Set_View();
+                            break;
 
+                        case "FrameSetView":
+                            open.Frame_Set_View();
+                            break;
+
+                        case "DLFrameSetView":
+                            open.DL_Frame_Set_View();
+                            break;
+
+                        case "EQCBSetView":
+                            open.Eq_CB_Set_View();
+                            break;
+
+                        case "EQCBSetView_ING":
+                            open.Eq_CB_Set_View_ING();
+                            break;
+
+                        case "FilterCBafterSetView":
+                            open.Filter_CB_after_Set_View();
+                            break;
+
+                    }
+
+                }
             }
         }
 
         private void Rows_TB_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-                open.Set_View();
+            {
+                switch (ViewType)
+                {
+                    case "SetView":
+                        open.Set_View();
+                        break;
+
+                    case "FrameSetView":
+                        open.Frame_Set_View();
+                        break;
+
+                    case "DLFrameSetView":
+                        open.DL_Frame_Set_View();
+                        break;
+
+                    case "EQCBSetView":
+                        open.Eq_CB_Set_View();
+                        break;
+
+                    case "EQCBSetView_ING":
+                        open.Eq_CB_Set_View_ING();
+                        break;
+
+                    case "FilterCBafterSetView":
+                        open.Filter_CB_after_Set_View();
+                        break;
+
+                }
+
+            }
+
+                
         }
 
         private void Print_Image_State_CheckedChanged(object sender, EventArgs e)
@@ -700,7 +801,7 @@ namespace ViewPort
         {
             Wait_Del_Img_List = open.DicInfo_Delete.Keys.ToList();
             DeleteWaiting deleteWaiting = new DeleteWaiting(this);
-            deleteWaiting.Waiting_Img = open.DicInfo_Delete;
+            deleteWaiting.Waiting_Img = Waiting_Del;
             deleteWaiting.ZipFilePath = zipFilePath;
             deleteWaiting.Set_View_Del();
             deleteWaiting.Show();
@@ -725,6 +826,13 @@ namespace ViewPort
         {
 
             Func.DeleteJPG_inZIP(zipFilePath, dicInfo_Waiting_Del);
+            
+            foreach(KeyValuePair<string, ImageInfo> pair in dicInfo_Waiting_Del)
+            {
+                if (DicInfo.ContainsKey(pair.Key))
+                    DicInfo.Remove(pair.Key);
+            }
+
 
             dicInfo_Waiting_Del.Clear();
             ((DataTable)dataGridView2.DataSource).Rows.Clear();
@@ -830,6 +938,40 @@ namespace ViewPort
             {
 
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            EQ_Search();
+        }
+
+        private void EQ_Search()
+        {
+            string txt = EQ_Search_TB.Text;
+           
+            for(int i =0; i < Equipment_DF_CLB.Items.Count; i++)
+            {
+                if (Equipment_DF_CLB.Items[i].ToString().Contains(txt))
+                    continue;
+                else
+                {
+                    Equipment_DF_CLB.Items.RemoveAt(i);
+                    i--;
+                }
+                    
+            }
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            EQ_Search_TB.Text = null;
+            Initial_Equipment_DF_List();
+
+            for (int i = 0; i < All_Equipment_DF_List.Count; i++)
+                Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
+
+            Select_All_BTN_Click(null, null);
         }
     }
 
