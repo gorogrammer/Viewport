@@ -334,21 +334,43 @@ namespace ViewPort.Views
                 int index = ((Current_PageNum - 1) * (cols * rows));
                 Selected_Picture_Index.Clear();
 
-                for(int i =0; i < (cols * rows); i++)
+
+                if(Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
                 {
-                    if ((index + i) >= dicInfo_Filter.Count)
-                        break;
-                    Selected_Picture_Index.Add(index + i);
+                    for (int i = 0; i < (cols * rows); i++)
+                    {
+                        if ((index + i) >= frame_dicInfo_Filter.Count)
+                            break;
+                        Selected_Picture_Index.Add(index + i);
+                    }
+
+                    for (int p = 0; p < Selected_Picture_Index.Count; p++)
+                    {
+                        frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "불량";
+                        Select_Pic_List.Add(frame_dicInfo_Filter.ElementAt(p).Key);
+                        Change_state_List.Add(frame_dicInfo_Filter.ElementAt(p).Key);
+                    }
+                    Frame_Set_View();
                 }
-                
-                for(int p =0; p < Selected_Picture_Index.Count; p++)
+                else
                 {
-                    dicInfo_Filter[dicInfo_Filter.ElementAt(p).Key].ReviewDefectName =  "불량";
-                    Select_Pic_List.Add(dicInfo_Filter.ElementAt(p).Key);
-                    Change_state_List.Add(dicInfo_Filter.ElementAt(p).Key);
+                    for (int i = 0; i < (cols * rows); i++)
+                    {
+                        if ((index + i) >= dicInfo_Filter.Count)
+                            break;
+                        Selected_Picture_Index.Add(index + i);
+                    }
+
+                    for (int p = 0; p < Selected_Picture_Index.Count; p++)
+                    {
+                        dicInfo_Filter[dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "불량";
+                        Select_Pic_List.Add(dicInfo_Filter.ElementAt(p).Key);
+                        Change_state_List.Add(dicInfo_Filter.ElementAt(p).Key);
+                    }
+
+                    Set_Image();
                 }
 
-                Set_Image();
                 Main.Changeed_State();
 
 
