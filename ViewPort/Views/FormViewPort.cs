@@ -34,6 +34,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> return_dicInfo = new Dictionary<string, ImageInfo>();
         string[] dic_ready = null;
         string viewType = null;
+        
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
         //List<ImageListInfo> FilterList = new List<ImageListInfo>();
         
@@ -51,7 +52,7 @@ namespace ViewPort
         List<string> Selected_Pic = new List<string>();
         List<string> Change_state_List = new List<string>();
         List<string> dl_List_Main = new List<string>();
-
+        List<int> contain_200_Frame_Main = new List<int>();
         List<string> dl_Apply_List_Main = new List<string>();
         List<string> dl_NotApply_List_Main = new List<string>();
 
@@ -74,6 +75,7 @@ namespace ViewPort
         public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
         public List<int> Frame_List_Main { get => frame_List_main; set => frame_List_main = value; }
+
 
         public List<int> mAP_LIST { get => MAP_LIST; set => MAP_LIST = value; }
         public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
@@ -113,7 +115,10 @@ namespace ViewPort
             dt.Columns.Add(COLUMN_STR.GRID_STATE);
             
             dt.PrimaryKey = new DataColumn[] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
+            
             dataGridView1.DataSource = dt;
+
+            
 
             DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
             btnColumn.HeaderText = COLUMN_STR.GRID_SELECT;
@@ -158,16 +163,27 @@ namespace ViewPort
         public void Print_List()
         {
             DataTable dt = (DataTable)dataGridView1.DataSource;
-
+            
             dt.Rows.Clear();
             dataGridView1.RowHeadersWidth = 30;
            
                 foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
                     dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
-           
-            
 
-            
+        }
+        public void Frame_Print_List()
+        {
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            dt.Rows.Clear();
+            dataGridView1.RowHeadersWidth = 30;
+
+            foreach (KeyValuePair<string, ImageInfo> kvp in open.Frame_dicInfo_Filter)
+                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+
+
+
         }
 
         private void Eq_Filter_after_Print_List()
@@ -289,11 +305,55 @@ namespace ViewPort
                 dt.Rows[index].Delete();
 
                 DicInfo.Remove(Selected_Pic[i]);
+                if (Eq_CB_dicInfo.Count > 0)
+                {
+                    if(Eq_CB_dicInfo.ContainsKey(Selected_Pic[i]))
+                        Eq_CB_dicInfo.Remove(Selected_Pic[i]);
+                }
                 //dt.AcceptChanges();
             }
-            Select_All_BTN_Click(null, null);
+            
+            if(Eq_CB_dicInfo.Count>0)
+            {
+                
+            }
+            else
+                Select_All_BTN_Click(null, null);
         }
 
+        public void No1_Dl_PrintList()
+        {
+            int index = 0;
+            Dictionary<string, ImageInfo> Dl_DicInfo = new Dictionary<string, ImageInfo>(DicInfo);
+            
+            
+
+            Selected_Pic = open.Select_Pic_List;
+
+            
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            update_Equipment_DF_CLB(Selected_Pic);
+            DicInfo.Clear();
+
+
+            foreach(KeyValuePair<string,ImageInfo> pair in Dl_DicInfo)
+            {
+                if (!Selected_Pic.Contains(pair.Key))
+                {
+                    DicInfo.Add(pair.Key, pair.Value);
+                }
+                    
+            }
+           
+            dt.Rows.Clear();
+            
+
+            foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+            Select_All_BTN_Click(null, null);
+        }
         public void Filter_NO_1_PrintList()
         {
             int index = 0;
@@ -386,7 +446,7 @@ namespace ViewPort
             
             for (int i = 0; i < Selected_Equipment_DF_List.Count; i++)
             {
-                foreach(KeyValuePair<string, ImageInfo> pair in dicInfo)
+                foreach(KeyValuePair<string, ImageInfo> pair in DicInfo)
                 {
                    
                         if (pair.Value.EquipmentDefectName == Selected_Equipment_DF_List[i])
@@ -456,8 +516,13 @@ namespace ViewPort
                 for (int i = 0; i < MAP_LIST.Count; i++)
                 {
                     if (Frame_List_Main.Contains(MAP_LIST[i]))
-                       Frame_List_Main.Remove(MAP_LIST[i]);
-                   
+                        continue;
+                    else
+                    {
+                        MAP_LIST.RemoveAt(i);
+                        i--;
+                    }
+                     
                         
                 }
 
@@ -472,9 +537,17 @@ namespace ViewPort
 
 
                 dataGridView1.DataSource = formLoading.Dt;
+
+
+
+                dataGridView1.Columns[0].Width = 50;
+                dataGridView1.Columns[1].Width = 150;
+                dataGridView1.Columns[2].Width = 50;
+
+
                 dataGridView1.RowHeadersWidth = 30;
 
-                List_Count_TB.Text = formLoading.Dt.Rows.Count.ToString();
+                
 
                 formLoading.Dispose();
             }
@@ -497,7 +570,7 @@ namespace ViewPort
                     //MAP 정보에서 제외될 프레임 적용
                     //for (int i = 0; i < Frame_List_Main.Count; i++)
                     //{
-                    //    foreach(string key in DicInfo.Keys.ToList())
+                    //    foreach (string key in DicInfo.Keys.ToList())
                     //    {
                     //        if (dicInfo[key].FrameNo == Frame_List_Main[i])
                     //        {
@@ -520,7 +593,7 @@ namespace ViewPort
 
                     //            dicInfo.Remove(key);
                     //        }
-                                
+
                     //    }
                     //}
                     //SDIP 코드 211~230 제외
@@ -914,13 +987,29 @@ namespace ViewPort
         private void Frame_View_CB_CheckedChanged(object sender, EventArgs e)
         {
             if(Frame_View_CB.Checked)
+            {
                 open.Frame_Set_View();
+            }
+                
             else
             {
                 Frame_S_Page_TB.Text = "";
                 Frame_E_Page_TB.Text = "";
+                Frame_S_TB.Text = "";
+                Frame_E_TB.Text = "";
 
                 open.Set_View();
+
+                EQ_Search_TB.Text = null;
+                Initial_Equipment_DF_List();
+                Equipment_DF_CLB.Items.Clear();
+
+                for (int i = 0; i < All_Equipment_DF_List.Count; i++)
+                    Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
+
+                Select_All_BTN_Click(null, null);
+                Print_List();
+                Select_All_BTN_Click(null, null);
             }
         }
 
@@ -967,11 +1056,105 @@ namespace ViewPort
         {
             EQ_Search_TB.Text = null;
             Initial_Equipment_DF_List();
+            Equipment_DF_CLB.Items.Clear();
 
             for (int i = 0; i < All_Equipment_DF_List.Count; i++)
                 Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
 
             Select_All_BTN_Click(null, null);
+        }
+
+        private void 번코드변경ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Change_Code change = new Change_Code(open);
+            change.Show();
+        }
+
+        private void Camera_NO_Filter_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                int isInt;
+
+                if (int.TryParse(Camera_NO_Filter_TB.Text, out isInt))
+                {
+                    
+
+                    switch (ViewType)
+                    {
+                        case "SetView":
+                            open.Set_View();
+                            Print_List();
+                            break;
+
+                        case "FrameSetView":
+                            open.Frame_Set_View();
+                            break;
+
+                        case "DLFrameSetView":
+                            open.DL_Frame_Set_View();
+                            break;
+
+                        case "EQCBSetView":
+                            open.Eq_CB_Set_View();
+                            break;
+
+                        case "EQCBSetView_ING":
+                            open.Eq_CB_Set_View_ING();
+                            break;
+
+                        case "FilterCBafterSetView":
+                            open.Filter_CB_after_Set_View();
+                            break;
+
+                    }
+                    Print_Image_BT_Click(null, null);
+
+                }
+                else if(Camera_NO_Filter_TB.Text =="")
+                {
+                    switch (ViewType)
+                    {
+                        case "SetView":
+                            open.Set_View();
+                            Print_List();
+                            break;
+
+                        case "FrameSetView":
+                            open.Frame_Set_View();
+                            break;
+
+                        case "DLFrameSetView":
+                            open.DL_Frame_Set_View();
+                            break;
+
+                        case "EQCBSetView":
+                            open.Eq_CB_Set_View();
+                            break;
+
+                        case "EQCBSetView_ING":
+                            open.Eq_CB_Set_View_ING();
+                            break;
+
+                        case "FilterCBafterSetView":
+                            open.Filter_CB_after_Set_View();
+                            break;
+
+                    }
+                    Print_Image_BT_Click(null, null);
+                }
+                else
+                    MessageBox.Show("숫자만 입력해주세요.");
+
+
+
+                Print_Image_BT.Focus();
+            }
+        }
+
+        private void Print_Image_BT_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

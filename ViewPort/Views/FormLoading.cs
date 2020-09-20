@@ -34,7 +34,7 @@ namespace ViewPort.Views
         private Dictionary<int, int> map_List_Dic_Compare;
         private List<string> dl_Apply_List;
         private List<string> dl_NOt_Apply_List;
-        private List<string> contain_200_Frame_List;
+        private List<int> contain_200_Frame_List;
 
 
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
@@ -46,7 +46,7 @@ namespace ViewPort.Views
         public List<string> Map_List_Compare { get => map_List_Compare; set => map_List_Compare = value; }
         public List<string> Dl_List { get => dl_List; set => dl_List = value; }
 
-        public List<string> Contain_200_Frame_List { get => contain_200_Frame_List; set => contain_200_Frame_List = value; }
+        public List<int> Contain_200_Frame_List { get => contain_200_Frame_List; set => contain_200_Frame_List = value; }
 
         public List<string> Dl_Apply_List { get => dl_Apply_List; set => dl_Apply_List = value; }
 
@@ -155,7 +155,7 @@ namespace ViewPort.Views
             Dl_Apply_List = new List<string>();
             Dl_NOt_Apply_List = new List<string>();
             Ignore_map_List = new List<string>();
-            Contain_200_Frame_List = new List<string>();
+            Contain_200_Frame_List = new List<int>();
 
             InitializeComponent();
 
@@ -176,6 +176,7 @@ namespace ViewPort.Views
             EditFormNameSafe(MSG_STR.LOAD_ZIP);
 
             Load_Map_TxtAsync(FilePath);
+            LoadTxtAsync(FilePath);
 
             ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);   // Zip파일(Lot) Load
             {
@@ -197,7 +198,7 @@ namespace ViewPort.Views
             }
 
             EditFormNameSafe(MSG_STR.LOAD_SDIP_TXT);
-            LoadTxtAsync(FilePath);
+            
 
             Load_XY_TxtAsync(FilePath);
             Load_DL_TxtAsync(FilePath);
@@ -239,7 +240,8 @@ namespace ViewPort.Views
                 int FrameNo = Func.GetFrameNumber(subEntry.Name);
                 int CameraNo = Func.GetCamNumber(subEntry.Name);
 
-                
+                //if (Contain_200_Frame_List.Contains(FrameNo))
+                //    continue;
 
                 if (All_LotID_List.FindIndex(s => s.Equals(LotName)) == -1)
                     All_LotID_List.Add(LotName);
@@ -312,7 +314,10 @@ namespace ViewPort.Views
                     dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0"));
                     if(int.Parse(dic_ready[8]) >= 200 && int.Parse(dic_ready[8]) <= 299)
                     {
-                        Contain_200_Frame_List.Add(dic_ready[0].Substring(0, 12));
+                        if (Contain_200_Frame_List.Contains(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5))))
+                            continue;
+                        else
+                            Contain_200_Frame_List.Add(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1,5)));
                     }
 
                 }

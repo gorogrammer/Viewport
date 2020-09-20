@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormViewPort));
-            this.button1 = new System.Windows.Forms.Button();
+            this.Print_Image_BT = new System.Windows.Forms.Button();
             this.List_Count_TB = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -40,9 +40,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.Frame_S_Page_TB = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Frame_S_TB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.Equipment_DF_CLB = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._filterAct_bt = new System.Windows.Forms.Button();
@@ -51,17 +50,23 @@
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.Camera_NO_Filter_TB = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zipLoadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.중간저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.코드변경ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.번코드변경ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.EQ_Search_TB = new System.Windows.Forms.TextBox();
             this.Manual_Mode_RB = new System.Windows.Forms.RadioButton();
             this.View_Mode_RB = new System.Windows.Forms.RadioButton();
             this.textBox8 = new System.Windows.Forms.TextBox();
@@ -78,17 +83,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.Print_Image_State = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.Frame_E_TB = new System.Windows.Forms.TextBox();
             this.Height_TB = new System.Windows.Forms.TextBox();
             this.Rows_TB = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.EQ_Search_TB = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -114,14 +115,15 @@
             this.splitContainer5.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // Print_Image_BT
             // 
-            this.button1.Location = new System.Drawing.Point(224, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(92, 26);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Print Image";
-            this.button1.UseVisualStyleBackColor = true;
+            this.Print_Image_BT.Location = new System.Drawing.Point(224, 5);
+            this.Print_Image_BT.Name = "Print_Image_BT";
+            this.Print_Image_BT.Size = new System.Drawing.Size(92, 26);
+            this.Print_Image_BT.TabIndex = 13;
+            this.Print_Image_BT.Text = "Print Image";
+            this.Print_Image_BT.UseVisualStyleBackColor = true;
+            this.Print_Image_BT.Click += new System.EventHandler(this.Print_Image_BT_Click);
             // 
             // List_Count_TB
             // 
@@ -204,12 +206,12 @@
             this.label10.Text = "■ State";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox1
+            // Frame_S_TB
             // 
-            this.textBox1.Location = new System.Drawing.Point(93, 114);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(54, 21);
-            this.textBox1.TabIndex = 1;
+            this.Frame_S_TB.Location = new System.Drawing.Point(93, 114);
+            this.Frame_S_TB.Name = "Frame_S_TB";
+            this.Frame_S_TB.Size = new System.Drawing.Size(54, 21);
+            this.Frame_S_TB.TabIndex = 1;
             // 
             // label3
             // 
@@ -221,16 +223,6 @@
             this.label3.Text = "■ 이미지 회전";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(228, 120);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(116, 16);
-            this.checkBox3.TabIndex = 15;
-            this.checkBox3.Text = "Frame 구간 선택";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
             // Equipment_DF_CLB
             // 
             this.Equipment_DF_CLB.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -239,7 +231,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 93);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 68);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -341,19 +333,21 @@
             this.dataGridView2.Size = new System.Drawing.Size(319, 150);
             this.dataGridView2.TabIndex = 0;
             // 
-            // textBox3
+            // Camera_NO_Filter_TB
             // 
-            this.textBox3.Location = new System.Drawing.Point(93, 143);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(54, 21);
-            this.textBox3.TabIndex = 11;
+            this.Camera_NO_Filter_TB.Location = new System.Drawing.Point(93, 143);
+            this.Camera_NO_Filter_TB.Name = "Camera_NO_Filter_TB";
+            this.Camera_NO_Filter_TB.Size = new System.Drawing.Size(54, 21);
+            this.Camera_NO_Filter_TB.TabIndex = 11;
+            this.Camera_NO_Filter_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Camera_NO_Filter_TB_KeyDown);
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.파일ToolStripMenuItem,
-            this.저장ToolStripMenuItem});
+            this.저장ToolStripMenuItem,
+            this.코드변경ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1765, 24);
@@ -397,6 +391,21 @@
             this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
             this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
+            // 
+            // 코드변경ToolStripMenuItem
+            // 
+            this.코드변경ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.번코드변경ToolStripMenuItem});
+            this.코드변경ToolStripMenuItem.Name = "코드변경ToolStripMenuItem";
+            this.코드변경ToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.코드변경ToolStripMenuItem.Text = "코드 변경";
+            // 
+            // 번코드변경ToolStripMenuItem
+            // 
+            this.번코드변경ToolStripMenuItem.Name = "번코드변경ToolStripMenuItem";
+            this.번코드변경ToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.번코드변경ToolStripMenuItem.Text = "1번 코드 변경";
+            this.번코드변경ToolStripMenuItem.Click += new System.EventHandler(this.번코드변경ToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -482,7 +491,7 @@
             this.splitContainer5.Panel1.Controls.Add(this.Frame_View_CB);
             this.splitContainer5.Panel1.Controls.Add(this.Fixed_CB);
             this.splitContainer5.Panel1.Controls.Add(this.button2);
-            this.splitContainer5.Panel1.Controls.Add(this.button1);
+            this.splitContainer5.Panel1.Controls.Add(this.Print_Image_BT);
             this.splitContainer5.Panel1.Controls.Add(this.List_Count_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label5);
             this.splitContainer5.Panel1.Controls.Add(this.label4);
@@ -492,10 +501,9 @@
             this.splitContainer5.Panel1.Controls.Add(this.comboBox1);
             this.splitContainer5.Panel1.Controls.Add(this.Frame_S_Page_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label10);
-            this.splitContainer5.Panel1.Controls.Add(this.textBox1);
+            this.splitContainer5.Panel1.Controls.Add(this.Frame_S_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label3);
-            this.splitContainer5.Panel1.Controls.Add(this.checkBox3);
-            this.splitContainer5.Panel1.Controls.Add(this.textBox3);
+            this.splitContainer5.Panel1.Controls.Add(this.Camera_NO_Filter_TB);
             this.splitContainer5.Panel1.Controls.Add(this.Cols_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label2);
             this.splitContainer5.Panel1.Controls.Add(this.Print_Image_Name);
@@ -504,7 +512,7 @@
             this.splitContainer5.Panel1.Controls.Add(this.label1);
             this.splitContainer5.Panel1.Controls.Add(this.Print_Image_State);
             this.splitContainer5.Panel1.Controls.Add(this.label7);
-            this.splitContainer5.Panel1.Controls.Add(this.textBox2);
+            this.splitContainer5.Panel1.Controls.Add(this.Frame_E_TB);
             this.splitContainer5.Panel1.Controls.Add(this.Height_TB);
             this.splitContainer5.Panel1.Controls.Add(this.Rows_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label8);
@@ -515,8 +523,45 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
             this.splitContainer5.Size = new System.Drawing.Size(319, 350);
-            this.splitContainer5.SplitterDistance = 253;
+            this.splitContainer5.SplitterDistance = 278;
             this.splitContainer5.TabIndex = 0;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(268, 277);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(45, 23);
+            this.button4.TabIndex = 27;
+            this.button4.Text = "전체";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(215, 278);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(45, 23);
+            this.button3.TabIndex = 27;
+            this.button3.Text = "검색";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(4, 283);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(71, 12);
+            this.label12.TabIndex = 26;
+            this.label12.Text = "■ 설비 검색";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // EQ_Search_TB
+            // 
+            this.EQ_Search_TB.Location = new System.Drawing.Point(93, 280);
+            this.EQ_Search_TB.Name = "EQ_Search_TB";
+            this.EQ_Search_TB.Size = new System.Drawing.Size(95, 21);
+            this.EQ_Search_TB.TabIndex = 25;
             // 
             // Manual_Mode_RB
             // 
@@ -677,12 +722,12 @@
             this.label7.Text = "■ 해상도 Filter";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox2
+            // Frame_E_TB
             // 
-            this.textBox2.Location = new System.Drawing.Point(156, 114);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(53, 21);
-            this.textBox2.TabIndex = 1;
+            this.Frame_E_TB.Location = new System.Drawing.Point(156, 114);
+            this.Frame_E_TB.Name = "Frame_E_TB";
+            this.Frame_E_TB.Size = new System.Drawing.Size(53, 21);
+            this.Frame_E_TB.TabIndex = 1;
             // 
             // Height_TB
             // 
@@ -739,43 +784,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // EQ_Search_TB
-            // 
-            this.EQ_Search_TB.Location = new System.Drawing.Point(93, 280);
-            this.EQ_Search_TB.Name = "EQ_Search_TB";
-            this.EQ_Search_TB.Size = new System.Drawing.Size(95, 21);
-            this.EQ_Search_TB.TabIndex = 25;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(4, 283);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(71, 12);
-            this.label12.TabIndex = 26;
-            this.label12.Text = "■ 설비 검색";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(215, 278);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(45, 23);
-            this.button3.TabIndex = 27;
-            this.button3.Text = "검색";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(268, 277);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(45, 23);
-            this.button4.TabIndex = 27;
-            this.button4.Text = "전체";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -820,7 +828,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Print_Image_BT;
         public System.Windows.Forms.TextBox List_Count_TB;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -830,9 +838,8 @@
         private System.Windows.Forms.ComboBox comboBox1;
         public System.Windows.Forms.TextBox Frame_S_Page_TB;
         private System.Windows.Forms.Label label10;
-        public System.Windows.Forms.TextBox textBox1;
+        public System.Windows.Forms.TextBox Frame_S_TB;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckedListBox Equipment_DF_CLB;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button _filterAct_bt;
@@ -840,7 +847,7 @@
         private System.Windows.Forms.Button Select_Empty_BTN;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.DataGridView dataGridView1;
-        public System.Windows.Forms.TextBox textBox3;
+        public System.Windows.Forms.TextBox Camera_NO_Filter_TB;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 파일ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zipLoadFileToolStripMenuItem;
@@ -856,7 +863,7 @@
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.CheckBox Print_Image_State;
         private System.Windows.Forms.Label label7;
-        public System.Windows.Forms.TextBox textBox2;
+        public System.Windows.Forms.TextBox Frame_E_TB;
         public System.Windows.Forms.TextBox Height_TB;
         public System.Windows.Forms.TextBox Rows_TB;
         private System.Windows.Forms.Label label8;
@@ -879,6 +886,8 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label12;
         public System.Windows.Forms.TextBox EQ_Search_TB;
+        private System.Windows.Forms.ToolStripMenuItem 코드변경ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 번코드변경ToolStripMenuItem;
     }
 }
 
