@@ -32,6 +32,9 @@ namespace ViewPort
         Dictionary<string, txtInfo> dicTxt_info = new Dictionary<string, txtInfo>();
         Dictionary<string, ImageInfo> dicInfo_Waiting_Del = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> return_dicInfo = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> sdip_NO1_dicInfo = new Dictionary<string, ImageInfo>();
+        
+        Dictionary<string, ImageInfo> f9_code_dicInfo = new Dictionary<string, ImageInfo>();
         string[] dic_ready = null;
         string viewType = null;
         
@@ -43,7 +46,9 @@ namespace ViewPort
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
         List<int> MAP_LIST = new List<int>();
         List<int> frame_List_main = new List<int>();
+        List<int> f9_Frame_List_Main = new List<int>();
         List<string> Eq_Filter_Select_Key_List = new List<string>();
+       
 
         List<string> accu_wait_Del_Img_List = new List<string>();
         List<string> Wait_Del_Img_List = new List<string>();
@@ -69,15 +74,22 @@ namespace ViewPort
             set { dicInfo = value; }
         }
         public string ViewType { get => viewType; set => viewType = value; }
+
         public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
+
+        public Dictionary<string, ImageInfo> F9_code_dicInfo { get => f9_code_dicInfo; set => f9_code_dicInfo = value; }
+        public Dictionary<string, ImageInfo> Sdip_NO1_dicInfo { get => sdip_NO1_dicInfo; set => sdip_NO1_dicInfo = value; }
         public Dictionary<string, ImageInfo> DicInfo_Copy { get => dicInfo_Copy; set => dicInfo_Copy = value; }
         public Dictionary<string, ImageInfo> Return_dicInfo { get => return_dicInfo; set => return_dicInfo = value; }
         public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
         public List<int> Frame_List_Main { get => frame_List_main; set => frame_List_main = value; }
 
+        public List<int> F9_Frame_List_Main { get => f9_Frame_List_Main; set => f9_Frame_List_Main = value; }
+
 
         public List<int> mAP_LIST { get => MAP_LIST; set => MAP_LIST = value; }
+        public List<int> Contain_200_Frame_Main { get => contain_200_Frame_Main; set => contain_200_Frame_Main = value; }
         public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
 
         public List<string> Dl_Apply_List_Main { get => dl_Apply_List_Main; set => dl_Apply_List_Main = value; }
@@ -260,6 +272,12 @@ namespace ViewPort
                 {
                     dicInfo[kvp.Key].sdip_no = kvp.Value.SDIP_No;
                     dicInfo[kvp.Key].sdip_result = kvp.Value.SDIP_Result;
+
+                    if(dicInfo[kvp.Key].sdip_no == "1")
+                    {
+                        Sdip_NO1_dicInfo.Add(kvp.Key, dicInfo[kvp.Key]);
+                    }
+                   
                 }
                 
             }
@@ -404,11 +422,26 @@ namespace ViewPort
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
            
-            dt.Rows.Clear();
+           
+            //dt.Rows.Clear();
             dataGridView1.RowHeadersWidth = 30;
-            
-            foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
-                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+            if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    dataGridView1.Rows[i].Cells[2].Value = open.Frame_dicInfo_Filter[dataGridView1.Rows[2].Cells[1].Value.ToString().Substring(0, 12)].ReviewDefectName;
+                }
+            }
+            else
+            {
+                //foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                //    dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    dataGridView1.Rows[i].Cells[2].Value = open.DicInfo_Filtered[dataGridView1.Rows[2].Cells[1].Value.ToString().Substring(0, 12)].ReviewDefectName;
+                }
+            }
+                
       
         }
         private void _filterAct_bt_Click(object sender, EventArgs e)
@@ -506,6 +539,9 @@ namespace ViewPort
 
                 
                 DicInfo = formLoading.Dic_Load;
+                f9_Frame_List_Main = formLoading.F9_Frame_List;
+
+                Contain_200_Frame_Main = formLoading.Contain_200_Frame_List;
 
                 MAP_LIST = formLoading.Map_List;
 
@@ -521,10 +557,10 @@ namespace ViewPort
                     {
                         MAP_LIST.RemoveAt(i);
                         i--;
-                    }
-                     
-                        
+                    } 
                 }
+
+           
 
 
                 dicTxt_info = formLoading.DicTxt_info;
@@ -568,11 +604,11 @@ namespace ViewPort
                 if (Manual_Mode_RB.Checked)
                 {
                     //MAP 정보에서 제외될 프레임 적용
-                    //for (int i = 0; i < Frame_List_Main.Count; i++)
+                    //for (int i = 0; i < MAP_LIST.Count; i++)
                     //{
                     //    foreach (string key in DicInfo.Keys.ToList())
                     //    {
-                    //        if (dicInfo[key].FrameNo == Frame_List_Main[i])
+                    //        if (dicInfo[key].FrameNo == MAP_LIST[i])
                     //        {
 
                     //            if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName)) == -1)
@@ -622,6 +658,13 @@ namespace ViewPort
                             dicInfo.Remove(pair);
                         }
 
+                    }
+                }
+                foreach(KeyValuePair<string,ImageInfo> pair in DicInfo)
+                {
+                    if(F9_Frame_List_Main.Contains(pair.Value.FrameNo))
+                    {
+                        F9_code_dicInfo.Add(pair.Key, pair.Value);
                     }
                 }
                

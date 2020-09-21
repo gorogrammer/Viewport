@@ -35,7 +35,7 @@ namespace ViewPort.Views
         private List<string> dl_Apply_List;
         private List<string> dl_NOt_Apply_List;
         private List<int> contain_200_Frame_List;
-
+        private List<int> f9_Frame_List;
 
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
@@ -47,6 +47,7 @@ namespace ViewPort.Views
         public List<string> Dl_List { get => dl_List; set => dl_List = value; }
 
         public List<int> Contain_200_Frame_List { get => contain_200_Frame_List; set => contain_200_Frame_List = value; }
+        public List<int> F9_Frame_List { get => f9_Frame_List; set => f9_Frame_List = value; }
 
         public List<string> Dl_Apply_List { get => dl_Apply_List; set => dl_Apply_List = value; }
 
@@ -156,6 +157,7 @@ namespace ViewPort.Views
             Dl_NOt_Apply_List = new List<string>();
             Ignore_map_List = new List<string>();
             Contain_200_Frame_List = new List<int>();
+            F9_Frame_List = new List<int>();
 
             InitializeComponent();
 
@@ -176,6 +178,7 @@ namespace ViewPort.Views
             EditFormNameSafe(MSG_STR.LOAD_ZIP);
 
             Load_Map_TxtAsync(FilePath);
+            Load_DL_TxtAsync(FilePath);
             LoadTxtAsync(FilePath);
 
             ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);   // Zip파일(Lot) Load
@@ -201,7 +204,7 @@ namespace ViewPort.Views
             
 
             Load_XY_TxtAsync(FilePath);
-            Load_DL_TxtAsync(FilePath);
+            
 
             EditFormNameSafe(MSG_STR.LOAD_ROWS);
             MakeDataTables();
@@ -217,12 +220,15 @@ namespace ViewPort.Views
                 return;
             }
 
-            
-            //for(int i =0; i < Ignore_map_List.Count; i++)
+            //for (int p = 0; p < Contain_200_Frame_List.Count; p++)
             //{
-            //    if (int.Parse(entry.Name.Split('.')[0]) == int.Parse(Ignore_map_List[i]))
-            //        return;
+            //    if (Map_List.Contains(Contain_200_Frame_List[p]))
+            //    {
+            //        Map_List.Remove(Contain_200_Frame_List[p]);
+            //        p--;
+            //    }
             //}
+
 
             Stream subEntryMS = entry.Open();
             ZipArchive subZip = new ZipArchive(subEntryMS);
@@ -265,9 +271,7 @@ namespace ViewPort.Views
 
 
                         Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0"));
-                    }
-
-                   
+                    } 
                 }
                 else
                 {
@@ -312,12 +316,21 @@ namespace ViewPort.Views
                 {
                     string[] dic_ready = items[i + 1].Split(',');
                     dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0"));
-                    if(int.Parse(dic_ready[8]) >= 200 && int.Parse(dic_ready[8]) <= 299)
+                    
+                    if(Dl_Apply_List.Contains(dic_ready[8]))
+                    {
+                        
+                        if (F9_Frame_List.Contains(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5))))
+                            continue;
+                        else
+                            F9_Frame_List.Add(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5)));
+                    }
+                    else if(int.Parse(dic_ready[8]) >= 200 && int.Parse(dic_ready[8]) <= 299)
                     {
                         if (Contain_200_Frame_List.Contains(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5))))
                             continue;
                         else
-                            Contain_200_Frame_List.Add(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1,5)));
+                            Contain_200_Frame_List.Add(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5)));
                     }
 
                 }
@@ -446,28 +459,29 @@ namespace ViewPort.Views
 
             foreach (KeyValuePair<int, int> pair in map_List_Dic)
             {
-                //if(pair.Value != 88 && map_List_Dic_Compare.ContainsKey(pair.Key))
-                //{
-                //    if (map_List_Dic_Compare[pair.Key] == 39 || map_List_Dic_Compare[pair.Key] == 40)
-                //    {
-                //        map_List.Add(pair.Key.ToString()) ;
-                //    }
-                //}
+                
                 if (pair.Value == 88 )
                 {
 
-                    if (map_List_Dic_Compare[pair.Key] != 39 || map_List_Dic_Compare[pair.Key] != 40)
+                    if (map_List_Dic_Compare[pair.Key] != 39  &&  map_List_Dic_Compare[pair.Key] != 40)
                     {
                         map_List.Add(pair.Key);
+                    }
+                    else
+                    {
+                        Ignore_map_List.Add(pair.Key.ToString());
                     }
                     
                 }
                 else
+                {
                     Ignore_map_List.Add(pair.Key.ToString());
+                }
+                    
 
             }
             
-        }
+         }
 
         private void MakeDataTables()
         {

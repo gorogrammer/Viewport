@@ -17,7 +17,7 @@ namespace ViewPort.Views
     {
         public FormViewPort Main;
 
-        
+
         struct BoxRange { public int left, top, width, height; }
         List<string> Display_Id = new List<string>();
         List<string> Change_state_List = new List<string>();
@@ -38,6 +38,7 @@ namespace ViewPort.Views
         List<int> Notapply_List_opne = new List<int>();
 
         int Filter_NO_1 = 0;
+        int Filter_F9 = 0;
         Image expand_img = null;
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
@@ -120,7 +121,7 @@ namespace ViewPort.Views
                     else
                         Set_Image();
 
-                    
+
 
                 }
             }
@@ -134,10 +135,10 @@ namespace ViewPort.Views
                 }
                 else
                 {
-                    Last_Picture_Selected_Index = -1;                  
+                    Last_Picture_Selected_Index = -1;
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
-                    
+
                     Set_PictureBox();
 
                     if (Main.Frame_View_CB.Checked)
@@ -145,7 +146,7 @@ namespace ViewPort.Views
                     else
                         Set_Image();
 
-                   
+
 
 
                 }
@@ -155,7 +156,7 @@ namespace ViewPort.Views
             {
                 Get_Delete_IMG();
 
-                if(Main.Frame_View_CB.Checked)
+                if (Main.Frame_View_CB.Checked)
                 {
                     for (int i = 0; i < Select_Pic.Count; i++)
                     {
@@ -165,7 +166,7 @@ namespace ViewPort.Views
                         }
 
                     }
-                    if(Filter_NO_1==1)
+                    if (Filter_NO_1 == 1)
                     {
                         Main.No1_Dl_PrintList();
                         Filter_NO_1 = 0;
@@ -175,11 +176,11 @@ namespace ViewPort.Views
 
                     Eq_cb_need_del = new List<string>(Select_Pic);
                     DL_Frame_Set_View();
-                    
+
 
                     Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
                     Main.Wait_Del_Print_List();
-                    
+
                 }
                 else
                 {
@@ -203,20 +204,20 @@ namespace ViewPort.Views
 
                     Eq_cb_need_del = new List<string>(Select_Pic);
                     Del_Set_View();
-                    
 
 
+                    Main.Wait_Del_Print_List();
                     Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
-                    
-                    
+
+
                 }
 
-               
 
-                
-                
+
+
+
                 Select_Pic.Clear();
-                
+
                 //Eq_cb_need_del.Clear();
             }
 
@@ -266,8 +267,8 @@ namespace ViewPort.Views
                         Current_Frame_PageNum = int.Parse(Main.Frame_S_Page_TB.Text) + 1;
                         Main.Frame_S_Page_TB.Text = Current_Frame_PageNum.ToString();
                         Set_PictureBox();
-                        Frame_Set_Image(); 
-                        
+                        Frame_Set_Image();
+
 
 
                     }
@@ -275,7 +276,7 @@ namespace ViewPort.Views
                 }
                 else
                     MessageBox.Show("Frame 별 체크 후에 사용 부탁드립니다.");
-                
+
             }
 
             else if (e.KeyCode == Keys.L)
@@ -283,50 +284,66 @@ namespace ViewPort.Views
                 DL_ViewFrom DL = new DL_ViewFrom(Main);
                 DL.Dl_LIst_ADD(Main.Dl_List_Main);
                 DL.Show();
-               
+
 
             }
 
             else if (e.KeyCode == Keys.F11)
             {
                 Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
+                DicInfo_Filtered = Main.Sdip_NO1_dicInfo;
+                //foreach(string NO_1 in dicInfo_Filter.Keys.ToList())
+                //{
+                //    if (dicInfo_Filter[NO_1].sdip_no == "1")
+                //        continue;
+                //    else
+                //    {
+                //        dicInfo_Filter.Remove(NO_1);
 
-                foreach(string NO_1 in dicInfo_Filter.Keys.ToList())
-                {
-                    if (dicInfo_Filter[NO_1].sdip_no == "1")
-                        continue;
-                    else
-                    {
-                        dicInfo_Filter.Remove(NO_1);
-                        
-                        Select_Pic_List.Add(NO_1);
-                    }
-                        
-                    
-                }
-                
+                //        Select_Pic_List.Add(NO_1);
+                //    }
+
+
+                //}
+
                 Filter_NO_1 = 1;
                 Set_View();
-                Main.Filter_NO_1_PrintList();
-
+                Main.Print_List();
+                
 
             }
 
-        
+
 
             else if (e.Shift && e.KeyCode == Keys.A)
             {
-                foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
+
+                if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
                 {
-                    pair.Value.ReviewDefectName = "불량";
+                    foreach (KeyValuePair<string, ImageInfo> pair in Frame_dicInfo_Filter)
+                    {
+                        pair.Value.ReviewDefectName = "불량";
+                    }
+                    Select_Pic_List = Frame_dicInfo_Filter.Keys.ToList();
+
+
+                    Frame_Set_View();
                 }
-                Select_Pic_List = dicInfo_Filter.Keys.ToList();
-                
-                Set_Image();
+                else
+                {
+                    foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
+                    {
+                        pair.Value.ReviewDefectName = "불량";
+                    }
+                    Select_Pic_List = dicInfo_Filter.Keys.ToList();
+
+                    Set_Image();
+                }
+
                 Main.ALL_Changeed_State();
             }
 
-            else if ( e.KeyCode == Keys.A)
+            else if (e.KeyCode == Keys.A)
             {
 
                 Select_Pic_List.Clear();
@@ -335,7 +352,7 @@ namespace ViewPort.Views
                 Selected_Picture_Index.Clear();
 
 
-                if(Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
+                if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
                 {
                     for (int i = 0; i < (cols * rows); i++)
                     {
@@ -399,70 +416,107 @@ namespace ViewPort.Views
                 int index = ((Current_PageNum - 1) * (cols * rows));
                 Selected_Picture_Index.Clear();
 
-                for (int i = 0; i < (cols * rows); i++)
+
+
+                if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
                 {
-                    if ((index + i) >= dicInfo_Filter.Count)
-                        break;
-                    Selected_Picture_Index.Add(index + i);
+                    for (int i = 0; i < (cols * rows); i++)
+                    {
+                        if ((index + i) >= frame_dicInfo_Filter.Count)
+                            break;
+                        Selected_Picture_Index.Add(index + i);
+                    }
+
+                    for (int p = 0; p < Selected_Picture_Index.Count; p++)
+                    {
+                        frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "양품";
+
+                        Change_state_List.Add(frame_dicInfo_Filter.ElementAt(p).Key);
+                    }
+                    Frame_Set_View();
+                }
+                else
+                {
+                    for (int i = 0; i < (cols * rows); i++)
+                    {
+                        if ((index + i) >= dicInfo_Filter.Count)
+                            break;
+                        Selected_Picture_Index.Add(index + i);
+                    }
+
+                    for (int p = 0; p < Selected_Picture_Index.Count; p++)
+                    {
+                        dicInfo_Filter[dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "양품";
+
+                        Change_state_List.Add(dicInfo_Filter.ElementAt(p).Key);
+                    }
+
+                    Set_Image();
                 }
 
-                for (int p = 0; p < Selected_Picture_Index.Count; p++)
-                {
-                    dicInfo_Filter[dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "양품";
-                    
-                    Change_state_List.Add(dicInfo_Filter.ElementAt(p).Key);
-                }
 
-                Set_Image();
                 Main.Changeed_State();
 
 
             }
 
-            
+
 
             else if (e.KeyCode == Keys.F9)
             {
-                
-
-                if (Main.Dl_Apply_List_Main.Count > 0)
+                if (Main.F9_code_dicInfo.Count > 0)
                 {
-                    
-                    Select_Pic_List.Clear();
+                    DicInfo_Filtered = Main.F9_code_dicInfo;
 
-                    foreach (KeyValuePair<string, ImageInfo> pair in Main.DicInfo_Copy)
-                    {
-
-                        for (int i = 0; i < Main.Dl_Apply_List_Main.Count; i++)
-                        {
-                            if (pair.Value.sdip_no == Main.Dl_Apply_List_Main[i])
-                            {
-                                if (apply_List_opne.Contains(pair.Value.FrameNo))
-                                    continue;
-                                else
-                                    apply_List_opne.Add(pair.Value.FrameNo);
-                                                               
-                            }
-
-                        }
-
-
-
-                    }
-                    Set_PictureBox();
-
-                    Set_Image();
+                    Filter_F9 = 1;
+                    Set_View();
                     Main.Print_List();
                     Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                    
                 }
                 else
+                {
                     MessageBox.Show("Limit 아래 부품이 없습니다.");
-                    
+                }
+
+                //if (Main.Dl_Apply_List_Main.Count > 0)
+                //{
+
+                //    Select_Pic_List.Clear();
+
+                //    foreach (KeyValuePair<string, ImageInfo> pair in Main.DicInfo_Copy)
+                //    {
+
+                //        for (int i = 0; i < Main.Dl_Apply_List_Main.Count; i++)
+                //        {
+                //            if (pair.Value.sdip_no == Main.Dl_Apply_List_Main[i])
+                //            {
+                //                if (apply_List_opne.Contains(pair.Value.FrameNo))
+                //                    continue;
+                //                else
+                //                    apply_List_opne.Add(pair.Value.FrameNo);
+
+                //            }
+
+                //        }
+
+
+
+                //    }
+                //    Set_PictureBox();
+
+                //    Set_Image();
+                //    Main.Print_List();
+                //    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                //}
+                //else
+                //    MessageBox.Show("Limit 아래 부품이 없습니다.");
+
             }
 
             else if (e.KeyCode == Keys.F10)
             {
-                
+
 
                 if (Main.Dl_NotApply_List_Main.Count > 0)
                 {
@@ -496,7 +550,7 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.R)
             {
-                
+
                 //A_Mouse_XY = this.PointToClient(new Point(MousePosition.X, MousePosition.Y));
 
                 ExpandImage expand = new ExpandImage(this);
@@ -512,12 +566,12 @@ namespace ViewPort.Views
 
                 if (Main.Dl_Apply_List_Main.Count > 0)
                 {
-                    
+
                     Select_Pic_List.Clear();
 
-                  
 
-                    
+
+
                     Set_PictureBox();
 
                     Set_Image();
@@ -546,10 +600,10 @@ namespace ViewPort.Views
                     }
                     Main.Dl_PrintList();
                     DL_Frame_Set_View();
-                    
+
 
                     Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
-                   
+
                     Eq_cb_need_del = new List<string>(Select_Pic);
                 }
                 else
@@ -565,11 +619,11 @@ namespace ViewPort.Views
 
                     Main.Dl_PrintList();
                     Del_Set_View();
-                    
+
 
 
                     Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
-                    
+
                     Eq_cb_need_del = new List<string>(Select_Pic);
                 }
 
@@ -579,6 +633,10 @@ namespace ViewPort.Views
 
                 Select_Pic.Clear();
             }
+            else if (e.KeyCode == Keys.F5)
+            {
+
+            }
 
         }
 
@@ -587,12 +645,12 @@ namespace ViewPort.Views
         public ImageViewer(FormViewPort mainForm)
         {
             InitializeComponent();
-            
+
         }
 
         public void Load_Del()
         {
-            foreach(var key in dicInfo_Delete.Keys.ToList())
+            foreach (var key in dicInfo_Delete.Keys.ToList())
             {
                 dicInfo_Delete[key].DeleteCheck = "삭제대기";
 
@@ -602,12 +660,12 @@ namespace ViewPort.Views
                 }
             }
             Del_Set_View();
-            
+
         }
 
         public void Get_Delete_IMG()
         {
-            if(Main.Frame_View_CB.Checked)
+            if (Main.Frame_View_CB.Checked)
             {
                 for (int p = 0; p < Select_Pic.Count; p++)
                 {
@@ -633,10 +691,10 @@ namespace ViewPort.Views
                     }
                 }
             }
-            
+
             Main.Waiting_Del = dicInfo_Delete;
         }
-        
+
         private void ImageViewer_PL_MouseDown(object sender, MouseEventArgs e)
         {
             src_Mouse_XY.X = e.X;
@@ -661,8 +719,8 @@ namespace ViewPort.Views
 
             this.Controls.Clear();
             PictureData.Clear();
-            
-            if(Filter_NO_1 != 1)
+
+            if (Filter_NO_1 != 1 &&  Filter_F9 != 1)
             {
                 //frame_List_Img = Main.Frame_List_Main;
                 dicInfo_Filter = Main.DicInfo;
