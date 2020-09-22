@@ -19,6 +19,7 @@ namespace ViewPort.Views
     public partial class FormLoading : Form
     {
         #region MEMBER Variables
+        FormViewPort main;
         private DataTable dt;
         private Dictionary<string, ImageInfo> dic_Load;
         private Dictionary<string, txtInfo> dicTxt_info;
@@ -36,6 +37,8 @@ namespace ViewPort.Views
         private List<string> dl_NOt_Apply_List;
         private List<int> contain_200_Frame_List;
         private List<int> f9_Frame_List;
+        private List<string> imageSizeList;
+
 
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
@@ -45,6 +48,7 @@ namespace ViewPort.Views
         public List<int> Map_List { get => map_List; set => map_List = value; }
         public List<string> Map_List_Compare { get => map_List_Compare; set => map_List_Compare = value; }
         public List<string> Dl_List { get => dl_List; set => dl_List = value; }
+        public List<string> ImageSizeList { get => imageSizeList; set => imageSizeList = value; }
 
         public List<int> Contain_200_Frame_List { get => contain_200_Frame_List; set => contain_200_Frame_List = value; }
         public List<int> F9_Frame_List { get => f9_Frame_List; set => f9_Frame_List = value; }
@@ -139,7 +143,7 @@ namespace ViewPort.Views
 
         #endregion
 
-        public FormLoading(string path)
+        public FormLoading(string path, FormViewPort parent)
         {
             dic_Load = new Dictionary<string, ImageInfo>();
             dicTxt_info = new Dictionary<string, txtInfo>();
@@ -158,7 +162,8 @@ namespace ViewPort.Views
             Ignore_map_List = new List<string>();
             Contain_200_Frame_List = new List<int>();
             F9_Frame_List = new List<int>();
-
+            ImageSizeList = new List<string>();
+            main = parent;
             InitializeComponent();
 
             DoLoadingThread(path);
@@ -215,6 +220,9 @@ namespace ViewPort.Views
 
         private void LoadSubZipAsync(string LotName, ZipArchiveEntry entry)
         {
+            string ImageSize;
+            Bitmap ImgInfo = null;
+
             if (entry.Name.ToUpper().IndexOf(".ZIP") == -1)
             {
                 AddProgressBarValueSafe(1); // Count 추가
@@ -247,8 +255,17 @@ namespace ViewPort.Views
                 int FrameNo = Func.GetFrameNumber(subEntry.Name);
                 int CameraNo = Func.GetCamNumber(subEntry.Name);
 
-                //if (Contain_200_Frame_List.Contains(FrameNo))
-                //    continue;
+
+                if (main.checkBox1.Checked)
+                {
+                    ImgInfo = new Bitmap(subEntry.Open());
+                    ImageSize = ImgInfo.Size.Width + "*" + ImgInfo.Size.Height;
+                    ImgInfo.Dispose();
+                    if (ImageSizeList.FindIndex(c => c.Equals(ImageSize)) == -1)
+                        ImageSizeList.Add(ImageSize);
+                }
+                else
+                    ImageSize = "-";
 
                 if (All_LotID_List.FindIndex(s => s.Equals(LotName)) == -1)
                     All_LotID_List.Add(LotName);
@@ -271,7 +288,7 @@ namespace ViewPort.Views
                         }
 
 
-                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0"));
+                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize));
                     } 
                 }
                 else
@@ -285,7 +302,7 @@ namespace ViewPort.Views
                         All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
 
                     }
-                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0"));
+                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize));
                 }
                    
 

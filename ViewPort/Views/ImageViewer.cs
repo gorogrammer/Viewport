@@ -146,9 +146,6 @@ namespace ViewPort.Views
                     else
                         Set_Image();
 
-
-
-
                 }
             }
 
@@ -1575,7 +1572,33 @@ namespace ViewPort.Views
                             {
                                 tmp_Img = new Bitmap(subEntry.Open());
 
-                                //방향
+                                switch (Main.Rotate_CLB.SelectedIndex)
+                                {
+                                    case 0:
+                                        {
+                                            break;
+                                        }
+                                    case 1:
+                                        {
+                                            tmp_Img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            tmp_Img.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            tmp_Img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            MessageBox.Show("이미지 회전 오류");
+                                            return;
+                                        }
+                                }
 
                                 PictureData.ElementAt(Current_Index).Image = tmp_Img;
                                 PictureData.ElementAt(Current_Index).Name = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
@@ -1736,8 +1759,33 @@ namespace ViewPort.Views
                                 {
                                     tmp_Img = new Bitmap(subEntry.Open());
 
-                                    //방향
-
+                                    switch (Main.Rotate_CLB.SelectedIndex)
+                                    {
+                                        case 0:
+                                            {
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                tmp_Img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                                                break;
+                                            }
+                                        case 2:
+                                            {
+                                                tmp_Img.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                                                break;
+                                            }
+                                        case 3:
+                                            {
+                                                tmp_Img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                MessageBox.Show("이건 무슨 경우? 님 해커임?");
+                                                return;
+                                            }
+                                    }
                                     PictureData.ElementAt(Current_Index).Image = tmp_Img;
                                     PictureData.ElementAt(Current_Index).Name = frame_dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
 
@@ -1776,7 +1824,33 @@ namespace ViewPort.Views
                                 {
                                     tmp_Img = new Bitmap(subEntry.Open());
 
-                                    //방향
+                                    switch (Main.Rotate_CLB.SelectedIndex)
+                                    {
+                                        case 0:
+                                            {
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                tmp_Img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                                                break;
+                                            }
+                                        case 2:
+                                            {
+                                                tmp_Img.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                                                break;
+                                            }
+                                        case 3:
+                                            {
+                                                tmp_Img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                MessageBox.Show("이미지 회전 오류");
+                                                return;
+                                            }
+                                    }
 
                                     PictureData.ElementAt(Current_Index).Image = tmp_Img;
                                     PictureData.ElementAt(Current_Index).Name = frame_dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
@@ -2177,6 +2251,7 @@ namespace ViewPort.Views
         public ImageViewer()
         {
             InitializeComponent();
+            
         }
     }
 }

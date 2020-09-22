@@ -41,92 +41,92 @@ namespace ViewPort.Functions
             zip.Dispose();
         }
 
-        public static void SearchJPG_inZip(string FilePath, List<string> All_LotID_List, List<string> All_VerifyDF_List, List<Tuple<string, int>> All_Equipment_DF_List,
-               ConcurrentDictionary<string, ImageInfo> dicInfo)
-        {
-            ZipArchive zip, subZip;
-            Stream subEntryMS;
-            string Lot_ID, Verify_Defect;
-            string FileName, Equipment_Name, File_ID;
+        //public static void SearchJPG_inZip(string FilePath, List<string> All_LotID_List, List<string> All_VerifyDF_List, List<Tuple<string, int>> All_Equipment_DF_List,
+        //       ConcurrentDictionary<string, ImageInfo> dicInfo)
+        //{
+        //    ZipArchive zip, subZip;
+        //    Stream subEntryMS;
+        //    string Lot_ID, Verify_Defect;
+        //    string FileName, Equipment_Name, File_ID;
 
-            int FrameNo, CameraNo;
-
-
-            //ImageDatabase = null;
-            //dicInfo = null;
-
-            try
-            {
-                zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
-
-                foreach (ZipArchiveEntry entry in zip.Entries)
-                {
-                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)             // Zip파일 내에 Zip파일이 있을 경우...
-                    {
-                        subEntryMS = entry.Open();           // 2중 압축파일을 MemoryStream으로 읽는다.
-                        subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
-                        foreach (ZipArchiveEntry subEntry in subZip.Entries)        // 2중 압축파일 내에 있는 파일을 탐색
-                        {
-                            if (subEntry.Name.ToUpper().IndexOf(".JPG") != -1)  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
-                            { 
-                                Lot_ID = Path.GetFileName(FilePath).Replace(".zip", "");
-                                Verify_Defect = "-";
-                                FileName = subEntry.Name.Replace(".jpg", "");
-                                File_ID = FileName.Split('_')[0];
-                                FrameNo = int.Parse(subEntry.Name.Substring(1, 5));
-                                CameraNo = int.Parse(subEntry.Name.Substring(6, 2));
-                                Equipment_Name = subEntry.Name.Substring(13, FileName.Length - 13).Split('@')[0].Split('.')[0];
-
-                                
-
-                                if (FileName.Split('@').Length >= 3)
-                                {
-                                    Lot_ID = FileName.Split('@')[2].Split('.')[0];
-
-                                }
-
-                                if (All_LotID_List.FindIndex(s => s.Equals(Lot_ID)) == -1)
-                                    All_LotID_List.Add(Lot_ID);
-                                int x = 1;
-                                int index = 0;
-
-                                if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
-                                    All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
-                                else
-                                {
-                                    index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
-                                    x = All_Equipment_DF_List[index].Item2;
-                                    All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
-
-                                }
+        //    int FrameNo, CameraNo;
 
 
-                                //ImageDatabase.Add(new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
-                                //dicInfo.Add(File_ID, new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
-                                dicInfo.TryAdd(File_ID, new ImageInfo(Lot_ID, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품","O","0","0"));
+        //    //ImageDatabase = null;
+        //    //dicInfo = null;
 
-                            }
-                        }
-                        subZip.Dispose();
+        //    try
+        //    {
+        //        zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
 
-                    }
+        //        foreach (ZipArchiveEntry entry in zip.Entries)
+        //        {
+        //            if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)             // Zip파일 내에 Zip파일이 있을 경우...
+        //            {
+        //                subEntryMS = entry.Open();           // 2중 압축파일을 MemoryStream으로 읽는다.
+        //                subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
+        //                foreach (ZipArchiveEntry subEntry in subZip.Entries)        // 2중 압축파일 내에 있는 파일을 탐색
+        //                {
+        //                    if (subEntry.Name.ToUpper().IndexOf(".JPG") != -1)  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+        //                    {
+        //                        Lot_ID = Path.GetFileName(FilePath).Replace(".zip", "");
+        //                        Verify_Defect = "-";
+        //                        FileName = subEntry.Name.Replace(".jpg", "");
+        //                        File_ID = FileName.Split('_')[0];
+        //                        FrameNo = int.Parse(subEntry.Name.Substring(1, 5));
+        //                        CameraNo = int.Parse(subEntry.Name.Substring(6, 2));
+        //                        Equipment_Name = subEntry.Name.Substring(13, FileName.Length - 13).Split('@')[0].Split('.')[0];
 
 
 
-                    if (entry.Name.ToUpper().IndexOf("_XY.TXT") != -1)             // Zip파일 내에 Zip파일이 있을 경우...
-                    {
-                        //Set_Cordination(entry.Open());
-                    }
-                }
-                zip.Dispose();
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("Extract ERROR!\n" + ex.ToString());
+        //                        if (FileName.Split('@').Length >= 3)
+        //                        {
+        //                            Lot_ID = FileName.Split('@')[2].Split('.')[0];
 
-                return;
-            }
-        }
+        //                        }
+
+        //                        if (All_LotID_List.FindIndex(s => s.Equals(Lot_ID)) == -1)
+        //                            All_LotID_List.Add(Lot_ID);
+        //                        int x = 1;
+        //                        int index = 0;
+
+        //                        if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
+        //                            All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
+        //                        else
+        //                        {
+        //                            index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
+        //                            x = All_Equipment_DF_List[index].Item2;
+        //                            All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
+
+        //                        }
+
+
+        //                        //ImageDatabase.Add(new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
+        //                        //dicInfo.Add(File_ID, new ImageListInfo(ImageDatabase.Count, Lot_ID, Verify_Defect, "-", "-", "양품", FileName, File_ID, FrameNo, CameraNo, Equipment_Name, ImageSize, Directory.GetParent(FilePath).ToString()));
+        //                        dicInfo.TryAdd(File_ID, new ImageInfo(Lot_ID, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0"));
+
+        //                    }
+        //                }
+        //                subZip.Dispose();
+
+        //            }
+
+
+
+        //            if (entry.Name.ToUpper().IndexOf("_XY.TXT") != -1)             // Zip파일 내에 Zip파일이 있을 경우...
+        //            {
+        //                //Set_Cordination(entry.Open());
+        //            }
+        //        }
+        //        zip.Dispose();
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        MessageBox.Show("Extract ERROR!\n" + ex.ToString());
+
+        //        return;
+        //    }
+        //}
 
         public static void DeleteJPG_inZIP(string FilePath, Dictionary<string, ImageInfo> dicInfo_del)
         {
@@ -183,34 +183,38 @@ namespace ViewPort.Functions
         public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo)
         {
             ZipArchive zip;
-            
-            zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);
-            string IMGTXT_path = string.Empty;
-            IMGTXT_path = FilePath + "\\" + Func.GetLotNameFromPath(FilePath);
+            if (FilePath != null)
+            {
+                zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);
+                string IMGTXT_path = string.Empty;
+                IMGTXT_path = FilePath + "\\" + Func.GetLotNameFromPath(FilePath);
 
-           
 
-            foreach (ZipArchiveEntry entry in zip.Entries)
-            { 
-                if (entry.Name.ToUpper().IndexOf(".TXT") != -1 && entry.Name.ToUpper().IndexOf("IMG") != -1)
+
+                foreach (ZipArchiveEntry entry in zip.Entries)
                 {
-
-                    entry.Delete();
-
-                    ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetLotNameFromPath(FilePath));
-
-                    using (StreamWriter SW =  new StreamWriter(readmeEntry.Open()))
+                    if (entry.Name.ToUpper().IndexOf(".TXT") != -1 && entry.Name.ToUpper().IndexOf("IMG") != -1)
                     {
-                        for (int i = 0; i < dicInfo.Count; i++)
+
+                        entry.Delete();
+
+                        ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetLotNameFromPath(FilePath));
+
+                        using (StreamWriter SW = new StreamWriter(readmeEntry.Open()))
                         {
-                            SW.WriteLine(dicInfo.Keys.ElementAt(i) + ""+ dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no );
+                            for (int i = 0; i < dicInfo.Count; i++)
+                            {
+                                SW.WriteLine(dicInfo.Keys.ElementAt(i) + "" + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no);
+                            }
                         }
+
+                        break;
                     }
-                  
-                    break;
                 }
+                zip.Dispose();
             }
-            zip.Dispose();
+            
+            
 
         }
         public static string GetFileNameWithoutJPG(string str)

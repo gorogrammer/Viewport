@@ -11,18 +11,19 @@ namespace ViewPort.Models
         string SDIP_NO, Delete_Check;
         string Lot_ID, Review_DefectName, SDIP_Result;
         string Equipment_DefectName, Image_name, Xlocation, YLocation;
+        string imageSize;
         int Frame_No, Camera_No;
         
 
         public ImageInfo Clone()
         {
-            return new ImageInfo(LotID, Image_name, CameraNo, FrameNo, Equipment_DefectName, SDIP_NO, SDIP_Result, Review_DefectName, Delete_Check, X_Location, Y_Location);
+            return new ImageInfo(LotID, Image_name, CameraNo, FrameNo, Equipment_DefectName, SDIP_NO, SDIP_Result, Review_DefectName, Delete_Check, X_Location, Y_Location, ImageSize);
             
         }
 
 
 
-        public ImageInfo(string LotID, string ImageName, int CamNo, int FrameNo, string Equipment_DF, string sdip_no, string sdip_result, string Review_DF, string DeleteNo, string XLocation, string YLocation)
+        public ImageInfo(string LotID, string ImageName, int CamNo, int FrameNo, string Equipment_DF, string sdip_no, string sdip_result, string Review_DF, string DeleteNo, string XLocation, string YLocation, string imageSize)
         {
            
             Lot_ID = LotID;
@@ -38,6 +39,7 @@ namespace ViewPort.Models
             SDIP_Result = sdip_result;
             X_Location = XLocation;
             Y_Location = YLocation;
+            ImageSize = imageSize;
         }
         
         public string LotID { get { return Lot_ID; } set { Lot_ID = value; } }
@@ -57,6 +59,8 @@ namespace ViewPort.Models
 
         public string X_Location { get { return Xlocation; } set { Xlocation = value; } }
         public string Y_Location { get { return YLocation; } set { YLocation = value; } }
+
+        public string ImageSize { get { return imageSize; } set { imageSize = value; } }
 
     }
 }

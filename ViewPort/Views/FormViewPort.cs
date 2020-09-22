@@ -37,10 +37,10 @@ namespace ViewPort
         Dictionary<string, ImageInfo> f9_code_dicInfo = new Dictionary<string, ImageInfo>();
         string[] dic_ready = null;
         string viewType = null;
-        
+        int Rotate_Option = 1;
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
         //List<ImageListInfo> FilterList = new List<ImageListInfo>();
-        
+
         List<string> All_LotID_List = new List<string>();
         List<string> All_VerifyDF_List = new List<string>();
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
@@ -115,6 +115,8 @@ namespace ViewPort
             InitializeComponent();
             Init();
             InitialData();
+
+            
         }
 
         public void Init()
@@ -144,12 +146,19 @@ namespace ViewPort
             dt_del.PrimaryKey = new DataColumn[] { dt_del.Columns[COLUMN_STR.GRID_IMGNAME] };
             dataGridView2.DataSource = dt_del;
 
+            Rotate_CLB.Items.Add("0˚");
+            Rotate_CLB.Items.Add("90˚");
+            Rotate_CLB.Items.Add("180˚");
+            Rotate_CLB.Items.Add("270˚");
+            Rotate_CLB.SelectedIndex = 1;
+
         }
         private void InitialData()
         {
             Load_State = -1;
             DirPath = string.Empty;
             REF_DirPath = string.Empty;
+           
         }
         #endregion
 
@@ -170,7 +179,15 @@ namespace ViewPort
 
         }
 
+        public int GetRotation_Option()
+        {
+            return Rotate_Option;
+        }
 
+        public void SetRotation_Option(int Option)
+        {
+            Rotate_Option = Option;
+        }
 
         public void Print_List()
         {
@@ -525,68 +542,76 @@ namespace ViewPort
         {
             Load_State = 1;
             string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
+            string FileName = string.Empty;
+      
 
             if (string.IsNullOrEmpty(path) == false)
             {
+                FileName = Util.GetFileName();
                 DirPath = Directory.GetParent(path).ToString();
                 ZipFilePath = path;
 
-
-
-
-
-                FormLoading formLoading = new FormLoading(path);
-                formLoading.ShowDialog();
-
-                
-                DicInfo = formLoading.Dic_Load;
-                f9_Frame_List_Main = formLoading.F9_Frame_List;
-
-                Contain_200_Frame_Main = formLoading.Contain_200_Frame_List;
-
-                MAP_LIST = formLoading.Map_List;
-
-                Dl_List_Main = formLoading.Dl_List;
-
-                Frame_List_Main = formLoading.Frame_List;
-
-                for (int i = 0; i < MAP_LIST.Count; i++)
+                if(MessageBox.Show("" + FileName + "로트 파일을 로드 하시겠습니까?", "프로그램 로드", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    if (Frame_List_Main.Contains(MAP_LIST[i]))
-                        continue;
-                    else
+                    FormLoading formLoading = new FormLoading(path, this);
+                    formLoading.ShowDialog();
+
+
+                    DicInfo = formLoading.Dic_Load;
+                    f9_Frame_List_Main = formLoading.F9_Frame_List;
+
+                    Contain_200_Frame_Main = formLoading.Contain_200_Frame_List;
+
+                    MAP_LIST = formLoading.Map_List;
+
+                    Dl_List_Main = formLoading.Dl_List;
+
+                    Frame_List_Main = formLoading.Frame_List;
+
+                    for (int i = 0; i < MAP_LIST.Count; i++)
                     {
-                        MAP_LIST.RemoveAt(i);
-                        i--;
-                    } 
+                        if (Frame_List_Main.Contains(MAP_LIST[i]))
+                            continue;
+                        else
+                        {
+                            MAP_LIST.RemoveAt(i);
+                            i--;
+                        }
+                    }
+
+
+
+
+                    dicTxt_info = formLoading.DicTxt_info;
+
+                    All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
+                    All_LotID_List = formLoading.All_LotID_List;
+                    Dl_Apply_List_Main = formLoading.Dl_Apply_List;
+                    Dl_NotApply_List_Main = formLoading.Dl_NOt_Apply_List;
+                    ImageSizeList = formLoading.ImageSizeList;
+
+
+
+                    dataGridView1.DataSource = formLoading.Dt;
+
+
+
+                    dataGridView1.Columns[0].Width = 50;
+                    dataGridView1.Columns[1].Width = 150;
+                    dataGridView1.Columns[2].Width = 50;
+
+
+                    dataGridView1.RowHeadersWidth = 30;
+
+
+
+                    formLoading.Dispose();
                 }
-
-           
-
-
-                dicTxt_info = formLoading.DicTxt_info;
+                else
+                {
+                    ZipFilePath = null;
+                }
                 
-                All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
-                All_LotID_List = formLoading.All_LotID_List;
-                Dl_Apply_List_Main = formLoading.Dl_Apply_List;
-                Dl_NotApply_List_Main = formLoading.Dl_NOt_Apply_List;
-
-
-
-                dataGridView1.DataSource = formLoading.Dt;
-
-
-
-                dataGridView1.Columns[0].Width = 50;
-                dataGridView1.Columns[1].Width = 150;
-                dataGridView1.Columns[2].Width = 50;
-
-
-                dataGridView1.RowHeadersWidth = 30;
-
-                
-
-                formLoading.Dispose();
             }
         }
 
@@ -611,7 +636,9 @@ namespace ViewPort
                     //    {
                     //        if (dicInfo[key].FrameNo == MAP_LIST[i])
                     //        {
-
+                    //        }
+                    //        else
+                    //        {
                     //            if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName)) == -1)
                     //                continue;
                     //            else
@@ -633,6 +660,35 @@ namespace ViewPort
 
                     //    }
                     //}
+                    //foreach (string key in DicInfo.Keys.ToList())
+                    //{
+                    //   if(MAP_LIST.Contains(dicInfo[key].FrameNo))
+                    //    {
+
+                    //    }
+                    //   else
+                    //   {
+                    //        if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName)) == -1)
+                    //            continue;
+                    //        else
+                    //        {
+                    //            index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName));
+                    //            x = All_Equipment_DF_List[index].Item2;
+                    //            All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[key].EquipmentDefectName, --x);
+
+                    //            if (x == 0)
+                    //            {
+                    //                All_Equipment_DF_List.RemoveAt(index);
+
+                    //            }
+
+                    //        }
+
+                    //        dicInfo.Remove(key);
+                    //   }
+
+                    //}
+
                     //SDIP 코드 211~230 제외
                     foreach (string pair in dicInfo.Keys.ToList())
                     {
@@ -672,11 +728,20 @@ namespace ViewPort
 
                 All_LotID_List.Sort();
                 Initial_Equipment_DF_List();
+                
+                if(checkBox1.Checked)
+                {
+                    for (int i = 0; i < ImageSizeList.Count; i++)
+                        ImageSize_CB.Items.Add(ImageSizeList.ElementAt(i));
+
+                    ImageSize_CB.SelectedIndex = 0;
+                }
+                
 
                 for (int i = 0; i < All_Equipment_DF_List.Count; i++)
                     Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
 
-
+                
                 Select_All_BTN_Click(null, null);
                 MessageBox.Show(MSG_STR.SUCCESS);
 
@@ -1201,6 +1266,55 @@ namespace ViewPort
         private void Print_Image_BT_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Rotate_CLB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetRotation_Option(Rotate_CLB.SelectedIndex);
+
+            if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
+            {
+
+                open.Frame_Set_Image();
+            }
+            else if(ViewType == "SetView")
+            {
+                open.Set_Image();
+            }
+        }
+
+        private void ImageSize_Filter()
+        {
+            if (ImageSize_CB.SelectedIndex == 0)
+                return;
+
+            if (checkBox1.Checked)
+            {
+                DicInfo = new Dictionary<string, ImageInfo>(dicInfo_Copy);
+                
+                foreach(string pair in DicInfo.Keys.ToList())
+                {
+                    if (!ImageSize_CB.SelectedItem.Equals(DicInfo[pair].ImageSize))
+                    {
+                        DicInfo.Remove(pair);
+                    }
+                }
+            }
+
+            if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
+            {
+
+                open.Frame_Set_Image();
+            }
+            else if (ViewType == "SetView")
+            {
+                open.Set_Image();
+            }
+        }
+
+        private void ImageSize_CB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ImageSize_Filter();
         }
     }
 

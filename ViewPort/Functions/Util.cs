@@ -12,8 +12,10 @@ namespace ViewPort.Functions
 {
     public class Util
     {
+        static string Filename = string.Empty;
         public static string OpenFileDlg(string FilterName)
         {
+            
             try
             {
                 OpenFileDialog folderDlg = new OpenFileDialog();
@@ -22,7 +24,10 @@ namespace ViewPort.Functions
                     folderDlg.Filter = FilterName;
 
                 if (folderDlg.ShowDialog() == DialogResult.OK)
+                {
+                    Filename = Path.GetFileNameWithoutExtension(folderDlg.FileName);
                     return folderDlg.FileName;
+                }  
                 else
                     return string.Empty;
             }
@@ -33,6 +38,10 @@ namespace ViewPort.Functions
             return string.Empty;
         }
 
+        public static string GetFileName()
+        {
+            return Filename;
+        }
         public static string OpenFolderDlg()
         {
             try

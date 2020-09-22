@@ -37,7 +37,7 @@
             this.Frame_E_Page_TB = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Rotate_CLB = new System.Windows.Forms.ComboBox();
             this.Frame_S_Page_TB = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.Frame_S_TB = new System.Windows.Forms.TextBox();
@@ -90,6 +90,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ImageSize_CB = new System.Windows.Forms.ComboBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -176,18 +178,14 @@
             this.S_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.S_Page_TB.TabIndex = 1;
             // 
-            // comboBox1
+            // Rotate_CLB
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "0˚",
-            "90˚",
-            "180˚",
-            "270˚"});
-            this.comboBox1.Location = new System.Drawing.Point(93, 61);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(95, 20);
-            this.comboBox1.TabIndex = 7;
+            this.Rotate_CLB.FormattingEnabled = true;
+            this.Rotate_CLB.Location = new System.Drawing.Point(93, 61);
+            this.Rotate_CLB.Name = "Rotate_CLB";
+            this.Rotate_CLB.Size = new System.Drawing.Size(95, 20);
+            this.Rotate_CLB.TabIndex = 7;
+            this.Rotate_CLB.SelectedIndexChanged += new System.EventHandler(this.Rotate_CLB_SelectedIndexChanged);
             // 
             // Frame_S_Page_TB
             // 
@@ -479,6 +477,8 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitContainer5.Panel1.Controls.Add(this.checkBox1);
+            this.splitContainer5.Panel1.Controls.Add(this.ImageSize_CB);
             this.splitContainer5.Panel1.Controls.Add(this.button4);
             this.splitContainer5.Panel1.Controls.Add(this.button3);
             this.splitContainer5.Panel1.Controls.Add(this.label12);
@@ -498,7 +498,7 @@
             this.splitContainer5.Panel1.Controls.Add(this.Frame_E_Page_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label6);
             this.splitContainer5.Panel1.Controls.Add(this.S_Page_TB);
-            this.splitContainer5.Panel1.Controls.Add(this.comboBox1);
+            this.splitContainer5.Panel1.Controls.Add(this.Rotate_CLB);
             this.splitContainer5.Panel1.Controls.Add(this.Frame_S_Page_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label10);
             this.splitContainer5.Panel1.Controls.Add(this.Frame_S_TB);
@@ -784,6 +784,25 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // ImageSize_CB
+            // 
+            this.ImageSize_CB.FormattingEnabled = true;
+            this.ImageSize_CB.Location = new System.Drawing.Point(93, 169);
+            this.ImageSize_CB.Name = "ImageSize_CB";
+            this.ImageSize_CB.Size = new System.Drawing.Size(95, 20);
+            this.ImageSize_CB.TabIndex = 28;
+            this.ImageSize_CB.SelectedIndexChanged += new System.EventHandler(this.ImageSize_CB_SelectedIndexChanged);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(198, 172);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(88, 16);
+            this.checkBox1.TabIndex = 29;
+            this.checkBox1.Text = "해상도 사용";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -835,7 +854,6 @@
         public System.Windows.Forms.TextBox Frame_E_Page_TB;
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.TextBox S_Page_TB;
-        private System.Windows.Forms.ComboBox comboBox1;
         public System.Windows.Forms.TextBox Frame_S_Page_TB;
         private System.Windows.Forms.Label label10;
         public System.Windows.Forms.TextBox Frame_S_TB;
@@ -888,6 +906,9 @@
         public System.Windows.Forms.TextBox EQ_Search_TB;
         private System.Windows.Forms.ToolStripMenuItem 코드변경ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 번코드변경ToolStripMenuItem;
+        public System.Windows.Forms.ComboBox Rotate_CLB;
+        public System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.ComboBox ImageSize_CB;
     }
 }
 
