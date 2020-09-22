@@ -26,7 +26,7 @@ namespace ViewPort.Functions
                 if (entry.Name.ToUpper().IndexOf(".TXT") != -1 && entry.Name.ToUpper().IndexOf("IMG") != -1)
                 {
                     StreamReader SR = new StreamReader(entry.Open(), Encoding.Default);
-
+                    
                     string text = SR.ReadToEnd();
 
                     string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
@@ -38,6 +38,7 @@ namespace ViewPort.Functions
                     }
                 }
             }
+            zip.Dispose();
         }
 
         public static void SearchJPG_inZip(string FilePath, List<string> All_LotID_List, List<string> All_VerifyDF_List, List<Tuple<string, int>> All_Equipment_DF_List,
@@ -177,6 +178,40 @@ namespace ViewPort.Functions
             }
             
             
+        }
+
+        public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo)
+        {
+            ZipArchive zip;
+            
+            zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);
+            string IMGTXT_path = string.Empty;
+            IMGTXT_path = FilePath + "\\" + Func.GetLotNameFromPath(FilePath);
+
+           
+
+            foreach (ZipArchiveEntry entry in zip.Entries)
+            { 
+                if (entry.Name.ToUpper().IndexOf(".TXT") != -1 && entry.Name.ToUpper().IndexOf("IMG") != -1)
+                {
+
+                    entry.Delete();
+
+                    ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetLotNameFromPath(FilePath));
+
+                    using (StreamWriter SW =  new StreamWriter(readmeEntry.Open()))
+                    {
+                        for (int i = 0; i < dicInfo.Count; i++)
+                        {
+                            SW.WriteLine(dicInfo.Keys.ElementAt(i) + ""+ dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no );
+                        }
+                    }
+                  
+                    break;
+                }
+            }
+            zip.Dispose();
+
         }
         public static string GetFileNameWithoutJPG(string str)
         {

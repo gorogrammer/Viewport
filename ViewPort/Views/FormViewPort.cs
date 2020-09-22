@@ -411,8 +411,9 @@ namespace ViewPort
                 if (dicInfo_Copy.ContainsKey(Change_state_List[i]))
                     dt.Rows[index][1] = dicInfo_Copy[Change_state_List[i]].ReviewDefectName;
 
-                //dt.AcceptChanges();
+                
             }
+            dt.AcceptChanges();
         }
 
         public void ALL_Changeed_State()
@@ -990,7 +991,9 @@ namespace ViewPort
                 e.Cancel = true;
                 return;
             }
-          
+            Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
+
+
         }
 
         private void 중간저장ToolStripMenuItem_Click(object sender, EventArgs e)

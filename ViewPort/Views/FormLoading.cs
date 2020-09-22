@@ -197,7 +197,8 @@ namespace ViewPort.Views
                     LoadSubZipAsync(LotName, entry);
                    
                 }
-                    
+
+                zip.Dispose();
             }
 
             EditFormNameSafe(MSG_STR.LOAD_SDIP_TXT);
@@ -334,7 +335,9 @@ namespace ViewPort.Views
                     }
 
                 }
+                zip.Dispose();
             }
+            
         }
 
         private void Load_XY_TxtAsync(string FilePath)
@@ -365,6 +368,7 @@ namespace ViewPort.Views
                     
                     
                 }
+                zip.Dispose();
             }
             
         }
@@ -400,8 +404,8 @@ namespace ViewPort.Views
                         Dl_NOt_Apply_List.Add(split_string[0]);
                     
                 }
-                
-               
+
+                zip.Dispose();
             }
 
         }
@@ -455,6 +459,7 @@ namespace ViewPort.Views
                    Map_List_Compare[Map_List_Compare.Count - 1] = change;
 
                 }
+                zip.Dispose();
             }
 
             foreach (KeyValuePair<int, int> pair in map_List_Dic)
@@ -481,6 +486,8 @@ namespace ViewPort.Views
 
             }
             
+            
+
          }
 
         private void MakeDataTables()
