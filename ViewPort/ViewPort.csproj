@@ -128,6 +128,12 @@
     <Compile Include="Views\ImageViewer.Designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\XYLocationFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\XYLocationFilter.Designer.cs">
+      <DependentUpon>XYLocationFilter.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Views\Change_Code.resx">
       <DependentUpon>Change_Code.cs</DependentUpon>
     </EmbeddedResource>
@@ -154,6 +160,9 @@
     </Compile>
     <EmbeddedResource Include="Views\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\XYLocationFilter.resx">
+      <DependentUpon>XYLocationFilter.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

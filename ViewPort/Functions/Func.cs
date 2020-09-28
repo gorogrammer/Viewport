@@ -195,16 +195,24 @@ namespace ViewPort.Functions
                 {
                     if (entry.Name.ToUpper().IndexOf(".TXT") != -1 && entry.Name.ToUpper().IndexOf("IMG") != -1)
                     {
+                        StreamReader SR = new StreamReader(entry.Open(), Encoding.Default);
+                        string text = SR.ReadToEnd();
+                        string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
+                        string top = string.Empty;
+
+                        top = items[0];
+                        SR.Close();
                         entry.Delete();
 
                         ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetLotNameFromPath(FilePath));
 
                         using (StreamWriter SW = new StreamWriter(readmeEntry.Open()))
                         {
+                            SW.WriteLine(top);
                             for (int i = 0; i < dicInfo.Count; i++)
                             {
-                                SW.WriteLine(dicInfo.Keys.ElementAt(i) + "" + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no);
+                                SW.WriteLine(dicInfo.Keys.ElementAt(i) + "_" + dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no + ",," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_result+ dicInfo[dicInfo.Keys.ElementAt(i)].Change_Code);
                             }
                         }
 

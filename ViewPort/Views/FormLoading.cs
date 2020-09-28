@@ -38,6 +38,8 @@ namespace ViewPort.Views
         private List<int> contain_200_Frame_List;
         private List<int> f9_Frame_List;
         private List<string> imageSizeList;
+        private List<int> f10_Frame_List;
+        private List<string> f5_dic_Load;
 
 
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
@@ -52,6 +54,10 @@ namespace ViewPort.Views
 
         public List<int> Contain_200_Frame_List { get => contain_200_Frame_List; set => contain_200_Frame_List = value; }
         public List<int> F9_Frame_List { get => f9_Frame_List; set => f9_Frame_List = value; }
+
+        public List<int> F10_Frame_List { get => f10_Frame_List; set => f10_Frame_List = value; }
+
+        public List<string> F5_dic_Load { get => f5_dic_Load; set => f5_dic_Load = value; }
 
         public List<string> Dl_Apply_List { get => dl_Apply_List; set => dl_Apply_List = value; }
 
@@ -164,6 +170,8 @@ namespace ViewPort.Views
             F9_Frame_List = new List<int>();
             ImageSizeList = new List<string>();
             main = parent;
+            F10_Frame_List = new List<int>();
+            F5_dic_Load = new List<string>();
             InitializeComponent();
 
             DoLoadingThread(path);
@@ -288,7 +296,7 @@ namespace ViewPort.Views
                         }
 
 
-                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize));
+                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize,""));
                     } 
                 }
                 else
@@ -302,7 +310,7 @@ namespace ViewPort.Views
                         All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
 
                     }
-                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize));
+                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize,""));
                 }
                    
 
@@ -334,14 +342,30 @@ namespace ViewPort.Views
                 {
                     string[] dic_ready = items[i + 1].Split(',');
                     dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0"));
-                    
-                    if(Dl_Apply_List.Contains(dic_ready[8]))
+
+                    if (int.Parse(dic_ready[8]) == 221)
+                    {
+                        F5_dic_Load.Add(dic_ready[0].Substring(0, 12));
+                    }
+                    else if (int.Parse(dic_ready[8]) == 222)
+                    {
+                        F5_dic_Load.Add(dic_ready[0].Substring(0, 12));
+                    }
+
+                    if (Dl_Apply_List.Contains(dic_ready[8]))
                     {
                         
                         if (F9_Frame_List.Contains(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5))))
                             continue;
                         else
                             F9_Frame_List.Add(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5)));
+                    }
+                    else if (Dl_NOt_Apply_List.Contains(dic_ready[8]))
+                    {
+                        if (F10_Frame_List.Contains(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5))))
+                            continue;
+                        else
+                            F10_Frame_List.Add(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5)));
                     }
                     else if(int.Parse(dic_ready[8]) >= 200 && int.Parse(dic_ready[8]) <= 299)
                     {

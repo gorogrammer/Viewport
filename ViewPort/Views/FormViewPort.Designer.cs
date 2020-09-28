@@ -59,10 +59,13 @@
             this.저장불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.코드변경ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.번코드변경ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.업데이트ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.ImageSize_CB = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
@@ -90,8 +93,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ImageSize_CB = new System.Windows.Forms.ComboBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.FilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -345,7 +347,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.파일ToolStripMenuItem,
             this.저장ToolStripMenuItem,
-            this.코드변경ToolStripMenuItem});
+            this.코드변경ToolStripMenuItem,
+            this.업데이트ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1765, 24);
@@ -393,17 +396,25 @@
             // 코드변경ToolStripMenuItem
             // 
             this.코드변경ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.번코드변경ToolStripMenuItem});
+            this.번코드변경ToolStripMenuItem,
+            this.FilterToolStripMenuItem});
             this.코드변경ToolStripMenuItem.Name = "코드변경ToolStripMenuItem";
-            this.코드변경ToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.코드변경ToolStripMenuItem.Text = "코드 변경";
+            this.코드변경ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.코드변경ToolStripMenuItem.Text = "기능";
             // 
             // 번코드변경ToolStripMenuItem
             // 
             this.번코드변경ToolStripMenuItem.Name = "번코드변경ToolStripMenuItem";
-            this.번코드변경ToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.번코드변경ToolStripMenuItem.Text = "1번 코드 변경";
+            this.번코드변경ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.번코드변경ToolStripMenuItem.Text = "코드 변경";
             this.번코드변경ToolStripMenuItem.Click += new System.EventHandler(this.번코드변경ToolStripMenuItem_Click);
+            // 
+            // 업데이트ToolStripMenuItem
+            // 
+            this.업데이트ToolStripMenuItem.Name = "업데이트ToolStripMenuItem";
+            this.업데이트ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.업데이트ToolStripMenuItem.Text = "업데이트";
+            this.업데이트ToolStripMenuItem.Click += new System.EventHandler(this.업데이트ToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -525,6 +536,25 @@
             this.splitContainer5.Size = new System.Drawing.Size(319, 350);
             this.splitContainer5.SplitterDistance = 278;
             this.splitContainer5.TabIndex = 0;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(198, 172);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(88, 16);
+            this.checkBox1.TabIndex = 29;
+            this.checkBox1.Text = "해상도 사용";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // ImageSize_CB
+            // 
+            this.ImageSize_CB.FormattingEnabled = true;
+            this.ImageSize_CB.Location = new System.Drawing.Point(93, 169);
+            this.ImageSize_CB.Name = "ImageSize_CB";
+            this.ImageSize_CB.Size = new System.Drawing.Size(95, 20);
+            this.ImageSize_CB.TabIndex = 28;
+            this.ImageSize_CB.SelectedIndexChanged += new System.EventHandler(this.ImageSize_CB_SelectedIndexChanged);
             // 
             // button4
             // 
@@ -784,24 +814,12 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // ImageSize_CB
+            // FilterToolStripMenuItem
             // 
-            this.ImageSize_CB.FormattingEnabled = true;
-            this.ImageSize_CB.Location = new System.Drawing.Point(93, 169);
-            this.ImageSize_CB.Name = "ImageSize_CB";
-            this.ImageSize_CB.Size = new System.Drawing.Size(95, 20);
-            this.ImageSize_CB.TabIndex = 28;
-            this.ImageSize_CB.SelectedIndexChanged += new System.EventHandler(this.ImageSize_CB_SelectedIndexChanged);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(198, 172);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(88, 16);
-            this.checkBox1.TabIndex = 29;
-            this.checkBox1.Text = "해상도 사용";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem";
+            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FilterToolStripMenuItem.Text = "좌표 Filter";
+            this.FilterToolStripMenuItem.Click += new System.EventHandler(this.FilterToolStripMenuItem_Click);
             // 
             // FormViewPort
             // 
@@ -909,6 +927,8 @@
         public System.Windows.Forms.ComboBox Rotate_CLB;
         public System.Windows.Forms.CheckBox checkBox1;
         public System.Windows.Forms.ComboBox ImageSize_CB;
+        private System.Windows.Forms.ToolStripMenuItem 업데이트ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FilterToolStripMenuItem;
     }
 }
 

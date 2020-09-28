@@ -118,3 +118,10 @@ C:\Users\user\Desktop\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.cspro
 C:\Users\user\Desktop\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.csproj.CopyComplete
 C:\Users\user\Desktop\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.dll
 C:\Users\user\Desktop\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.pdb
+C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\bin\Release\ViewPortNetwork.dll
+C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\bin\Release\ViewPortNetwork.pdb
+C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.csproj.CopyComplete
+C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.dll
+C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.pdb
+C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.csprojAssemblyReference.cache

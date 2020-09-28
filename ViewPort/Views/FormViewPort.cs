@@ -35,6 +35,9 @@ namespace ViewPort
         Dictionary<string, ImageInfo> sdip_NO1_dicInfo = new Dictionary<string, ImageInfo>();
         
         Dictionary<string, ImageInfo> f9_code_dicInfo = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> f10_code_dicInfo = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> f5_code_dicInfo = new Dictionary<string, ImageInfo>();
+
         string[] dic_ready = null;
         string viewType = null;
         int Rotate_Option = 1;
@@ -47,9 +50,10 @@ namespace ViewPort
         List<int> MAP_LIST = new List<int>();
         List<int> frame_List_main = new List<int>();
         List<int> f9_Frame_List_Main = new List<int>();
+        List<int> f10_Frame_List_Main = new List<int>();
         List<string> Eq_Filter_Select_Key_List = new List<string>();
-       
 
+        List<string> f5_Img_KeyList = new List<string>();
         List<string> accu_wait_Del_Img_List = new List<string>();
         List<string> Wait_Del_Img_List = new List<string>();
         List<string> Selected_Equipment_DF_List = new List<string>();
@@ -78,6 +82,9 @@ namespace ViewPort
         public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
 
         public Dictionary<string, ImageInfo> F9_code_dicInfo { get => f9_code_dicInfo; set => f9_code_dicInfo = value; }
+        public Dictionary<string, ImageInfo> F10_code_dicInfo { get => f10_code_dicInfo; set => f10_code_dicInfo = value; }
+
+        public Dictionary<string, ImageInfo> F5_code_dicInfo { get => f5_code_dicInfo; set => f5_code_dicInfo = value; }
         public Dictionary<string, ImageInfo> Sdip_NO1_dicInfo { get => sdip_NO1_dicInfo; set => sdip_NO1_dicInfo = value; }
         public Dictionary<string, ImageInfo> DicInfo_Copy { get => dicInfo_Copy; set => dicInfo_Copy = value; }
         public Dictionary<string, ImageInfo> Return_dicInfo { get => return_dicInfo; set => return_dicInfo = value; }
@@ -86,6 +93,10 @@ namespace ViewPort
         public List<int> Frame_List_Main { get => frame_List_main; set => frame_List_main = value; }
 
         public List<int> F9_Frame_List_Main { get => f9_Frame_List_Main; set => f9_Frame_List_Main = value; }
+
+        public List<int> F10_Frame_List_Main { get => f10_Frame_List_Main; set => f10_Frame_List_Main = value; }
+
+        public List<string> F5_Img_KeyList_Main { get => f5_Img_KeyList; set => f5_Img_KeyList = value; }
 
 
         public List<int> mAP_LIST { get => MAP_LIST; set => MAP_LIST = value; }
@@ -559,6 +570,8 @@ namespace ViewPort
 
                     DicInfo = formLoading.Dic_Load;
                     f9_Frame_List_Main = formLoading.F9_Frame_List;
+                    f10_Frame_List_Main = formLoading.F10_Frame_List;
+                    F5_Img_KeyList_Main = formLoading.F5_dic_Load;
 
                     Contain_200_Frame_Main = formLoading.Contain_200_Frame_List;
 
@@ -692,6 +705,10 @@ namespace ViewPort
                     //SDIP 코드 211~230 제외
                     foreach (string pair in dicInfo.Keys.ToList())
                     {
+                        if (F5_Img_KeyList_Main.Contains(pair))
+                        {
+                            F5_code_dicInfo.Add(pair, dicInfo[pair]);
+                        }
 
 
                         if (dicInfo[pair].sdip_no  != "-" && 200 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 299)
@@ -717,14 +734,27 @@ namespace ViewPort
 
                     }
                 }
-                foreach(KeyValuePair<string,ImageInfo> pair in DicInfo)
+                foreach (KeyValuePair<string, ImageInfo> pair in DicInfo)
                 {
-                    if(F9_Frame_List_Main.Contains(pair.Value.FrameNo))
+                    if (F9_Frame_List_Main.Contains(pair.Value.FrameNo))
                     {
-                        F9_code_dicInfo.Add(pair.Key, pair.Value);
+                        if (int.Parse(pair.Value.sdip_no) != 1)
+                        {
+                            F9_code_dicInfo.Add(pair.Key, pair.Value);
+                        }
+
                     }
+                    else if (F10_Frame_List_Main.Contains(pair.Value.FrameNo))
+                    {
+                        if (int.Parse(pair.Value.sdip_no) != 1)
+                        {
+                            F10_code_dicInfo.Add(pair.Key, pair.Value);
+                        }
+
+                    }
+
                 }
-               
+
 
                 All_LotID_List.Sort();
                 Initial_Equipment_DF_List();
@@ -1025,7 +1055,13 @@ namespace ViewPort
 
         private void FormViewPort_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(Waiting_Del.Count > 0)
+
+            if (MessageBox.Show(" IMG TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
+            }
+
+            if (Waiting_Del.Count > 0)
             {
                 if (MessageBox.Show("" + open.DicInfo_Delete.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
@@ -1056,7 +1092,7 @@ namespace ViewPort
                 e.Cancel = true;
                 return;
             }
-            Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
+            
 
 
         }
@@ -1315,6 +1351,36 @@ namespace ViewPort
         private void ImageSize_CB_SelectedIndexChanged(object sender, EventArgs e)
         {
             ImageSize_Filter();
+        }
+
+        private void 업데이트ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string path = Util.OpenFolderDlg();
+
+            if (!string.IsNullOrEmpty(path)) //예외처리
+            {
+                string Version = string.Empty;
+
+                if (NetworkFunc.SaveFilesToStemcoNas(path, out Version))
+                {
+                    string LastVersion = NetworkFunc.GetLastViewPortVersion(MYSQL_STR.CONNECTION_STEMCO);
+
+                    if (LastVersion != Version) // 지난버전 번호랑 다르면..! 여기서 작거나 높은 처리 추가하면 좋을듯함
+                    {
+                        if (NetworkFunc.SaveVersionToStemcoDB(Version, "상세설명 추가", "1"))
+                        {
+                            MessageBox.Show("성공");
+                        }
+                    }
+                }                
+            }
+        }
+
+        private void FilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            XYLocationFilter XYFilter = new XYLocationFilter(open);
+            XYFilter.Show();
+
         }
     }
 

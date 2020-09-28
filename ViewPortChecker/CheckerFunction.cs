@@ -16,7 +16,7 @@ namespace ViewPortChecker
         {
             try
             {
-                string NewVersionFolder = Path.Combine(NET_DEF.CARLO_NAS_PATH, Version);
+                string NewVersionFolder = Path.Combine(NET_DEF.STEMCO_NAS_PATH, Version);
 
                 foreach (string filePath in Directory.GetFiles(NewVersionFolder))
                 {

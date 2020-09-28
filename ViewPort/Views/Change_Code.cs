@@ -35,14 +35,16 @@ namespace ViewPort.Views
 
             foreach(KeyValuePair<string, ImageInfo> pair in Open.DicInfo_Filtered)
             {
-                if(Open.DicInfo_Filtered[pair.Key].sdip_no == "1")
+                
                     Open.DicInfo_Filtered[pair.Key].sdip_no = code;
+                    Open.DicInfo_Filtered[pair.Key].Change_Code = "Change";
+               
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("1번 코드를 " + Code_Change_TB.Text+"로 변경하시겠습니까?", "코드 변경",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if(MessageBox.Show(" SDIP 코드를 " + Code_Change_TB.Text+"로 변경하시겠습니까?", "코드 변경",MessageBoxButtons.YesNo) == DialogResult.Yes)
                 Change_Sdip();
 
 

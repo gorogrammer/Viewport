@@ -17,7 +17,7 @@ namespace ViewPort.Views
     {
         public FormViewPort Main;
 
-
+        string openViewType = string.Empty; 
         struct BoxRange { public int left, top, width, height; }
         List<string> Display_Id = new List<string>();
         List<string> Change_state_List = new List<string>();
@@ -39,6 +39,8 @@ namespace ViewPort.Views
 
         int Filter_NO_1 = 0;
         int Filter_F9 = 0;
+        int Filter_F10 = 0;
+        int Filter_F5 = 0;
         Image expand_img = null;
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
@@ -82,6 +84,7 @@ namespace ViewPort.Views
         }
 
         public List<int> Frame_List_Img { get => frame_List_Img; set => frame_List_Img = value; }
+        public string OpenViewType { get => openViewType; set => openViewType = value; }
         public Dictionary<string, ImageInfo> Frame_dicInfo_Filter { get => frame_dicInfo_Filter; set => frame_dicInfo_Filter = value; }
 
         public void SelectGrid_Img_View(string id)
@@ -476,69 +479,22 @@ namespace ViewPort.Views
                     MessageBox.Show("Limit 아래 부품이 없습니다.");
                 }
 
-                //if (Main.Dl_Apply_List_Main.Count > 0)
-                //{
 
-                //    Select_Pic_List.Clear();
-
-                //    foreach (KeyValuePair<string, ImageInfo> pair in Main.DicInfo_Copy)
-                //    {
-
-                //        for (int i = 0; i < Main.Dl_Apply_List_Main.Count; i++)
-                //        {
-                //            if (pair.Value.sdip_no == Main.Dl_Apply_List_Main[i])
-                //            {
-                //                if (apply_List_opne.Contains(pair.Value.FrameNo))
-                //                    continue;
-                //                else
-                //                    apply_List_opne.Add(pair.Value.FrameNo);
-
-                //            }
-
-                //        }
-
-
-
-                //    }
-                //    Set_PictureBox();
-
-                //    Set_Image();
-                //    Main.Print_List();
-                //    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
-                //}
-                //else
-                //    MessageBox.Show("Limit 아래 부품이 없습니다.");
 
             }
 
             else if (e.KeyCode == Keys.F10)
             {
 
-
-                if (Main.Dl_NotApply_List_Main.Count > 0)
+                if (Main.F10_code_dicInfo.Count > 0)
                 {
-                    dicInfo_Filter.Clear();
-                    Select_Pic_List.Clear();
+                    DicInfo_Filtered = Main.F10_code_dicInfo;
 
-                    foreach (KeyValuePair<string, ImageInfo> pair in Main.DicInfo_Copy)
-                    {
-
-                        for (int i = 0; i < Main.Dl_NotApply_List_Main.Count; i++)
-                        {
-                            if (pair.Value.sdip_no == Main.Dl_NotApply_List_Main[i])
-                            {
-                                dicInfo_Filter.Add(pair.Key, pair.Value);
-                                //Select_Pic_List.Add(pair.Key);
-                            }
-
-                        }
-
-                    }
-                    Set_PictureBox();
-
-                    Set_Image();
+                    Filter_F10 = 1;
+                    Set_View();
                     Main.Print_List();
                     Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+
                 }
                 else
                     MessageBox.Show("Limit 초과 부품이 없습니다.");
@@ -561,19 +517,15 @@ namespace ViewPort.Views
             else if (e.KeyCode == Keys.F5)
             {
 
-                if (Main.Dl_Apply_List_Main.Count > 0)
+                if (Main.F5_code_dicInfo.Count > 0)
                 {
+                    DicInfo_Filtered = Main.F5_code_dicInfo;
 
-                    Select_Pic_List.Clear();
-
-
-
-
-                    Set_PictureBox();
-
-                    Set_Image();
+                    Filter_F5 = 1;
+                    Set_View();
                     Main.Print_List();
                     Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+
                 }
                 else
                     MessageBox.Show("221, 222 code 부품이 없습니다.");
@@ -712,12 +664,12 @@ namespace ViewPort.Views
         public void Set_View()
         {
             Main.ViewType = "SetView";
-
+            OpenViewType = "SetView";
 
             this.Controls.Clear();
             PictureData.Clear();
 
-            if (Filter_NO_1 != 1 &&  Filter_F9 != 1)
+            if (Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1)
             {
                 //frame_List_Img = Main.Frame_List_Main;
                 dicInfo_Filter = Main.DicInfo;
@@ -793,6 +745,7 @@ namespace ViewPort.Views
         {
 
             Main.ViewType = "FrameSetView";
+            OpenViewType = "FrameSetView";
 
             this.Controls.Clear();
             PictureData.Clear();
@@ -891,6 +844,7 @@ namespace ViewPort.Views
         public void DL_Frame_Set_View()
         {
             Main.ViewType = "DLFrameSetView";
+            OpenViewType = "DLFrameSetView";
 
             this.Controls.Clear();
             PictureData.Clear();
@@ -955,6 +909,8 @@ namespace ViewPort.Views
         public void Eq_CB_Set_View()
         {
             Main.ViewType = "EQCBSetView";
+            OpenViewType = "EQCBSetView";
+
             this.Controls.Clear();
             PictureData.Clear();
 
@@ -1008,6 +964,8 @@ namespace ViewPort.Views
         {
 
             Main.ViewType = "EQCBSetView_ING";
+            OpenViewType = "EQCBSetView_ING";
+
             this.Controls.Clear();
             PictureData.Clear();
 
@@ -1053,6 +1011,8 @@ namespace ViewPort.Views
         {
 
             Main.ViewType = "FilterCBafterSetView";
+            OpenViewType = "FilterCBafterSetView";
+
             this.Controls.Clear();
             PictureData.Clear();
 

@@ -12,6 +12,7 @@ using System.Net;
 using ViewPortNetwork;
 using MySql.Data.MySqlClient;
 using System.Reflection;
+using System.IO;
 
 namespace ViewPortChecker
 {
@@ -28,7 +29,8 @@ namespace ViewPortChecker
 
         void Init()
         {
-            VersionInfo = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            if(File.Exists(CHECKER_STR.PATH))
+                VersionInfo = AssemblyName.GetAssemblyName(CHECKER_STR.PATH).Version.ToString();
         }
 
         #region SafeThread Functions
@@ -206,31 +208,34 @@ namespace ViewPortChecker
             EditLabelTextSafe(MSG_STR.PING_NAS);
             Thread.Sleep(1000);
 
-            if (!NetworkFunc.Connect(NET_DEF.CARLO_NAS_IP))
-                MessageBox.Show(MSG_STR.ERR_PING_NAS);
+            //Setup file을 통해 설치된 경로에 실행파일이 있는지 확인
+            if (string.IsNullOrEmpty(VersionInfo)) { MessageBox.Show(MSG_STR.ERR_CHECK_VER_THIS); ExitSafe(); }
+
+            //NAS IP와 통신되는 지 확인
+            if (!NetworkFunc.Connect(NET_DEF.STEMCO_NAS_IP)) { MessageBox.Show(MSG_STR.ERR_PING_NAS); ExitSafe(); }
 
             EditLabelTextSafe(MSG_STR.PING_DB);
             Thread.Sleep(1000);
 
-            if (!NetworkFunc.Connect(NET_DEF.CARLO_DB_IP))
-                MessageBox.Show(MSG_STR.ERR_PING_DB);
+            //DB IP와 통신되는지 확인
+            if (!NetworkFunc.Connect(NET_DEF.STEMCO_DB_IP)) { MessageBox.Show(MSG_STR.ERR_PING_DB); ExitSafe(); }
 
             EditLabelTextSafe(MSG_STR.CHECK_VER);
             Thread.Sleep(1000);
 
-            string LastVer = NetworkFunc.GetLastViewPortVersion(MYSQL_STR.CONNECTION_CARLO);            
-            if (string.IsNullOrEmpty(LastVer))
-                MessageBox.Show(MSG_STR.ERR_CHECK_VER);
-
-            if (string.IsNullOrEmpty(VersionInfo))
-                MessageBox.Show(MSG_STR.ERR_CHECK_VER_THIS);
+            //마지막 최신버전 확인
+            string LastVer = NetworkFunc.GetLastViewPortVersion(MYSQL_STR.CONNECTION_STEMCO);
+            if (string.IsNullOrEmpty(LastVer)) { MessageBox.Show(MSG_STR.ERR_CHECK_VER); ExitSafe(); }
 
             if (LastVer != VersionInfo)
             {
                 if (Update_ViewPort(LastVer))
                     EditLabelTextSafe(MSG_STR.UPDATE_VER);
                 else
+                {
                     MessageBox.Show(MSG_STR.ERR_UPDATE_VER);
+                    return;
+                }
             }
 
             Thread.Sleep(1000);

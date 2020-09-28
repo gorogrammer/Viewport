@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormViewPortChecker));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.UI_ProgressBar = new MetroFramework.Controls.MetroProgressBar();
             this.LB_Status = new MetroFramework.Controls.MetroLabel();
+            this.UI_ProgressBar = new MetroFramework.Controls.MetroProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -60,15 +60,6 @@
             this.splitContainer1.SplitterDistance = 185;
             this.splitContainer1.TabIndex = 0;
             // 
-            // UI_ProgressBar
-            // 
-            this.UI_ProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.UI_ProgressBar.HideProgressText = false;
-            this.UI_ProgressBar.Location = new System.Drawing.Point(0, 0);
-            this.UI_ProgressBar.Name = "UI_ProgressBar";
-            this.UI_ProgressBar.Size = new System.Drawing.Size(730, 25);
-            this.UI_ProgressBar.TabIndex = 0;
-            // 
             // LB_Status
             // 
             this.LB_Status.AutoSize = true;
@@ -78,6 +69,15 @@
             this.LB_Status.Size = new System.Drawing.Size(64, 19);
             this.LB_Status.TabIndex = 1;
             this.LB_Status.Text = "Carlo Inc.";
+            // 
+            // UI_ProgressBar
+            // 
+            this.UI_ProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.UI_ProgressBar.HideProgressText = false;
+            this.UI_ProgressBar.Location = new System.Drawing.Point(0, 0);
+            this.UI_ProgressBar.Name = "UI_ProgressBar";
+            this.UI_ProgressBar.Size = new System.Drawing.Size(730, 25);
+            this.UI_ProgressBar.TabIndex = 0;
             // 
             // FormViewPortChecker
             // 
@@ -91,8 +91,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormViewPortChecker";
-            this.Opacity = 0.8D;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
