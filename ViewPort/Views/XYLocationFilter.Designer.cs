@@ -30,8 +30,8 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.X_TB = new System.Windows.Forms.TextBox();
+            this.Y_TB = new System.Windows.Forms.TextBox();
             this.YFilter_TB = new System.Windows.Forms.TextBox();
             this.Xfilter_TB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -58,19 +58,19 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "기존 Y";
             // 
-            // textBox1
+            // X_TB
             // 
-            this.textBox1.Location = new System.Drawing.Point(61, 56);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(66, 21);
-            this.textBox1.TabIndex = 1;
+            this.X_TB.Location = new System.Drawing.Point(61, 56);
+            this.X_TB.Name = "X_TB";
+            this.X_TB.Size = new System.Drawing.Size(66, 21);
+            this.X_TB.TabIndex = 1;
             // 
-            // textBox2
+            // Y_TB
             // 
-            this.textBox2.Location = new System.Drawing.Point(210, 56);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(66, 21);
-            this.textBox2.TabIndex = 2;
+            this.Y_TB.Location = new System.Drawing.Point(210, 56);
+            this.Y_TB.Name = "Y_TB";
+            this.Y_TB.Size = new System.Drawing.Size(66, 21);
+            this.Y_TB.TabIndex = 2;
             // 
             // YFilter_TB
             // 
@@ -122,6 +122,7 @@
             this.button2.TabIndex = 7;
             this.button2.Text = "Cancle";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // XYLocationFilter
             // 
@@ -134,12 +135,13 @@
             this.Controls.Add(this.Xfilter_TB);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Y_TB);
+            this.Controls.Add(this.X_TB);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "XYLocationFilter";
             this.Text = "XYLocationFilter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.XYLocationFilter_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,8 +151,8 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox X_TB;
+        private System.Windows.Forms.TextBox Y_TB;
         private System.Windows.Forms.TextBox YFilter_TB;
         private System.Windows.Forms.TextBox Xfilter_TB;
         private System.Windows.Forms.Label label3;

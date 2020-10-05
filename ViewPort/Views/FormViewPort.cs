@@ -300,8 +300,10 @@ namespace ViewPort
                 {
                     dicInfo[kvp.Key].sdip_no = kvp.Value.SDIP_No;
                     dicInfo[kvp.Key].sdip_result = kvp.Value.SDIP_Result;
+                    dicInfo[kvp.Key].X_Location = kvp.Value.X_Location;
+                    dicInfo[kvp.Key].Y_Location = kvp.Value.Y_Location;
 
-                    if(dicInfo[kvp.Key].sdip_no == "1")
+                    if (dicInfo[kvp.Key].sdip_no == "1")
                     {
                         Sdip_NO1_dicInfo.Add(kvp.Key, dicInfo[kvp.Key]);
                     }

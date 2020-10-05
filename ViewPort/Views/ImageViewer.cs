@@ -41,6 +41,7 @@ namespace ViewPort.Views
         int Filter_F9 = 0;
         int Filter_F10 = 0;
         int Filter_F5 = 0;
+        int Filter_F = 0;
         Image expand_img = null;
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
@@ -510,8 +511,31 @@ namespace ViewPort.Views
                 Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
                 expand.Expand_ImgInfo.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
                 expand.Set_Expand_Img(expand_img);
+
+
                 expand.Show();
 
+            }
+
+            else if (e.KeyCode == Keys.F)
+            {
+                Filter_F = 1;
+
+                XYLocationFilter xyFilter = new XYLocationFilter(this);
+                Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
+                xyFilter.XY_Location.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
+
+                if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
+                {
+                    xyFilter.DicInfo_XY_filter = frame_dicInfo_Filter;
+                }
+                else
+                {
+                    xyFilter.DicInfo_XY_filter = DicInfo_Filtered;
+                }
+
+                xyFilter.Set_XY_TB();
+                xyFilter.Show();
             }
 
             else if (e.KeyCode == Keys.F5)
@@ -612,6 +636,19 @@ namespace ViewPort.Views
 
         }
 
+        public void XY_Filter_Set(Dictionary<string,ImageInfo> dic)
+        {
+            if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
+            {
+                Frame_dicInfo_Filter = dic;
+                Frame_Set_View();
+            }
+            else
+            {
+                DicInfo_Filtered = dic;
+                Set_View();
+            }
+        }
         public void Get_Delete_IMG()
         {
             if (Main.Frame_View_CB.Checked)
@@ -661,6 +698,14 @@ namespace ViewPort.Views
 
         }
 
+        public void Filter_NO_Set()
+        {
+            Filter_NO_1 = 0;
+            Filter_F9 = 0;
+            Filter_F10 = 0;
+            Filter_F5 = 0;
+            Filter_F = 0;
+        }
         public void Set_View()
         {
             Main.ViewType = "SetView";
@@ -669,7 +714,7 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            if (Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1)
+            if (Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F !=1)
             {
                 //frame_List_Img = Main.Frame_List_Main;
                 dicInfo_Filter = Main.DicInfo;
@@ -739,6 +784,8 @@ namespace ViewPort.Views
             Main.List_Count_TB.Text = DicInfo_Filtered.Count.ToString();
             //Main.Print_List();
             this.Focus();
+            Filter_NO_Set();
+
         }
 
         public void Frame_Set_View()
@@ -776,6 +823,10 @@ namespace ViewPort.Views
                     }
                 }
             }
+            else if(Filter_F ==1)
+            {
+
+            }
             else
             {
                 dicInfo_Filter = Main.DicInfo;
@@ -784,11 +835,6 @@ namespace ViewPort.Views
                 DicInfo_Filtered = Sorted_dic;
             }
                 
-
-
-
-           
-
 
            
 
@@ -839,6 +885,7 @@ namespace ViewPort.Views
             Last_Picture_Selected_Index = -1;
             //Main.Print_List();
             this.Focus();
+            Filter_NO_Set();
         }
 
         public void DL_Frame_Set_View()

@@ -40,5 +40,15 @@ namespace ViewPort.Views
             pictureBox1.Image = img;
             
         }
+
+        public void Del_Expand_Pic()
+        {
+            Expand_ImgInfo.Clear();
+        }
+
+        private void ExpandImage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Del_Expand_Pic();
+        }
     }
 }

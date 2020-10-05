@@ -48,6 +48,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "ExpandImage";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExpandImage_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
