@@ -40,12 +40,15 @@ namespace ViewPort.Views
         private List<string> imageSizeList;
         private List<int> f10_Frame_List;
         private List<string> f5_dic_Load;
+        private List<string> sdip_no_200;
 
 
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> Ignore_map_List { get => ignore_map_List; set => ignore_map_List = value; }
+
+        public List<string> Sdip_no_200 { get => sdip_no_200; set => sdip_no_200 = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
         public List<int> Map_List { get => map_List; set => map_List = value; }
         public List<string> Map_List_Compare { get => map_List_Compare; set => map_List_Compare = value; }
@@ -172,6 +175,8 @@ namespace ViewPort.Views
             main = parent;
             F10_Frame_List = new List<int>();
             F5_dic_Load = new List<string>();
+
+            Sdip_no_200 = new List<string>();
             InitializeComponent();
 
             DoLoadingThread(path);
@@ -343,6 +348,12 @@ namespace ViewPort.Views
                     string[] dic_ready = items[i + 1].Split(',');
                     dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0"));
 
+                    if(200 <= int.Parse(dic_ready[8]) && int.Parse(dic_ready[8]) <= 299)
+                    {
+                        Sdip_no_200.Add(dic_ready[0].Substring(0, 12));
+                    }
+
+
                     if (int.Parse(dic_ready[8]) == 221)
                     {
                         F5_dic_Load.Add(dic_ready[0].Substring(0, 12));
@@ -374,6 +385,7 @@ namespace ViewPort.Views
                         else
                             Contain_200_Frame_List.Add(int.Parse((dic_ready[0].Substring(0, 12)).Substring(1, 5)));
                     }
+
 
                 }
                 zip.Dispose();

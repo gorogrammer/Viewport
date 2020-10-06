@@ -90,6 +90,12 @@
     <Compile Include="Views\Change_Code.Designer.cs">
       <DependentUpon>Change_Code.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Code200View.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Code200View.Designer.cs">
+      <DependentUpon>Code200View.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\DeleteWaiting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +142,9 @@
     </Compile>
     <EmbeddedResource Include="Views\Change_Code.resx">
       <DependentUpon>Change_Code.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Code200View.resx">
+      <DependentUpon>Code200View.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DeleteWaiting.resx">
       <DependentUpon>DeleteWaiting.cs</DependentUpon>

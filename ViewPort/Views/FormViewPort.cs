@@ -37,6 +37,8 @@ namespace ViewPort
         Dictionary<string, ImageInfo> f9_code_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> f10_code_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> f5_code_dicInfo = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> sdip_200_code_dicInfo = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> filter_200_dic_Main = new Dictionary<string, ImageInfo>();
 
         string[] dic_ready = null;
         string viewType = null;
@@ -45,8 +47,10 @@ namespace ViewPort
         //List<ImageListInfo> FilterList = new List<ImageListInfo>();
 
         List<string> All_LotID_List = new List<string>();
+        Dictionary<string, string> sdip_result_dic = new Dictionary<string, string>();
         List<string> All_VerifyDF_List = new List<string>();
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
+        List<Tuple<string, int>> code_200_List = new List<Tuple<string, int>>();
         List<int> MAP_LIST = new List<int>();
         List<int> frame_List_main = new List<int>();
         List<int> f9_Frame_List_Main = new List<int>();
@@ -79,7 +83,12 @@ namespace ViewPort
         }
         public string ViewType { get => viewType; set => viewType = value; }
 
+        public List<Tuple<string, int>> CODE_200_List { get => code_200_List; set => code_200_List = value; }
         public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
+
+        public Dictionary<string, ImageInfo> Filter_200_dic_Main { get => filter_200_dic_Main; set => filter_200_dic_Main = value; }
+
+        public Dictionary<string, ImageInfo> Sdip_200_code_dicInfo { get => sdip_200_code_dicInfo; set => sdip_200_code_dicInfo = value; }
 
         public Dictionary<string, ImageInfo> F9_code_dicInfo { get => f9_code_dicInfo; set => f9_code_dicInfo = value; }
         public Dictionary<string, ImageInfo> F10_code_dicInfo { get => f10_code_dicInfo; set => f10_code_dicInfo = value; }
@@ -91,6 +100,8 @@ namespace ViewPort
         public Dictionary<string, ImageInfo> Waiting_Del { get => dicInfo_Waiting_Del; set => dicInfo_Waiting_Del = value; }
 
         public List<int> Frame_List_Main { get => frame_List_main; set => frame_List_main = value; }
+
+        public Dictionary<string, string> Sdip_result_dic { get => sdip_result_dic; set => sdip_result_dic = value; }
 
         public List<int> F9_Frame_List_Main { get => f9_Frame_List_Main; set => f9_Frame_List_Main = value; }
 
@@ -730,7 +741,7 @@ namespace ViewPort
                                 }
 
                             }
-
+                            Sdip_200_code_dicInfo.Add(pair, DicInfo[pair]);
                             dicInfo.Remove(pair);
                         }
 
@@ -760,8 +771,9 @@ namespace ViewPort
 
                 All_LotID_List.Sort();
                 Initial_Equipment_DF_List();
-                
-                if(checkBox1.Checked)
+                Code_200_Set();
+
+                if (checkBox1.Checked)
                 {
                     for (int i = 0; i < ImageSizeList.Count; i++)
                         ImageSize_CB.Items.Add(ImageSizeList.ElementAt(i));
@@ -782,7 +794,33 @@ namespace ViewPort
             }
             
         }
+        private void Code_200_Set()
+        {
+            int x = 1;
+            int index = 0;
+            
+            foreach (KeyValuePair<string, ImageInfo> pair in Sdip_200_code_dicInfo)
+            {
+                if (CODE_200_List.FindIndex(s => s.Item1.Equals(pair.Value.sdip_no)) == -1)
+                {
+                    CODE_200_List.Add(new Tuple<string, int>(pair.Value.sdip_no, x));
+                    Sdip_result_dic.Add(pair.Value.sdip_no, pair.Value.sdip_result);
+                }
+                else
+                {
+                    index = CODE_200_List.FindIndex(s => s.Item1.Equals(pair.Value.sdip_no));
+                    x = CODE_200_List[index].Item2;
+                    CODE_200_List[index] = new Tuple<string, int>(pair.Value.sdip_no, ++x);
 
+                }
+
+            }
+            
+        }
+        public void Code_200_Filter()
+        {
+            open.Code_200_Set_View();
+        }
         private void update_Equipment_DF_CLB(List<string> deleted_pic)
         {
             
@@ -1383,6 +1421,12 @@ namespace ViewPort
             XYLocationFilter XYFilter = new XYLocationFilter(open);
             XYFilter.Show();
 
+        }
+
+        private void Code_200_View_Click(object sender, EventArgs e)
+        {
+            Code200View code200 = new Code200View(this);
+            code200.Show();
         }
     }
 

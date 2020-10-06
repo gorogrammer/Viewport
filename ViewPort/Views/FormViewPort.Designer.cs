@@ -59,6 +59,8 @@
             this.저장불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.코드변경ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.번코드변경ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Code_200_View = new System.Windows.Forms.ToolStripMenuItem();
             this.업데이트ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -93,7 +95,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.FilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -397,7 +398,8 @@
             // 
             this.코드변경ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.번코드변경ToolStripMenuItem,
-            this.FilterToolStripMenuItem});
+            this.FilterToolStripMenuItem,
+            this.Code_200_View});
             this.코드변경ToolStripMenuItem.Name = "코드변경ToolStripMenuItem";
             this.코드변경ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.코드변경ToolStripMenuItem.Text = "기능";
@@ -405,9 +407,23 @@
             // 번코드변경ToolStripMenuItem
             // 
             this.번코드변경ToolStripMenuItem.Name = "번코드변경ToolStripMenuItem";
-            this.번코드변경ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.번코드변경ToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.번코드변경ToolStripMenuItem.Text = "코드 변경";
             this.번코드변경ToolStripMenuItem.Click += new System.EventHandler(this.번코드변경ToolStripMenuItem_Click);
+            // 
+            // FilterToolStripMenuItem
+            // 
+            this.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem";
+            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.FilterToolStripMenuItem.Text = "좌표 Filter";
+            this.FilterToolStripMenuItem.Click += new System.EventHandler(this.FilterToolStripMenuItem_Click);
+            // 
+            // Code_200_View
+            // 
+            this.Code_200_View.Name = "Code_200_View";
+            this.Code_200_View.Size = new System.Drawing.Size(181, 22);
+            this.Code_200_View.Text = "200번대 Code View";
+            this.Code_200_View.Click += new System.EventHandler(this.Code_200_View_Click);
             // 
             // 업데이트ToolStripMenuItem
             // 
@@ -814,13 +830,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // FilterToolStripMenuItem
-            // 
-            this.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem";
-            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.FilterToolStripMenuItem.Text = "좌표 Filter";
-            this.FilterToolStripMenuItem.Click += new System.EventHandler(this.FilterToolStripMenuItem_Click);
-            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -929,6 +938,7 @@
         public System.Windows.Forms.ComboBox ImageSize_CB;
         private System.Windows.Forms.ToolStripMenuItem 업데이트ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem FilterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Code_200_View;
     }
 }
 

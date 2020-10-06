@@ -993,3 +993,4 @@ C:\Users\metalheedo\Desktop\스템코\0925\Viewport\ViewPort\bin\Debug\System.Nu
 C:\Users\metalheedo\Desktop\스템코\0925\Viewport\ViewPort\bin\Debug\MySql.Data.xml
 C:\Users\metalheedo\Desktop\스템코\0925\Viewport\ViewPort\bin\Debug\ViewPortNetwork.pdb
 C:\Users\metalheedo\Desktop\스템코\0925\Viewport\ViewPort\obj\Debug\ViewPort.csproj.CopyComplete
+C:\Users\metalheedo\Desktop\스템코\0925\Viewport\ViewPort\obj\Debug\ViewPort.Views.Code200View.resources

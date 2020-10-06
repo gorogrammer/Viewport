@@ -788,6 +788,83 @@ namespace ViewPort.Views
 
         }
 
+        public void Code_200_Set_View()
+        {
+            Main.ViewType = "Code_200_SetView";
+            OpenViewType = "Code_200_SetView";
+
+            this.Controls.Clear();
+            PictureData.Clear();
+
+            dicInfo_Filter = Main.Filter_200_dic_Main;
+            
+            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            DicInfo_Filtered = Sorted_dic;
+
+            if (Main.Camera_NO_Filter_TB.Text != "" && int.Parse(Main.Camera_NO_Filter_TB.Text) > 0)
+            {
+                foreach (string No in DicInfo_Filtered.Keys.ToList())
+                {
+                    if (DicInfo_Filtered[No].CameraNo == int.Parse(Main.Camera_NO_Filter_TB.Text))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        DicInfo_Filtered.Remove(No);
+                    }
+
+                }
+
+            }
+
+            if (Main.Waiting_Del.Count > 0)
+            {
+                foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                {
+                    if (Main.Waiting_Del.ContainsKey(pair))
+                        DicInfo_Filtered.Remove(pair);
+                }
+            }
+
+            cols = int.Parse(Main.Cols_TB.Text);
+            rows = int.Parse(Main.Rows_TB.Text);
+            width = int.Parse(Main.Width_TB.Text);
+            height = int.Parse(Main.Height_TB.Text);
+
+            Current_PageNum = 1;
+            Current_Frame_PageNum = 1;
+
+
+
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+            Set_PictureBox();
+
+            if (Main.Frame_View_CB.Checked)
+            {
+                Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
+                Total_Frame_PageNum = frame_List_Img.Count;
+                Main.Frame_E_Page_TB.Text = Total_Frame_PageNum.ToString();
+
+
+
+                Frame_Set_Image();
+            }
+            else
+                Set_Image();
+
+            Last_Picture_Selected_Index = -1;
+
+            Main.List_Count_TB.Text = DicInfo_Filtered.Count.ToString();
+            //Main.Print_List();
+            this.Focus();
+            Filter_NO_Set();
+
+        }
         public void Frame_Set_View()
         {
 
