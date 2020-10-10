@@ -232,7 +232,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 68);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 72);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -550,7 +550,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
             this.splitContainer5.Size = new System.Drawing.Size(319, 350);
-            this.splitContainer5.SplitterDistance = 278;
+            this.splitContainer5.SplitterDistance = 274;
             this.splitContainer5.TabIndex = 0;
             // 
             // checkBox1
@@ -608,6 +608,7 @@
             this.EQ_Search_TB.Name = "EQ_Search_TB";
             this.EQ_Search_TB.Size = new System.Drawing.Size(95, 21);
             this.EQ_Search_TB.TabIndex = 25;
+            this.EQ_Search_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EQ_Search_TB_KeyDown);
             // 
             // Manual_Mode_RB
             // 

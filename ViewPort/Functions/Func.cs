@@ -273,38 +273,51 @@ namespace ViewPort.Functions
         {
 
             string txtFilePath = string.Empty;
-            string Lot_Name = Waiting_Del.Values.ElementAt(0).LotID;
-            SaveFileDialog saveFile = new SaveFileDialog();
-
-            saveFile.InitialDirectory = Application.StartupPath; ;
-            saveFile.FileName = Lot_Name + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-            
-            saveFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-
-            if(File.Exists(saveFile.FileName))
+            if(Waiting_Del.Count > 0)
             {
-                txtFilePath = saveFile.InitialDirectory + "\\" + saveFile.FileName;
+                string Lot_Name = Waiting_Del.Values.ElementAt(0).LotID;
+                SaveFileDialog saveFile = new SaveFileDialog();
 
-                File.Delete(txtFilePath);
+                saveFile.InitialDirectory = Application.StartupPath; ;
+                saveFile.FileName = Lot_Name + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
 
-                if (saveFile.ShowDialog() == DialogResult.OK)
+                saveFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+
+                if (File.Exists(saveFile.FileName))
                 {
-                    
-                    
-                    txtFilePath = saveFile.FileName;
-                    File.WriteAllLines(txtFilePath, Waiting_Del.Keys);
-                }
+                    txtFilePath = saveFile.InitialDirectory + "\\" + saveFile.FileName;
 
+                    File.Delete(txtFilePath);
+
+                    if (saveFile.ShowDialog() == DialogResult.OK)
+                    {
+
+
+                        txtFilePath = saveFile.FileName;
+                        File.WriteAllLines(txtFilePath, Waiting_Del.Keys);
+                    }
+
+
+                }
+                else
+                {
+                    if (saveFile.ShowDialog() == DialogResult.OK)
+                    {
+                        txtFilePath = saveFile.FileName;
+                        File.WriteAllLines(txtFilePath, Waiting_Del.Keys);
+                    }
+                }
 
             }
             else
             {
-                if (saveFile.ShowDialog() == DialogResult.OK)
-                {
-                    txtFilePath = saveFile.FileName;
-                    File.WriteAllLines(txtFilePath, Waiting_Del.Keys);
-                }
+                MessageBox.Show("저장할 데이터가 없습니다.", "알림", MessageBoxButtons.OK);
+                
+               
+
             }
+                
+            
 
 
         }

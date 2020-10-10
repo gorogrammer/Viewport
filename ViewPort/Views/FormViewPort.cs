@@ -1057,6 +1057,7 @@ namespace ViewPort
             deleteWaiting.ZipFilePath = zipFilePath;
             deleteWaiting.Set_View_Del();
             deleteWaiting.Show();
+            
            
         }
 
@@ -1073,7 +1074,10 @@ namespace ViewPort
             
            
         }
-
+        public void SetFocus()
+        {
+            open.Focus();
+        }
         public void Delete_ZipImg()
         {
 
@@ -1224,8 +1228,9 @@ namespace ViewPort
         private void EQ_Search()
         {
             string txt = EQ_Search_TB.Text;
-           
-            for(int i =0; i < Equipment_DF_CLB.Items.Count; i++)
+            txt = txt.ToUpper();
+            
+            for (int i =0; i < Equipment_DF_CLB.Items.Count; i++)
             {
                 if (Equipment_DF_CLB.Items[i].ToString().Contains(txt))
                     continue;
@@ -1236,6 +1241,7 @@ namespace ViewPort
                 }
                     
             }
+           
 
         }
 
@@ -1427,6 +1433,14 @@ namespace ViewPort
         {
             Code200View code200 = new Code200View(this);
             code200.Show();
+        }
+
+        private void EQ_Search_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                EQ_Search();
+            }
         }
     }
 

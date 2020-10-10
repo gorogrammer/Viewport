@@ -509,7 +509,7 @@ namespace ViewPort.Views
 
         private void DeleteWaiting_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+            Main.SetFocus();
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -784,7 +784,7 @@ namespace ViewPort.Views
             Main.List_Count_TB.Text = DicInfo_Filtered.Count.ToString();
             //Main.Print_List();
             this.Focus();
-            Filter_NO_Set();
+            //Filter_NO_Set();
 
         }
 
@@ -1233,6 +1233,9 @@ namespace ViewPort.Views
             //src_Mouse_XY.Y = -1;
             //dst_Mouse_XY.X = -1;
             //dst_Mouse_XY.Y = -1;
+
+            src_Mouse_XY = Point.Empty;
+            dst_Mouse_XY = Point.Empty;
         }
         private void Find_Contain_PB(Point Src, Point Dst)
         {
@@ -2327,7 +2330,8 @@ namespace ViewPort.Views
         }
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
-        {this.Focus();
+        {
+            
             ImageViewer_PL_MouseUp(sender, e);
             Draged_PB = null;
         }
