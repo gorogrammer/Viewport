@@ -9,11 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ViewPort.Models;
+using ViewPort.Views;
 
 namespace ViewPort.Functions
 {
     public class Func
     {
+        List<string> Exception_Frame = new List<string>();
         public static void SearchTXT_inZip(string FilePath, Dictionary<string, txtInfo> dicTxt_info)
         {
             ZipArchive zip;
@@ -180,6 +182,77 @@ namespace ViewPort.Functions
             
         }
 
+        public void Counting_IMG_inZip(string FilePath)
+        {
+            Exception_Frame.Clear();
+            ZipArchive  subZip;
+            Stream subEntryMS;
+
+            ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);   // Zip파일(Lot) Load
+            {
+
+                foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
+                    {
+                        subEntryMS = entry.Open();           
+                        subZip = new ZipArchive(subEntryMS);
+                        if(subZip.Entries.Count == 0)
+                        {
+                            Exception_Frame.Add(entry.Name);
+                        }
+                        subZip.Dispose();
+                    }
+                    
+                }
+
+                zip.Dispose();
+            }
+            
+        }
+        public static void Map_TXT_Update_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo)
+        {
+            ZipArchive zip;
+            if (FilePath != null)
+            {
+                zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);
+                string IMGTXT_path = string.Empty;
+                IMGTXT_path = FilePath + "\\" + Func.GetMapFromPath(FilePath);
+
+
+
+                foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    if (entry.Name.ToUpper().IndexOf(".TXT") != -1 && entry.Name.ToUpper().IndexOf("IMG") != -1)
+                    {
+                        StreamReader SR = new StreamReader(entry.Open(), Encoding.Default);
+                        string text = SR.ReadToEnd();
+                        string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                        string top = string.Empty;
+
+                        top = items[0];
+                        SR.Close();
+                        entry.Delete();
+
+                        ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetMapFromPath(FilePath));
+
+                        using (StreamWriter SW = new StreamWriter(readmeEntry.Open()))
+                        {
+                            SW.WriteLine(top);
+                            for (int i = 0; i < dicInfo.Count; i++)
+                            {
+                                SW.WriteLine(dicInfo.Keys.ElementAt(i) + "_" + dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no + ",," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_result+ dicInfo[dicInfo.Keys.ElementAt(i)].Change_Code);
+                            }
+                        }
+
+                        break;
+                    }
+                }
+                zip.Dispose();
+            }
+        }
+
         public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo)
         {
             ZipArchive zip;
@@ -212,7 +285,7 @@ namespace ViewPort.Functions
                             SW.WriteLine(top);
                             for (int i = 0; i < dicInfo.Count; i++)
                             {
-                                SW.WriteLine(dicInfo.Keys.ElementAt(i) + "_" + dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no + ",," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_result+ dicInfo[dicInfo.Keys.ElementAt(i)].Change_Code);
+                                SW.WriteLine(dicInfo.Keys.ElementAt(i) + "_" + dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no + ",," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_result + dicInfo[dicInfo.Keys.ElementAt(i)].Change_Code);
                             }
                         }
 
@@ -221,9 +294,6 @@ namespace ViewPort.Functions
                 }
                 zip.Dispose();
             }
-            
-            
-
         }
         public static string GetFileNameWithoutJPG(string str)
         {

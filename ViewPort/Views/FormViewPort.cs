@@ -1467,12 +1467,7 @@ namespace ViewPort
             }
         }
 
-        private void FilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            XYLocationFilter XYFilter = new XYLocationFilter(open);
-            XYFilter.Show();
-
-        }
+   
 
         private void Code_200_View_Click(object sender, EventArgs e)
         {

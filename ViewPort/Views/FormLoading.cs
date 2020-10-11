@@ -182,6 +182,13 @@ namespace ViewPort.Views
             DoLoadingThread(path);
         }
 
+        public FormLoading()
+        {
+            
+            InitializeComponent();
+
+        }
+
         public void DoLoadingThread(string path)
         {
             Thread LoadThread = new Thread(new ParameterizedThreadStart(Loading));
