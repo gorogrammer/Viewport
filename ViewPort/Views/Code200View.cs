@@ -37,6 +37,7 @@ namespace ViewPort.Views
             Main.Filter_200_dic_Main = Filter_200_dic;
 
             Main.Code_200_Filter();
+            
             this.Close();
         }
 

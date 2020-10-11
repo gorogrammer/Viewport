@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ViewPort.Models;
+using ViewPort.Functions;
 using System.IO.Compression;
 using System.IO;
 
@@ -16,6 +17,7 @@ namespace ViewPort.Views
     public partial class ImageViewer : UserControl
     {
         public FormViewPort Main;
+        LoadingGIF_Func waitform = new LoadingGIF_Func();
 
         string openViewType = string.Empty; 
         struct BoxRange { public int left, top, width, height; }
@@ -50,7 +52,7 @@ namespace ViewPort.Views
         Label[] DefectState, ImageNameLB;
         int Current_PageNum, Total_PageNum;
         int Current_Frame_PageNum, Total_Frame_PageNum;
-        int Last_Picture_Selected_Index;        // -3 : 리스트 전체 선택,  -2 : 다중 선택, -1 : 미선택, 그 외, 선택한 Image Index
+        int Last_Picture_Selected_Index;       
         int EachPage_ImageNum;
         List<string> imglist = new List<string>();
 
@@ -291,25 +293,32 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.F11)
             {
-                Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
-                DicInfo_Filtered = Main.Sdip_NO1_dicInfo;
-                //foreach(string NO_1 in dicInfo_Filter.Keys.ToList())
-                //{
-                //    if (dicInfo_Filter[NO_1].sdip_no == "1")
-                //        continue;
-                //    else
-                //    {
-                //        dicInfo_Filter.Remove(NO_1);
+                try
+                {
+                    waitform.Show();
+                    Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
+                    DicInfo_Filtered = Main.Sdip_NO1_dicInfo;
+                    //foreach(string NO_1 in dicInfo_Filter.Keys.ToList())
+                    //{
+                    //    if (dicInfo_Filter[NO_1].sdip_no == "1")
+                    //        continue;
+                    //    else
+                    //    {
+                    //        dicInfo_Filter.Remove(NO_1);
 
-                //        Select_Pic_List.Add(NO_1);
-                //    }
+                    //        Select_Pic_List.Add(NO_1);
+                    //    }
 
 
-                //}
+                    //}
 
-                Filter_NO_1 = 1;
-                Set_View();
-                Main.Print_List();
+                    Filter_NO_1 = 1;
+                    Set_View();
+                    Main.Print_List();
+                    waitform.Close();
+                }
+                catch { }
+         
                 
 
             }
@@ -323,7 +332,7 @@ namespace ViewPort.Views
                 {
                     foreach (KeyValuePair<string, ImageInfo> pair in Frame_dicInfo_Filter)
                     {
-                        pair.Value.ReviewDefectName = "불량";
+                        pair.Value.ReviewDefectName = "선택";
                     }
                     Select_Pic_List = Frame_dicInfo_Filter.Keys.ToList();
 
@@ -334,7 +343,7 @@ namespace ViewPort.Views
                 {
                     foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
                     {
-                        pair.Value.ReviewDefectName = "불량";
+                        pair.Value.ReviewDefectName = "선택";
                     }
                     Select_Pic_List = dicInfo_Filter.Keys.ToList();
 
@@ -364,7 +373,7 @@ namespace ViewPort.Views
 
                     for (int p = 0; p < Selected_Picture_Index.Count; p++)
                     {
-                        frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "불량";
+                        frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "선택";
                         Select_Pic_List.Add(frame_dicInfo_Filter.ElementAt(p).Key);
                         Change_state_List.Add(frame_dicInfo_Filter.ElementAt(p).Key);
                     }
@@ -381,7 +390,7 @@ namespace ViewPort.Views
 
                     for (int p = 0; p < Selected_Picture_Index.Count; p++)
                     {
-                        dicInfo_Filter[dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "불량";
+                        dicInfo_Filter[dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "선택";
                         Select_Pic_List.Add(dicInfo_Filter.ElementAt(p).Key);
                         Change_state_List.Add(dicInfo_Filter.ElementAt(p).Key);
                     }
@@ -623,12 +632,15 @@ namespace ViewPort.Views
 
         public void Load_Del()
         {
+            Select_Pic_List.Clear();
+
             foreach (var key in dicInfo_Delete.Keys.ToList())
             {
                 dicInfo_Delete[key].DeleteCheck = "삭제대기";
 
                 if (dicInfo_Filter.ContainsKey(key))
                 {
+                    Select_Pic_List.Add(key);
                     dicInfo_Filter.Remove(key);
                 }
             }
@@ -860,7 +872,7 @@ namespace ViewPort.Views
             Last_Picture_Selected_Index = -1;
 
             Main.List_Count_TB.Text = DicInfo_Filtered.Count.ToString();
-            //Main.Print_List();
+            Main.Print_List();
             this.Focus();
             Filter_NO_Set();
 
@@ -1275,7 +1287,7 @@ namespace ViewPort.Views
                 }
 
                 if (dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index)].ReviewDefectName.Equals("양품"))
-                    result = "불량";
+                    result = "선택";
                 else
                 {
                     result = "양품";
@@ -1382,7 +1394,7 @@ namespace ViewPort.Views
                 }
 
                 if (frame_dicInfo_Filter[frame_dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index)].ReviewDefectName.Equals("양품"))
-                    result = "불량";
+                    result = "선택";
                 else
                 {
                     result = "양품";
@@ -1556,7 +1568,7 @@ namespace ViewPort.Views
                 temp_LB.ForeColor = Color.Red;
                 temp_LB.BackColor = Color.Transparent;
                 temp_LB.AutoSize = true;
-                temp_LB.Location = new Point(4, height - 20);
+                temp_LB.Location = new Point(4, height - 30);
                 temp_LB.Parent = Picture_Glass.ElementAt(i);
                 ImageNameLB[i] = temp_LB;
             }
@@ -2179,7 +2191,7 @@ namespace ViewPort.Views
 
         public void Cheked_State_DF()
         {
-
+            int length = 0;
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
@@ -2197,7 +2209,10 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                    {
+                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index) + "\r\n" + dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length-13);
+                    } 
                     else
                         ImageNameLB[i].Text = "";
 
@@ -2216,7 +2231,10 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                    {
+                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index) + "\r\n" + dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+                    }
                     else
                         ImageNameLB[i].Text = "";
 

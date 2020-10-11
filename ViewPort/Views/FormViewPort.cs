@@ -25,7 +25,7 @@ namespace ViewPort
         #region MEMBER VARIABLES
 
         ImageViewer open = new ImageViewer();
-
+        LoadingGIF_Func waitform = new LoadingGIF_Func();
         Dictionary<string, ImageInfo> eq_CB_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Copy = new Dictionary<string, ImageInfo>();
@@ -380,6 +380,39 @@ namespace ViewPort
                 Select_All_BTN_Click(null, null);
         }
 
+        public void Load_After_Dl_PrintList()
+        {
+            int index = 0;
+
+            Selected_Pic = open.Select_Pic_List;
+
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            update_Equipment_DF_CLB(Selected_Pic);
+
+            for (int i = 0; i < Selected_Pic.Count; i++)
+            {
+                DataRow dr = dt.NewRow();
+                dr = dt.Rows.Find(DicInfo_Copy[Selected_Pic[i]].Imagename);
+                index = dt.Rows.IndexOf(dr);
+                dt.Rows[index].Delete();
+
+                DicInfo.Remove(Selected_Pic[i]);
+                if (Eq_CB_dicInfo.Count > 0)
+                {
+                    if (Eq_CB_dicInfo.ContainsKey(Selected_Pic[i]))
+                        Eq_CB_dicInfo.Remove(Selected_Pic[i]);
+                }
+                //dt.AcceptChanges();
+            }
+
+            if (Eq_CB_dicInfo.Count > 0)
+            {
+
+            }
+            else
+                Select_All_BTN_Click(null, null);
+        }
         public void No1_Dl_PrintList()
         {
             int index = 0;
@@ -436,6 +469,7 @@ namespace ViewPort
             Selected_Pic.Clear();
         }
 
+       
         public void Changeed_State()
         {
             int index = 0;
@@ -488,31 +522,38 @@ namespace ViewPort
         }
         private void _filterAct_bt_Click(object sender, EventArgs e)
         {
-            Eq_CB_dicInfo.Clear();
-            Initial_Equipment_DF_FilterList();
-
-            //eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
-
-            if (Waiting_Del.Count > 0)
+            try
             {
-                foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
-                    eq_CB_dicInfo.Remove(kvp.Key);
+                waitform.Show(this);
+                Eq_CB_dicInfo.Clear();
+                Initial_Equipment_DF_FilterList();
 
+                //eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
+
+                if (Waiting_Del.Count > 0)
+                {
+                    foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
+                        eq_CB_dicInfo.Remove(kvp.Key);
+
+                }
+
+                Sorted_dic = eq_CB_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                Eq_CB_dicInfo = Sorted_dic;
+
+                Eq_Filter_after_Print_List();
+                open.Main = this;
+                open.Eq_CB_Set_View();
+
+                if (Frame_View_CB.Checked)
+                {
+                    Frame_View_CB.Checked = false;
+                    Frame_S_Page_TB.Text = " ";
+                    Frame_E_Page_TB.Text = " ";
+                }
+                waitform.Close();
             }
-
-            Sorted_dic = eq_CB_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            Eq_CB_dicInfo = Sorted_dic;
-
-            Eq_Filter_after_Print_List();
-            open.Main = this;
-            open.Eq_CB_Set_View();
-
-            if (Frame_View_CB.Checked)
-            {
-                Frame_View_CB.Checked = false;
-                Frame_S_Page_TB.Text = " ";
-                Frame_E_Page_TB.Text = " ";
-            }
+            catch { }
+           
                 
         }
         
@@ -803,6 +844,7 @@ namespace ViewPort
             {
                 if (CODE_200_List.FindIndex(s => s.Item1.Equals(pair.Value.sdip_no)) == -1)
                 {
+                    x = 1;
                     CODE_200_List.Add(new Tuple<string, int>(pair.Value.sdip_no, x));
                     Sdip_result_dic.Add(pair.Value.sdip_no, pair.Value.sdip_result);
                 }
@@ -815,11 +857,15 @@ namespace ViewPort
                 }
 
             }
+
+            CODE_200_List = CODE_200_List.OrderBy(s => s.Item2).ThenByDescending(s => s.Item2).ToList();
+            CODE_200_List.Reverse();
             
         }
         public void Code_200_Filter()
         {
             open.Code_200_Set_View();
+            
         }
         private void update_Equipment_DF_CLB(List<string> deleted_pic)
         {
@@ -1150,8 +1196,6 @@ namespace ViewPort
         private void 저장불러오기ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Func.LoadDelFileID(this, Waiting_Del, dicInfo_Copy);
-
-            
             
         }
 
@@ -1162,6 +1206,7 @@ namespace ViewPort
             open.Load_Del( );
             Dl_PrintList();
             Wait_Del_Print_List();
+            List_Count_TB.Text = open.DicInfo_Filtered.Count.ToString();
         }
 
         private void Fixed_CB_CheckedChanged(object sender, EventArgs e)
