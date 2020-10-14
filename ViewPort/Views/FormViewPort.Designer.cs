@@ -96,6 +96,9 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.iMGTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mAPTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iMGTXTUpdateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mAPTXTUpdateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -233,7 +236,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 72);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 87);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -346,6 +349,11 @@
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.파일ToolStripMenuItem,
+            this.저장ToolStripMenuItem,
+            this.코드변경ToolStripMenuItem,
+            this.업데이트ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1765, 24);
@@ -379,19 +387,25 @@
             // 중간저장ToolStripMenuItem
             // 
             this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
-            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.중간저장ToolStripMenuItem.Text = "중간 저장";
             this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
             // 
             // 저장불러오기ToolStripMenuItem
             // 
             this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
-            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
             this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
             // 
             // 코드변경ToolStripMenuItem
             // 
+            this.코드변경ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.번코드변경ToolStripMenuItem,
+            this.Code_200_View,
+            this.iMGTXTUpdateToolStripMenuItem1,
+            this.mAPTXTUpdateToolStripMenuItem1,
+            this.FilterToolStripMenuItem});
             this.코드변경ToolStripMenuItem.Name = "코드변경ToolStripMenuItem";
             this.코드변경ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.코드변경ToolStripMenuItem.Text = "기능";
@@ -535,7 +549,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
             this.splitContainer5.Size = new System.Drawing.Size(319, 350);
-            this.splitContainer5.SplitterDistance = 274;
+            this.splitContainer5.SplitterDistance = 259;
             this.splitContainer5.TabIndex = 0;
             // 
             // checkBox1
@@ -819,14 +833,33 @@
             // iMGTXTUpdateToolStripMenuItem
             // 
             this.iMGTXTUpdateToolStripMenuItem.Name = "iMGTXTUpdateToolStripMenuItem";
-            this.iMGTXTUpdateToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.iMGTXTUpdateToolStripMenuItem.Text = "IMG TXT Update";
+            this.iMGTXTUpdateToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
             // 
             // mAPTXTUpdateToolStripMenuItem
             // 
             this.mAPTXTUpdateToolStripMenuItem.Name = "mAPTXTUpdateToolStripMenuItem";
-            this.mAPTXTUpdateToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.mAPTXTUpdateToolStripMenuItem.Text = "MAP TXT Update";
+            this.mAPTXTUpdateToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
+            // 
+            // FilterToolStripMenuItem
+            // 
+            this.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem";
+            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.FilterToolStripMenuItem.Text = "좌표 Filter";
+            this.FilterToolStripMenuItem.Click += new System.EventHandler(this.FilterToolStripMenuItem_Click);
+            // 
+            // iMGTXTUpdateToolStripMenuItem1
+            // 
+            this.iMGTXTUpdateToolStripMenuItem1.Name = "iMGTXTUpdateToolStripMenuItem1";
+            this.iMGTXTUpdateToolStripMenuItem1.Size = new System.Drawing.Size(181, 22);
+            this.iMGTXTUpdateToolStripMenuItem1.Text = "IMG TXT Update";
+            this.iMGTXTUpdateToolStripMenuItem1.Click += new System.EventHandler(this.iMGTXTUpdateToolStripMenuItem1_Click);
+            // 
+            // mAPTXTUpdateToolStripMenuItem1
+            // 
+            this.mAPTXTUpdateToolStripMenuItem1.Name = "mAPTXTUpdateToolStripMenuItem1";
+            this.mAPTXTUpdateToolStripMenuItem1.Size = new System.Drawing.Size(181, 22);
+            this.mAPTXTUpdateToolStripMenuItem1.Text = "MAP TXT Update";
+            this.mAPTXTUpdateToolStripMenuItem1.Click += new System.EventHandler(this.mAPTXTUpdateToolStripMenuItem1_Click);
             // 
             // FormViewPort
             // 
@@ -938,6 +971,9 @@
         private System.Windows.Forms.ToolStripMenuItem Code_200_View;
         private System.Windows.Forms.ToolStripMenuItem iMGTXTUpdateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mAPTXTUpdateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FilterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iMGTXTUpdateToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem mAPTXTUpdateToolStripMenuItem1;
     }
 }
 

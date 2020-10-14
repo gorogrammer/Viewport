@@ -41,6 +41,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> filter_200_dic_Main = new Dictionary<string, ImageInfo>();
 
         string[] dic_ready = null;
+        string final_text_main = string.Empty;
         string viewType = null;
         int Rotate_Option = 1;
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
@@ -56,6 +57,7 @@ namespace ViewPort
         List<int> f9_Frame_List_Main = new List<int>();
         List<int> f10_Frame_List_Main = new List<int>();
         List<string> Eq_Filter_Select_Key_List = new List<string>();
+        List<int> exception_Frame = new List<int>();
 
         List<string> f5_Img_KeyList = new List<string>();
         List<string> accu_wait_Del_Img_List = new List<string>();
@@ -68,6 +70,11 @@ namespace ViewPort
         List<int> contain_200_Frame_Main = new List<int>();
         List<string> dl_Apply_List_Main = new List<string>();
         List<string> dl_NotApply_List_Main = new List<string>();
+        Dictionary<int, int> map_List_Dic_main = new Dictionary<int, int>();
+        Dictionary<int, int> map_List_Dic_Compare_main = new Dictionary<int, int>();
+
+        Dictionary<int, int> Map_TXT_NO_Counting = new Dictionary<int, int>();
+        List<Tuple<int, int>> Map_TXT_NO_Counting_Compare = new List<Tuple<int, int>>();
 
         int btnColumnIdx;
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
@@ -84,8 +91,13 @@ namespace ViewPort
         public string ViewType { get => viewType; set => viewType = value; }
 
         public List<Tuple<string, int>> CODE_200_List { get => code_200_List; set => code_200_List = value; }
+
+        public List<int> Exception_Frame { get => exception_Frame; set => exception_Frame = value; }
+        public string Final_text_main { get => final_text_main; set => final_text_main = value; }
         public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
 
+        public Dictionary<int, int> Map_List_Dic_main { get => map_List_Dic_main; set => map_List_Dic_main = value; }
+        public Dictionary<int, int> Map_List_Dic_Compare_main { get => map_List_Dic_Compare_main; set => map_List_Dic_Compare_main = value; }
         public Dictionary<string, ImageInfo> Filter_200_dic_Main { get => filter_200_dic_Main; set => filter_200_dic_Main = value; }
 
         public Dictionary<string, ImageInfo> Sdip_200_code_dicInfo { get => sdip_200_code_dicInfo; set => sdip_200_code_dicInfo = value; }
@@ -519,6 +531,35 @@ namespace ViewPort
             }
                 
       
+        }
+
+        public void Counting_IMG_inZip(string ZipFilePath)
+        {
+            Exception_Frame.Clear();
+            ZipArchive subZip;
+            Stream subEntryMS;
+
+            ZipArchive zip = ZipFile.Open(ZipFilePath, ZipArchiveMode.Read);   // Zip파일(Lot) Load
+            {
+
+                foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
+                    {
+                        subEntryMS = entry.Open();
+                        subZip = new ZipArchive(subEntryMS);
+                        if (subZip.Entries.Count == 0)
+                        {
+                            Exception_Frame.Add(int.Parse(entry.Name.Substring(0,5)));
+                        }
+                        subZip.Dispose();
+                    }
+
+                }
+
+                zip.Dispose();
+            }
+
         }
         private void _filterAct_bt_Click(object sender, EventArgs e)
         {
@@ -1145,12 +1186,6 @@ namespace ViewPort
 
         private void FormViewPort_FormClosing(object sender, FormClosingEventArgs e)
         {
-
-            if (MessageBox.Show(" IMG TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
-            }
-
             if (Waiting_Del.Count > 0)
             {
                 if (MessageBox.Show("" + open.DicInfo_Delete.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -1482,6 +1517,64 @@ namespace ViewPort
                 EQ_Search();
             }
         }
+
+        private void FilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            XYLocationFilter XYFilter = new XYLocationFilter(open);
+            XYFilter.Show();
+        }
+
+        private void iMGTXTUpdateToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(" IMG TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
+            }
+        }
+
+        private void mAPTXTUpdateToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(" MAP TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Counting_IMG_inZip(ZipFilePath);
+
+                foreach (int pair in Map_List_Dic_main.Keys.ToList())
+                {
+                    if (Exception_Frame.Contains(pair))
+                    {
+                        Map_List_Dic_main.Remove(pair);
+                    }
+                }
+
+                foreach (int pair in Map_List_Dic_main.Keys.ToList())
+                {
+                    if (Map_TXT_NO_Counting.ContainsKey(Map_List_Dic_main[pair]) == false)
+                        Map_TXT_NO_Counting.Add(Map_List_Dic_main[pair], 1);
+                    else
+                    {
+                        Map_TXT_NO_Counting[Map_List_Dic_main[pair]] = Map_TXT_NO_Counting[Map_List_Dic_main[pair]] + 1;
+                    }
+                 
+
+
+                }
+
+                foreach (int pair in Map_List_Dic_Compare_main.Keys.ToList())
+                {
+                    if (Exception_Frame.Contains(pair))
+                    {
+                        Map_List_Dic_Compare_main.Remove(pair);
+                    }
+                }
+
+             
+                Func.Map_TXT_Update_inZip(ZipFilePath, Map_TXT_NO_Counting, Map_List_Dic_main, Map_List_Dic_Compare_main);
+            }
+
+            
+
+        }
+
     }
 
 

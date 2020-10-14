@@ -41,12 +41,15 @@ namespace ViewPort.Views
         private List<int> f10_Frame_List;
         private List<string> f5_dic_Load;
         private List<string> sdip_no_200;
+        private string[] final_text;
 
 
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> Ignore_map_List { get => ignore_map_List; set => ignore_map_List = value; }
+
+        public string[] Final_text { get => final_text; set => final_text = value; }
 
         public List<string> Sdip_no_200 { get => sdip_no_200; set => sdip_no_200 = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
@@ -177,6 +180,7 @@ namespace ViewPort.Views
             F5_dic_Load = new List<string>();
 
             Sdip_no_200 = new List<string>();
+            
             InitializeComponent();
 
             DoLoadingThread(path);
@@ -484,7 +488,9 @@ namespace ViewPort.Views
 
                 StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
-                
+
+                char[] df = {'@'};
+                Final_text = text.Split(df);
                 string[] items = text.Split(' ', '!');
                 var items_List = items.ToList();
                 int index = items_List.IndexOf("");
@@ -520,6 +526,10 @@ namespace ViewPort.Views
 
                 }
                 zip.Dispose();
+
+                main.Map_List_Dic_main = Map_List_Dic;
+                main.Map_List_Dic_Compare_main = Map_List_Dic_Compare;
+                main.Final_text_main = Final_text[1];
             }
 
             foreach (KeyValuePair<int, int> pair in map_List_Dic)

@@ -210,90 +210,174 @@ namespace ViewPort.Functions
             }
             
         }
-        public static void Map_TXT_Update_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo)
+        public static void Map_TXT_Update_inZip(string FilePath, Dictionary<int, int> No_Counting, Dictionary<int, int> Front, Dictionary<int, int> Back)
         {
-            ZipArchive zip;
-            if (FilePath != null)
+
+            ///////////////////////////
+            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
             {
-                zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);
-                string IMGTXT_path = string.Empty;
-                IMGTXT_path = FilePath + "\\" + Func.GetMapFromPath(FilePath);
+                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetMapFromPath(FilePath));
 
-
-
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                if (ImgEntry == null)
                 {
-                    if (entry.Name.ToUpper().IndexOf(".TXT") != -1 && entry.Name.ToUpper().IndexOf("IMG") != -1)
+                    MessageBox.Show(MSG_STR.NONE_MAP_TXT);
+                    return;
+                }
+
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                string text = SR.ReadToEnd();
+                SR.Close();
+                char[] df = { '@' };
+
+                string[] items = text.Split(' ', '!');
+                var items_List = items.ToList();
+                string[] Final = text.Split(df);
+
+                string Final_Text = "E@" + Final[1];
+
+                string Start_Text = items[0].Substring(0, 3);
+                string Frame_Count = items[0].Substring(3, 440);
+                string No_Change_Text = items[0].Substring(443);
+
+
+                StringBuilder Change_Frame_Count = new StringBuilder(Start_Text);
+                string Zero = string.Empty;
+                int Compare_No_length = 0;
+
+                List<int> Compare_No = new List<int>();
+
+                for (int i = 0; i <= Frame_Count.Length / 5 - 1; i++)
+                {
+
+                    Compare_No.Add(int.Parse(Frame_Count.Substring(i * 5, 5)));
+
+                }
+
+                foreach (int pair in No_Counting.Keys.ToList())
+                {
+                    Compare_No[pair - 1] = No_Counting[pair];
+                }
+
+                for (int p = 0; p <= Compare_No.Count - 1; p++)
+                {
+                    Compare_No_length = Compare_No[p].ToString().Length;
+
+                    if (Compare_No_length == 1)
                     {
-                        StreamReader SR = new StreamReader(entry.Open(), Encoding.Default);
-                        string text = SR.ReadToEnd();
-                        string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-                        string top = string.Empty;
-
-                        top = items[0];
-                        SR.Close();
-                        entry.Delete();
-
-                        ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetMapFromPath(FilePath));
-
-                        using (StreamWriter SW = new StreamWriter(readmeEntry.Open()))
-                        {
-                            SW.WriteLine(top);
-                            for (int i = 0; i < dicInfo.Count; i++)
-                            {
-                                SW.WriteLine(dicInfo.Keys.ElementAt(i) + "_" + dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no + ",," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_result+ dicInfo[dicInfo.Keys.ElementAt(i)].Change_Code);
-                            }
-                        }
-
-                        break;
+                        Change_Frame_Count.Append("0000");
                     }
+                    else if (Compare_No_length == 2)
+                        Change_Frame_Count.Append("000");
+                    else if (Compare_No_length == 3)
+                        Change_Frame_Count.Append("00");
+                    else if (Compare_No_length == 4)
+                        Change_Frame_Count.Append("0");
+
+
+                    Change_Frame_Count.Append(Compare_No[p]);
+                }
+
+                Change_Frame_Count.Append(No_Change_Text);
+
+                
+                
+
+
+                foreach (int pair in Front.Keys.ToList())
+                {
+                    Change_Frame_Count.Append(" " + Front[pair].ToString());
+
+                    Compare_No_length = pair.ToString().Length;
+
+                    if (Compare_No_length == 1)
+                    {
+                        Change_Frame_Count.Append("0000");
+                    }
+                    else if (Compare_No_length == 2)
+                        Change_Frame_Count.Append("000");
+                    else if (Compare_No_length == 3)
+                        Change_Frame_Count.Append("00");
+                    else if (Compare_No_length == 4)
+                        Change_Frame_Count.Append("0");
+
+                    Change_Frame_Count.Append(pair);
+                }
+                Change_Frame_Count.Append("!");
+
+                foreach (int pair in Back.Keys.ToList())
+                {
+                    Change_Frame_Count.Append(" " + Back[pair].ToString());
+
+                    Compare_No_length = pair.ToString().Length;
+
+                    if (Compare_No_length == 1)
+                    {
+                        Change_Frame_Count.Append("0000");
+                    }
+                    else if (Compare_No_length == 2)
+                        Change_Frame_Count.Append("000");
+                    else if (Compare_No_length == 3)
+                        Change_Frame_Count.Append("00");
+                    else if (Compare_No_length == 4)
+                        Change_Frame_Count.Append("0");
+
+                    Change_Frame_Count.Append(pair);
+                }
+                Change_Frame_Count.Append(Final_Text);
+
+                ImgEntry.Delete();
+                ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetMapFromPath(FilePath));
+
+
+
+                using (StreamWriter SW = new StreamWriter(readmeEntry.Open()))
+                {
+                    SW.WriteLine(Change_Frame_Count.ToString());
+                   
                 }
                 zip.Dispose();
             }
+
         }
 
         public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo)
         {
-            ZipArchive zip;
-            if (FilePath != null)
+            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
             {
-                zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);
-                string IMGTXT_path = string.Empty;
-                IMGTXT_path = FilePath + "\\" + Func.GetLotNameFromPath(FilePath);
+                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetLotNameFromPath(FilePath));
 
-
-
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                if (ImgEntry == null)
                 {
-                    if (entry.Name.ToUpper().IndexOf(".TXT") != -1 && entry.Name.ToUpper().IndexOf("IMG") != -1)
+                    MessageBox.Show(MSG_STR.NONE_SDIP_TXT);
+                    return;
+                }
+
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                string text = SR.ReadToEnd();
+                string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+
+                string top = string.Empty;
+
+                top = items[0];
+                SR.Close();
+                ImgEntry.Delete();
+
+                ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetLotNameFromPath(FilePath));
+
+                using (StreamWriter SW = new StreamWriter(readmeEntry.Open()))
+                {
+                    SW.WriteLine(top);
+                    for (int i = 0; i < dicInfo.Count; i++)
                     {
-                        StreamReader SR = new StreamReader(entry.Open(), Encoding.Default);
-                        string text = SR.ReadToEnd();
-                        string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-                        string top = string.Empty;
-
-                        top = items[0];
-                        SR.Close();
-                        entry.Delete();
-
-                        ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetLotNameFromPath(FilePath));
-
-                        using (StreamWriter SW = new StreamWriter(readmeEntry.Open()))
-                        {
-                            SW.WriteLine(top);
-                            for (int i = 0; i < dicInfo.Count; i++)
-                            {
-                                SW.WriteLine(dicInfo.Keys.ElementAt(i) + "_" + dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no + ",," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_result + dicInfo[dicInfo.Keys.ElementAt(i)].Change_Code);
-                            }
-                        }
-
-                        break;
+                        SW.WriteLine(dicInfo.Keys.ElementAt(i) + "_" + dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no + ",," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_result + dicInfo[dicInfo.Keys.ElementAt(i)].Change_Code);
                     }
                 }
+
+
                 zip.Dispose();
             }
+          
         }
         public static string GetFileNameWithoutJPG(string str)
         {

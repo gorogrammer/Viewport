@@ -157,71 +157,81 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.Delete)
             {
-                Get_Delete_IMG();
-
-                if (Main.Frame_View_CB.Checked)
+                try
                 {
-                    for (int i = 0; i < Select_Pic.Count; i++)
-                    {
-                        if (frame_dicInfo_Filter.ContainsKey(Select_Pic[i]))
-                        {
-                            frame_dicInfo_Filter.Remove(Select_Pic[i]);
-                        }
+                    waitform.Show();
+                    Get_Delete_IMG();
 
-                    }
-                    if (Filter_NO_1 == 1)
+                    if (Main.Frame_View_CB.Checked)
                     {
-                        Main.No1_Dl_PrintList();
-                        Filter_NO_1 = 0;
+                        for (int i = 0; i < Select_Pic.Count; i++)
+                        {
+                            if (frame_dicInfo_Filter.ContainsKey(Select_Pic[i]))
+                            {
+                                frame_dicInfo_Filter.Remove(Select_Pic[i]);
+                            }
+
+                        }
+                        if (Filter_NO_1 == 1)
+                        {
+                            Main.No1_Dl_PrintList();
+                            Filter_NO_1 = 0;
+                        }
+                        else
+                            Main.Dl_PrintList();
+
+                        Eq_cb_need_del = new List<string>(Select_Pic);
+                        DL_Frame_Set_View();
+
+
+                        Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
+                        Main.Wait_Del_Print_List();
+
                     }
                     else
-                        Main.Dl_PrintList();
-
-                    Eq_cb_need_del = new List<string>(Select_Pic);
-                    DL_Frame_Set_View();
-
-
-                    Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
-                    Main.Wait_Del_Print_List();
-
-                }
-                else
-                {
-                    for (int i = 0; i < Select_Pic.Count; i++)
                     {
-                        if (dicInfo_Filter.ContainsKey(Select_Pic[i]))
+                        for (int i = 0; i < Select_Pic.Count; i++)
                         {
-                            dicInfo_Filter.Remove(Select_Pic[i]);
+                            if (dicInfo_Filter.ContainsKey(Select_Pic[i]))
+                            {
+                                dicInfo_Filter.Remove(Select_Pic[i]);
+                            }
+
                         }
 
+                        if (Filter_NO_1 == 1)
+                        {
+                            Main.No1_Dl_PrintList();
+                            Filter_NO_1 = 0;
+                        }
+                        else
+                            Main.Dl_PrintList();
+
+
+                        Eq_cb_need_del = new List<string>(Select_Pic);
+                        Del_Set_View();
+
+
+                        Main.Wait_Del_Print_List();
+                        Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+
+
                     }
 
-                    if (Filter_NO_1 == 1)
-                    {
-                        Main.No1_Dl_PrintList();
-                        Filter_NO_1 = 0;
-                    }
-                    else
-                        Main.Dl_PrintList();
 
 
-                    Eq_cb_need_del = new List<string>(Select_Pic);
-                    Del_Set_View();
 
 
-                    Main.Wait_Del_Print_List();
-                    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
-
+                    Select_Pic.Clear();
+                    waitform.Close();
+                    //Eq_cb_need_del.Clear();
+                }
+                catch
+                {
 
                 }
 
-
-
-
-
-                Select_Pic.Clear();
-
-                //Eq_cb_need_del.Clear();
+               
             }
 
             else if (e.KeyCode == Keys.Z)
@@ -327,30 +337,36 @@ namespace ViewPort.Views
 
             else if (e.Shift && e.KeyCode == Keys.A)
             {
-
-                if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
+                try
                 {
-                    foreach (KeyValuePair<string, ImageInfo> pair in Frame_dicInfo_Filter)
+                    waitform.Show();
+                    if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
                     {
-                        pair.Value.ReviewDefectName = "선택";
+                        foreach (KeyValuePair<string, ImageInfo> pair in Frame_dicInfo_Filter)
+                        {
+                            pair.Value.ReviewDefectName = "선택";
+                        }
+                        Select_Pic_List = Frame_dicInfo_Filter.Keys.ToList();
+
+
+                        Frame_Set_View();
                     }
-                    Select_Pic_List = Frame_dicInfo_Filter.Keys.ToList();
-
-
-                    Frame_Set_View();
-                }
-                else
-                {
-                    foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
+                    else
                     {
-                        pair.Value.ReviewDefectName = "선택";
+                        foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
+                        {
+                            pair.Value.ReviewDefectName = "선택";
+                        }
+                        Select_Pic_List = dicInfo_Filter.Keys.ToList();
+
+                        Set_Image();
                     }
-                    Select_Pic_List = dicInfo_Filter.Keys.ToList();
 
-                    Set_Image();
+                    Main.ALL_Changeed_State();
+                    waitform.Close();
                 }
-
-                Main.ALL_Changeed_State();
+                catch { }
+                
             }
 
             else if (e.KeyCode == Keys.A)
