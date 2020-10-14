@@ -60,6 +60,8 @@
             this.코드변경ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.번코드변경ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Code_200_View = new System.Windows.Forms.ToolStripMenuItem();
+            this.iMGTXTUpdateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mAPTXTUpdateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.업데이트ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -96,9 +98,6 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.iMGTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mAPTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.iMGTXTUpdateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.mAPTXTUpdateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -387,14 +386,14 @@
             // 중간저장ToolStripMenuItem
             // 
             this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
-            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.중간저장ToolStripMenuItem.Text = "중간 저장";
             this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
             // 
             // 저장불러오기ToolStripMenuItem
             // 
             this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
-            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
             this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
             // 
@@ -404,8 +403,7 @@
             this.번코드변경ToolStripMenuItem,
             this.Code_200_View,
             this.iMGTXTUpdateToolStripMenuItem1,
-            this.mAPTXTUpdateToolStripMenuItem1,
-            this.FilterToolStripMenuItem});
+            this.mAPTXTUpdateToolStripMenuItem1});
             this.코드변경ToolStripMenuItem.Name = "코드변경ToolStripMenuItem";
             this.코드변경ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.코드변경ToolStripMenuItem.Text = "기능";
@@ -423,6 +421,20 @@
             this.Code_200_View.Size = new System.Drawing.Size(181, 22);
             this.Code_200_View.Text = "200번대 Code View";
             this.Code_200_View.Click += new System.EventHandler(this.Code_200_View_Click);
+            // 
+            // iMGTXTUpdateToolStripMenuItem1
+            // 
+            this.iMGTXTUpdateToolStripMenuItem1.Name = "iMGTXTUpdateToolStripMenuItem1";
+            this.iMGTXTUpdateToolStripMenuItem1.Size = new System.Drawing.Size(181, 22);
+            this.iMGTXTUpdateToolStripMenuItem1.Text = "IMG TXT Update";
+            this.iMGTXTUpdateToolStripMenuItem1.Click += new System.EventHandler(this.iMGTXTUpdateToolStripMenuItem1_Click);
+            // 
+            // mAPTXTUpdateToolStripMenuItem1
+            // 
+            this.mAPTXTUpdateToolStripMenuItem1.Name = "mAPTXTUpdateToolStripMenuItem1";
+            this.mAPTXTUpdateToolStripMenuItem1.Size = new System.Drawing.Size(181, 22);
+            this.mAPTXTUpdateToolStripMenuItem1.Text = "MAP TXT Update";
+            this.mAPTXTUpdateToolStripMenuItem1.Click += new System.EventHandler(this.mAPTXTUpdateToolStripMenuItem1_Click);
             // 
             // 업데이트ToolStripMenuItem
             // 
@@ -840,27 +852,6 @@
             this.mAPTXTUpdateToolStripMenuItem.Name = "mAPTXTUpdateToolStripMenuItem";
             this.mAPTXTUpdateToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
             // 
-            // FilterToolStripMenuItem
-            // 
-            this.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem";
-            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.FilterToolStripMenuItem.Text = "좌표 Filter";
-            this.FilterToolStripMenuItem.Click += new System.EventHandler(this.FilterToolStripMenuItem_Click);
-            // 
-            // iMGTXTUpdateToolStripMenuItem1
-            // 
-            this.iMGTXTUpdateToolStripMenuItem1.Name = "iMGTXTUpdateToolStripMenuItem1";
-            this.iMGTXTUpdateToolStripMenuItem1.Size = new System.Drawing.Size(181, 22);
-            this.iMGTXTUpdateToolStripMenuItem1.Text = "IMG TXT Update";
-            this.iMGTXTUpdateToolStripMenuItem1.Click += new System.EventHandler(this.iMGTXTUpdateToolStripMenuItem1_Click);
-            // 
-            // mAPTXTUpdateToolStripMenuItem1
-            // 
-            this.mAPTXTUpdateToolStripMenuItem1.Name = "mAPTXTUpdateToolStripMenuItem1";
-            this.mAPTXTUpdateToolStripMenuItem1.Size = new System.Drawing.Size(181, 22);
-            this.mAPTXTUpdateToolStripMenuItem1.Text = "MAP TXT Update";
-            this.mAPTXTUpdateToolStripMenuItem1.Click += new System.EventHandler(this.mAPTXTUpdateToolStripMenuItem1_Click);
-            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -971,7 +962,6 @@
         private System.Windows.Forms.ToolStripMenuItem Code_200_View;
         private System.Windows.Forms.ToolStripMenuItem iMGTXTUpdateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mAPTXTUpdateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem FilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iMGTXTUpdateToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem mAPTXTUpdateToolStripMenuItem1;
     }
