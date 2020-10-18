@@ -38,9 +38,9 @@ namespace ViewPort.Functions
 
     public class COLUMN_STR
     {
-        public const string GRID_IMGNAME = "Image Name";
-        public const string GRID_STATE = "state";
-        public const string GRID_SELECT = "select";
+        public const string GRID_IMGNAME = "이름";
+        public const string GRID_STATE = "상태";
+        public const string GRID_SELECT = "선택";
     }
 
     public class ZIP_STR

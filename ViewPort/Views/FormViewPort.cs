@@ -15,6 +15,7 @@ using ViewPort.Models;
 using ViewPort.Views;
 using ViewPortNetwork;
 using MetroFramework.Forms;
+using System.Reflection;
 
 namespace ViewPort
 {
@@ -39,8 +40,9 @@ namespace ViewPort
         Dictionary<string, ImageInfo> f5_code_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> sdip_200_code_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> filter_200_dic_Main = new Dictionary<string, ImageInfo>();
-
+        int setting = 0;
         string[] dic_ready = null;
+        
         string final_text_main = string.Empty;
         string viewType = null;
         int Rotate_Option = 1;
@@ -78,10 +80,12 @@ namespace ViewPort
 
         int btnColumnIdx;
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> Sorted_dic_GRID = new Dictionary<string, ImageInfo>();
         private int _load_State;
         private string dirPath;
         private string zipFilePath;
         private string ref_DirPath;
+        FormLoading formLoading_1 = new FormLoading();
 
         public Dictionary<string, ImageInfo> DicInfo
         {
@@ -91,7 +95,7 @@ namespace ViewPort
         public string ViewType { get => viewType; set => viewType = value; }
 
         public List<Tuple<string, int>> CODE_200_List { get => code_200_List; set => code_200_List = value; }
-
+        public int Setting { get => setting; set => setting = value; }
         public List<int> Exception_Frame { get => exception_Frame; set => exception_Frame = value; }
         public string Final_text_main { get => final_text_main; set => final_text_main = value; }
         public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
@@ -150,7 +154,11 @@ namespace ViewPort
             Init();
             InitialData();
 
-            
+            dataGridView1.DoubleBuffered(true);
+            dataGridView2.DoubleBuffered(true);
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView2.RowHeadersVisible = false;
+
         }
 
         public void Init()
@@ -163,16 +171,22 @@ namespace ViewPort
             dt.Columns.Add(COLUMN_STR.GRID_STATE);
             
             dt.PrimaryKey = new DataColumn[] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
-            
+
+
             dataGridView1.DataSource = dt;
 
             
-
             DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
             btnColumn.HeaderText = COLUMN_STR.GRID_SELECT;
             btnColumn.Name = "buttonColumn";
             btnColumnIdx = dataGridView1.Columns.Add(btnColumn);
+
+            dataGridView1.Columns[0].Width = 230;
+            dataGridView1.Columns[1].Width = 55;
+            dataGridView1.Columns[2].Width = 55;
+
             
+
 
             DataTable dt_del = new DataTable();
             dt_del.Columns.Add(COLUMN_STR.GRID_IMGNAME);
@@ -228,10 +242,22 @@ namespace ViewPort
             DataTable dt = (DataTable)dataGridView1.DataSource;
             
             dt.Rows.Clear();
-            dataGridView1.RowHeadersWidth = 30;
+            
            
                 foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
                     dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+        }
+
+        public void First_Print_List()
+        {
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            dt.Rows.Clear();
+           
+
+            foreach (KeyValuePair<string, ImageInfo> kvp in DicInfo)
+                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
 
         }
         public void Frame_Print_List()
@@ -239,7 +265,6 @@ namespace ViewPort
             DataTable dt = (DataTable)dataGridView1.DataSource;
 
             dt.Rows.Clear();
-            dataGridView1.RowHeadersWidth = 30;
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.Frame_dicInfo_Filter)
                 dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
@@ -254,7 +279,7 @@ namespace ViewPort
             DataTable dt = (DataTable)dataGridView1.DataSource;
 
             dt.Rows.Clear();
-            dataGridView1.RowHeadersWidth = 30;
+           
 
             foreach (KeyValuePair<string, ImageInfo> kvp in eq_CB_dicInfo)
                 dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
@@ -265,7 +290,7 @@ namespace ViewPort
             DataTable dt = (DataTable)dataGridView1.DataSource;
 
             Return_dicInfo = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
-            dataGridView1.RowHeadersWidth = 30;
+            
 
             for(int i = 0; i < selected_Pic.Count; i++)
             {
@@ -301,7 +326,7 @@ namespace ViewPort
 
             DataTable dt_del = (DataTable)dataGridView2.DataSource;
             //dt_del.Rows.Clear();
-            dataGridView2.RowHeadersWidth = 30;
+            
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
             {
@@ -325,6 +350,7 @@ namespace ViewPort
                     dicInfo[kvp.Key].sdip_result = kvp.Value.SDIP_Result;
                     dicInfo[kvp.Key].X_Location = kvp.Value.X_Location;
                     dicInfo[kvp.Key].Y_Location = kvp.Value.Y_Location;
+                    dicInfo[kvp.Key].Master_NO = kvp.Value.Master_No;
 
                     if (dicInfo[kvp.Key].sdip_no == "1")
                     {
@@ -354,14 +380,14 @@ namespace ViewPort
                 //dt_del.AcceptChanges();
                 
             }
-            
 
 
+            Selected_Pic.Clear();
         }
         public void Dl_PrintList()
         {
             int index = 0;
-
+            
             Selected_Pic = open.Select_Pic_List;
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
@@ -390,6 +416,30 @@ namespace ViewPort
             }
             else
                 Select_All_BTN_Click(null, null);
+
+            Selected_Pic.Clear();
+        }
+
+        public void Set_Dl_PrintList()
+        {
+            int index = 0;
+
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+           
+
+            for (int i = 0; i < Selected_Pic.Count; i++)
+            {
+                DataRow dr = dt.NewRow();
+                dr = dt.Rows.Find(DicInfo_Copy[Selected_Pic[i]].Imagename);
+                index = dt.Rows.IndexOf(dr);
+                dt.Rows[index].Delete();
+
+                //dt.AcceptChanges();
+            }
+
+
+            Selected_Pic.Clear();
         }
 
         public void Load_After_Dl_PrintList()
@@ -512,7 +562,7 @@ namespace ViewPort
            
            
             //dt.Rows.Clear();
-            dataGridView1.RowHeadersWidth = 30;
+           
             if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -567,8 +617,15 @@ namespace ViewPort
             {
                 waitform.Show(this);
                 Eq_CB_dicInfo.Clear();
+                Camera_NO_Filter_TB.Text = "";
                 Initial_Equipment_DF_FilterList();
 
+                if (Frame_View_CB.Checked)
+                {
+                    Frame_View_CB.Checked = false;
+                    Frame_S_Page_TB.Text = "";
+                    Frame_E_Page_TB.Text = "";
+                }
                 //eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
 
                 if (Waiting_Del.Count > 0)
@@ -585,12 +642,8 @@ namespace ViewPort
                 open.Main = this;
                 open.Eq_CB_Set_View();
 
-                if (Frame_View_CB.Checked)
-                {
-                    Frame_View_CB.Checked = false;
-                    Frame_S_Page_TB.Text = " ";
-                    Frame_E_Page_TB.Text = " ";
-                }
+               
+               
                 waitform.Close();
             }
             catch { }
@@ -698,19 +751,12 @@ namespace ViewPort
                     Dl_NotApply_List_Main = formLoading.Dl_NOt_Apply_List;
                     ImageSizeList = formLoading.ImageSizeList;
 
-
+                    Sdip_NO1_dicInfo = formLoading.Sdip_no1_dicload;
 
                     dataGridView1.DataSource = formLoading.Dt;
 
 
-
-                    dataGridView1.Columns[0].Width = 50;
-                    dataGridView1.Columns[1].Width = 150;
-                    dataGridView1.Columns[2].Width = 50;
-
-
-                    dataGridView1.RowHeadersWidth = 30;
-
+                    
 
 
                     formLoading.Dispose();
@@ -731,71 +777,14 @@ namespace ViewPort
             int index = 0;
             if (ZipFilePath != null)
             {
-                Img_txt_Info_Combine();
+                //Img_txt_Info_Combine();
                                 
                 dicInfo_Copy = new Dictionary<string, ImageInfo>(DicInfo);
 
                 if (Manual_Mode_RB.Checked)
                 {
                     //MAP 정보에서 제외될 프레임 적용
-                    //for (int i = 0; i < MAP_LIST.Count; i++)
-                    //{
-                    //    foreach (string key in DicInfo.Keys.ToList())
-                    //    {
-                    //        if (dicInfo[key].FrameNo == MAP_LIST[i])
-                    //        {
-                    //        }
-                    //        else
-                    //        {
-                    //            if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName)) == -1)
-                    //                continue;
-                    //            else
-                    //            {
-                    //                index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName));
-                    //                x = All_Equipment_DF_List[index].Item2;
-                    //                All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[key].EquipmentDefectName, --x);
-
-                    //                if (x == 0)
-                    //                {
-                    //                    All_Equipment_DF_List.RemoveAt(index);
-
-                    //                }
-
-                    //            }
-
-                    //            dicInfo.Remove(key);
-                    //        }
-
-                    //    }
-                    //}
-                    //foreach (string key in DicInfo.Keys.ToList())
-                    //{
-                    //   if(MAP_LIST.Contains(dicInfo[key].FrameNo))
-                    //    {
-
-                    //    }
-                    //   else
-                    //   {
-                    //        if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName)) == -1)
-                    //            continue;
-                    //        else
-                    //        {
-                    //            index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[key].EquipmentDefectName));
-                    //            x = All_Equipment_DF_List[index].Item2;
-                    //            All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[key].EquipmentDefectName, --x);
-
-                    //            if (x == 0)
-                    //            {
-                    //                All_Equipment_DF_List.RemoveAt(index);
-
-                    //            }
-
-                    //        }
-
-                    //        dicInfo.Remove(key);
-                    //   }
-
-                    //}
+                    
 
                     //SDIP 코드 211~230 제외
                     foreach (string pair in dicInfo.Keys.ToList())
@@ -824,6 +813,7 @@ namespace ViewPort
 
                             }
                             Sdip_200_code_dicInfo.Add(pair, DicInfo[pair]);
+                            Selected_Pic.Add(pair);
                             dicInfo.Remove(pair);
                         }
 
@@ -849,7 +839,11 @@ namespace ViewPort
                     }
 
                 }
+                Sorted_dic_GRID = DicInfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                DicInfo = Sorted_dic_GRID;
 
+                Set_Dl_PrintList();
+                //First_Print_List();
 
                 All_LotID_List.Sort();
                 Initial_Equipment_DF_List();
@@ -873,6 +867,8 @@ namespace ViewPort
 
                 open.Main = this;
                 open.Set_View();
+                Setting = 1;
+                open.Setting = Setting;
             }
             
         }
@@ -1072,6 +1068,10 @@ namespace ViewPort
                             open.Filter_CB_after_Set_View();
                             break;
 
+                        case "Code_200_SetView":
+                            open.Code_200_Set_View();
+                            break;
+
                     }
 
                 }
@@ -1143,7 +1143,7 @@ namespace ViewPort
             deleteWaiting.Waiting_Img = Waiting_Del;
             deleteWaiting.ZipFilePath = zipFilePath;
             deleteWaiting.Set_View_Del();
-            deleteWaiting.Show();
+            deleteWaiting.ShowDialog();
             
            
         }
@@ -1153,7 +1153,7 @@ namespace ViewPort
             
             if(e.ColumnIndex == 0)
             {
-                string id = dataGridView1.Rows[e.RowIndex].Cells["Image Name"].Value.ToString().Substring(0,12);
+                string id = dataGridView1.Rows[e.RowIndex].Cells["이름"].Value.ToString().Substring(0,12);
 
                 open.SelectGrid_Img_View(id);
 
@@ -1241,7 +1241,8 @@ namespace ViewPort
             open.Load_Del( );
             Dl_PrintList();
             Wait_Del_Print_List();
-            List_Count_TB.Text = open.DicInfo_Filtered.Count.ToString();
+            List_Count_TB.Text = String.Format("{0:#,##0}", open.DicInfo_Filtered.Count);
+             
         }
 
         private void Fixed_CB_CheckedChanged(object sender, EventArgs e)
@@ -1340,19 +1341,20 @@ namespace ViewPort
         private void 번코드변경ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Change_Code change = new Change_Code(open);
-            change.Show();
+            change.ShowDialog();
         }
 
         private void Camera_NO_Filter_TB_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                int isInt;
+                string[] Split_String = null;
+                Split_String = Camera_NO_Filter_TB.Text.Split(',');
+                
 
-                if (int.TryParse(Camera_NO_Filter_TB.Text, out isInt))
+                if (int.Parse(Split_String[0]) > 0)
                 {
                     
-
                     switch (ViewType)
                     {
                         case "SetView":
@@ -1436,7 +1438,6 @@ namespace ViewPort
 
             if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
             {
-
                 open.Frame_Set_Image();
             }
             else if(ViewType == "SetView")
@@ -1479,35 +1480,10 @@ namespace ViewPort
             ImageSize_Filter();
         }
 
-        private void 업데이트ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string path = Util.OpenFolderDlg();
-
-            if (!string.IsNullOrEmpty(path)) //예외처리
-            {
-                string Version = string.Empty;
-
-                if (NetworkFunc.SaveFilesToStemcoNas(path, out Version))
-                {
-                    string LastVersion = NetworkFunc.GetLastViewPortVersion(MYSQL_STR.CONNECTION_STEMCO);
-
-                    if (LastVersion != Version) // 지난버전 번호랑 다르면..! 여기서 작거나 높은 처리 추가하면 좋을듯함
-                    {
-                        if (NetworkFunc.SaveVersionToStemcoDB(Version, "상세설명 추가", "1"))
-                        {
-                            MessageBox.Show("성공");
-                        }
-                    }
-                }                
-            }
-        }
-
-   
-
         private void Code_200_View_Click(object sender, EventArgs e)
         {
             Code200View code200 = new Code200View(this);
-            code200.Show();
+            code200.ShowDialog();
         }
 
         private void EQ_Search_TB_KeyDown(object sender, KeyEventArgs e)
@@ -1521,7 +1497,7 @@ namespace ViewPort
         private void FilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             XYLocationFilter XYFilter = new XYLocationFilter(open);
-            XYFilter.Show();
+            XYFilter.ShowDialog();
         }
 
         private void iMGTXTUpdateToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1575,8 +1551,73 @@ namespace ViewPort
 
         }
 
+        private void Update_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string path = Util.OpenFolderDlg();
+
+            if (!string.IsNullOrEmpty(path)) //예외처리
+            {
+                string Version = string.Empty;
+
+                if (NetworkFunc.SaveFilesToStemcoNas(path, out Version))
+                {
+                    string LastVersion = NetworkFunc.GetLastViewPortVersion(MYSQL_STR.CONNECTION_STEMCO);
+
+                    if (LastVersion != Version) // 지난버전 번호랑 다르면..! 여기서 작거나 높은 처리 추가하면 좋을듯함
+                    {
+                        if (NetworkFunc.SaveVersionToStemcoDB(Version, "상세설명 추가", "1"))
+                        {
+                            MessageBox.Show("성공");
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void xyFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            XYLocationFilter XYFilter = new XYLocationFilter(open);
+            XYFilter.ShowDialog();
+        }
+
+        private void S_Page_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                open.Page_Filter(int.Parse(S_Page_TB.Text));
+            }
+        }
+
+        private void Print_Image_EQ_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (Frame_View_CB.Checked)
+                open.Frame_Cheked_State_DF();
+            else
+                open.Cheked_State_DF();
+        }
     }
 
 
 }
- 
+
+public static class ExtensionMethods
+
+{
+
+    public static void DoubleBuffered(this DataGridView dgv, bool setting)
+
+    {
+
+        Type dgvType = dgv.GetType();
+
+        PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",
+
+            BindingFlags.Instance | BindingFlags.NonPublic);
+
+        pi.SetValue(dgv, setting, null);
+
+    }
+
+}

@@ -45,9 +45,10 @@ namespace ViewPort.Views
         private void button1_Click(object sender, EventArgs e)
         {
             if(MessageBox.Show(" SDIP 코드를 " + Code_Change_TB.Text+"로 변경하시겠습니까?", "코드 변경",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
                 Change_Sdip();
-
-
+                this.Close();
+            }
         }
     }
 }

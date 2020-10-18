@@ -35,7 +35,7 @@ namespace ViewPort.Functions
                     for (int i = 0; i < items.Length - 2; i++)
                     {
                         string[] dic_ready = items[i + 1].Split(',');
-                        dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품","0","0"));
+                        dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품","0","0","0"));
 
                     }
                 }

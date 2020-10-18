@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ViewPort.Models;
+using ViewPort.Functions;
 using System.IO.Compression;
 using System.IO;
 using MetroFramework.Forms;
@@ -21,6 +22,7 @@ namespace ViewPort.Views
         FormViewPort Main;
             
         ImageViewer open = new ImageViewer();
+        LoadingGIF_Func waitform = new LoadingGIF_Func();
 
         List<PictureBox> PictureData = new List<PictureBox>();
         List<PictureBox> Picture_Glass = new List<PictureBox>();
@@ -551,22 +553,31 @@ namespace ViewPort.Views
 
         private void Delete_Img_In_ZIp_Click(object sender, EventArgs e)
         {
-            Waiting_Del_DLView = Main.Waiting_Del;
-            if (Waiting_Del_DLView.Count > 0)
+            try
             {
-                if (MessageBox.Show("" + Waiting_Del_DLView.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    Main.Delete_ZipImg();
-                    Dispose(true);
-                }
-                else
-                {
-                    
-                    return;
-                }
+                waitform.Show();
 
+                Waiting_Del_DLView = Main.Waiting_Del;
+                if (Waiting_Del_DLView.Count > 0)
+                {
+                    if (MessageBox.Show("" + Waiting_Del_DLView.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        Main.Delete_ZipImg();
+                        Dispose(true);
+                    }
+                    else
+                    {
+
+                        return;
+                    }
+
+
+                }
+                waitform.Close();
 
             }
+            catch { }
+           
         }
 
         private void PictureBox_Click(object sender, EventArgs e)

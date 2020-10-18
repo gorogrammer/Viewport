@@ -35,7 +35,7 @@ namespace ViewPort.Views
         Dictionary<string, ImageInfo> expand_ImgInfo = new Dictionary<string, ImageInfo>();
 
         Dictionary<string, ImageInfo> Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>();
-
+        int setting = 0;
         List<int> apply_List_opne = new List<int>();
         List<int> Notapply_List_opne = new List<int>();
 
@@ -49,7 +49,7 @@ namespace ViewPort.Views
         List<string> Print_Frame = new List<string>();
         List<int> Selected_Picture_Index = new List<int>();
         PictureBox Draged_PB;
-        Label[] DefectState, ImageNameLB;
+        Label[] DefectState, ImageNameLB, ImageNameEQ;
         int Current_PageNum, Total_PageNum;
         int Current_Frame_PageNum, Total_Frame_PageNum;
         int Last_Picture_Selected_Index;       
@@ -87,6 +87,8 @@ namespace ViewPort.Views
         }
 
         public List<int> Frame_List_Img { get => frame_List_Img; set => frame_List_Img = value; }
+
+        public int Setting { get => setting; set => setting = value; }
         public string OpenViewType { get => openViewType; set => openViewType = value; }
         public Dictionary<string, ImageInfo> Frame_dicInfo_Filter { get => frame_dicInfo_Filter; set => frame_dicInfo_Filter = value; }
 
@@ -120,7 +122,7 @@ namespace ViewPort.Views
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) - 1;
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
 
-                    Set_PictureBox();
+                   
 
                     if (Main.Frame_View_CB.Checked)
                         Frame_Set_Image();
@@ -145,7 +147,7 @@ namespace ViewPort.Views
                     Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
 
-                    Set_PictureBox();
+                    //Set_PictureBox();
 
                     if (Main.Frame_View_CB.Checked)
                         Frame_Set_Image();
@@ -184,7 +186,7 @@ namespace ViewPort.Views
                         DL_Frame_Set_View();
 
 
-                        Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
                         Main.Wait_Del_Print_List();
 
                     }
@@ -213,7 +215,7 @@ namespace ViewPort.Views
 
 
                         Main.Wait_Del_Print_List();
-                        Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
 
 
                     }
@@ -250,7 +252,7 @@ namespace ViewPort.Views
                         Last_Picture_Selected_Index = -1;
                         Current_Frame_PageNum = int.Parse(Main.Frame_S_Page_TB.Text) - 1;
                         Main.Frame_S_Page_TB.Text = Current_Frame_PageNum.ToString();
-                        Set_PictureBox();
+                       
                         Frame_Set_Image();
 
 
@@ -260,7 +262,7 @@ namespace ViewPort.Views
                 }
                 else
                     MessageBox.Show("Frame 별 체크 후에 사용 부탁드립니다.");
-                Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
+                Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
             }
 
             else if (e.KeyCode == Keys.X)
@@ -279,13 +281,13 @@ namespace ViewPort.Views
                         Last_Picture_Selected_Index = -1;
                         Current_Frame_PageNum = int.Parse(Main.Frame_S_Page_TB.Text) + 1;
                         Main.Frame_S_Page_TB.Text = Current_Frame_PageNum.ToString();
-                        Set_PictureBox();
+                       
                         Frame_Set_Image();
 
 
 
                     }
-                    Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
+                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
                 }
                 else
                     MessageBox.Show("Frame 별 체크 후에 사용 부탁드립니다.");
@@ -308,19 +310,7 @@ namespace ViewPort.Views
                     waitform.Show();
                     Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
                     DicInfo_Filtered = Main.Sdip_NO1_dicInfo;
-                    //foreach(string NO_1 in dicInfo_Filter.Keys.ToList())
-                    //{
-                    //    if (dicInfo_Filter[NO_1].sdip_no == "1")
-                    //        continue;
-                    //    else
-                    //    {
-                    //        dicInfo_Filter.Remove(NO_1);
-
-                    //        Select_Pic_List.Add(NO_1);
-                    //    }
-
-
-                    //}
+              
 
                     Filter_NO_1 = 1;
                     Set_View();
@@ -389,9 +379,9 @@ namespace ViewPort.Views
 
                     for (int p = 0; p < Selected_Picture_Index.Count; p++)
                     {
-                        frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "선택";
-                        Select_Pic_List.Add(frame_dicInfo_Filter.ElementAt(p).Key);
-                        Change_state_List.Add(frame_dicInfo_Filter.ElementAt(p).Key);
+                        frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName = "선택";
+                        Select_Pic_List.Add(frame_dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
+                        Change_state_List.Add(frame_dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
                     }
                     Frame_Set_View();
                 }
@@ -406,9 +396,9 @@ namespace ViewPort.Views
 
                     for (int p = 0; p < Selected_Picture_Index.Count; p++)
                     {
-                        dicInfo_Filter[dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "선택";
-                        Select_Pic_List.Add(dicInfo_Filter.ElementAt(p).Key);
-                        Change_state_List.Add(dicInfo_Filter.ElementAt(p).Key);
+                        dicInfo_Filter[dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName = "선택";
+                        Select_Pic_List.Add(dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
+                        Change_state_List.Add(dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
                     }
 
                     Set_Image();
@@ -443,7 +433,7 @@ namespace ViewPort.Views
                 Selected_Picture_Index.Clear();
 
 
-
+                
                 if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
                 {
                     for (int i = 0; i < (cols * rows); i++)
@@ -455,9 +445,9 @@ namespace ViewPort.Views
 
                     for (int p = 0; p < Selected_Picture_Index.Count; p++)
                     {
-                        frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "양품";
+                        frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName = "양품";
 
-                        Change_state_List.Add(frame_dicInfo_Filter.ElementAt(p).Key);
+                        Change_state_List.Add(frame_dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
                     }
                     Frame_Set_View();
                 }
@@ -472,9 +462,9 @@ namespace ViewPort.Views
 
                     for (int p = 0; p < Selected_Picture_Index.Count; p++)
                     {
-                        dicInfo_Filter[dicInfo_Filter.ElementAt(p).Key].ReviewDefectName = "양품";
+                        dicInfo_Filter[dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName = "양품";
 
-                        Change_state_List.Add(dicInfo_Filter.ElementAt(p).Key);
+                        Change_state_List.Add(dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
                     }
 
                     Set_Image();
@@ -497,7 +487,7 @@ namespace ViewPort.Views
                     Filter_F9 = 1;
                     Set_View();
                     Main.Print_List();
-                    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count); 
                     
                 }
                 else
@@ -519,7 +509,7 @@ namespace ViewPort.Views
                     Filter_F10 = 1;
                     Set_View();
                     Main.Print_List();
-                    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
 
                 }
                 else
@@ -538,7 +528,7 @@ namespace ViewPort.Views
                 expand.Set_Expand_Img(expand_img);
 
 
-                expand.Show();
+                expand.ShowDialog();
 
             }
 
@@ -560,7 +550,8 @@ namespace ViewPort.Views
                 }
 
                 xyFilter.Set_XY_TB();
-                xyFilter.Show();
+                xyFilter.ShowDialog();
+                
             }
 
             else if (e.KeyCode == Keys.F5)
@@ -573,7 +564,7 @@ namespace ViewPort.Views
                     Filter_F5 = 1;
                     Set_View();
                     Main.Print_List();
-                    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
 
                 }
                 else
@@ -600,7 +591,7 @@ namespace ViewPort.Views
                     DL_Frame_Set_View();
 
 
-                    Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
+                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
 
                     Eq_cb_need_del = new List<string>(Select_Pic);
                 }
@@ -620,7 +611,7 @@ namespace ViewPort.Views
 
 
 
-                    Main.List_Count_TB.Text = dicInfo_Filter.Count.ToString();
+                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
 
                     Eq_cb_need_del = new List<string>(Select_Pic);
                 }
@@ -670,12 +661,16 @@ namespace ViewPort.Views
             {
                 Frame_dicInfo_Filter = dic;
                 Frame_Set_View();
+                Main.Frame_Print_List();
             }
             else
             {
                 DicInfo_Filtered = dic;
                 Set_View();
+                Main.Print_List();
             }
+
+            
         }
         public void Get_Delete_IMG()
         {
@@ -711,6 +706,7 @@ namespace ViewPort.Views
 
         private void ImageViewer_PL_MouseDown(object sender, MouseEventArgs e)
         {
+            //Main.SetFocus();
             src_Mouse_XY.X = e.X;
             src_Mouse_XY.Y = e.Y;
 
@@ -752,19 +748,24 @@ namespace ViewPort.Views
 
             DicInfo_Filtered = Sorted_dic;
 
-            if (Main.Camera_NO_Filter_TB.Text != "" && int.Parse(Main.Camera_NO_Filter_TB.Text) > 0)
+            if (Main.Camera_NO_Filter_TB.Text != "")
             {
+                string[] Split_String = null;
+                Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
+                bool Target = false;
+                
                 foreach (string No in DicInfo_Filtered.Keys.ToList())
                 {
-                    if (DicInfo_Filtered[No].CameraNo == int.Parse(Main.Camera_NO_Filter_TB.Text))
+                    if(DicInfo_Filtered.ContainsKey(No))
                     {
-                        continue;
+                        if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
+                        {
+                            continue;
+                        }
+                        else
+                            DicInfo_Filtered.Remove(No);
                     }
-                    else
-                    {
-                        DicInfo_Filtered.Remove(No);
-                    }
-
+                   
                 }
                 
             }
@@ -809,7 +810,9 @@ namespace ViewPort.Views
 
             Last_Picture_Selected_Index = -1;
 
-            Main.List_Count_TB.Text = DicInfo_Filtered.Count.ToString();
+            Main.List_Count_TB.Text = String.Format("{0:#,##0}", DicInfo_Filtered.Count);
+
+            
             //Main.Print_List();
             this.Focus();
             //Filter_NO_Set();
@@ -830,17 +833,22 @@ namespace ViewPort.Views
 
             DicInfo_Filtered = Sorted_dic;
 
-            if (Main.Camera_NO_Filter_TB.Text != "" && int.Parse(Main.Camera_NO_Filter_TB.Text) > 0)
+            if (Main.Camera_NO_Filter_TB.Text != "")
             {
+                string[] Split_String = null;
+                Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
+                bool Target = false;
+
                 foreach (string No in DicInfo_Filtered.Keys.ToList())
                 {
-                    if (DicInfo_Filtered[No].CameraNo == int.Parse(Main.Camera_NO_Filter_TB.Text))
+                    if (DicInfo_Filtered.ContainsKey(No))
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        DicInfo_Filtered.Remove(No);
+                        if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
+                        {
+                            continue;
+                        }
+                        else
+                            DicInfo_Filtered.Remove(No);
                     }
 
                 }
@@ -887,7 +895,7 @@ namespace ViewPort.Views
 
             Last_Picture_Selected_Index = -1;
 
-            Main.List_Count_TB.Text = DicInfo_Filtered.Count.ToString();
+            Main.List_Count_TB.Text = String.Format("{0:#,##0}", DicInfo_Filtered.Count); ;
             Main.Print_List();
             this.Focus();
             Filter_NO_Set();
@@ -939,29 +947,30 @@ namespace ViewPort.Views
 
                 DicInfo_Filtered = Sorted_dic;
             }
-                
 
-           
 
-            if (Main.Camera_NO_Filter_TB.Text != "" && int.Parse(Main.Camera_NO_Filter_TB.Text) > 0)
+
+
+            if (Main.Camera_NO_Filter_TB.Text != "")
             {
+                string[] Split_String = null;
+                Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
+                bool Target = false;
+
                 foreach (string No in DicInfo_Filtered.Keys.ToList())
                 {
-                    if (DicInfo_Filtered[No].CameraNo == int.Parse(Main.Camera_NO_Filter_TB.Text))
+                    if (DicInfo_Filtered.ContainsKey(No))
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        if(Frame_List_Img.Contains(DicInfo_Filtered[No].FrameNo))
+                        if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
                         {
-                            Frame_List_Img.Remove(DicInfo_Filtered[No].FrameNo);
+                            continue;
                         }
-                        DicInfo_Filtered.Remove(No);
-                        
+                        else
+                            DicInfo_Filtered.Remove(No);
                     }
 
                 }
+
             }
 
             cols = int.Parse(Main.Cols_TB.Text);
@@ -1008,20 +1017,26 @@ namespace ViewPort.Views
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
             DicInfo_Filtered = Sorted_dic;
 
-            if (Main.Camera_NO_Filter_TB.Text != "" && int.Parse(Main.Camera_NO_Filter_TB.Text) > 0)
+            if (Main.Camera_NO_Filter_TB.Text != "")
             {
+                string[] Split_String = null;
+                Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
+               
+
                 foreach (string No in DicInfo_Filtered.Keys.ToList())
                 {
-                    if (DicInfo_Filtered[No].CameraNo == int.Parse(Main.Camera_NO_Filter_TB.Text))
+                    if (DicInfo_Filtered.ContainsKey(No))
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        DicInfo_Filtered.Remove(No);
+                        if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
+                        {
+                            continue;
+                        }
+                        else
+                            DicInfo_Filtered.Remove(No);
                     }
 
                 }
+
             }
 
             cols = int.Parse(Main.Cols_TB.Text);
@@ -1076,20 +1091,26 @@ namespace ViewPort.Views
                 DicInfo_Filtered.Remove(Eq_cb_need_del[i]);
             }
 
-            if (Main.Camera_NO_Filter_TB.Text != "" && int.Parse(Main.Camera_NO_Filter_TB.Text) > 0)
+            if (Main.Camera_NO_Filter_TB.Text != "")
             {
+                string[] Split_String = null;
+                Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
+                bool Target = false;
+
                 foreach (string No in DicInfo_Filtered.Keys.ToList())
                 {
-                    if (DicInfo_Filtered[No].CameraNo == int.Parse(Main.Camera_NO_Filter_TB.Text))
+                    if (DicInfo_Filtered.ContainsKey(No))
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        DicInfo_Filtered.Remove(No);
+                        if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
+                        {
+                            continue;
+                        }
+                        else
+                            DicInfo_Filtered.Remove(No);
                     }
 
                 }
+
             }
 
             cols = int.Parse(Main.Cols_TB.Text);
@@ -1108,7 +1129,7 @@ namespace ViewPort.Views
             Set_Image();
             Last_Picture_Selected_Index = -1;
 
-            Main.List_Count_TB.Text = DicInfo_Filtered.Count.ToString();
+            Main.List_Count_TB.Text = String.Format("{0:#,##0}", DicInfo_Filtered.Count);
             this.Focus();
         }
 
@@ -1127,20 +1148,26 @@ namespace ViewPort.Views
             DicInfo_Filtered = Sorted_dic;
             Eq_cb_need_del = Main.selected_Pic;
 
-            if (Main.Camera_NO_Filter_TB.Text != "" && int.Parse(Main.Camera_NO_Filter_TB.Text) > 0)
+            if (Main.Camera_NO_Filter_TB.Text != "")
             {
+                string[] Split_String = null;
+                Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
+                bool Target = false;
+
                 foreach (string No in DicInfo_Filtered.Keys.ToList())
                 {
-                    if (DicInfo_Filtered[No].CameraNo == int.Parse(Main.Camera_NO_Filter_TB.Text))
+                    if (DicInfo_Filtered.ContainsKey(No))
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        DicInfo_Filtered.Remove(No);
+                        if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
+                        {
+                            continue;
+                        }
+                        else
+                            DicInfo_Filtered.Remove(No);
                     }
 
                 }
+
             }
             cols = int.Parse(Main.Cols_TB.Text);
             rows = int.Parse(Main.Rows_TB.Text);
@@ -1173,20 +1200,26 @@ namespace ViewPort.Views
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
             DicInfo_Filtered = Sorted_dic;
 
-            if (Main.Camera_NO_Filter_TB.Text != "" && int.Parse(Main.Camera_NO_Filter_TB.Text) > 0)
+            if (Main.Camera_NO_Filter_TB.Text != "")
             {
+                string[] Split_String = null;
+                Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
+                bool Target = false;
+
                 foreach (string No in DicInfo_Filtered.Keys.ToList())
                 {
-                    if (DicInfo_Filtered[No].CameraNo == int.Parse(Main.Camera_NO_Filter_TB.Text))
+                    if (DicInfo_Filtered.ContainsKey(No))
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        DicInfo_Filtered.Remove(No);
+                        if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
+                        {
+                            continue;
+                        }
+                        else
+                            DicInfo_Filtered.Remove(No);
                     }
 
                 }
+
             }
 
             cols = int.Parse(Main.Cols_TB.Text);
@@ -1215,55 +1248,60 @@ namespace ViewPort.Views
 
         private void ImageViewer_PL_MouseUp(object sender, MouseEventArgs e)
         {
-            int tmp_XY;
-
-            dst_Mouse_XY.X = e.X;
-            dst_Mouse_XY.Y = e.Y;
-
-            if (Draged_PB != null)
+            if(Setting ==1)
             {
-                dst_Mouse_XY.X += Draged_PB.Location.X;
-                dst_Mouse_XY.Y += Draged_PB.Location.Y;
+                Main.SetFocus();
+                int tmp_XY;
+
+                dst_Mouse_XY.X = e.X;
+                dst_Mouse_XY.Y = e.Y;
+
+                if (Draged_PB != null)
+                {
+                    dst_Mouse_XY.X += Draged_PB.Location.X;
+                    dst_Mouse_XY.Y += Draged_PB.Location.Y;
+                }
+
+                if (src_Mouse_XY.X > dst_Mouse_XY.X)
+                {
+                    tmp_XY = src_Mouse_XY.X;
+                    src_Mouse_XY.X = dst_Mouse_XY.X;
+                    dst_Mouse_XY.X = tmp_XY;
+                }
+                if (src_Mouse_XY.Y > dst_Mouse_XY.Y)
+                {
+                    tmp_XY = src_Mouse_XY.Y;
+                    src_Mouse_XY.Y = dst_Mouse_XY.Y;
+                    dst_Mouse_XY.Y = tmp_XY;
+                }
+
+                if (Main.Frame_View_CB.Checked)
+                    Frame_Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
+                else
+                    Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
+
+
+
+
+
+
+                if (Main.Frame_View_CB.Checked)
+                    Frame_change_Glass();
+                else
+                    change_Glass();
+
+                if (Change_state_List.Count > 0)
+                    Main.Changeed_State();
+
+                //src_Mouse_XY.X = -1;
+                //src_Mouse_XY.Y = -1;
+                //dst_Mouse_XY.X = -1;
+                //dst_Mouse_XY.Y = -1;
+
+                src_Mouse_XY = Point.Empty;
+                dst_Mouse_XY = Point.Empty;
             }
-
-            if (src_Mouse_XY.X > dst_Mouse_XY.X)
-            {
-                tmp_XY = src_Mouse_XY.X;
-                src_Mouse_XY.X = dst_Mouse_XY.X;
-                dst_Mouse_XY.X = tmp_XY;
-            }
-            if (src_Mouse_XY.Y > dst_Mouse_XY.Y)
-            {
-                tmp_XY = src_Mouse_XY.Y;
-                src_Mouse_XY.Y = dst_Mouse_XY.Y;
-                dst_Mouse_XY.Y = tmp_XY;
-            }
-
-            if(Main.Frame_View_CB.Checked)
-                Frame_Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
-            else
-                Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
-
-
-
-
-
-
-            if (Main.Frame_View_CB.Checked)
-                Frame_change_Glass();
-            else
-                change_Glass();
-
-            if (Change_state_List.Count > 0)
-                Main.Changeed_State();
-
-            //src_Mouse_XY.X = -1;
-            //src_Mouse_XY.Y = -1;
-            //dst_Mouse_XY.X = -1;
-            //dst_Mouse_XY.Y = -1;
-
-            src_Mouse_XY = Point.Empty;
-            dst_Mouse_XY = Point.Empty;
+            
         }
         private void Find_Contain_PB(Point Src, Point Dst)
         {
@@ -1331,8 +1369,9 @@ namespace ViewPort.Views
             Rectangle PB_Area, Drag_Area;
             
             int index = ((Current_PageNum - 1) * (cols * rows));
-           
 
+            expand_ImgInfo.Clear();
+            expand_img = null;
             if (Selected_Picture_Index.Count > 0)
                 Selected_Picture_Index.Clear();
 
@@ -1530,10 +1569,22 @@ namespace ViewPort.Views
                 ImageNameLB = null;
             }
 
+            if (ImageNameEQ != null)
+            {
+                for (int i = (ImageNameEQ.Length - 1); i >= 0; i--)
+                {
+                    Controls.Remove(ImageNameEQ[i]);
+                    ImageNameEQ[i] = null;
+                }
+                ImageNameEQ = null;
+            }
+
+
             for (int i = 0; i < (cols * rows); i++)
             {
                 temp_PB = new PictureBox();
                 temp_PB.Click += new EventHandler(PictureBox_Click);
+                temp_PB.MouseHover += PictureBox_MouseHover;
                 temp_PB.Location = new Point(ImageRangeInfo.ElementAt(i).left, ImageRangeInfo.ElementAt(i).top);
                 temp_PB.Size = new Size(ImageRangeInfo.ElementAt(i).width, ImageRangeInfo.ElementAt(i).height);
                 temp_PB.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -1548,6 +1599,7 @@ namespace ViewPort.Views
                 temp_PB.MouseDown += new MouseEventHandler(PictureBox_MouseDown);
                 temp_PB.MouseMove += new MouseEventHandler(PictureBox_MouseMove);
                 temp_PB.MouseUp += new MouseEventHandler(PictureBox_MouseUp);
+                temp_PB.MouseHover += PictureBox_MouseHover;
 
                 temp_PB.Location = new Point(0, 0);
                 temp_PB.Size = new Size(ImageRangeInfo.ElementAt(i).width, ImageRangeInfo.ElementAt(i).height);
@@ -1584,9 +1636,25 @@ namespace ViewPort.Views
                 temp_LB.ForeColor = Color.Red;
                 temp_LB.BackColor = Color.Transparent;
                 temp_LB.AutoSize = true;
-                temp_LB.Location = new Point(4, height - 30);
+                temp_LB.Location = new Point(4, height - 15);
                 temp_LB.Parent = Picture_Glass.ElementAt(i);
                 ImageNameLB[i] = temp_LB;
+            }
+            
+
+            ImageNameEQ = new Label[(cols * rows)];
+            for (int i = 0; i < (cols * rows); i++)
+            {
+
+
+                temp_LB = new Label();
+                temp_LB.Font = new Font("맑은 고딕", 9, FontStyle.Bold);
+                temp_LB.ForeColor = Color.Red;
+                temp_LB.BackColor = Color.Transparent;
+                temp_LB.AutoSize = true;
+                temp_LB.Location = new Point(4, height - 15);
+                temp_LB.Parent = Picture_Glass.ElementAt(i);
+                ImageNameEQ[i] = temp_LB;
             }
 
             for (int i = 0; i < (cols * rows); i++)
@@ -2010,7 +2078,7 @@ namespace ViewPort.Views
             }
             Frame_change_Glass();
             Main.Frame_Print_List();
-            Main.List_Count_TB.Text = frame_dicInfo_Filter.Count.ToString();
+            Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
 
         }
   
@@ -2061,23 +2129,52 @@ namespace ViewPort.Views
             {
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
                 string temp = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
-
+                int length = 0;
                 if (temp.Equals("양품") || temp.Equals("*"))
                 {
                     DefectState[i].ForeColor = Color.Yellow;
                     ImageNameLB[i].ForeColor = Color.Yellow;
                     ImageNameLB[i].BackColor = Color.Black;
+                    ImageNameEQ[i].ForeColor = Color.Yellow;
+                    ImageNameEQ[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
                     else
                         DefectState[i].Text = "";
 
-                    if (Main.Print_Image_Name.Checked)
-
+                    if (Main.Print_Image_Name.Checked && !Main.Print_Image_EQ.Checked)
+                    {
+                        ImageNameLB[i].Location = new Point(4, height - 15);
                         ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                    }
                     else
+                    {
                         ImageNameLB[i].Text = "";
+
+                    }
+
+                    if (Main.Print_Image_EQ.Checked)
+                    {
+                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameEQ[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+                    else
+                        ImageNameEQ[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked && Main.Print_Image_EQ.Checked)
+                    {
+                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                        ImageNameLB[i].Location = new Point(4, height - 30);
+                        ImageNameEQ[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+
+
+                    PictureData.ElementAt(i).Tag = Color.Yellow;
+
 
                     PictureData.ElementAt(i).Tag = Color.Yellow;
                 }
@@ -2087,6 +2184,8 @@ namespace ViewPort.Views
                     DefectState[i].ForeColor = Color.Red;
                     ImageNameLB[i].ForeColor = Color.Red;
                     ImageNameLB[i].BackColor = Color.Black;
+                    ImageNameEQ[i].ForeColor = Color.Red;
+                    ImageNameEQ[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
@@ -2094,9 +2193,34 @@ namespace ViewPort.Views
                         DefectState[i].Text = "";
 
                     if (Main.Print_Image_Name.Checked)
+                    {
+                        ImageNameLB[i].Location = new Point(4, height - 15);
                         ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                    }
                     else
+                    {
                         ImageNameLB[i].Text = "";
+
+                    }
+
+                    if (Main.Print_Image_EQ.Checked)
+                    {
+                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameEQ[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+                    else
+                        ImageNameEQ[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked && Main.Print_Image_EQ.Checked)
+                    {
+                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                        ImageNameLB[i].Location = new Point(4, height - 30);
+                        ImageNameEQ[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+
 
                     PictureData.ElementAt(i).Tag = Color.Red;
                 }
@@ -2104,11 +2228,25 @@ namespace ViewPort.Views
             if (EachPage_ImageNum < 0)
                 EachPage_ImageNum = 0;
 
+            for (int i = EachPage_ImageNum; i < cols * rows; i++)
+            {
+                Picture_Glass.ElementAt(i).Image.Dispose();
+                Picture_Glass.ElementAt(i).Image = new Bitmap(width, height);
+
+                Pen pen = new System.Drawing.Pen(System.Drawing.Color.Black, 1);
+                regSelection.Location = new Point(0, 0);
+                regSelection.Size = new Size(Picture_Glass.ElementAt(i).Image.Width - 1, Picture_Glass.ElementAt(i).Image.Height - 1);
+
+                DefectState[i].Text = "";
+                ImageNameLB[i].Text = "";
+                ImageNameEQ[i].Text = "";
+                PictureData.ElementAt(i).Tag = Color.Black;
+            }
             this.Focus();
 
         }
 
-     
+      
 
         public void Frame_change_Glass()
         {
@@ -2155,6 +2293,7 @@ namespace ViewPort.Views
 
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
+                int length = 0;
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
                 string temp = frame_dicInfo_Filter[frame_dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
 
@@ -2163,19 +2302,42 @@ namespace ViewPort.Views
                     DefectState[i].ForeColor = Color.Yellow;
                     ImageNameLB[i].ForeColor = Color.Yellow;
                     ImageNameLB[i].BackColor = Color.Black;
+                    ImageNameEQ[i].ForeColor = Color.Yellow;
+                    ImageNameEQ[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
                     else
                         DefectState[i].Text = "";
 
-                    if (Main.Print_Image_Name.Checked)
-
-                        ImageNameLB[i].Text = frame_dicInfo_Filter.Keys.ElementAt(index);
+                    if (Main.Print_Image_Name.Checked && !Main.Print_Image_EQ.Checked)
+                    {
+                        ImageNameLB[i].Location = new Point(4, height - 15);
+                        ImageNameLB[i].Text = Frame_dicInfo_Filter.Keys.ElementAt(index);
+                    }
                     else
+                    {
                         ImageNameLB[i].Text = "";
 
-                    PictureData.ElementAt(i).Tag = Color.Yellow;
+                    }
+
+                    if (Main.Print_Image_EQ.Checked)
+                    {
+                        length = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameEQ[i].Text = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+                    else
+                        ImageNameEQ[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked && Main.Print_Image_EQ.Checked)
+                    {
+                        length = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = Frame_dicInfo_Filter.Keys.ElementAt(index);
+                        ImageNameLB[i].Location = new Point(4, height - 30);
+                        ImageNameEQ[i].Text = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
                 }
                 else
                 {
@@ -2183,27 +2345,80 @@ namespace ViewPort.Views
                     DefectState[i].ForeColor = Color.Red;
                     ImageNameLB[i].ForeColor = Color.Red;
                     ImageNameLB[i].BackColor = Color.Black;
+                    ImageNameEQ[i].ForeColor = Color.Red;
+                    ImageNameEQ[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
                     else
                         DefectState[i].Text = "";
 
-                    if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = frame_dicInfo_Filter.Keys.ElementAt(index);
+                    if (Main.Print_Image_Name.Checked && !Main.Print_Image_EQ.Checked)
+                    {
+                        ImageNameLB[i].Location = new Point(4, height - 15);
+                        ImageNameLB[i].Text = Frame_dicInfo_Filter.Keys.ElementAt(index);
+                    }
                     else
+                    {
                         ImageNameLB[i].Text = "";
 
+                    }
+
+                    if (Main.Print_Image_EQ.Checked)
+                    {
+                        length = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameEQ[i].Text = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+                    else
+                        ImageNameEQ[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked && Main.Print_Image_EQ.Checked)
+                    {
+                        length = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = Frame_dicInfo_Filter.Keys.ElementAt(index);
+                        ImageNameLB[i].Location = new Point(4, height - 30);
+                        ImageNameEQ[i].Text = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+
                     PictureData.ElementAt(i).Tag = Color.Red;
+
                 }
             }
             if (EachPage_ImageNum < 0)
                 EachPage_ImageNum = 0;
 
+            for (int i = EachPage_ImageNum; i < cols * rows; i++)
+            {
+                Picture_Glass.ElementAt(i).Image.Dispose();
+                Picture_Glass.ElementAt(i).Image = new Bitmap(width, height);
+
+                Pen pen = new System.Drawing.Pen(System.Drawing.Color.Black, 1);
+                regSelection.Location = new Point(0, 0);
+                regSelection.Size = new Size(Picture_Glass.ElementAt(i).Image.Width - 1, Picture_Glass.ElementAt(i).Image.Height - 1);
+
+                DefectState[i].Text = "";
+                ImageNameLB[i].Text = "";
+                ImageNameEQ[i].Text = "";
+                PictureData.ElementAt(i).Tag = Color.Black;
+            }
             this.Focus();
         }
 
-        
+        public void Page_Filter(int page)
+        {
+            Last_Picture_Selected_Index = -1;
+            Current_PageNum = page;
+            Main.S_Page_TB.Text = Current_PageNum.ToString();
+
+            //Set_PictureBox();
+
+            if (Main.Frame_View_CB.Checked)
+                Frame_Set_Image();
+            else
+                Set_Image();
+        }
 
         public void Cheked_State_DF()
         {
@@ -2218,19 +2433,44 @@ namespace ViewPort.Views
                     DefectState[i].ForeColor = Color.Yellow;
                     ImageNameLB[i].ForeColor = Color.Yellow;
                     ImageNameLB[i].BackColor = Color.Black;
+                    ImageNameEQ[i].ForeColor = Color.Yellow;
+                    ImageNameEQ[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
                     else
                         DefectState[i].Text = "";
 
-                    if (Main.Print_Image_Name.Checked)
+                    if (Main.Print_Image_Name.Checked && !Main.Print_Image_EQ.Checked)
+                    {
+                        ImageNameLB[i].Location = new Point(4, height - 15);
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                    }
+                    else
+                    {
+                        ImageNameLB[i].Text = "";
+
+                    }
+
+                    if (Main.Print_Image_EQ.Checked)
                     {
                         length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
-                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index) + "\r\n" + dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length-13);
-                    } 
+                        ImageNameEQ[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
                     else
-                        ImageNameLB[i].Text = "";
+                        ImageNameEQ[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked && Main.Print_Image_EQ.Checked)
+                    {
+                        
+                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                        ImageNameLB[i].Location = new Point(4, height - 30);
+                        ImageNameEQ[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+
 
                     PictureData.ElementAt(i).Tag = Color.Yellow;
                 }
@@ -2240,19 +2480,42 @@ namespace ViewPort.Views
                     DefectState[i].ForeColor = Color.Red;
                     ImageNameLB[i].ForeColor = Color.Red;
                     ImageNameLB[i].BackColor = Color.Black;
+                    ImageNameEQ[i].ForeColor = Color.Red;
+                    ImageNameEQ[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
                     else
                         DefectState[i].Text = "";
 
-                    if (Main.Print_Image_Name.Checked)
+                    if (Main.Print_Image_Name.Checked && !Main.Print_Image_EQ.Checked)
                     {
-                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
-                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index) + "\r\n" + dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+                        ImageNameLB[i].Location = new Point(4, height - 15);
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
                     }
                     else
+                    {
                         ImageNameLB[i].Text = "";
+
+                    }
+
+                    if (Main.Print_Image_EQ.Checked)
+                    {
+                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameEQ[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+                    else
+                        ImageNameEQ[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked && Main.Print_Image_EQ.Checked)
+                    {
+                        length = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = dicInfo_Filter.Keys.ElementAt(index);
+                        ImageNameLB[i].Location = new Point(4, height - 30);
+                        ImageNameEQ[i].Text = dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
 
                     PictureData.ElementAt(i).Tag = Color.Red;
                 }
@@ -2264,23 +2527,49 @@ namespace ViewPort.Views
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
-                string temp = frame_dicInfo_Filter[frame_dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
-
+                string temp = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].ReviewDefectName;
+                int length = 0;
                 if (temp.Equals("양품") || temp.Equals("*"))
                 {
                     DefectState[i].ForeColor = Color.Yellow;
                     ImageNameLB[i].ForeColor = Color.Yellow;
                     ImageNameLB[i].BackColor = Color.Black;
+                    ImageNameEQ[i].ForeColor = Color.Yellow;
+                    ImageNameEQ[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
                     else
                         DefectState[i].Text = "";
 
-                    if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = frame_dicInfo_Filter.Keys.ElementAt(index);
+                    if (Main.Print_Image_Name.Checked && !Main.Print_Image_EQ.Checked)
+                    {
+                        ImageNameLB[i].Location = new Point(4, height - 15);
+                        ImageNameLB[i].Text = Frame_dicInfo_Filter.Keys.ElementAt(index);
+                    }
                     else
+                    {
                         ImageNameLB[i].Text = "";
+
+                    }
+
+                    if (Main.Print_Image_EQ.Checked)
+                    {
+                        length = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameEQ[i].Text = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+                    else
+                        ImageNameEQ[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked && Main.Print_Image_EQ.Checked)
+                    {
+                        length = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = Frame_dicInfo_Filter.Keys.ElementAt(index);
+                        ImageNameLB[i].Location = new Point(4, height - 30);
+                        ImageNameEQ[i].Text = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
 
                     PictureData.ElementAt(i).Tag = Color.Yellow;
                 }
@@ -2290,16 +2579,42 @@ namespace ViewPort.Views
                     DefectState[i].ForeColor = Color.Red;
                     ImageNameLB[i].ForeColor = Color.Red;
                     ImageNameLB[i].BackColor = Color.Black;
+                    ImageNameEQ[i].ForeColor = Color.Red;
+                    ImageNameEQ[i].BackColor = Color.Black;
 
                     if (Main.Print_Image_State.Checked)
                         DefectState[i].Text = temp;
                     else
                         DefectState[i].Text = "";
 
-                    if (Main.Print_Image_Name.Checked)
-                        ImageNameLB[i].Text = frame_dicInfo_Filter.Keys.ElementAt(index);
+                    if (Main.Print_Image_Name.Checked && !Main.Print_Image_EQ.Checked)
+                    {
+                        ImageNameLB[i].Location = new Point(4, height - 15);
+                        ImageNameLB[i].Text = Frame_dicInfo_Filter.Keys.ElementAt(index);
+                    }
                     else
+                    {
                         ImageNameLB[i].Text = "";
+
+                    }
+
+                    if (Main.Print_Image_EQ.Checked)
+                    {
+                        length = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameEQ[i].Text = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
+                    else
+                        ImageNameEQ[i].Text = "";
+
+                    if (Main.Print_Image_Name.Checked && Main.Print_Image_EQ.Checked)
+                    {
+                        length = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Length;
+                        ImageNameLB[i].Text = Frame_dicInfo_Filter.Keys.ElementAt(index);
+                        ImageNameLB[i].Location = new Point(4, height - 30);
+                        ImageNameEQ[i].Text = Frame_dicInfo_Filter[Frame_dicInfo_Filter.Keys.ElementAt(index)].Imagename.Substring(13, length - 13);
+
+                    }
 
                     PictureData.ElementAt(i).Tag = Color.Red;
                 }
@@ -2340,6 +2655,11 @@ namespace ViewPort.Views
                         break;
                     }
             }
+        }
+
+        private void PictureBox_MouseHover(object sender, EventArgs e)
+        {
+            Main.Activate();
         }
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)

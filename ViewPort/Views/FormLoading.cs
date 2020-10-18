@@ -42,9 +42,16 @@ namespace ViewPort.Views
         private List<string> f5_dic_Load;
         private List<string> sdip_no_200;
         private string[] final_text;
-
-
+        private Dictionary<string, ImageInfo> f5_code_dicInfo_Loading;
+        private Dictionary<string, ImageInfo> sdip_200_code_dicInfo;
+        private Dictionary<string, ImageInfo> sdip_no1_dicload;
+        private Dictionary<string, ImageInfo> Sorted_dic_GRID;
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
+
+        public Dictionary<string, ImageInfo> F5_code_dicInfo_Loading { get => f5_code_dicInfo_Loading; set => f5_code_dicInfo_Loading = value; }
+        public Dictionary<string, ImageInfo> Sdip_200_code_dicInfo { get => sdip_200_code_dicInfo; set => sdip_200_code_dicInfo = value; }
+
+        public Dictionary<string, ImageInfo> Sdip_no1_dicload { get => sdip_no1_dicload; set => sdip_no1_dicload = value; }
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> Ignore_map_List { get => ignore_map_List; set => ignore_map_List = value; }
@@ -178,9 +185,12 @@ namespace ViewPort.Views
             main = parent;
             F10_Frame_List = new List<int>();
             F5_dic_Load = new List<string>();
-
+            F5_code_dicInfo_Loading = new Dictionary<string, ImageInfo>();
+            sdip_no1_dicload = new Dictionary<string, ImageInfo>();
             Sdip_no_200 = new List<string>();
-            
+            Sorted_dic_GRID = new Dictionary<string, ImageInfo>();
+
+
             InitializeComponent();
 
             DoLoadingThread(path);
@@ -199,12 +209,42 @@ namespace ViewPort.Views
             LoadThread.Start(path);
         }
 
+        private void All_clear()
+        {
+            dic_Load.Clear();
+            dicTxt_info.Clear();
+
+            All_LotID_List.Clear();
+            All_Equipment_DF_List.Clear();
+            All_VerifyDF_List.Clear();
+            Map_List.Clear();
+            Map_List_Compare.Clear();
+            Frame_List.Clear();
+            Map_List_Dic.Clear();
+            Map_List_Dic_Compare.Clear();
+            Dl_List.Clear();
+            Dl_Apply_List.Clear();
+            Dl_NOt_Apply_List.Clear();
+            Ignore_map_List.Clear();
+            Contain_200_Frame_List.Clear();
+            F9_Frame_List.Clear();
+            ImageSizeList.Clear();
+            
+            F10_Frame_List.Clear();
+            F5_dic_Load.Clear();
+            F5_code_dicInfo_Loading.Clear();
+            sdip_no1_dicload.Clear();
+            Sdip_no_200.Clear();
+            Sorted_dic_GRID.Clear();
+        }
         private void Loading(object path)
         {
             string FilePath = (string)path;
             string LotName = Path.GetFileNameWithoutExtension(FilePath);
-
+           
             EditFormNameSafe(MSG_STR.LOAD_ZIP);
+
+            All_clear();
 
             Load_Map_TxtAsync(FilePath);
             Load_DL_TxtAsync(FilePath);
@@ -237,6 +277,9 @@ namespace ViewPort.Views
             
 
             EditFormNameSafe(MSG_STR.LOAD_ROWS);
+            //Filtering();
+
+            IMG_TXT_combine();
             MakeDataTables();
 
             ExitProgressBarSafe();
@@ -312,7 +355,7 @@ namespace ViewPort.Views
                         }
 
 
-                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize,""));
+                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize,"","0"));
                     } 
                 }
                 else
@@ -326,7 +369,7 @@ namespace ViewPort.Views
                         All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
 
                     }
-                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize,""));
+                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize,"", "0"));
                 }
                    
 
@@ -339,6 +382,7 @@ namespace ViewPort.Views
 
         private void LoadTxtAsync(string FilePath)
         {
+            
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
             {
                 ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetLotNameFromPath(FilePath));
@@ -357,7 +401,7 @@ namespace ViewPort.Views
                 for (int i = 0; i < items.Length - 2; i++)
                 {
                     string[] dic_ready = items[i + 1].Split(',');
-                    dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0"));
+                    dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0","0"));
 
                     if(200 <= int.Parse(dic_ready[8]) && int.Parse(dic_ready[8]) <= 299)
                     {
@@ -426,6 +470,7 @@ namespace ViewPort.Views
                     string[] dic_ready = items[i + 3].Split(',');
                     if(dicTxt_info.ContainsKey(dic_ready[0].Substring(0, 12)))
                     {
+                        dicTxt_info[dic_ready[0].Substring(0, 12)].Master_No = dic_ready[1];
                         dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
                         dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
                     }
@@ -560,6 +605,13 @@ namespace ViewPort.Views
 
          }
 
+        public void gridset(Dictionary<string, ImageInfo> dicinfo_Main)
+        {
+            EditFormNameSafe(MSG_STR.LOAD_ROWS);
+
+            MakeDataTables();
+            ExitProgressBarSafe();
+        }
         private void MakeDataTables()
         {
             Dt = new DataTable();
@@ -570,12 +622,74 @@ namespace ViewPort.Views
             SetProgressBarValueSafe(0);
             SetProgressBarMaxSafe(dic_Load.Count);
 
+            Sorted_dic_GRID = dic_Load.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Dic_Load = Sorted_dic_GRID;
+
             foreach (KeyValuePair<string, ImageInfo> kvp in dic_Load)
             {
                 Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
                 AddProgressBarValueSafe(1);
             }
 
+        }
+
+        private void Filtering()
+        {
+            int x = 0;
+            int index = 1;
+            foreach (string pair in dic_Load.Keys.ToList())
+            {
+                if (F5_dic_Load.Contains(pair))
+                {
+                    F5_code_dicInfo_Loading.Add(pair, dic_Load[pair]);
+                }
+
+
+                if (dic_Load[pair].sdip_no != "-" && 200 <= int.Parse(dic_Load[pair].sdip_no) && int.Parse(dic_Load[pair].sdip_no) <= 299)
+                {
+                    if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dic_Load[pair].EquipmentDefectName)) == -1)
+                        continue;
+                    else
+                    {
+                        index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dic_Load[pair].EquipmentDefectName));
+                        x = All_Equipment_DF_List[index].Item2;
+                        All_Equipment_DF_List[index] = new Tuple<string, int>(dic_Load[pair].EquipmentDefectName, --x);
+
+                        if (x == 0)
+                        {
+                            All_Equipment_DF_List.RemoveAt(index);
+
+                        }
+
+                    }
+                    Sdip_200_code_dicInfo.Add(pair, dic_Load[pair]);
+                    dic_Load.Remove(pair);
+                }
+
+            }
+        }
+
+        public void IMG_TXT_combine()
+        {
+            foreach (KeyValuePair<string, Models.txtInfo> kvp in DicTxt_info)
+            {
+                if (Dic_Load.ContainsKey(kvp.Key))
+                {
+                    Dic_Load[kvp.Key].sdip_no = kvp.Value.SDIP_No;
+                    Dic_Load[kvp.Key].sdip_result = kvp.Value.SDIP_Result;
+                    Dic_Load[kvp.Key].X_Location = kvp.Value.X_Location;
+                    Dic_Load[kvp.Key].Y_Location = kvp.Value.Y_Location;
+                    Dic_Load[kvp.Key].Master_NO = kvp.Value.Master_No;
+
+
+                    if (Dic_Load[kvp.Key].sdip_no == "1")
+                    {
+                        Sdip_no1_dicload.Add(kvp.Key, Dic_Load[kvp.Key]);
+                    }
+
+                }
+
+            }
         }
 
     }

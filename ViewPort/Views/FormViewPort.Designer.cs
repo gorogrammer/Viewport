@@ -62,7 +62,8 @@
             this.Code_200_View = new System.Windows.Forms.ToolStripMenuItem();
             this.iMGTXTUpdateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mAPTXTUpdateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.업데이트ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xyFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Update_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -98,6 +99,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.iMGTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mAPTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Print_Image_EQ = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -135,8 +137,10 @@
             // 
             // List_Count_TB
             // 
+            this.List_Count_TB.Enabled = false;
             this.List_Count_TB.Location = new System.Drawing.Point(109, 222);
             this.List_Count_TB.Name = "List_Count_TB";
+            this.List_Count_TB.ReadOnly = true;
             this.List_Count_TB.Size = new System.Drawing.Size(79, 21);
             this.List_Count_TB.TabIndex = 18;
             // 
@@ -162,6 +166,7 @@
             // 
             // Frame_E_Page_TB
             // 
+            this.Frame_E_Page_TB.Enabled = false;
             this.Frame_E_Page_TB.Location = new System.Drawing.Point(156, 195);
             this.Frame_E_Page_TB.Name = "Frame_E_Page_TB";
             this.Frame_E_Page_TB.Size = new System.Drawing.Size(38, 21);
@@ -183,6 +188,7 @@
             this.S_Page_TB.Name = "S_Page_TB";
             this.S_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.S_Page_TB.TabIndex = 1;
+            this.S_Page_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.S_Page_TB_KeyDown);
             // 
             // Rotate_CLB
             // 
@@ -235,7 +241,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(319, 87);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(322, 89);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -254,15 +260,15 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(319, 40);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(322, 42);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // _filterAct_bt
             // 
             this._filterAct_bt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._filterAct_bt.Location = new System.Drawing.Point(215, 3);
+            this._filterAct_bt.Location = new System.Drawing.Point(217, 3);
             this._filterAct_bt.Name = "_filterAct_bt";
-            this._filterAct_bt.Size = new System.Drawing.Size(101, 34);
+            this._filterAct_bt.Size = new System.Drawing.Size(102, 36);
             this._filterAct_bt.TabIndex = 0;
             this._filterAct_bt.Text = "필터 적용";
             this._filterAct_bt.UseVisualStyleBackColor = true;
@@ -273,7 +279,7 @@
             this.Select_All_BTN.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Select_All_BTN.Location = new System.Drawing.Point(3, 3);
             this.Select_All_BTN.Name = "Select_All_BTN";
-            this.Select_All_BTN.Size = new System.Drawing.Size(100, 34);
+            this.Select_All_BTN.Size = new System.Drawing.Size(101, 36);
             this.Select_All_BTN.TabIndex = 1;
             this.Select_All_BTN.Text = "전체 선택";
             this.Select_All_BTN.UseVisualStyleBackColor = true;
@@ -282,9 +288,9 @@
             // Select_Empty_BTN
             // 
             this.Select_Empty_BTN.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Select_Empty_BTN.Location = new System.Drawing.Point(109, 3);
+            this.Select_Empty_BTN.Location = new System.Drawing.Point(110, 3);
             this.Select_Empty_BTN.Name = "Select_Empty_BTN";
-            this.Select_Empty_BTN.Size = new System.Drawing.Size(100, 34);
+            this.Select_Empty_BTN.Size = new System.Drawing.Size(101, 36);
             this.Select_Empty_BTN.TabIndex = 1;
             this.Select_Empty_BTN.Text = "전체 해제";
             this.Select_Empty_BTN.UseVisualStyleBackColor = true;
@@ -307,21 +313,22 @@
             // 
             this.splitContainer4.Panel2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer4.Panel2.Controls.Add(this.dataGridView2);
-            this.splitContainer4.Size = new System.Drawing.Size(319, 381);
-            this.splitContainer4.SplitterDistance = 227;
+            this.splitContainer4.Size = new System.Drawing.Size(322, 386);
+            this.splitContainer4.SplitterDistance = 229;
             this.splitContainer4.TabIndex = 0;
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.GridColor = System.Drawing.Color.DarkGray;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(319, 227);
+            this.dataGridView1.Size = new System.Drawing.Size(322, 229);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
@@ -333,8 +340,9 @@
             this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView2.Location = new System.Drawing.Point(0, 0);
             this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.ReadOnly = true;
             this.dataGridView2.RowTemplate.Height = 23;
-            this.dataGridView2.Size = new System.Drawing.Size(319, 150);
+            this.dataGridView2.Size = new System.Drawing.Size(322, 153);
             this.dataGridView2.TabIndex = 0;
             // 
             // Camera_NO_Filter_TB
@@ -352,10 +360,10 @@
             this.파일ToolStripMenuItem,
             this.저장ToolStripMenuItem,
             this.코드변경ToolStripMenuItem,
-            this.업데이트ToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(20, 60);
+            this.Update_ToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(10, 60);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1765, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1785, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -403,7 +411,8 @@
             this.번코드변경ToolStripMenuItem,
             this.Code_200_View,
             this.iMGTXTUpdateToolStripMenuItem1,
-            this.mAPTXTUpdateToolStripMenuItem1});
+            this.mAPTXTUpdateToolStripMenuItem1,
+            this.xyFilterToolStripMenuItem});
             this.코드변경ToolStripMenuItem.Name = "코드변경ToolStripMenuItem";
             this.코드변경ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.코드변경ToolStripMenuItem.Text = "기능";
@@ -436,19 +445,26 @@
             this.mAPTXTUpdateToolStripMenuItem1.Text = "MAP TXT Update";
             this.mAPTXTUpdateToolStripMenuItem1.Click += new System.EventHandler(this.mAPTXTUpdateToolStripMenuItem1_Click);
             // 
-            // 업데이트ToolStripMenuItem
+            // xyFilterToolStripMenuItem
             // 
-            this.업데이트ToolStripMenuItem.Name = "업데이트ToolStripMenuItem";
-            this.업데이트ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
-            this.업데이트ToolStripMenuItem.Text = "업데이트";
-            this.업데이트ToolStripMenuItem.Click += new System.EventHandler(this.업데이트ToolStripMenuItem_Click);
+            this.xyFilterToolStripMenuItem.Name = "xyFilterToolStripMenuItem";
+            this.xyFilterToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.xyFilterToolStripMenuItem.Text = "XY 좌표 Filter";
+            this.xyFilterToolStripMenuItem.Click += new System.EventHandler(this.xyFilterToolStripMenuItem_Click);
+            // 
+            // Update_ToolStripMenuItem
+            // 
+            this.Update_ToolStripMenuItem.Name = "Update_ToolStripMenuItem";
+            this.Update_ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.Update_ToolStripMenuItem.Text = "업데이트";
+            this.Update_ToolStripMenuItem.Click += new System.EventHandler(this.Update_ToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
             this.splitContainer1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(20, 84);
+            this.splitContainer1.Location = new System.Drawing.Point(10, 84);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(1);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -460,8 +476,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.LightGray;
-            this.splitContainer1.Size = new System.Drawing.Size(1765, 779);
-            this.splitContainer1.SplitterDistance = 319;
+            this.splitContainer1.Size = new System.Drawing.Size(1785, 789);
+            this.splitContainer1.SplitterDistance = 322;
             this.splitContainer1.TabIndex = 3;
             // 
             // splitContainer2
@@ -479,8 +495,8 @@
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.Color.DarkGray;
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer2.Size = new System.Drawing.Size(319, 779);
-            this.splitContainer2.SplitterDistance = 394;
+            this.splitContainer2.Size = new System.Drawing.Size(322, 789);
+            this.splitContainer2.SplitterDistance = 399;
             this.splitContainer2.TabIndex = 0;
             // 
             // splitContainer3
@@ -500,8 +516,8 @@
             // 
             this.splitContainer3.Panel2.BackColor = System.Drawing.Color.DarkGray;
             this.splitContainer3.Panel2.Controls.Add(this.tableLayoutPanel1);
-            this.splitContainer3.Size = new System.Drawing.Size(319, 394);
-            this.splitContainer3.SplitterDistance = 350;
+            this.splitContainer3.Size = new System.Drawing.Size(322, 399);
+            this.splitContainer3.SplitterDistance = 353;
             this.splitContainer3.TabIndex = 0;
             // 
             // splitContainer5
@@ -515,6 +531,7 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitContainer5.Panel1.Controls.Add(this.Print_Image_EQ);
             this.splitContainer5.Panel1.Controls.Add(this.checkBox1);
             this.splitContainer5.Panel1.Controls.Add(this.ImageSize_CB);
             this.splitContainer5.Panel1.Controls.Add(this.button4);
@@ -560,8 +577,8 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
-            this.splitContainer5.Size = new System.Drawing.Size(319, 350);
-            this.splitContainer5.SplitterDistance = 259;
+            this.splitContainer5.Size = new System.Drawing.Size(322, 353);
+            this.splitContainer5.SplitterDistance = 260;
             this.splitContainer5.TabIndex = 0;
             // 
             // checkBox1
@@ -746,6 +763,7 @@
             // 
             this.E_Page_TB.Location = new System.Drawing.Point(150, 87);
             this.E_Page_TB.Name = "E_Page_TB";
+            this.E_Page_TB.ReadOnly = true;
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 1;
             // 
@@ -852,6 +870,17 @@
             this.mAPTXTUpdateToolStripMenuItem.Name = "mAPTXTUpdateToolStripMenuItem";
             this.mAPTXTUpdateToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
             // 
+            // Print_Image_EQ
+            // 
+            this.Print_Image_EQ.AutoSize = true;
+            this.Print_Image_EQ.Location = new System.Drawing.Point(228, 121);
+            this.Print_Image_EQ.Name = "Print_Image_EQ";
+            this.Print_Image_EQ.Size = new System.Drawing.Size(80, 16);
+            this.Print_Image_EQ.TabIndex = 30;
+            this.Print_Image_EQ.Text = "Image EQ";
+            this.Print_Image_EQ.UseVisualStyleBackColor = true;
+            this.Print_Image_EQ.CheckedChanged += new System.EventHandler(this.Print_Image_EQ_CheckedChanged);
+            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -861,6 +890,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormViewPort";
+            this.Padding = new System.Windows.Forms.Padding(10, 60, 10, 10);
             this.Text = "Carlo ViewPort";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormViewPort_FormClosing);
@@ -913,7 +943,6 @@
         private System.Windows.Forms.Button Select_All_BTN;
         private System.Windows.Forms.Button Select_Empty_BTN;
         private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.DataGridView dataGridView1;
         public System.Windows.Forms.TextBox Camera_NO_Filter_TB;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 파일ToolStripMenuItem;
@@ -958,12 +987,15 @@
         public System.Windows.Forms.ComboBox Rotate_CLB;
         public System.Windows.Forms.CheckBox checkBox1;
         public System.Windows.Forms.ComboBox ImageSize_CB;
-        private System.Windows.Forms.ToolStripMenuItem 업데이트ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Update_ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Code_200_View;
         private System.Windows.Forms.ToolStripMenuItem iMGTXTUpdateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mAPTXTUpdateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iMGTXTUpdateToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem mAPTXTUpdateToolStripMenuItem1;
+        public System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ToolStripMenuItem xyFilterToolStripMenuItem;
+        public System.Windows.Forms.CheckBox Print_Image_EQ;
     }
 }
 

@@ -125,3 +125,23 @@ C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\obj\Release\ViewPortN
 C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.dll
 C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.pdb
 C:\Users\USER\Desktop\0923 출장\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.csprojAssemblyReference.cache
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\ViewPortNetwork.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\ViewPortNetwork.pdb
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\Google.Protobuf.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\Zstandard.Net.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\K4os.Compression.LZ4.Streams.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\BouncyCastle.Crypto.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\Ubiety.Dns.Core.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\Renci.SshNet.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\System.Buffers.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\K4os.Compression.LZ4.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\K4os.Hash.xxHash.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\System.Memory.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\System.Numerics.Vectors.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\bin\Release\MySql.Data.xml
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.csprojAssemblyReference.cache
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.csproj.CopyComplete
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.dll
+C:\Users\user\Desktop\1014 viewport-그리드 수정\Viewport\ViewPortNetwork\obj\Release\ViewPortNetwork.pdb

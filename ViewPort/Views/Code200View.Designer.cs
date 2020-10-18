@@ -57,6 +57,7 @@
             // 
             // Code_200_CLB
             // 
+            this.Code_200_CLB.CheckOnClick = true;
             this.Code_200_CLB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Code_200_CLB.FormattingEnabled = true;
             this.Code_200_CLB.Location = new System.Drawing.Point(0, 0);

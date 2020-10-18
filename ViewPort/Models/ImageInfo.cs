@@ -14,9 +14,10 @@ namespace ViewPort.Models
         string imageSize;
         int Frame_No, Camera_No;
         string changeCode;
+        string master_No;
 
 
-        public ImageInfo(string LotID, string ImageName, int CamNo, int FrameNo, string Equipment_DF, string sdip_no, string sdip_result, string Review_DF, string DeleteNo, string XLocation, string YLocation, string imageSize, string Change_Code)
+        public ImageInfo(string LotID, string ImageName, int CamNo, int FrameNo, string Equipment_DF, string sdip_no, string sdip_result, string Review_DF, string DeleteNo, string XLocation, string YLocation, string imageSize, string Change_Code, string Master_no)
         {
            
             Lot_ID = LotID;
@@ -34,11 +35,12 @@ namespace ViewPort.Models
             yLocation = YLocation;
             ImageSize = imageSize;
             changeCode = Change_Code;
+            master_No = Master_no;
 
         }
         
         public string LotID { get { return Lot_ID; } set { Lot_ID = value; } }
-       
+        public string Master_NO { get { return master_No; } set { master_No = value; } }
         public string ReviewDefectName { get { return Review_DefectName; } set { Review_DefectName = value; } }
 
         public string Imagename { get { return Image_name; } set { Image_name = value; } }

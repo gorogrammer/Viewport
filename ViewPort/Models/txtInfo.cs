@@ -14,16 +14,20 @@ namespace ViewPort.Models
         public string _reviewDefectName;
         public string _x_Location;
         public string _y_Location;
+        public string _master_NO;
 
-        public txtInfo(string EqName, string SDIPNo, string SDIPResult, string ReviewDefectName, string XLocation, string YLocation)
+        public txtInfo(string EqName, string SDIPNo, string SDIPResult, string ReviewDefectName, string XLocation, string YLocation, string Master)
         {
             _eq_Name = EqName;
             _sdip_No = SDIPNo;
             _sdip_Result = SDIPResult;
             _x_Location = XLocation;
             _y_Location = YLocation;
+            _master_NO = Master;
         }
         public string Eq_Name { get { return _eq_Name; } set { _eq_Name = value; } }
+
+        public string Master_No { get { return _master_NO; } set { _master_NO = value; } }
         public string SDIP_No { get { return _sdip_No; } set { _sdip_No = value; } }
         public string SDIP_Result { get { return _sdip_Result; } set { _sdip_Result = value; } }
 
