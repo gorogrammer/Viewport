@@ -738,11 +738,16 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            if (Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F !=1)
+            if (!Main.Exceed_CB.Checked &&Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F !=1)
             {
                 //frame_List_Img = Main.Frame_List_Main;
                 dicInfo_Filter = Main.DicInfo;
                 
+            }
+            else if(Main.Exceed_CB.Checked)
+            {
+                dicInfo_Filter = Main.Exceed_filter;
+
             }
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 
@@ -910,10 +915,18 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            if (Main.mAP_LIST.Count > 0)
-                Frame_List_Img = Main.mAP_LIST;
+            if(Main.Exceed_CB.Checked)
+            {
+                Frame_List_Img = Main.Exceed_List;
+            }
             else
-                Frame_List_Img = Main.Frame_List_Main;
+            {
+                if (Main.mAP_LIST.Count > 0)
+                    Frame_List_Img = Main.mAP_LIST;
+                else
+                    Frame_List_Img = Main.Frame_List_Main;
+            }
+           
 
 
             if (Main.Eq_CB_dicInfo.Count > 0)
@@ -955,7 +968,7 @@ namespace ViewPort.Views
             {
                 string[] Split_String = null;
                 Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
-                bool Target = false;
+                
 
                 foreach (string No in DicInfo_Filtered.Keys.ToList())
                 {
@@ -1839,7 +1852,7 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
-
+           
             Main.Frame_S_TB.Text = frame_List_Img[Frame_List_Index].ToString();
             Main.Frame_E_TB.Text = Main.Frame_S_TB.Text;
 

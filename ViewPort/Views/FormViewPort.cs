@@ -40,9 +40,12 @@ namespace ViewPort
         Dictionary<string, ImageInfo> f5_code_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> sdip_200_code_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> filter_200_dic_Main = new Dictionary<string, ImageInfo>();
+        Dictionary<int, int> exceed_Count = new Dictionary<int, int>();
+        Dictionary<string, ImageInfo> exceed_filter = new Dictionary<string, ImageInfo>();
+        List<int> exceed_List = new List<int>();
         int setting = 0;
         string[] dic_ready = null;
-        
+        int arg = 0;
         string final_text_main = string.Empty;
         string viewType = null;
         int Rotate_Option = 1;
@@ -103,7 +106,7 @@ namespace ViewPort
         public Dictionary<int, int> Map_List_Dic_main { get => map_List_Dic_main; set => map_List_Dic_main = value; }
         public Dictionary<int, int> Map_List_Dic_Compare_main { get => map_List_Dic_Compare_main; set => map_List_Dic_Compare_main = value; }
         public Dictionary<string, ImageInfo> Filter_200_dic_Main { get => filter_200_dic_Main; set => filter_200_dic_Main = value; }
-
+        public Dictionary<string, ImageInfo> Exceed_filter { get => exceed_filter; set => exceed_filter = value; }
         public Dictionary<string, ImageInfo> Sdip_200_code_dicInfo { get => sdip_200_code_dicInfo; set => sdip_200_code_dicInfo = value; }
 
         public Dictionary<string, ImageInfo> F9_code_dicInfo { get => f9_code_dicInfo; set => f9_code_dicInfo = value; }
@@ -121,6 +124,7 @@ namespace ViewPort
 
         public List<int> F9_Frame_List_Main { get => f9_Frame_List_Main; set => f9_Frame_List_Main = value; }
 
+        public List<int> Exceed_List { get => exceed_List; set => exceed_List = value; }
         public List<int> F10_Frame_List_Main { get => f10_Frame_List_Main; set => f10_Frame_List_Main = value; }
 
         public List<string> F5_Img_KeyList_Main { get => f5_Img_KeyList; set => f5_Img_KeyList = value; }
@@ -268,8 +272,6 @@ namespace ViewPort
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.Frame_dicInfo_Filter)
                 dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
-
-
 
 
         }
@@ -619,7 +621,7 @@ namespace ViewPort
                 Eq_CB_dicInfo.Clear();
                 Camera_NO_Filter_TB.Text = "";
                 Initial_Equipment_DF_FilterList();
-
+                Exceed_CB.CheckState = CheckState.Unchecked;
                 if (Frame_View_CB.Checked)
                 {
                     Frame_View_CB.Checked = false;
@@ -1258,17 +1260,21 @@ namespace ViewPort
 
         private void Frame_View_CB_CheckedChanged(object sender, EventArgs e)
         {
-            if(Frame_View_CB.Checked)
+            if(Frame_View_CB.Checked && Exceed_CB.Checked)
             {
                 open.Frame_Set_View();
             }
-                
+            else if(Frame_View_CB.Checked && !Exceed_CB.Checked)
+            {
+                open.Frame_Set_View();
+            }
             else
             {
                 Frame_S_Page_TB.Text = "";
                 Frame_E_Page_TB.Text = "";
                 Frame_S_TB.Text = "";
                 Frame_E_TB.Text = "";
+                Exceed_CB.CheckState = CheckState.Unchecked;
 
                 open.Set_View();
 
@@ -1596,6 +1602,60 @@ namespace ViewPort
                 open.Frame_Cheked_State_DF();
             else
                 open.Cheked_State_DF();
+        }
+
+        private void Exceed_CB_CheckedChanged(object sender, EventArgs e)
+        {
+            string Exceed_No = Exceed_TB.Text;
+            int x = 0;
+            exceed_Count.Clear();
+            exceed_List.Clear();
+            exceed_filter.Clear();
+
+
+
+            if (Exceed_CB.Checked)
+            {
+                foreach (string pair in DicInfo.Keys.ToList())
+                {
+                    if (!exceed_Count.ContainsKey(DicInfo[pair].FrameNo))
+                    {
+                        exceed_Count.Add(DicInfo[pair].FrameNo, 1);
+                        exceed_List.Add(DicInfo[pair].FrameNo);
+                    }
+                    else
+                    {
+                        x = exceed_Count[DicInfo[pair].FrameNo] + 1;
+                        exceed_Count[DicInfo[pair].FrameNo] = x;
+                    }
+
+                }
+
+                foreach (int pair in exceed_Count.Keys.ToList())
+                {
+                    if (exceed_Count[pair] >= int.Parse(Exceed_No))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        exceed_Count.Remove(pair);
+                        exceed_List.Remove(pair);
+                    }
+
+                }
+                foreach (string pair in open.DicInfo_Filtered.Keys.ToList())
+                {
+                    if (exceed_Count.ContainsKey(open.DicInfo_Filtered[pair].FrameNo))
+                    {
+                        exceed_filter.Add(pair, open.DicInfo_Filtered[pair]);
+                    }
+                                       
+                }
+                
+                open.Set_View();
+            }
+            
         }
     }
 

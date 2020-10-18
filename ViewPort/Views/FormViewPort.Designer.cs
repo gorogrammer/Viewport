@@ -68,6 +68,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.Print_Image_EQ = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.ImageSize_CB = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -76,9 +77,9 @@
             this.EQ_Search_TB = new System.Windows.Forms.TextBox();
             this.Manual_Mode_RB = new System.Windows.Forms.RadioButton();
             this.View_Mode_RB = new System.Windows.Forms.RadioButton();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.Exceed_TB = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.Exceed_CB = new System.Windows.Forms.CheckBox();
             this.Frame_View_CB = new System.Windows.Forms.CheckBox();
             this.Fixed_CB = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -99,7 +100,6 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.iMGTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mAPTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Print_Image_EQ = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -540,9 +540,9 @@
             this.splitContainer5.Panel1.Controls.Add(this.EQ_Search_TB);
             this.splitContainer5.Panel1.Controls.Add(this.Manual_Mode_RB);
             this.splitContainer5.Panel1.Controls.Add(this.View_Mode_RB);
-            this.splitContainer5.Panel1.Controls.Add(this.textBox8);
+            this.splitContainer5.Panel1.Controls.Add(this.Exceed_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label11);
-            this.splitContainer5.Panel1.Controls.Add(this.checkBox2);
+            this.splitContainer5.Panel1.Controls.Add(this.Exceed_CB);
             this.splitContainer5.Panel1.Controls.Add(this.Frame_View_CB);
             this.splitContainer5.Panel1.Controls.Add(this.Fixed_CB);
             this.splitContainer5.Panel1.Controls.Add(this.button2);
@@ -580,6 +580,17 @@
             this.splitContainer5.Size = new System.Drawing.Size(322, 353);
             this.splitContainer5.SplitterDistance = 260;
             this.splitContainer5.TabIndex = 0;
+            // 
+            // Print_Image_EQ
+            // 
+            this.Print_Image_EQ.AutoSize = true;
+            this.Print_Image_EQ.Location = new System.Drawing.Point(228, 121);
+            this.Print_Image_EQ.Name = "Print_Image_EQ";
+            this.Print_Image_EQ.Size = new System.Drawing.Size(80, 16);
+            this.Print_Image_EQ.TabIndex = 30;
+            this.Print_Image_EQ.Text = "Image EQ";
+            this.Print_Image_EQ.UseVisualStyleBackColor = true;
+            this.Print_Image_EQ.CheckedChanged += new System.EventHandler(this.Print_Image_EQ_CheckedChanged);
             // 
             // checkBox1
             // 
@@ -662,12 +673,13 @@
             this.View_Mode_RB.UseVisualStyleBackColor = true;
             this.View_Mode_RB.CheckedChanged += new System.EventHandler(this.View_Mode_RB_CheckedChanged);
             // 
-            // textBox8
+            // Exceed_TB
             // 
-            this.textBox8.Location = new System.Drawing.Point(281, 195);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(38, 21);
-            this.textBox8.TabIndex = 23;
+            this.Exceed_TB.Location = new System.Drawing.Point(281, 195);
+            this.Exceed_TB.Name = "Exceed_TB";
+            this.Exceed_TB.Size = new System.Drawing.Size(38, 21);
+            this.Exceed_TB.TabIndex = 23;
+            this.Exceed_TB.Text = "41";
             // 
             // label11
             // 
@@ -679,15 +691,16 @@
             this.label11.Text = "■ 초과 IMG 수";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // checkBox2
+            // Exceed_CB
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(268, 227);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(103, 16);
-            this.checkBox2.TabIndex = 21;
-            this.checkBox2.Text = "초과 IMG 검사";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.Exceed_CB.AutoSize = true;
+            this.Exceed_CB.Location = new System.Drawing.Point(268, 227);
+            this.Exceed_CB.Name = "Exceed_CB";
+            this.Exceed_CB.Size = new System.Drawing.Size(103, 16);
+            this.Exceed_CB.TabIndex = 21;
+            this.Exceed_CB.Text = "초과 IMG 검사";
+            this.Exceed_CB.UseVisualStyleBackColor = true;
+            this.Exceed_CB.CheckedChanged += new System.EventHandler(this.Exceed_CB_CheckedChanged);
             // 
             // Frame_View_CB
             // 
@@ -870,17 +883,6 @@
             this.mAPTXTUpdateToolStripMenuItem.Name = "mAPTXTUpdateToolStripMenuItem";
             this.mAPTXTUpdateToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
             // 
-            // Print_Image_EQ
-            // 
-            this.Print_Image_EQ.AutoSize = true;
-            this.Print_Image_EQ.Location = new System.Drawing.Point(228, 121);
-            this.Print_Image_EQ.Name = "Print_Image_EQ";
-            this.Print_Image_EQ.Size = new System.Drawing.Size(80, 16);
-            this.Print_Image_EQ.TabIndex = 30;
-            this.Print_Image_EQ.Text = "Image EQ";
-            this.Print_Image_EQ.UseVisualStyleBackColor = true;
-            this.Print_Image_EQ.CheckedChanged += new System.EventHandler(this.Print_Image_EQ_CheckedChanged);
-            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -972,9 +974,8 @@
         private System.Windows.Forms.ToolStripMenuItem 중간저장ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 저장불러오기ToolStripMenuItem;
         private System.Windows.Forms.CheckBox Fixed_CB;
-        public System.Windows.Forms.TextBox textBox8;
+        public System.Windows.Forms.TextBox Exceed_TB;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.CheckBox checkBox2;
         public System.Windows.Forms.CheckBox Frame_View_CB;
         public System.Windows.Forms.RadioButton Manual_Mode_RB;
         public System.Windows.Forms.RadioButton View_Mode_RB;
@@ -996,6 +997,7 @@
         public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripMenuItem xyFilterToolStripMenuItem;
         public System.Windows.Forms.CheckBox Print_Image_EQ;
+        public System.Windows.Forms.CheckBox Exceed_CB;
     }
 }
 
