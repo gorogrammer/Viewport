@@ -555,13 +555,14 @@ namespace ViewPort.Views
         {
             try
             {
-                waitform.Show();
+                
 
                 Waiting_Del_DLView = Main.Waiting_Del;
                 if (Waiting_Del_DLView.Count > 0)
                 {
                     if (MessageBox.Show("" + Waiting_Del_DLView.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
+                        waitform.Show();
                         Main.Delete_ZipImg();
                         Dispose(true);
                     }

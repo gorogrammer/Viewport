@@ -590,21 +590,35 @@ namespace ViewPort
             Exception_Frame.Clear();
             ZipArchive subZip;
             Stream subEntryMS;
+            int arg = 0;
 
-            ZipArchive zip = ZipFile.Open(ZipFilePath, ZipArchiveMode.Read);   // Zip파일(Lot) Load
+            ZipArchive zip = ZipFile.Open(ZipFilePath, ZipArchiveMode.Update);   // Zip파일(Lot) Load
             {
 
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                foreach (ZipArchiveEntry entry in zip.Entries.ToList())
                 {
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
                     {
                         subEntryMS = entry.Open();
                         subZip = new ZipArchive(subEntryMS);
+                        ZipArchiveEntry ImgEntry = zip.GetEntry(entry.Name);
                         if (subZip.Entries.Count == 0)
                         {
-                            Exception_Frame.Add(int.Parse(entry.Name.Substring(0,5)));
+                            arg = 1;
+                            Exception_Frame.Add(int.Parse(entry.Name.Substring(0, 5)));
+
                         }
+                        else
+                            arg = 0;
+
                         subZip.Dispose();
+
+                        if(arg ==1)
+                        {
+                            ImgEntry.Delete();
+                        }
+                        
+                        
                     }
 
                 }
