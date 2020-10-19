@@ -222,6 +222,7 @@
             this.Frame_S_TB.Name = "Frame_S_TB";
             this.Frame_S_TB.Size = new System.Drawing.Size(54, 21);
             this.Frame_S_TB.TabIndex = 1;
+            this.Frame_S_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frame_S_TB_KeyDown);
             // 
             // label3
             // 
@@ -334,6 +335,8 @@
             // 
             // dataGridView2
             // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.AllowUserToDeleteRows = false;
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView2.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -815,6 +818,7 @@
             // 
             this.Frame_E_TB.Location = new System.Drawing.Point(156, 114);
             this.Frame_E_TB.Name = "Frame_E_TB";
+            this.Frame_E_TB.ReadOnly = true;
             this.Frame_E_TB.Size = new System.Drawing.Size(53, 21);
             this.Frame_E_TB.TabIndex = 1;
             // 

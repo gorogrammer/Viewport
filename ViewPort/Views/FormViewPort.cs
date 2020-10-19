@@ -24,7 +24,7 @@ namespace ViewPort
     public partial class FormViewPort : MetroForm
     {
         #region MEMBER VARIABLES
-
+       
         ImageViewer open = new ImageViewer();
         LoadingGIF_Func waitform = new LoadingGIF_Func();
         Dictionary<string, ImageInfo> eq_CB_dicInfo = new Dictionary<string, ImageInfo>();
@@ -154,14 +154,20 @@ namespace ViewPort
         #region Initialize CODE
         public FormViewPort()
         {
+            
+
             InitializeComponent();
-            Init();
-            InitialData();
 
             dataGridView1.DoubleBuffered(true);
+            dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dataGridView2.DoubleBuffered(true);
             dataGridView1.RowHeadersVisible = false;
             dataGridView2.RowHeadersVisible = false;
+            
+            Init();
+            InitialData();
+
+           
 
         }
 
@@ -173,13 +179,13 @@ namespace ViewPort
             DataTable dt = new DataTable();
             dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
             dt.Columns.Add(COLUMN_STR.GRID_STATE);
-            
+
             dt.PrimaryKey = new DataColumn[] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
 
 
             dataGridView1.DataSource = dt;
 
-            
+
             DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
             btnColumn.HeaderText = COLUMN_STR.GRID_SELECT;
             btnColumn.Name = "buttonColumn";
@@ -189,7 +195,7 @@ namespace ViewPort
             dataGridView1.Columns[1].Width = 55;
             dataGridView1.Columns[2].Width = 55;
 
-            
+
 
 
             DataTable dt_del = new DataTable();
@@ -248,8 +254,21 @@ namespace ViewPort
             dt.Rows.Clear();
             
            
-                foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
-                    dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+                //foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                //    dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+
+            DataTable Dt = new DataTable();
+            Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+            Dt.Columns.Add(COLUMN_STR.GRID_STATE);
+            Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
+
+
+
+            foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+            dataGridView1.DataSource = Dt;
 
         }
 
@@ -270,22 +289,44 @@ namespace ViewPort
 
             dt.Rows.Clear();
 
+            //foreach (KeyValuePair<string, ImageInfo> kvp in open.Frame_dicInfo_Filter)
+            //    dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+            DataTable Dt = new DataTable();
+            Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+            Dt.Columns.Add(COLUMN_STR.GRID_STATE);
+            Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
+
+
+
             foreach (KeyValuePair<string, ImageInfo> kvp in open.Frame_dicInfo_Filter)
-                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+                Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
 
-
+            dataGridView1.DataSource = Dt;
         }
 
         private void Eq_Filter_after_Print_List()
         {
             DataTable dt = (DataTable)dataGridView1.DataSource;
-
+            
             dt.Rows.Clear();
            
 
+            //foreach (KeyValuePair<string, ImageInfo> kvp in eq_CB_dicInfo)
+            //    dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+            DataTable Dt = new DataTable();
+            Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+            Dt.Columns.Add(COLUMN_STR.GRID_STATE);
+            Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
+
+
+
             foreach (KeyValuePair<string, ImageInfo> kvp in eq_CB_dicInfo)
-                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
-            
+                Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+            dataGridView1.DataSource = Dt;
+
         }
         public void Return_Img_Print()
         {
@@ -325,7 +366,7 @@ namespace ViewPort
         }
         public void Wait_Del_Print_List()
         {
-
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             DataTable dt_del = (DataTable)dataGridView2.DataSource;
             //dt_del.Rows.Clear();
             
@@ -340,6 +381,7 @@ namespace ViewPort
             }
 
             dataGridView2.DataSource = dt_del;
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
         public void Img_txt_Info_Combine()
         {
@@ -437,7 +479,6 @@ namespace ViewPort
                 index = dt.Rows.IndexOf(dr);
                 dt.Rows[index].Delete();
 
-                //dt.AcceptChanges();
             }
 
 
@@ -725,8 +766,8 @@ namespace ViewPort
                 FileName = Util.GetFileName();
                 DirPath = Directory.GetParent(path).ToString();
                 ZipFilePath = path;
-
-                if(MessageBox.Show("" + FileName + "로트 파일을 로드 하시겠습니까?", "프로그램 로드", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                Equipment_DF_CLB.Items.Clear();
+                if (MessageBox.Show("" + FileName + "로트 파일을 로드 하시겠습니까?", "프로그램 로드", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     FormLoading formLoading = new FormLoading(path, this);
                     formLoading.ShowDialog();
@@ -911,8 +952,8 @@ namespace ViewPort
 
             }
 
-            CODE_200_List = CODE_200_List.OrderBy(s => s.Item2).ThenByDescending(s => s.Item2).ToList();
-            CODE_200_List.Reverse();
+            CODE_200_List = CODE_200_List.OrderBy(s => s.Item1).ThenBy(s => s.Item1).ToList();
+            
             
         }
         public void Code_200_Filter()
@@ -1460,7 +1501,7 @@ namespace ViewPort
             {
                 open.Frame_Set_Image();
             }
-            else if(ViewType == "SetView")
+            else if (ViewType == "SetView" || ViewType == "EQCBSetView")
             {
                 open.Set_Image();
             }
@@ -1671,6 +1712,14 @@ namespace ViewPort
             }
             
         }
+
+        private void Frame_S_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                open.Frame_Filter(int.Parse(Frame_S_TB.Text));
+            }
+        }
     }
 
 
@@ -1690,8 +1739,13 @@ public static class ExtensionMethods
 
             BindingFlags.Instance | BindingFlags.NonPublic);
 
+
+
         pi.SetValue(dgv, setting, null);
 
     }
 
 }
+
+
+

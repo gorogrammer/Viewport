@@ -55,7 +55,7 @@ namespace ViewPort.Views
         int Last_Picture_Selected_Index;       
         int EachPage_ImageNum;
         List<string> imglist = new List<string>();
-
+        int Frame_Filter_check = 0;
         Point src_Mouse_XY, dst_Mouse_XY;
         Point A_Mouse_XY, B_Mouse_XY;
 
@@ -219,10 +219,6 @@ namespace ViewPort.Views
 
 
                     }
-
-
-
-
 
                     Select_Pic.Clear();
                     waitform.Close();
@@ -1255,7 +1251,6 @@ namespace ViewPort.Views
 
         private void ImageViewer_PL_MouseMove(object sender, MouseEventArgs e)
         {
-
             A_Mouse_XY = this.PointToClient(Cursor.Position);
         }
 
@@ -1852,9 +1847,19 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
-           
-            Main.Frame_S_TB.Text = frame_List_Img[Frame_List_Index].ToString();
-            Main.Frame_E_TB.Text = Main.Frame_S_TB.Text;
+           if(Frame_Filter_check ==1)
+            {
+                Main.Frame_S_TB.Text = Main.Frame_S_TB.Text;
+                Main.Frame_E_TB.Text = Main.Frame_S_TB.Text;
+                Frame_List_Index = frame_List_Img.FindIndex(r=>r.Equals(int.Parse(Main.Frame_S_TB.Text)));
+                Frame_Filter_check = 0;
+            }
+           else
+            {
+                Main.Frame_S_TB.Text = frame_List_Img[Frame_List_Index].ToString();
+                Main.Frame_E_TB.Text = Main.Frame_S_TB.Text;
+            }
+            
 
             frame_dicInfo_Filter.Clear();
 
@@ -2431,6 +2436,37 @@ namespace ViewPort.Views
                 Frame_Set_Image();
             else
                 Set_Image();
+        }
+
+        public void Frame_Filter(int Frame)
+        {
+
+            if (Main.Frame_View_CB.Checked)
+            {
+                
+                if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) >= int.Parse(Main.Frame_E_Page_TB.Text))
+                {
+                    MessageBox.Show("마지막 페이지 입니다.");
+                }
+                else
+                {
+
+                    Current_PageNum = 1;
+                    Last_Picture_Selected_Index = -1;
+                    Current_Frame_PageNum = Frame;
+                    Main.Frame_S_Page_TB.Text = Current_Frame_PageNum.ToString();
+
+                    Frame_Filter_check = 1;
+
+                    Frame_Set_Image();
+
+                   
+
+                }
+                Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
+            }
+            else
+                MessageBox.Show("Frame 별 체크 후에 사용 부탁드립니다.");
         }
 
         public void Cheked_State_DF()
