@@ -331,30 +331,56 @@ namespace ViewPort
         public void Return_Img_Print()
         {
             DataTable dt = (DataTable)dataGridView1.DataSource;
+            Return_dicInfo.Clear();
 
-            Return_dicInfo = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
-            
-
-            for(int i = 0; i < selected_Pic.Count; i++)
+            if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
             {
-                Return_dicInfo.Add(selected_Pic[i], dicInfo[selected_Pic[i]]);
-
-                if (dt.Rows.Contains(selected_Pic[i]))
-                    continue;
-                else
-                    dt.Rows.Add(dicInfo[selected_Pic[i]].Imagename, dicInfo[selected_Pic[i]].ReviewDefectName);
+                    Return_dicInfo = open.Frame_dicInfo_Filter;
+            }
+            else
+            {
+                    Return_dicInfo = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
             }
 
-            dt.DefaultView.Sort = "Image Name";
+            
+            if(ViewType == "Code_200_SetView")
+            {
+                for (int i = 0; i < selected_Pic.Count; i++)
+                {
+                    Return_dicInfo.Add(selected_Pic[i], Sdip_200_code_dicInfo[selected_Pic[i]]);
+
+                    if (dt.Rows.Contains(selected_Pic[i]))
+                        continue;
+                    else
+                        dt.Rows.Add(Sdip_200_code_dicInfo[selected_Pic[i]].Imagename, Sdip_200_code_dicInfo[selected_Pic[i]].ReviewDefectName);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < selected_Pic.Count; i++)
+                {
+                    Return_dicInfo.Add(selected_Pic[i], dicInfo[selected_Pic[i]]);
+
+                    if (dt.Rows.Contains(selected_Pic[i]))
+                        continue;
+                    else
+                        dt.Rows.Add(dicInfo[selected_Pic[i]].Imagename, dicInfo[selected_Pic[i]].ReviewDefectName);
+                }
+
+            }
+
+           
+
+            dt.DefaultView.Sort = "이름";
             
             
             Sorted_dic = Return_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
             Return_dicInfo = Sorted_dic;
 
-            
+
 
             //open.DicInfo_Filtered = Return_dicInfo;
-
+            List_Count_TB.Text = String.Format("{0:#,##0}", Return_dicInfo.Count);
 
 
             if (Selected_Equipment_DF_List.Count > 0)
@@ -362,7 +388,11 @@ namespace ViewPort
             else
                 open.Set_Image();
 
+
+            
             selected_Pic.Clear();
+            
+
         }
         public void Wait_Del_Print_List()
         {
@@ -372,7 +402,7 @@ namespace ViewPort
             DataTable Dt = new DataTable();
             Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
             Dt.Columns.Add(COLUMN_STR.GRID_STATE);
-
+            Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
             //foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
             //{
             //    DataRow dr = dt_del.NewRow();
@@ -384,7 +414,7 @@ namespace ViewPort
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
             {
-                Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.DeleteCheck);
+                Dt.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
             }
                 
 
@@ -420,21 +450,40 @@ namespace ViewPort
             int index = 0;
 
             DataTable dt_del = (DataTable)dataGridView2.DataSource;
-
-            Return_update_Equipment_DF_CLB(Selected_Pic);
-
-            for (int i = 0; i < Selected_Pic.Count; i++)
+            dt_del.PrimaryKey = new DataColumn[] { dt_del.Columns[COLUMN_STR.GRID_IMGNAME] };
+            
+            if(ViewType == "Code_200_SetView")
             {
-                DataRow dr = dt_del.NewRow();
-                dr = dt_del.Rows.Find(Selected_Pic[i]);
-                index = dt_del.Rows.IndexOf(dr);
-                dt_del.Rows[index].Delete();
-                //dt_del.AcceptChanges();
-                
+                Return_Update_Code_No200_List(Selected_Pic);
+                for (int i = 0; i < Selected_Pic.Count; i++)
+                {
+                    DataRow dr = dt_del.NewRow();
+                    dr = dt_del.Rows.Find(Selected_Pic[i]);
+                    index = dt_del.Rows.IndexOf(dr);
+                    dt_del.Rows[index].Delete();
+                    //dt_del.AcceptChanges();
+
+                }
+                Code_200_Set();
             }
+            else
+            {
+                Return_update_Equipment_DF_CLB(Selected_Pic);
+
+                for (int i = 0; i < Selected_Pic.Count; i++)
+                {
+                    DataRow dr = dt_del.NewRow();
+                    dr = dt_del.Rows.Find(Selected_Pic[i]);
+                    index = dt_del.Rows.IndexOf(dr);
+                    dt_del.Rows[index].Delete();
+                    //dt_del.AcceptChanges();
+
+                }
+            }
+            
 
 
-            Selected_Pic.Clear();
+            
         }
         public void Dl_PrintList()
         {
@@ -444,54 +493,75 @@ namespace ViewPort
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
             dt.Rows.Clear();
-            update_Equipment_DF_CLB(Selected_Pic);
 
-            //for (int i = 0; i < Selected_Pic.Count; i++)
-            //{
-            //    DataRow dr = dt.NewRow();
-            //    dr = dt.Rows.Find(DicInfo_Copy[Selected_Pic[i]].Imagename);
-            //    index = dt.Rows.IndexOf(dr);
-            //    dt.Rows[index].Delete();
-
-            //    DicInfo.Remove(Selected_Pic[i]);
-            //    if (Eq_CB_dicInfo.Count > 0)
-            //    {
-            //        if (Eq_CB_dicInfo.ContainsKey(Selected_Pic[i]))
-            //            Eq_CB_dicInfo.Remove(Selected_Pic[i]);
-            //    }
-            //    //dt.AcceptChanges();
-            //}
-
-
-            for (int i = 0; i < Selected_Pic.Count; i++)
+            if(ViewType== "Code_200_SetView")
             {
-               
-                DicInfo.Remove(Selected_Pic[i]);
+                Update_Code_No200_List(Selected_Pic);
+
+                for (int i = 0; i < Selected_Pic.Count; i++)
+                {
+                    Sdip_200_code_dicInfo.Remove(Selected_Pic[i]);
+                 
+                }
+                Code_200_Set();
+                DataTable Dt = new DataTable();
+                Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+                Dt.Columns.Add(COLUMN_STR.GRID_STATE);
+                Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
+
+
+
+                foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                    Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+                dataGridView1.DataSource = Dt;
+
                 if (Eq_CB_dicInfo.Count > 0)
                 {
-                    if (Eq_CB_dicInfo.ContainsKey(Selected_Pic[i]))
-                        Eq_CB_dicInfo.Remove(Selected_Pic[i]);
+
                 }
-                
-            }
-            DataTable Dt = new DataTable();
-            Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
-            Dt.Columns.Add(COLUMN_STR.GRID_STATE);
-            Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
-
-
-
-            foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
-                Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
-
-            dataGridView1.DataSource = Dt;
-
-            if (Eq_CB_dicInfo.Count>0)
-            {
-                
+                else
+                    Select_All_BTN_Click(null, null);
             }
             else
-                Select_All_BTN_Click(null, null);
+            {
+                update_Equipment_DF_CLB(Selected_Pic);
+
+
+                for (int i = 0; i < Selected_Pic.Count; i++)
+                {
+
+                    DicInfo.Remove(Selected_Pic[i]);
+                    if (Eq_CB_dicInfo.Count > 0)
+                    {
+                        if (Eq_CB_dicInfo.ContainsKey(Selected_Pic[i]))
+                            Eq_CB_dicInfo.Remove(Selected_Pic[i]);
+                    }
+
+                }
+
+
+
+                DataTable Dt = new DataTable();
+                Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+                Dt.Columns.Add(COLUMN_STR.GRID_STATE);
+                Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
+
+
+
+                foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                    Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+                dataGridView1.DataSource = Dt;
+
+                if (Eq_CB_dicInfo.Count > 0)
+                {
+
+                }
+                else
+                    Select_All_BTN_Click(null, null);
+            }
+            
 
             Selected_Pic.Clear();
         }
@@ -991,7 +1061,8 @@ namespace ViewPort
         {
             int x = 1;
             int index = 0;
-            
+            CODE_200_List.Clear();
+            Sdip_result_dic.Clear();
             foreach (KeyValuePair<string, ImageInfo> pair in Sdip_200_code_dicInfo)
             {
                 if (CODE_200_List.FindIndex(s => s.Item1.Equals(pair.Value.sdip_no)) == -1)
@@ -1047,6 +1118,7 @@ namespace ViewPort
             }
             Equipment_DF_CLB.Items.Clear();
             Initial_Equipment_DF_List();
+
             for (int i = 0; i < All_Equipment_DF_List.Count; i++)
                 Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
 
@@ -1078,6 +1150,66 @@ namespace ViewPort
             }
 
            
+        }
+
+        public void Update_Code_No200_List(List<string> deleted_pic)
+        {
+            List<string> changed_eq = new List<string>();
+            int x = 1;
+            int index = 0;
+            Char[] sd = { '-' };
+            
+            for (int i = 0; i < deleted_pic.Count; i++)
+            {
+                if (CODE_200_List.FindIndex(s => s.Item1.Equals(Sdip_200_code_dicInfo[deleted_pic[i]].EquipmentDefectName)) == -1)
+                    continue;
+                else
+                {
+                    index = CODE_200_List.FindIndex(s => s.Item1.Equals(Sdip_200_code_dicInfo[deleted_pic[i]].EquipmentDefectName));
+                    x = CODE_200_List[index].Item2;
+                    CODE_200_List[index] = new Tuple<string, int>(Sdip_200_code_dicInfo[deleted_pic[i]].EquipmentDefectName, --x);
+
+                    if (x == 0)
+                    {
+                        CODE_200_List.RemoveAt(index);
+
+                    }
+
+                }
+
+            }
+           
+
+        }
+
+        public void Return_Update_Code_No200_List(List<string> deleted_pic)
+        {
+            List<string> changed_eq = new List<string>();
+            int x = 1;
+            int index = 0;
+            Char[] sd = { '-' };
+
+            for (int i = 0; i < deleted_pic.Count; i++)
+            {
+                if (CODE_200_List.FindIndex(s => s.Item1.Equals(Sdip_200_code_dicInfo[deleted_pic[i]].EquipmentDefectName)) == -1)
+                    continue;
+                else
+                {
+                    index = CODE_200_List.FindIndex(s => s.Item1.Equals(Sdip_200_code_dicInfo[deleted_pic[i]].EquipmentDefectName));
+                    x = CODE_200_List[index].Item2;
+                    CODE_200_List[index] = new Tuple<string, int>(Sdip_200_code_dicInfo[deleted_pic[i]].EquipmentDefectName, ++x);
+
+                    if (x == 0)
+                    {
+                        CODE_200_List.RemoveAt(index);
+
+                    }
+
+                }
+
+            }
+
+
         }
 
         private void Return_update_Equipment_DF_CLB(List<string> deleted_pic)
@@ -1113,9 +1245,11 @@ namespace ViewPort
                 EQ_Search();
 
             }
-           
-               
 
+        }
+
+        private void Return_update_Code200_List(List<string> deleted_pic)
+        {
 
         }
         private void Width_TB_TextChanged(object sender, EventArgs e)
@@ -1838,7 +1972,8 @@ namespace ViewPort
 
         private void FormViewPort_MouseMove(object sender, MouseEventArgs e)
         {
-            //this.Activate();
+
+            this.Focus();
         }
     }
 

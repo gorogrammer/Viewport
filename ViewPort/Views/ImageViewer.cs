@@ -717,10 +717,11 @@ namespace ViewPort.Views
         }
 
         private void ImageViewer_PL_MouseDown(object sender, MouseEventArgs e)
-        {   
+        {
             
-            src_Mouse_XY.X = e.X;
-            src_Mouse_XY.Y = e.Y;
+            this.Focus();
+            src_Mouse_XY.X = e.Location.X;
+            src_Mouse_XY.Y = e.Location.Y;
 
             if (Draged_PB != null)
             {
@@ -1169,7 +1170,9 @@ namespace ViewPort.Views
             PictureData.Clear();
 
 
-            dicInfo_Filter = Main.Return_dicInfo;
+            dicInfo_Filter = new Dictionary<string, ImageInfo>(Main.Return_dicInfo);
+            
+
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
             DicInfo_Filtered = Sorted_dic;
             Eq_cb_need_del = Main.selected_Pic;
@@ -1210,6 +1213,7 @@ namespace ViewPort.Views
             Set_PictureBox();
             Set_Image();
             Last_Picture_Selected_Index = -1;
+            //Main.Return_dicInfo.Clear();
             this.Focus();
         }
         public void Filter_CB_after_Set_View()
@@ -1280,11 +1284,12 @@ namespace ViewPort.Views
         {
             if(Setting ==1)
             {
+                this.Focus();
                 //Main.Activate();
                 int tmp_XY;
 
-                dst_Mouse_XY.X = e.X;
-                dst_Mouse_XY.Y = e.Y;
+                dst_Mouse_XY.X = e.Location.X;
+                dst_Mouse_XY.Y = e.Location.Y;
 
                 if (Draged_PB != null)
                 {
@@ -1323,13 +1328,14 @@ namespace ViewPort.Views
                 if (Change_state_List.Count > 0)
                     Main.Changeed_State();
 
-                //src_Mouse_XY.X = -1;
-                //src_Mouse_XY.Y = -1;
-                //dst_Mouse_XY.X = -1;
-                //dst_Mouse_XY.Y = -1;
+                src_Mouse_XY.X = -1;
+                src_Mouse_XY.Y = -1;
+                dst_Mouse_XY.X = -1;
+                dst_Mouse_XY.Y = -1;
 
-                src_Mouse_XY = Point.Empty;
-                dst_Mouse_XY = Point.Empty;
+                //src_Mouse_XY = Point.Empty;
+                //dst_Mouse_XY = Point.Empty;
+                
             }
             
         }
@@ -1885,7 +1891,7 @@ namespace ViewPort.Views
 
             frame_dicInfo_Filter.Clear();
 
-            foreach (KeyValuePair<string, ImageInfo> kvp in dicInfo_Filter)
+            foreach (KeyValuePair<string, ImageInfo> kvp in Main.DicInfo)
             {
                 if (kvp.Value.FrameNo == frame_List_Img[Frame_List_Index])
                     if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
@@ -2574,6 +2580,9 @@ namespace ViewPort.Views
         public void Cheked_State_DF()
         {
             int length = 0;
+            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            dicInfo_Filter = Sorted_dic;
+
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
                 int index = ((Current_PageNum - 1) * (cols * rows)) + i;
@@ -2673,7 +2682,15 @@ namespace ViewPort.Views
             }
         }
         public void Frame_Cheked_State_DF()
-        {
+         {
+            //if(Main.Return_dicInfo.Count > 0)
+            //{
+            //    Frame_dicInfo_Filter = new Dictionary<string, ImageInfo>(Main.Return_dicInfo);
+            //    Main.Return_dicInfo.Clear();
+            //}
+
+            Sorted_dic = Frame_dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Frame_dicInfo_Filter = Sorted_dic;
 
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
@@ -2774,38 +2791,7 @@ namespace ViewPort.Views
 
         private void PictureBox_Click(object sender, EventArgs e)
         {
-            this.Focus();
-            MouseEventArgs MouseEvent = (MouseEventArgs)e;
-            PictureBox PB = (PictureBox)sender;
 
-            int index = ((Current_PageNum - 1) * (cols * rows));
-            int EachPage_ImageNum = cols * rows;
-
-            if (dicInfo_Filter.Count - ((cols * rows) * Current_PageNum) < 0)
-                EachPage_ImageNum += dicInfo_Filter.Count - ((cols * rows) * Current_PageNum);
-
-            switch (MouseEvent.Button)
-            {
-                case MouseButtons.Left:
-                    {
-                        break;
-                    }
-                case MouseButtons.Right:
-                    {
-                        for (int i = 0; i < EachPage_ImageNum; i++)
-                        {
-                            //if (PB.Image == PictureData.ElementAt(i).Image)
-                            if (PB.Image == Picture_Glass.ElementAt(i).Image)
-                            {
-                                Last_Picture_Selected_Index = index + i;
-                                Selected_Picture_Index.Clear();
-                                Selected_Picture_Index.Add(Last_Picture_Selected_Index);
-                                break;
-                            }
-                        }
-                        break;
-                    }
-            }
         }
 
         private void PictureBox_MouseHover(object sender, EventArgs e)
@@ -2816,6 +2802,7 @@ namespace ViewPort.Views
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             this.Focus();
+            Main.Activate();
             PictureBox PB = (PictureBox)sender;
 
             for (int i = 0; i < Picture_Glass.Count; i++)
@@ -2831,7 +2818,7 @@ namespace ViewPort.Views
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            //Main.Activate();
+            this.Focus();
             ImageViewer_PL_MouseMove(sender, e);
         }
 

@@ -530,20 +530,44 @@ namespace ViewPort.Views
         {
             Get_Delete_IMG();
             
-            for (int i = 0; i < Select_Pic.Count; i++)
-            {
-                if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
-                {
-                    dicInfo_Filter_Del[Select_Pic[i]].ReviewDefectName = "양품";
-                    dicInfo_Filter_Del[Select_Pic[i]].DeleteCheck = "0";
-                    Main.DicInfo[Select_Pic[i]] = dicInfo_Filter_Del[Select_Pic[i]];
 
-                    //Main.selected_Pic.Add(Select_Pic[i]);
-                    dicInfo_Filter_Del.Remove(Select_Pic[i]);
+            if(Main.ViewType == "Code_200_SetView")
+            {
+                for (int i = 0; i < Select_Pic.Count; i++)
+                {
+                    if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
+                    {
+                        dicInfo_Filter_Del[Select_Pic[i]].ReviewDefectName = "양품";
+                        dicInfo_Filter_Del[Select_Pic[i]].DeleteCheck = "0";
+                        Main.Sdip_200_code_dicInfo[Select_Pic[i]] = dicInfo_Filter_Del[Select_Pic[i]];
+
+                        //Main.selected_Pic.Add(Select_Pic[i]);
+                        dicInfo_Filter_Del.Remove(Select_Pic[i]);
+                    }
+
+
                 }
-                
 
             }
+            else
+            {
+                for (int i = 0; i < Select_Pic.Count; i++)
+                {
+                    if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
+                    {
+                        dicInfo_Filter_Del[Select_Pic[i]].ReviewDefectName = "양품";
+                        dicInfo_Filter_Del[Select_Pic[i]].DeleteCheck = "0";
+                        Main.DicInfo[Select_Pic[i]] = dicInfo_Filter_Del[Select_Pic[i]];
+
+                        //Main.selected_Pic.Add(Select_Pic[i]);
+                        dicInfo_Filter_Del.Remove(Select_Pic[i]);
+                    }
+
+
+                }
+            }
+
+            
 
             
            
