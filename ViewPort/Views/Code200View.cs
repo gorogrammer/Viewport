@@ -26,6 +26,8 @@ namespace ViewPort.Views
             InitializeComponent();
             Main = parent;
 
+            Code_200_CLB.Items.Clear();
+
             for (int i = 0; i < Main.CODE_200_List.Count; i++)
                 Code_200_CLB.Items.Add(Main.CODE_200_List.ElementAt(i).Item1 + "-" + Main.Sdip_result_dic[Main.CODE_200_List.ElementAt(i).Item1] + "-" + Main.CODE_200_List.ElementAt(i).Item2);
         }

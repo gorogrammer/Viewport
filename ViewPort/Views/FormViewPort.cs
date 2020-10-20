@@ -368,19 +368,27 @@ namespace ViewPort
         {
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             DataTable dt_del = (DataTable)dataGridView2.DataSource;
-            //dt_del.Rows.Clear();
-            
+            dt_del.Rows.Clear();
+            DataTable Dt = new DataTable();
+            Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+            Dt.Columns.Add(COLUMN_STR.GRID_STATE);
+
+            //foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
+            //{
+            //    DataRow dr = dt_del.NewRow();
+            //    if (dt_del.Rows.Contains(kvp.Key))
+            //        continue;
+            //    else
+            //        dt_del.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
+            //}
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
             {
-                DataRow dr = dt_del.NewRow();
-                if (dt_del.Rows.Contains(kvp.Key))
-                    continue;
-                else
-                    dt_del.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
+                Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.DeleteCheck);
             }
+                
 
-            dataGridView2.DataSource = dt_del;
+            dataGridView2.DataSource = Dt;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
         public void Img_txt_Info_Combine()
@@ -435,26 +443,50 @@ namespace ViewPort
             Selected_Pic = open.Select_Pic_List;
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
-
+            dt.Rows.Clear();
             update_Equipment_DF_CLB(Selected_Pic);
+
+            //for (int i = 0; i < Selected_Pic.Count; i++)
+            //{
+            //    DataRow dr = dt.NewRow();
+            //    dr = dt.Rows.Find(DicInfo_Copy[Selected_Pic[i]].Imagename);
+            //    index = dt.Rows.IndexOf(dr);
+            //    dt.Rows[index].Delete();
+
+            //    DicInfo.Remove(Selected_Pic[i]);
+            //    if (Eq_CB_dicInfo.Count > 0)
+            //    {
+            //        if (Eq_CB_dicInfo.ContainsKey(Selected_Pic[i]))
+            //            Eq_CB_dicInfo.Remove(Selected_Pic[i]);
+            //    }
+            //    //dt.AcceptChanges();
+            //}
+
 
             for (int i = 0; i < Selected_Pic.Count; i++)
             {
-                DataRow dr = dt.NewRow();
-                dr = dt.Rows.Find(DicInfo_Copy[Selected_Pic[i]].Imagename);
-                index = dt.Rows.IndexOf(dr);
-                dt.Rows[index].Delete();
-
+               
                 DicInfo.Remove(Selected_Pic[i]);
                 if (Eq_CB_dicInfo.Count > 0)
                 {
-                    if(Eq_CB_dicInfo.ContainsKey(Selected_Pic[i]))
+                    if (Eq_CB_dicInfo.ContainsKey(Selected_Pic[i]))
                         Eq_CB_dicInfo.Remove(Selected_Pic[i]);
                 }
-                //dt.AcceptChanges();
+                
             }
-            
-            if(Eq_CB_dicInfo.Count>0)
+            DataTable Dt = new DataTable();
+            Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+            Dt.Columns.Add(COLUMN_STR.GRID_STATE);
+            Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
+
+
+
+            foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+            dataGridView1.DataSource = Dt;
+
+            if (Eq_CB_dicInfo.Count>0)
             {
                 
             }
@@ -522,8 +554,6 @@ namespace ViewPort
         {
             int index = 0;
             Dictionary<string, ImageInfo> Dl_DicInfo = new Dictionary<string, ImageInfo>(DicInfo);
-            
-            
 
             Selected_Pic = open.Select_Pic_List;
 
@@ -531,24 +561,36 @@ namespace ViewPort
             DataTable dt = (DataTable)dataGridView1.DataSource;
 
             update_Equipment_DF_CLB(Selected_Pic);
-            DicInfo.Clear();
+            //DicInfo.Clear();
 
 
-            foreach(KeyValuePair<string,ImageInfo> pair in Dl_DicInfo)
-            {
-                if (!Selected_Pic.Contains(pair.Key))
-                {
-                    DicInfo.Add(pair.Key, pair.Value);
-                }
+            //foreach(KeyValuePair<string,ImageInfo> pair in Dl_DicInfo)
+            //{
+            //    if (!Selected_Pic.Contains(pair.Key))
+            //    {
+            //        DicInfo.Add(pair.Key, pair.Value);
+            //    }
                     
+            //}
+            for(int i =0; i <= Selected_Pic.Count -1; i++ )
+            {
+                if(DicInfo.ContainsKey(Selected_Pic[i]))
+                    DicInfo.Remove(Selected_Pic[i]);
             }
-           
-            dt.Rows.Clear();
+
             
 
-            foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
-                dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+            dt.Rows.Clear();
+            DataTable Dt = new DataTable();
+            Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+            Dt.Columns.Add(COLUMN_STR.GRID_STATE);
+            Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
 
+            foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
+
+            dataGridView1.DataSource = Dt;
             Select_All_BTN_Click(null, null);
         }
         public void Filter_NO_1_PrintList()
@@ -602,28 +644,43 @@ namespace ViewPort
             
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
-           
-           
+
+            dt.Rows.Clear();
+            DataTable Dt = new DataTable();
+            Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
+            Dt.Columns.Add(COLUMN_STR.GRID_STATE);
+            Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
             //dt.Rows.Clear();
-           
+
+            //if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
+            //{
+            //    for (int i = 0; i < dt.Rows.Count; i++)
+            //    {
+            //        dataGridView1.Rows[i].Cells[2].Value = open.Frame_dicInfo_Filter[dataGridView1.Rows[2].Cells[1].Value.ToString().Substring(0, 12)].ReviewDefectName;
+            //    }
+            //}
+            //else
+            //{
+
+            //    for (int i = 0; i < dt.Rows.Count; i++)
+            //    {
+            //        dataGridView1.Rows[i].Cells[2].Value = open.DicInfo_Filtered[dataGridView1.Rows[2].Cells[1].Value.ToString().Substring(0, 12)].ReviewDefectName;
+            //    }
+            //}
+
             if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
             {
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    dataGridView1.Rows[i].Cells[2].Value = open.Frame_dicInfo_Filter[dataGridView1.Rows[2].Cells[1].Value.ToString().Substring(0, 12)].ReviewDefectName;
-                }
+                foreach (KeyValuePair<string, ImageInfo> kvp in open.Frame_dicInfo_Filter)
+                    Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
             }
             else
             {
-                //foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
-                //    dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    dataGridView1.Rows[i].Cells[2].Value = open.DicInfo_Filtered[dataGridView1.Rows[2].Cells[1].Value.ToString().Substring(0, 12)].ReviewDefectName;
-                }
+                foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Filtered)
+                    Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
+
             }
-                
-      
+
+            dataGridView1.DataSource = Dt;
         }
 
         public void Counting_IMG_inZip(string ZipFilePath)
@@ -756,6 +813,7 @@ namespace ViewPort
 
         private void ZipLoadFile_Async()
         {
+            All_Clear();
             Load_State = 1;
             string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
             string FileName = string.Empty;
@@ -1240,6 +1298,63 @@ namespace ViewPort
             int ci = open.DicInfo_Delete.Count;
 
         }
+        private void All_Clear()
+        {
+            CODE_200_List.Clear();
+            Setting = 0;
+            Exception_Frame.Clear();
+            Final_text_main = string.Empty;
+            Eq_CB_dicInfo.Clear();
+            Map_List_Dic_main.Clear();
+            Map_List_Dic_Compare_main.Clear();
+            Filter_200_dic_Main.Clear();
+            Exceed_filter.Clear();
+            Sdip_200_code_dicInfo.Clear();
+            F9_code_dicInfo.Clear();
+            F10_code_dicInfo.Clear();
+
+            F5_code_dicInfo.Clear();
+            Sdip_NO1_dicInfo.Clear();
+            DicInfo_Copy.Clear();
+            Return_dicInfo.Clear();
+            Waiting_Del.Clear();
+
+            Frame_List_Main.Clear();
+            Sdip_result_dic.Clear();
+            F9_Frame_List_Main.Clear();
+
+            Exceed_List.Clear();
+            F10_Frame_List_Main.Clear();
+
+            F5_Img_KeyList_Main.Clear();
+
+
+            mAP_LIST.Clear();
+            Contain_200_Frame_Main.Clear();
+            selected_Pic.Clear();
+
+            Dl_Apply_List_Main.Clear();
+
+            Dl_NotApply_List_Main.Clear();
+            Dl_List_Main.Clear();
+
+            ZipFilePath = string.Empty;
+            REF_DirPath = string.Empty;
+            DirPath = string.Empty;
+
+
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            dt.Rows.Clear();
+
+            DataTable dt2 = (DataTable)dataGridView2.DataSource;
+
+            dt2.Rows.Clear();
+
+
+
+
+        }
 
         private void FormViewPort_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -1719,6 +1834,11 @@ namespace ViewPort
             {
                 open.Frame_Filter(int.Parse(Frame_S_TB.Text));
             }
+        }
+
+        private void FormViewPort_MouseMove(object sender, MouseEventArgs e)
+        {
+            //this.Activate();
         }
     }
 

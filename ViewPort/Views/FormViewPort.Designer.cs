@@ -242,7 +242,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(322, 89);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(322, 66);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -397,14 +397,14 @@
             // 중간저장ToolStripMenuItem
             // 
             this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
-            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.중간저장ToolStripMenuItem.Text = "중간 저장";
             this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
             // 
             // 저장불러오기ToolStripMenuItem
             // 
             this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
-            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
             this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
             // 
@@ -581,7 +581,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
             this.splitContainer5.Size = new System.Drawing.Size(322, 353);
-            this.splitContainer5.SplitterDistance = 260;
+            this.splitContainer5.SplitterDistance = 283;
             this.splitContainer5.TabIndex = 0;
             // 
             // Print_Image_EQ
@@ -900,6 +900,7 @@
             this.Text = "Carlo ViewPort";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormViewPort_FormClosing);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormViewPort_MouseMove);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);

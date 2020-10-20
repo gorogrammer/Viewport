@@ -59,7 +59,7 @@ namespace ViewPort.Views
         {
             InitializeComponent();
             Main = parent;
-            
+           
         }
         public void Set_View_Del()
         {
@@ -511,7 +511,7 @@ namespace ViewPort.Views
 
         private void DeleteWaiting_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Main.SetFocus();
+            Main.Activate();
         }
 
         private void button1_Click(object sender, EventArgs e)

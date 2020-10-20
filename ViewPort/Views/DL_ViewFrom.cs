@@ -21,6 +21,7 @@ namespace ViewPort.Views
         {
             InitializeComponent();
             Main = parent;
+            listBox1.Items.Clear();
         }
 
         public void Dl_LIst_ADD(List<string> list)

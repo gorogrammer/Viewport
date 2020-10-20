@@ -138,7 +138,7 @@ namespace ViewPort.Views
 
         private void ExitProgressBarSafe()
         {
-            if (this.InvokeRequired)
+           if (this.InvokeRequired)
             {
                 this.BeginInvoke(new Action(() => this.Close()));
             }
@@ -322,7 +322,7 @@ namespace ViewPort.Views
                 int FrameNo = Func.GetFrameNumber(subEntry.Name);
                 int CameraNo = Func.GetCamNumber(subEntry.Name);
 
-
+                
                 if (main.checkBox1.Checked)
                 {
                     ImgInfo = new Bitmap(subEntry.Open());
@@ -339,26 +339,9 @@ namespace ViewPort.Views
 
                 int x = 1;
                 int index = 0;
+                //if(main.)
 
-                if(Map_List.Count>0)
-                {
-                    if (Map_List.Contains(FrameNo))
-                    {
-                        if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
-                            All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
-                        else
-                        {
-                            index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
-                            x = All_Equipment_DF_List[index].Item2;
-                            All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
-
-                        }
-
-
-                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize,"","0"));
-                    } 
-                }
-                else
+                if(main.View_Mode_RB.Checked)
                 {
                     if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
                         All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
@@ -369,9 +352,47 @@ namespace ViewPort.Views
                         All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
 
                     }
-                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize,"", "0"));
+
+
+                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
                 }
-                   
+                else
+                {
+                    if (Map_List.Count > 0)
+                    {
+                        if (Map_List.Contains(FrameNo))
+                        {
+                            if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
+                                All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
+                            else
+                            {
+                                index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
+                                x = All_Equipment_DF_List[index].Item2;
+                                All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
+
+                            }
+
+
+                            Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
+                        }
+                    }
+                    else
+                    {
+                        if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
+                            All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
+                        else
+                        {
+                            index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
+                            x = All_Equipment_DF_List[index].Item2;
+                            All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
+
+                        }
+                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
+                    }
+
+                }
+
+                                 
 
 
             }

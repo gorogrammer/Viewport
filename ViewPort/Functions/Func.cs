@@ -506,7 +506,7 @@ namespace ViewPort.Functions
                     foreach(string ID in items)
                     {
                         if (Waiting_Del.ContainsKey(ID))
-                            break;
+                            continue;
                         else
                         {
                             Waiting_Del.Add(ID, dicInfo[ID]);

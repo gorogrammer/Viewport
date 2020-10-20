@@ -157,6 +157,12 @@
     <Compile Include="Views\LoadingGIF.Designer.cs">
       <DependentUpon>LoadingGIF.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ViewModePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ViewModePassword.Designer.cs">
+      <DependentUpon>ViewModePassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\XYLocationFilter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,6 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LoadingGIF.resx">
       <DependentUpon>LoadingGIF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ViewModePassword.resx">
+      <DependentUpon>ViewModePassword.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\XYLocationFilter.resx">
       <DependentUpon>XYLocationFilter.cs</DependentUpon>
