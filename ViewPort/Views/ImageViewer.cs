@@ -751,9 +751,8 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            if (!Main.Exceed_CB.Checked &&Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F !=1)
+            if (!Main.Exceed_CB.Checked &&Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F !=1&& Main.List_filter !=1)
             {
-                //frame_List_Img = Main.Frame_List_Main;
                 dicInfo_Filter = Main.DicInfo;
                 
             }
@@ -762,6 +761,7 @@ namespace ViewPort.Views
                 dicInfo_Filter = Main.Exceed_filter;
 
             }
+        
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 
             DicInfo_Filtered = Sorted_dic;
@@ -933,43 +933,82 @@ namespace ViewPort.Views
             {
                 Frame_List_Img = Main.Exceed_List;
             }
-            else
+            else if(Main.ListFiler == "FrameList_FIlter" || Main.ListFiler == "List_FIlter")
             {
-                if (Main.mAP_LIST.Count > 0)
-                    Frame_List_Img = Main.mAP_LIST;
-                else
-                    Frame_List_Img = Main.Frame_List_Main;
-            }
-           
-
-
-            if (Main.Eq_CB_dicInfo.Count > 0)
-            {
-                dicInfo_Filter = Main.Eq_CB_dicInfo;
-                Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-
-                DicInfo_Filtered = Sorted_dic;
                 Frame_List_Img.Clear();
-                foreach (KeyValuePair<string,ImageInfo> pair in DicInfo_Filtered)
+                foreach (string pair in DicInfo_Filtered.Keys.ToList())
                 {
-                    
-
-                    if(Frame_List_Img.Contains(pair.Value.FrameNo))
+                    if(Frame_List_Img.Contains(DicInfo_Filtered[pair].FrameNo))
                     {
+
                     }
                     else
                     {
-                        Frame_List_Img.Add(pair.Value.FrameNo);
+                        Frame_List_Img.Add(DicInfo_Filtered[pair].FrameNo);
+
                     }
                 }
             }
-            else if(Filter_F ==1)
+            else
             {
+                Frame_List_Img.Clear();
+                foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                {
+                    if (Frame_List_Img.Contains(DicInfo_Filtered[pair].FrameNo))
+                    {
 
+                    }
+                    else
+                    {
+                        Frame_List_Img.Add(DicInfo_Filtered[pair].FrameNo);
+
+                    }
+                }
+            }
+            //if (Main.Eq_CB_dicInfo.Count > 0)
+            //{
+            //    dicInfo_Filter = Main.Eq_CB_dicInfo;
+            //    Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            //    DicInfo_Filtered = Sorted_dic;
+            //    Frame_List_Img.Clear();
+            //    foreach (KeyValuePair<string, ImageInfo> pair in DicInfo_Filtered)
+            //    {
+            //        if (Frame_List_Img.Contains(pair.Value.FrameNo))
+            //        {
+            //        }
+            //        else
+            //        {
+            //            Frame_List_Img.Add(pair.Value.FrameNo);
+            //        }
+            //    }
+            //}
+
+
+            if (Filter_NO_1 == 1)
+            {
+                Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+                DicInfo_Filtered = Sorted_dic;
+            }
+            else if (Filter_F == 1)
+            {
+                Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+                DicInfo_Filtered = Sorted_dic;
+            }
+            else if (Main.ViewType == "FrameList_FIlter")
+            {
+                Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+                DicInfo_Filtered = Sorted_dic;
             }
             else
             {
-                dicInfo_Filter = Main.DicInfo;
+                //dicInfo_Filter = Main.DicInfo;
+                //Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+                //DicInfo_Filtered = Sorted_dic;
                 Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 
                 DicInfo_Filtered = Sorted_dic;
@@ -1891,7 +1930,7 @@ namespace ViewPort.Views
 
             frame_dicInfo_Filter.Clear();
 
-            foreach (KeyValuePair<string, ImageInfo> kvp in Main.DicInfo)
+            foreach (KeyValuePair<string, ImageInfo> kvp in DicInfo_Filtered)
             {
                 if (kvp.Value.FrameNo == frame_List_Img[Frame_List_Index])
                     if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
@@ -2569,6 +2608,33 @@ namespace ViewPort.Views
                     Frame_Set_Image();
 
                    
+
+                }
+                Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
+            }
+            else
+                MessageBox.Show("Frame 별 체크 후에 사용 부탁드립니다.");
+        }
+        public void No_Frmae_Filter(int Frame)
+        {
+            if (Main.Frame_View_CB.Checked)
+            {
+                
+                if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) >= int.Parse(Main.Frame_E_Page_TB.Text))
+                {
+                    MessageBox.Show("마지막 페이지 입니다.");
+                }
+                else
+                {
+
+                    Current_PageNum = 1;
+                    Last_Picture_Selected_Index = -1;
+                    Current_Frame_PageNum = Frame;
+                    Main.Frame_S_Page_TB.Text = Current_Frame_PageNum.ToString();
+
+                    Frame_Set_Image();
+
+
 
                 }
                 Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);

@@ -151,6 +151,12 @@
     <Compile Include="Views\ImageViewer.Designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ListFilertView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ListFilertView.Designer.cs">
+      <DependentUpon>ListFilertView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoadingGIF.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +205,9 @@
     </Compile>
     <EmbeddedResource Include="Views\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ListFilertView.resx">
+      <DependentUpon>ListFilertView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LoadingGIF.resx">
       <DependentUpon>LoadingGIF.cs</DependentUpon>

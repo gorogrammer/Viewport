@@ -54,6 +54,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zipLoadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.frameListFilerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.중간저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -205,6 +207,7 @@
             this.Frame_S_Page_TB.Name = "Frame_S_Page_TB";
             this.Frame_S_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.Frame_S_Page_TB.TabIndex = 16;
+            this.Frame_S_Page_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frame_S_Page_TB_KeyDown);
             // 
             // label10
             // 
@@ -373,7 +376,9 @@
             // 파일ToolStripMenuItem
             // 
             this.파일ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.zipLoadFileToolStripMenuItem});
+            this.zipLoadFileToolStripMenuItem,
+            this.listFilterToolStripMenuItem,
+            this.frameListFilerToolStripMenuItem});
             this.파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
             this.파일ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.파일ToolStripMenuItem.Text = "파일";
@@ -381,9 +386,23 @@
             // zipLoadFileToolStripMenuItem
             // 
             this.zipLoadFileToolStripMenuItem.Name = "zipLoadFileToolStripMenuItem";
-            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
             this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
+            // 
+            // listFilterToolStripMenuItem
+            // 
+            this.listFilterToolStripMenuItem.Name = "listFilterToolStripMenuItem";
+            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.listFilterToolStripMenuItem.Text = "List Filter";
+            this.listFilterToolStripMenuItem.Click += new System.EventHandler(this.listFilterToolStripMenuItem_Click);
+            // 
+            // frameListFilerToolStripMenuItem
+            // 
+            this.frameListFilerToolStripMenuItem.Name = "frameListFilerToolStripMenuItem";
+            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.frameListFilerToolStripMenuItem.Text = "Frame  List Filer";
+            this.frameListFilerToolStripMenuItem.Click += new System.EventHandler(this.frameListFilerToolStripMenuItem_Click);
             // 
             // 저장ToolStripMenuItem
             // 
@@ -397,14 +416,14 @@
             // 중간저장ToolStripMenuItem
             // 
             this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
-            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.중간저장ToolStripMenuItem.Text = "중간 저장";
             this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
             // 
             // 저장불러오기ToolStripMenuItem
             // 
             this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
-            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
             this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
             // 
@@ -1003,6 +1022,8 @@
         private System.Windows.Forms.ToolStripMenuItem xyFilterToolStripMenuItem;
         public System.Windows.Forms.CheckBox Print_Image_EQ;
         public System.Windows.Forms.CheckBox Exceed_CB;
+        private System.Windows.Forms.ToolStripMenuItem listFilterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem frameListFilerToolStripMenuItem;
     }
 }
 

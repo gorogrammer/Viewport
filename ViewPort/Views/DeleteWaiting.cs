@@ -579,8 +579,6 @@ namespace ViewPort.Views
         {
             try
             {
-                
-
                 Waiting_Del_DLView = Main.Waiting_Del;
                 if (Waiting_Del_DLView.Count > 0)
                 {
@@ -601,7 +599,11 @@ namespace ViewPort.Views
                 waitform.Close();
 
             }
-            catch { }
+            catch(Exception ex)
+            {
+                waitform.Close();
+                MessageBox.Show(ex.ToString());
+            }
            
         }
 

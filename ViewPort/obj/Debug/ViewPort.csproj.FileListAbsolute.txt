@@ -1231,3 +1231,4 @@ C:\Users\metalheedo\Desktop\스템코\1016\1014 viewport-그리드 수정\Viewpo
 C:\Users\metalheedo\Desktop\스템코\1016\1014 viewport-그리드 수정\Viewport\ViewPort\obj\Debug\ViewPort.exe
 C:\Users\metalheedo\Desktop\스템코\1016\1014 viewport-그리드 수정\Viewport\ViewPort\obj\Debug\ViewPort.pdb
 C:\Users\metalheedo\Desktop\스템코\1016\1014 viewport-그리드 수정\Viewport\ViewPort\obj\Debug\ViewPort.Views.ViewModePassword.resources
+C:\Users\metalheedo\Desktop\스템코\1016\1014 viewport-그리드 수정\Viewport\ViewPort\obj\Debug\ViewPort.Views.ListFilertView.resources

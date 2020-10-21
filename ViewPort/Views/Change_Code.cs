@@ -30,16 +30,38 @@ namespace ViewPort.Views
         {
             string code = null;
 
-            DicInfo_Code_Change = Open.DicInfo_Filtered;
-            code = Code_Change_TB.Text;
-
-            foreach(KeyValuePair<string, ImageInfo> pair in Open.DicInfo_Filtered)
+       
+            if (Open.OpenViewType == "FrameSetView" || Open.OpenViewType == "DLFrameSetView")
             {
-                
+                DicInfo_Code_Change = Open.Frame_dicInfo_Filter;
+
+
+                code = Code_Change_TB.Text;
+
+                foreach (KeyValuePair<string, ImageInfo> pair in Open.DicInfo_Filtered)
+                {
+
+                    Open.Frame_dicInfo_Filter[pair.Key].sdip_no = code;
+                    Open.Frame_dicInfo_Filter[pair.Key].Change_Code = "Change";
+
+                }
+            }
+            else
+            {
+                DicInfo_Code_Change = new Dictionary<string, ImageInfo>(Open.DicInfo_Filtered);
+
+                code = Code_Change_TB.Text;
+
+                foreach (KeyValuePair<string, ImageInfo> pair in Open.DicInfo_Filtered)
+                {
+
                     Open.DicInfo_Filtered[pair.Key].sdip_no = code;
                     Open.DicInfo_Filtered[pair.Key].Change_Code = "Change";
-               
+
+                }
             }
+
+        
         }
 
         private void button1_Click(object sender, EventArgs e)
