@@ -245,7 +245,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(322, 66);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(322, 63);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -600,7 +600,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
             this.splitContainer5.Size = new System.Drawing.Size(322, 353);
-            this.splitContainer5.SplitterDistance = 283;
+            this.splitContainer5.SplitterDistance = 286;
             this.splitContainer5.TabIndex = 0;
             // 
             // Print_Image_EQ
@@ -793,6 +793,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(62, 21);
             this.textBox4.TabIndex = 11;
+            this.textBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox4_KeyDown);
             // 
             // E_Page_TB
             // 

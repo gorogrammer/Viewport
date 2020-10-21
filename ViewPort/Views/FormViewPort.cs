@@ -52,7 +52,7 @@ namespace ViewPort
         int arg = 0;
         string final_text_main = string.Empty;
         string viewType = null;
-
+        int state_Filter = 0;
         string listFiler =string.Empty;
         int Rotate_Option = 1;
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
@@ -106,7 +106,7 @@ namespace ViewPort
 
         public List<Tuple<string, int>> CODE_200_List { get => code_200_List; set => code_200_List = value; }
         public int Setting { get => setting; set => setting = value; }
-
+        public int State_Filter { get => state_Filter; set => state_Filter = value; }
         public int List_filter { get => list_filter; set => list_filter = value; }
         public List<int> Exception_Frame { get => exception_Frame; set => exception_Frame = value; }
         public string Final_text_main { get => final_text_main; set => final_text_main = value; }
@@ -1644,7 +1644,7 @@ namespace ViewPort
                 }
 
             }
-
+            Select_All_BTN_Click(null, null);
 
         }
 
@@ -2104,6 +2104,41 @@ namespace ViewPort
             {
                 open.No_Frmae_Filter(int.Parse(Frame_S_Page_TB.Text));
             }
+        }
+
+        private void textBox4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if(textBox4.Text == "양품" || textBox4.Text=="선택" )
+                {
+                    State_Filter = 1;
+                    foreach (string pair in open.DicInfo_Filtered.Keys.ToList())
+                    {
+                        if (open.DicInfo_Filtered[pair].ReviewDefectName == textBox4.Text)
+                        {
+
+                        }
+                        else
+                        {
+                            open.DicInfo_Filtered.Remove(pair);
+
+                        }
+                    }
+
+                    open.Set_Image();
+                    Print_List();
+                    textBox4.Text = string.Empty;
+                    State_Filter = 0;
+                }
+                else
+                {
+                    textBox4.Text = string.Empty;
+                    MessageBox.Show("양품 or 선택으로 입력.");
+                }
+               
+            }
+
         }
     }
 

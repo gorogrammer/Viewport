@@ -751,7 +751,7 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            if (!Main.Exceed_CB.Checked &&Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F !=1&& Main.List_filter !=1)
+            if (!Main.Exceed_CB.Checked &&Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F !=1&& Main.List_filter !=1 && Main.State_Filter != 1)
             {
                 dicInfo_Filter = Main.DicInfo;
                 
@@ -1252,6 +1252,7 @@ namespace ViewPort.Views
             Set_PictureBox();
             Set_Image();
             Last_Picture_Selected_Index = -1;
+            Main.List_Count_TB.Text = String.Format("{0:#,##0}", DicInfo_Filtered.Count);
             //Main.Return_dicInfo.Clear();
             this.Focus();
         }
@@ -1895,7 +1896,7 @@ namespace ViewPort.Views
 
 
             change_Glass();
-
+            Main.List_Count_TB.Text = String.Format("{0:#,##0}", DicInfo_Filtered.Count);
 
         }
 
