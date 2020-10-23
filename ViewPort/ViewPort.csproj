@@ -190,6 +190,9 @@
     <EmbeddedResource Include="Views\ExpandImage.resx">
       <DependentUpon>ExpandImage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\FormLoading.resx">
+      <DependentUpon>FormLoading.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\FormViewPort.resx">
       <DependentUpon>FormViewPort.cs</DependentUpon>
     </EmbeddedResource>

@@ -44,12 +44,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(550, 26);
             this.ControlBox = false;
             this.Controls.Add(this.progressBar1);
             this.MinimizeBox = false;
             this.Name = "FormLoading";
-            this.Opacity = 0.9D;
+            this.Opacity = 0.9;
+
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.ResumeLayout(false);
 

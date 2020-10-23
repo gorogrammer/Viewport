@@ -380,6 +380,7 @@
             this.listFilterToolStripMenuItem,
             this.frameListFilerToolStripMenuItem});
             this.파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
+            this.파일ToolStripMenuItem.ShowShortcutKeys = false;
             this.파일ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.파일ToolStripMenuItem.Text = "파일";
             // 
@@ -410,6 +411,7 @@
             this.중간저장ToolStripMenuItem,
             this.저장불러오기ToolStripMenuItem});
             this.저장ToolStripMenuItem.Name = "저장ToolStripMenuItem";
+            this.저장ToolStripMenuItem.ShowShortcutKeys = false;
             this.저장ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.저장ToolStripMenuItem.Text = "저장";
             // 
@@ -436,6 +438,7 @@
             this.mAPTXTUpdateToolStripMenuItem1,
             this.xyFilterToolStripMenuItem});
             this.코드변경ToolStripMenuItem.Name = "코드변경ToolStripMenuItem";
+            this.코드변경ToolStripMenuItem.ShowShortcutKeys = false;
             this.코드변경ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.코드변경ToolStripMenuItem.Text = "기능";
             // 
@@ -477,6 +480,7 @@
             // Update_ToolStripMenuItem
             // 
             this.Update_ToolStripMenuItem.Name = "Update_ToolStripMenuItem";
+            this.Update_ToolStripMenuItem.ShowShortcutKeys = false;
             this.Update_ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.Update_ToolStripMenuItem.Text = "업데이트";
             this.Update_ToolStripMenuItem.Click += new System.EventHandler(this.Update_ToolStripMenuItem_Click);
@@ -682,7 +686,7 @@
             this.Manual_Mode_RB.TabStop = true;
             this.Manual_Mode_RB.Text = "Manual Mode";
             this.Manual_Mode_RB.UseVisualStyleBackColor = true;
-            this.Manual_Mode_RB.CheckedChanged += new System.EventHandler(this.Manual_Mode_RB_CheckedChanged);
+            this.Manual_Mode_RB.Click += new System.EventHandler(this.Manual_Mode_RB_Click);
             // 
             // View_Mode_RB
             // 
@@ -693,7 +697,7 @@
             this.View_Mode_RB.TabIndex = 24;
             this.View_Mode_RB.Text = "View Mode";
             this.View_Mode_RB.UseVisualStyleBackColor = true;
-            this.View_Mode_RB.CheckedChanged += new System.EventHandler(this.View_Mode_RB_CheckedChanged);
+            this.View_Mode_RB.Click += new System.EventHandler(this.View_Mode_RB_Click);
             // 
             // Exceed_TB
             // 

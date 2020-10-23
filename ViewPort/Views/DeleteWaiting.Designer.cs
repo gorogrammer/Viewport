@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Delete_Img_In_ZIp = new System.Windows.Forms.Button();
             this.Delete_wait_img_bt = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
             this.E_Page_TB = new System.Windows.Forms.TextBox();
-            this.Delete_Img_In_ZIp = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -50,6 +52,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
+            this.splitContainer1.Panel1.Controls.Add(this.textBox1);
             this.splitContainer1.Panel1.Controls.Add(this.Delete_Img_In_ZIp);
             this.splitContainer1.Panel1.Controls.Add(this.Delete_wait_img_bt);
             this.splitContainer1.Panel1.Controls.Add(this.button1);
@@ -65,6 +69,16 @@
             this.splitContainer1.Size = new System.Drawing.Size(998, 511);
             this.splitContainer1.SplitterDistance = 31;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // Delete_Img_In_ZIp
+            // 
+            this.Delete_Img_In_ZIp.Location = new System.Drawing.Point(891, 4);
+            this.Delete_Img_In_ZIp.Name = "Delete_Img_In_ZIp";
+            this.Delete_Img_In_ZIp.Size = new System.Drawing.Size(94, 23);
+            this.Delete_Img_In_ZIp.TabIndex = 21;
+            this.Delete_Img_In_ZIp.Text = "Image 삭제";
+            this.Delete_Img_In_ZIp.UseVisualStyleBackColor = true;
+            this.Delete_Img_In_ZIp.Click += new System.EventHandler(this.Delete_Img_In_ZIp_Click);
             // 
             // Delete_wait_img_bt
             // 
@@ -112,15 +126,22 @@
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 11;
             // 
-            // Delete_Img_In_ZIp
+            // textBox1
             // 
-            this.Delete_Img_In_ZIp.Location = new System.Drawing.Point(891, 4);
-            this.Delete_Img_In_ZIp.Name = "Delete_Img_In_ZIp";
-            this.Delete_Img_In_ZIp.Size = new System.Drawing.Size(94, 23);
-            this.Delete_Img_In_ZIp.TabIndex = 21;
-            this.Delete_Img_In_ZIp.Text = "Image 삭제";
-            this.Delete_Img_In_ZIp.UseVisualStyleBackColor = true;
-            this.Delete_Img_In_ZIp.Click += new System.EventHandler(this.Delete_Img_In_ZIp_Click);
+            this.textBox1.Location = new System.Drawing.Point(322, 4);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 21);
+            this.textBox1.TabIndex = 22;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(233, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 12);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "■ 이미지 수";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // DeleteWaiting
             // 
@@ -150,5 +171,7 @@
         private System.Windows.Forms.Button Delete_wait_img_bt;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Delete_Img_In_ZIp;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

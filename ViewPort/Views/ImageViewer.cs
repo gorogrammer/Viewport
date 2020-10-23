@@ -155,6 +155,7 @@ namespace ViewPort.Views
                         Set_Image();
 
                 }
+                
             }
 
             else if (e.KeyCode == Keys.Delete)
@@ -492,20 +493,28 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.F9)
             {
-                if (Main.F9_code_dicInfo.Count > 0)
+                if(MessageBox.Show("Limit가 넘지않은 Frame에 대해서 SDIP 불량 판정한 Frame 內 Image 출력","알림", MessageBoxButtons.YesNo)== DialogResult.Yes)
                 {
-                    DicInfo_Filtered = Main.F9_code_dicInfo;
+                    if (Main.F9_code_dicInfo.Count > 0)
+                    {
+                        DicInfo_Filtered = Main.F9_code_dicInfo;
 
-                    Filter_F9 = 1;
-                    Set_View();
-                    Main.Print_List();
-                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count); 
-                    
+                        Filter_F9 = 1;
+                        Set_View();
+                        Main.Print_List();
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Limit 아래 부품이 없습니다.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Limit 아래 부품이 없습니다.");
+
                 }
+               
 
 
 
@@ -513,19 +522,26 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.F10)
             {
-
-                if (Main.F10_code_dicInfo.Count > 0)
+                if(MessageBox.Show("Limit가 넘은 Frame에 대해서 SDIP 불량 판정한 Frame 內 Image 출력", "알림", MessageBoxButtons.YesNo)== DialogResult.Yes)
                 {
-                    DicInfo_Filtered = Main.F10_code_dicInfo;
+                    if (Main.F10_code_dicInfo.Count > 0)
+                    {
+                        DicInfo_Filtered = Main.F10_code_dicInfo;
 
-                    Filter_F10 = 1;
-                    Set_View();
-                    Main.Print_List();
-                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+                        Filter_F10 = 1;
+                        Set_View();
+                        Main.Print_List();
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
 
+                    }
+                    else
+                        MessageBox.Show("Limit 초과 부품이 없습니다.");
                 }
                 else
-                    MessageBox.Show("Limit 초과 부품이 없습니다.");
+                {
+
+                }
+                
 
             }
 
@@ -568,19 +584,27 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.F5)
             {
-
-                if (Main.F5_code_dicInfo.Count > 0)
+                if (MessageBox.Show("SDIP에서 SR Bleed/Lack으로 자동 불량 처리한 Image 출력", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    DicInfo_Filtered = Main.F5_code_dicInfo;
+                    if (Main.F5_code_dicInfo.Count > 0)
+                    {
+                        DicInfo_Filtered = Main.F5_code_dicInfo;
 
-                    Filter_F5 = 1;
-                    Set_View();
-                    Main.Print_List();
-                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+                        Filter_F5 = 1;
+                        Set_View();
+                        Main.Print_List();
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
 
+                    }
+                    else
+                        MessageBox.Show("SDIP에서 SR Bleed/Lack으로 자동 불량 처리한 Image 출력.");
                 }
                 else
-                    MessageBox.Show("221, 222 code 부품이 없습니다.");
+                {
+
+                }
+
+               
 
             }
 
@@ -588,51 +612,61 @@ namespace ViewPort.Views
             else if (e.KeyCode == Keys.F12)
             {
                 //Get_Delete_IMG();
-
-                if (Main.Frame_View_CB.Checked)
+                if (MessageBox.Show("선택한 이미지 List에서 제거 \r (※ 실제 파일에서 Image 삭제는 안함!!)", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    for (int i = 0; i < Select_Pic_List.Count; i++)
+                    if (Main.Frame_View_CB.Checked)
                     {
-                        if (frame_dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
+                        for (int i = 0; i < Select_Pic_List.Count; i++)
                         {
-                            frame_dicInfo_Filter.Remove(Select_Pic_List[i]);
+                            if (frame_dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
+                            {
+                                frame_dicInfo_Filter.Remove(Select_Pic_List[i]);
+                            }
+
+                        }
+                        Main.Dl_PrintList();
+                        DL_Frame_Set_View();
+
+
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
+
+                        Eq_cb_need_del = new List<string>(Select_Pic_List);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Select_Pic_List.Count; i++)
+                        {
+                            if (dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
+                            {
+                                dicInfo_Filter.Remove(Select_Pic_List[i]);
+                            }
+
                         }
 
+                        Main.Dl_PrintList();
+                        Del_Set_View();
+
+
+
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+
+                        Eq_cb_need_del = new List<string>(Select_Pic_List);
                     }
-                    Main.Dl_PrintList();
-                    DL_Frame_Set_View();
 
 
-                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
+                    //if(Main.Sdip_200_code_dicInfo.Contains())
+                    //{
+                    //    if()
+                    //}
 
-                    Eq_cb_need_del = new List<string>(Select_Pic_List);
+
+                    Select_Pic_List.Clear();
                 }
                 else
                 {
-                    for (int i = 0; i < Select_Pic_List.Count; i++)
-                    {
-                        if (dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
-                        {
-                            dicInfo_Filter.Remove(Select_Pic_List[i]);
-                        }
 
-                    }
-
-                    Main.Dl_PrintList();
-                    Del_Set_View();
-
-
-
-                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
-
-                    Eq_cb_need_del = new List<string>(Select_Pic_List);
                 }
-
-
-
-
-
-                Select_Pic_List.Clear();
+                
             }
             else if (e.KeyCode == Keys.F5)
             {
@@ -641,7 +675,10 @@ namespace ViewPort.Views
 
         }
 
+        private void ImageViewer_KeyUp(object sender, KeyEventArgs e)
+        {
 
+        }
 
         public ImageViewer(FormViewPort mainForm)
         {
@@ -2616,6 +2653,9 @@ namespace ViewPort.Views
             else
                 MessageBox.Show("Frame 별 체크 후에 사용 부탁드립니다.");
         }
+
+       
+
         public void No_Frmae_Filter(int Frame)
         {
             if (Main.Frame_View_CB.Checked)

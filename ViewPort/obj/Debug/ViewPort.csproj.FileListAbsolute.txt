@@ -1274,3 +1274,87 @@ C:\Users\metalheedo\Desktop\스템코 뷰어\1021\Viewport\ViewPort\obj\Debug\Vi
 C:\Users\metalheedo\Desktop\스템코 뷰어\1021\Viewport\ViewPort\obj\Debug\ViewPort.csproj.CopyComplete
 C:\Users\metalheedo\Desktop\스템코 뷰어\1021\Viewport\ViewPort\obj\Debug\ViewPort.exe
 C:\Users\metalheedo\Desktop\스템코 뷰어\1021\Viewport\ViewPort\obj\Debug\ViewPort.pdb
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\ViewPort.exe.config
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\ViewPort.exe
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\ViewPort.pdb
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\MetroFramework.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\microsoft.windowsapicodepack.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\microsoft.windowsapicodepack.shell.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\MySql.Data.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\ViewPortNetwork.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\Google.Protobuf.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\Zstandard.Net.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\Ubiety.Dns.Core.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\Renci.SshNet.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\System.Buffers.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\System.Memory.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\MySql.Data.xml
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\bin\Debug\ViewPortNetwork.pdb
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.csprojAssemblyReference.cache
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.exe.config
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.Change_Code.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.Code200View.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.DeleteWaiting.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.DL_ViewFrom.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.ExpandImage.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.FormViewPort.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Properties.Resources.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.ImageViewer.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.ListFilertView.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.LoadingGIF.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.ViewModePassword.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.Views.XYLocationFilter.resources
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.csproj.GenerateResource.cache
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.csproj.CopyComplete
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.exe
+C:\Users\user\Desktop\201022 스템코 출장\Viewport\ViewPort\obj\Debug\ViewPort.pdb
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.csprojAssemblyReference.cache
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.exe.config
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.Change_Code.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.Code200View.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.DeleteWaiting.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.DL_ViewFrom.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.ExpandImage.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.FormLoading.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.FormViewPort.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Properties.Resources.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.ImageViewer.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.ListFilertView.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.LoadingGIF.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.ViewModePassword.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.Views.XYLocationFilter.resources
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.csproj.GenerateResource.cache
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.exe
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.pdb
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\ViewPort.exe.config
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\ViewPort.exe
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\ViewPort.pdb
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\MetroFramework.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\microsoft.windowsapicodepack.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\microsoft.windowsapicodepack.shell.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\MySql.Data.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\Google.Protobuf.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\Zstandard.Net.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\Ubiety.Dns.Core.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\Renci.SshNet.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\System.Buffers.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\System.Memory.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\MySql.Data.xml
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\bin\Debug\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPort\obj\Debug\ViewPort.csproj.CopyComplete

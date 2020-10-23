@@ -190,6 +190,7 @@ namespace ViewPort.Views
             Sdip_no_200 = new List<string>();
             Sorted_dic_GRID = new Dictionary<string, ImageInfo>();
 
+            this.Opacity = 0.9;
 
             InitializeComponent();
 
@@ -245,7 +246,7 @@ namespace ViewPort.Views
             EditFormNameSafe(MSG_STR.LOAD_ZIP);
 
             All_clear();
-
+            //Load_Old_Map_TxtAsync(FilePath);
             Load_Map_TxtAsync(FilePath);
             Load_DL_TxtAsync(FilePath);
             LoadTxtAsync(FilePath);
@@ -539,6 +540,92 @@ namespace ViewPort.Views
             }
 
         }
+        //private void Load_Old_Map_TxtAsync(string FilePath)
+        //{
+        //    using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+        //    {
+        //        ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetOldMapFromPath(FilePath));
+
+        //        if (ImgEntry == null)
+        //        {
+        //            MessageBox.Show(MSG_STR.NONE_MAP_TXT);
+        //            return;
+        //        }
+
+        //        StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+        //        string text = SR.ReadToEnd();
+
+        //        char[] df = { '@' };
+        //        Final_text = text.Split(df);
+        //        string[] items = text.Split(' ', '!');
+        //        var items_List = items.ToList();
+        //        int index = items_List.IndexOf("");
+
+
+        //        for (int i = 0; i < items.Length; i++)
+        //        {
+        //            if (i < index && items[i].Length <= 9 && items[i].Length > 5)
+        //            {
+
+        //                map_List_Dic.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+        //            }
+
+        //            else if (i > index && items[i].Length <= 9 && items[i].Length > 5)
+        //            {
+        //                Map_List_Compare.Add(items[i]);
+        //                if (items[i].Contains("E@"))
+        //                {
+        //                    string change = items[i].Replace("E@", "");
+        //                    items[i] = change;
+        //                    Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+        //                }
+        //                else
+        //                    Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+        //            }
+
+
+        //        }
+        //        if (Map_List_Compare[Map_List_Compare.Count - 1].Contains("E@"))
+        //        {
+        //            string change = Map_List_Compare[Map_List_Compare.Count - 1].Replace("E@", "");
+        //            Map_List_Compare[Map_List_Compare.Count - 1] = change;
+
+        //        }
+        //        zip.Dispose();
+
+        //        main.Map_List_Dic_main = Map_List_Dic;
+        //        main.Map_List_Dic_Compare_main = Map_List_Dic_Compare;
+        //        main.Final_text_main = Final_text[1];
+        //    }
+
+        //    foreach (KeyValuePair<int, int> pair in map_List_Dic)
+        //    {
+
+        //        if (pair.Value == 88)
+        //        {
+
+        //            if (map_List_Dic_Compare[pair.Key] != 39 && map_List_Dic_Compare[pair.Key] != 40)
+        //            {
+        //                map_List.Add(pair.Key);
+        //            }
+        //            else
+        //            {
+        //                Ignore_map_List.Add(pair.Key.ToString());
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            Ignore_map_List.Add(pair.Key.ToString());
+        //        }
+
+
+        //    }
+
+
+
+        //}
+
 
         private void Load_Map_TxtAsync(string FilePath)
         {

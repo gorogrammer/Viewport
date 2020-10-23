@@ -412,14 +412,7 @@ namespace ViewPort
             Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
             Dt.Columns.Add(COLUMN_STR.GRID_STATE);
             Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
-            //foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
-            //{
-            //    DataRow dr = dt_del.NewRow();
-            //    if (dt_del.Rows.Contains(kvp.Key))
-            //        continue;
-            //    else
-            //        dt_del.Rows.Add(kvp.Key, kvp.Value.DeleteCheck);
-            //}
+           
 
             foreach (KeyValuePair<string, ImageInfo> kvp in open.DicInfo_Delete)
             {
@@ -892,7 +885,7 @@ namespace ViewPort
 
         private void ZipLoadFile_Async()
         {
-            All_Clear();
+            
             open.Filter_NO_Set();
             Load_State = 1;
             string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
@@ -908,6 +901,7 @@ namespace ViewPort
                 if (MessageBox.Show("" + FileName + "로트 파일을 로드 하시겠습니까?", "프로그램 로드", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     FormLoading formLoading = new FormLoading(path, this);
+                    formLoading.Opacity = 0.9;
                     formLoading.ShowDialog();
 
 
@@ -967,10 +961,11 @@ namespace ViewPort
         private void zipLoadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InitialData();
+            All_Clear();
             ZipLoadFile_Async();
             int x = 1;
             int index = 0;
-            if (ZipFilePath != null)
+            if (ZipFilePath != "")
             {
                 //Img_txt_Info_Combine();
 
@@ -1607,21 +1602,30 @@ namespace ViewPort
             }
         }
 
-        private void Manual_Mode_RB_CheckedChanged(object sender, EventArgs e)
-        {
-            if (View_Mode_RB.Checked)
-            {
+        //private void Manual_Mode_RB_CheckedChanged(object sender, EventArgs e)
+        //{
+            
+        //    if(DicInfo.Count > 0)
+        //    {
+        //        if(View_Mode_RB.Checked)
+        //        {
+        //            MessageBox.Show("Load 전에 바꿔주십시오.");
+        //            View_Mode_RB.disabled
+        //        }
+        //    }
+        //}
 
-            }
-        }
-
-        private void View_Mode_RB_CheckedChanged(object sender, EventArgs e)
-        {
-            if (Manual_Mode_RB.Checked)
-            {
-
-            }
-        }
+        //private void View_Mode_RB_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (DicInfo.Count > 0)
+        //    {
+        //        if (Manual_Mode_RB.Checked)
+        //        {
+        //            MessageBox.Show("Load 전에 바꿔주십시오.");
+        //            View_Mode_RB.Checked = true;
+        //        }
+        //    }
+        //}
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -2139,6 +2143,28 @@ namespace ViewPort
                
             }
 
+        }
+
+        private void Manual_Mode_RB_Click(object sender, EventArgs e)
+        {
+            if(DicInfo.Count>0 && Manual_Mode_RB.Checked)
+            {
+                MessageBox.Show("처음 Load시에 변경 가능합니다.");
+
+                Manual_Mode_RB.Checked = false;
+                View_Mode_RB.Checked = true;
+            }
+        }
+
+        private void View_Mode_RB_Click(object sender, EventArgs e)
+        {
+            if (DicInfo.Count > 0 && View_Mode_RB.Checked)
+            {
+                MessageBox.Show("처음 Load시에 변경 가능합니다.");
+
+                View_Mode_RB.Checked = false;
+                Manual_Mode_RB.Checked = true;
+            }
         }
     }
 

@@ -48,18 +48,31 @@ namespace ViewPort.Functions
 
         public static void DeleteJPG_inZIP(string FilePath, Dictionary<string, ImageInfo> dicInfo_del)
         {
+            List<int> del_frame_List = new List<int>();
             ZipArchive zip, subZip;
             Stream subEntryMS;
             int dl_no = 0;
+            foreach(string name in dicInfo_del.Keys.ToList())
+            {
+                if (del_frame_List.Contains(dicInfo_del[name].FrameNo))
+                {
+
+                }
+                else
+                {
+                    del_frame_List.Add(dicInfo_del[name].FrameNo);
+                }
+            }
+
+
           try
             {
                 zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);       // Zip파일(Lot) Load
 
-                
                 foreach (ZipArchiveEntry entry in zip.Entries)
                 {
                     
-                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)             // Zip파일 내에 Zip파일이 있을 경우...
+                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && del_frame_List.Contains(int.Parse(entry.Name.Substring(0,5))))             // Zip파일 내에 Zip파일이 있을 경우...
                     {   
                         
 
@@ -332,6 +345,11 @@ namespace ViewPort.Functions
         public static string GetMapFromPath(string str)
         {
             return Path.GetFileNameWithoutExtension(str) + ".txt";
+        }
+
+        public static string GetOldMapFromPath(string str)
+        {
+            return Path.GetFileNameWithoutExtension(str) + "_Old.txt";
         }
 
         public static string GetDLFromPath(string str)

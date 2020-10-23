@@ -38,6 +38,7 @@
             this.Size = new System.Drawing.Size(1020, 462);
             this.Load += new System.EventHandler(this.ImageViewer_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageViewer_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ImageViewer_KeyUp);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ImageViewer_PL_MouseDown);
             this.MouseHover += new System.EventHandler(this.ImageViewer_MouseHover);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ImageViewer_PL_MouseMove);
