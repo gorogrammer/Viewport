@@ -45,6 +45,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> set_filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> set_filter_frame_dicinfo = new Dictionary<string, ImageInfo>();
         List<int> set_filter_frame = new List<int>();
+        List<string> f12_del_list_main = new List<string>();
         int list_filter = 0;
         List<int> exceed_List = new List<int>();
         int setting = 0;
@@ -144,7 +145,7 @@ namespace ViewPort
         public List<string> selected_Pic { get => Selected_Pic; set => Selected_Pic = value; }
         public List<string> List_Filter_Main { get => list_Filter_Main; set => list_Filter_Main = value; }
         public List<string> Dl_Apply_List_Main { get => dl_Apply_List_Main; set => dl_Apply_List_Main = value; }
-
+        public List<string> F12_del_list_main { get => f12_del_list_main; set => f12_del_list_main = value; }
         public List<string> Dl_NotApply_List_Main { get => dl_NotApply_List_Main; set => dl_NotApply_List_Main = value; }
         public List<string> Dl_List_Main { get => dl_List_Main; set => dl_List_Main = value; }
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
@@ -491,7 +492,7 @@ namespace ViewPort
         {
             int index = 0;
 
-            Selected_Pic = open.Select_Pic_List;
+            Selected_Pic = new List<string>(open.Select_Pic_List);
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
             dt.Rows.Clear();
@@ -707,7 +708,7 @@ namespace ViewPort
 
 
             }
-            dt.AcceptChanges();
+            
         }
 
         public void ALL_Changeed_State()
@@ -883,14 +884,12 @@ namespace ViewPort
             Equipment_DF_CLB_SelectedValueChanged(null, null);
         }
 
-        private void ZipLoadFile_Async()
+        public void ZipLoadFile_Viewmode()
         {
-            
             open.Filter_NO_Set();
             Load_State = 1;
             string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
             string FileName = string.Empty;
-
 
             if (string.IsNullOrEmpty(path) == false)
             {
@@ -957,11 +956,96 @@ namespace ViewPort
 
             }
         }
+        private void ZipLoadFile_Async()
+        {
+            
+            open.Filter_NO_Set();
+            Load_State = 1;
+            if (View_Mode_RB.Checked)
+            {
+                ViewModePassword psw = new ViewModePassword(this);
+                psw.ShowDialog();
+            }
+            else
+            {
+                string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
+                string FileName = string.Empty;
+                if (string.IsNullOrEmpty(path) == false)
+                {
+                    FileName = Util.GetFileName();
+                    DirPath = Directory.GetParent(path).ToString();
+                    ZipFilePath = path;
+                    Equipment_DF_CLB.Items.Clear();
+                    if (MessageBox.Show("" + FileName + "로트 파일을 로드 하시겠습니까?", "프로그램 로드", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        FormLoading formLoading = new FormLoading(path, this);
+                        formLoading.Opacity = 0.9;
+                        formLoading.ShowDialog();
+
+
+                        DicInfo = formLoading.Dic_Load;
+                        f9_Frame_List_Main = formLoading.F9_Frame_List;
+                        f10_Frame_List_Main = formLoading.F10_Frame_List;
+                        F5_Img_KeyList_Main = formLoading.F5_dic_Load;
+
+                        Contain_200_Frame_Main = formLoading.Contain_200_Frame_List;
+
+                        MAP_LIST = formLoading.Map_List;
+
+                        Dl_List_Main = formLoading.Dl_List;
+
+                        Frame_List_Main = formLoading.Frame_List;
+
+                        for (int i = 0; i < MAP_LIST.Count; i++)
+                        {
+                            if (Frame_List_Main.Contains(MAP_LIST[i]))
+                                continue;
+                            else
+                            {
+                                MAP_LIST.RemoveAt(i);
+                                i--;
+                            }
+                        }
+
+
+
+
+                        dicTxt_info = formLoading.DicTxt_info;
+
+                        All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
+                        All_LotID_List = formLoading.All_LotID_List;
+                        Dl_Apply_List_Main = formLoading.Dl_Apply_List;
+                        Dl_NotApply_List_Main = formLoading.Dl_NOt_Apply_List;
+                        ImageSizeList = formLoading.ImageSizeList;
+
+                        Sdip_NO1_dicInfo = formLoading.Sdip_no1_dicload;
+
+                        dataGridView1.DataSource = formLoading.Dt;
+
+
+
+
+
+                        formLoading.Dispose();
+                    }
+                    else
+                    {
+                        ZipFilePath = null;
+                    }
+
+                }
+            }
+           
+        
+
+            
+        }
 
         private void zipLoadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InitialData();
             All_Clear();
+            InitialData();
+            
             ZipLoadFile_Async();
             int x = 1;
             int index = 0;
@@ -1009,26 +1093,25 @@ namespace ViewPort
 
                     }
                 }
+
                 foreach (KeyValuePair<string, ImageInfo> pair in DicInfo)
                 {
                     if (F9_Frame_List_Main.Contains(pair.Value.FrameNo))
                     {
-                        if (int.Parse(pair.Value.sdip_no) != 1)
-                        {
+                      
                             F9_code_dicInfo.Add(pair.Key, pair.Value);
-                        }
+                       
 
                     }
                     else if (F10_Frame_List_Main.Contains(pair.Value.FrameNo))
                     {
-                        if (int.Parse(pair.Value.sdip_no) != 1)
-                        {
                             F10_code_dicInfo.Add(pair.Key, pair.Value);
-                        }
+                    
 
                     }
 
                 }
+          
                 Sorted_dic_GRID = DicInfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
                 DicInfo = Sorted_dic_GRID;
 
@@ -1480,7 +1563,7 @@ namespace ViewPort
             ZipFilePath = string.Empty;
             REF_DirPath = string.Empty;
             DirPath = string.Empty;
-
+            F12_del_list_main.Clear();
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
 
@@ -1535,7 +1618,8 @@ namespace ViewPort
 
         private void 중간저장ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Func.SaveDelFileID(Waiting_Del);
+            F12_del_list_main = new List<string>(open.F12_del_list);
+            Func.SaveDelFileID(Waiting_Del, F12_del_list_main);
 
         }
 

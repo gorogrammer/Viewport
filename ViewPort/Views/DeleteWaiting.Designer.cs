@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Del_img_list = new System.Windows.Forms.TextBox();
             this.Delete_Img_In_ZIp = new System.Windows.Forms.Button();
             this.Delete_wait_img_bt = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
             this.E_Page_TB = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -53,10 +52,9 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.label1);
-            this.splitContainer1.Panel1.Controls.Add(this.textBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.Del_img_list);
             this.splitContainer1.Panel1.Controls.Add(this.Delete_Img_In_ZIp);
             this.splitContainer1.Panel1.Controls.Add(this.Delete_wait_img_bt);
-            this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.label4);
             this.splitContainer1.Panel1.Controls.Add(this.S_Page_TB);
             this.splitContainer1.Panel1.Controls.Add(this.E_Page_TB);
@@ -69,6 +67,23 @@
             this.splitContainer1.Size = new System.Drawing.Size(998, 511);
             this.splitContainer1.SplitterDistance = 31;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(233, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 12);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "■ 이미지 수";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Del_img_list
+            // 
+            this.Del_img_list.Location = new System.Drawing.Point(322, 4);
+            this.Del_img_list.Name = "Del_img_list";
+            this.Del_img_list.Size = new System.Drawing.Size(100, 21);
+            this.Del_img_list.TabIndex = 22;
             // 
             // Delete_Img_In_ZIp
             // 
@@ -89,16 +104,6 @@
             this.Delete_wait_img_bt.Text = "삭제대기 제외";
             this.Delete_wait_img_bt.UseVisualStyleBackColor = true;
             this.Delete_wait_img_bt.Click += new System.EventHandler(this.Delete_wait_img_bt_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(676, 4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Update";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label4
             // 
@@ -126,23 +131,6 @@
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 11;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(322, 4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 21);
-            this.textBox1.TabIndex = 22;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(233, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 12);
-            this.label1.TabIndex = 23;
-            this.label1.Text = "■ 이미지 수";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // DeleteWaiting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -169,9 +157,8 @@
         public System.Windows.Forms.TextBox S_Page_TB;
         public System.Windows.Forms.TextBox E_Page_TB;
         private System.Windows.Forms.Button Delete_wait_img_bt;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Delete_Img_In_ZIp;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Del_img_list;
     }
 }

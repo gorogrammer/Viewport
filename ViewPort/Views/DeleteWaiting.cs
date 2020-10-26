@@ -83,6 +83,7 @@ namespace ViewPort.Views
 
             Set_PictureBox();
             Set_Image();
+            Del_img_list.Text = String.Format("{0:#,##0}", dicInfo_Filter_Del.Count);
             Last_Picture_Selected_Index = -1;
             this.Focus();
         }
@@ -516,11 +517,7 @@ namespace ViewPort.Views
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
-
-            Main.Dl_Wait_Del_Print_List();
-            Main.Return_Img_Print();
-            dicInfo_Delete_Sel.Clear();
+           
 
 
 
@@ -566,13 +563,15 @@ namespace ViewPort.Views
 
                 }
             }
-
-            
-
-            
+                        
            
             Set_View_Del();
             Select_Pic.Clear();
+            Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
+
+            Main.Dl_Wait_Del_Print_List();
+            Main.Return_Img_Print();
+            dicInfo_Delete_Sel.Clear();
         }
 
         private void Delete_Img_In_ZIp_Click(object sender, EventArgs e)

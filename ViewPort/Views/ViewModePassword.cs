@@ -15,19 +15,20 @@ namespace ViewPort.Views
 {
     public partial class ViewModePassword : Form
     {
-        ImageViewer  open;
-        public ViewModePassword(ImageViewer parent)
+        FormViewPort  Main;
+        public ViewModePassword(FormViewPort parent)
         {
             InitializeComponent();
-            open = parent;
+            Main = parent;
         }
 
         public void Check_PSW()
         {
             if(this.PSW_Input_TB.Text == "1234")
             {
-                open.ViewMode_Del();
                 this.Close();
+                Main.ZipLoadFile_Viewmode();
+                
             }
             else
             {

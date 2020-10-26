@@ -39,9 +39,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(11, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(297, 12);
+            this.label1.Size = new System.Drawing.Size(289, 12);
             this.label1.TabIndex = 0;
-            this.label1.Text = "ViewMode 일 때 비밀번호 입력해야 삭제 가능합니다.";
+            this.label1.Text = "ViewMode 로드시에는 비밀번호 입력 부탁드립니다.";
             // 
             // label2
             // 
@@ -56,6 +56,7 @@
             // 
             this.PSW_Input_TB.Location = new System.Drawing.Point(94, 68);
             this.PSW_Input_TB.Name = "PSW_Input_TB";
+            this.PSW_Input_TB.PasswordChar = '*';
             this.PSW_Input_TB.Size = new System.Drawing.Size(100, 21);
             this.PSW_Input_TB.TabIndex = 2;
             // 

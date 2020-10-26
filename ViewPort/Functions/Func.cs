@@ -17,6 +17,7 @@ namespace ViewPort.Functions
     {
        
         List<string> Exception_Frame = new List<string>();
+        List<string> f12_List_del = new List<string>();
         public static void SearchTXT_inZip(string FilePath, Dictionary<string, txtInfo> dicTxt_info)
         {
             ZipArchive zip;
@@ -357,7 +358,7 @@ namespace ViewPort.Functions
             return Path.GetFileNameWithoutExtension(str) + "_DL.txt";
         }
 
-        public static void SaveDelFileID( Dictionary<string, ImageInfo> Waiting_Del)
+        public static void SaveDelFileID(Dictionary<string, ImageInfo> Waiting_Del,List<string> listdel)
         {
 
             string txtFilePath = string.Empty;
@@ -379,8 +380,6 @@ namespace ViewPort.Functions
 
                     if (saveFile.ShowDialog() == DialogResult.OK)
                     {
-
-
                         txtFilePath = saveFile.FileName;
                         File.WriteAllLines(txtFilePath, Waiting_Del.Keys);
                     }
@@ -393,6 +392,11 @@ namespace ViewPort.Functions
                     {
                         txtFilePath = saveFile.FileName;
                         File.WriteAllLines(txtFilePath, Waiting_Del.Keys);
+                        StreamWriter writer;
+                        writer = File.AppendText(txtFilePath);
+                        writer.WriteLine("a");
+                        writer.Close();
+                        File.AppendAllLines(txtFilePath, listdel);
                     }
                 }
 
@@ -423,36 +427,49 @@ namespace ViewPort.Functions
             loadFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
 
             StringBuilder sb = new StringBuilder();
-            
-           
-                if(loadFile.ShowDialog() == DialogResult.OK)
-                {
-                    txtFilePath = loadFile.FileName;
-                    StreamReader SR = new StreamReader(txtFilePath, Encoding.Default);
-                    
-                    string text = SR.ReadToEnd();
-                    string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                    int index = items.Count() - 1;
-                    items = items.Where(s => s != items[index]).ToArray();
-                    
-                   
 
-                    foreach(string ID in items)
+
+            if (loadFile.ShowDialog() == DialogResult.OK)
+            {
+                txtFilePath = loadFile.FileName;
+                StreamReader SR = new StreamReader(txtFilePath, Encoding.Default);
+
+                string text = SR.ReadToEnd();
+                string[] items = text.Split(new string[] { "\r\n", "a" }, StringSplitOptions.None);
+                int split_index = Array.FindIndex(items, i => i == "");
+                int index = items.Count() - 1;
+
+                items = items.Where(s => s != items[index]).ToArray();
+
+                for (int p = 0; p < items.Length; p++)
+                {
+                    if(p < split_index)
                     {
-                        if (Waiting_Del.ContainsKey(ID))
+                        if (Waiting_Del.ContainsKey(items[p]))
                             continue;
                         else
                         {
-                            Waiting_Del.Add(ID, dicInfo[ID]);
+                            Waiting_Del.Add(items[p], dicInfo[items[p]]);
 
                         }
                     }
-                        
+                    else
+                    {
+                        if (Main.F12_del_list_main.Contains(items[p]))
+                        {
 
+                        }
+                        else
+                            Main.F12_del_list_main.Add(items[p]);
+                    }
                 }
 
-                Main.Waiting_Del = Waiting_Del;
-                Main.Load_saveFile();
+         
+
+            }
+
+            Main.Waiting_Del = Waiting_Del;
+            Main.Load_saveFile();
             }
           
     }
