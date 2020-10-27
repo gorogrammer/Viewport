@@ -95,6 +95,13 @@ namespace ViewPort.Views
 
         public void SelectGrid_Img_View(string id)
         {
+            Rectangle regSelection = new Rectangle();
+            Graphics gPic;
+            Pen pen;
+
+            pen = new System.Drawing.Pen(System.Drawing.Color.Orange, 10);
+            
+            
             List<string> dic_index_List = dicInfo_Filter.Keys.ToList();
 
             cols = int.Parse(Main.Cols_TB.Text);
@@ -108,10 +115,46 @@ namespace ViewPort.Views
             Current_PageNum = view_page + 1;
             Main.S_Page_TB.Text = Current_PageNum.ToString();
             Set_Image();
+
+            for(int i =0; i < PictureData.Count; i++)
+            {
+                if(PictureData.ElementAt(i).Name == id)
+                {
+                    if(PictureData.ElementAt(i).Name == id)
+                    {
+                        regSelection.Location = new Point(4, 4);
+                        regSelection.Size = new Size(PictureData.ElementAt(i).Image.Width - 10, PictureData.ElementAt(i).Image.Height - 10);
+                        
+                        gPic = Graphics.FromImage(PictureData.ElementAt(i).Image);
+                        gPic.DrawRectangle(pen, regSelection);
+                        
+                    }
+                    
+                }
+            }
+            Delay(1500);
+   
+            Set_Image();
         }
+        private static DateTime Delay(int MS)
+        {
+            DateTime ThisMoment = DateTime.Now;
+            TimeSpan duration = new TimeSpan(0, 0, 0, 0, MS);
+            DateTime AfterWards = ThisMoment.Add(duration);
+
+            while (AfterWards >= ThisMoment)
+            {
+                System.Windows.Forms.Application.DoEvents();
+                ThisMoment = DateTime.Now;
+            }
+
+            return DateTime.Now;
+        }
+       
         private void ImageViewer_KeyDown(object sender, KeyEventArgs e)
         {
             this.Focus();
+            
             if (e.Control)
             {
                 if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) <= 1)
@@ -136,29 +179,30 @@ namespace ViewPort.Views
                 }
             }
 
-            else if (e.Alt)
-            {
-                e.Handled = true;
-                if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) >= int.Parse(Main.E_Page_TB.Text))
-                {
-                    MessageBox.Show("마지막 페이지 입니다.");
-                }
-                else
-                {
-                    Last_Picture_Selected_Index = -1;
-                    Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
-                    Main.S_Page_TB.Text = Current_PageNum.ToString();
+            //else if (e.Alt)
+            //{
+            //    e.Handled = true;
+                
+            //    if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) >= int.Parse(Main.E_Page_TB.Text))
+            //    {
+            //        MessageBox.Show("마지막 페이지 입니다.");
+            //    }
+            //    else
+            //    {
+            //        Last_Picture_Selected_Index = -1;
+            //        Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
+            //        Main.S_Page_TB.Text = Current_PageNum.ToString();
 
-                    //Set_PictureBox();
+            //        //Set_PictureBox();
 
-                    if (Main.Frame_View_CB.Checked)
-                        Frame_Set_Image();
-                    else
-                        Set_Image();
+            //        if (Main.Frame_View_CB.Checked)
+            //            Frame_Set_Image();
+            //        else
+            //            Set_Image();
 
-                }
-
-            }
+            //    }
+                
+            //}
 
             else if (e.Shift && e.KeyCode == Keys.Delete)
             {
@@ -817,7 +861,7 @@ namespace ViewPort.Views
 
         private void ImageViewer_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Alt)
+            if (e.KeyCode == Keys.Menu)
             {
                 e.Handled = true;
                 if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) >= int.Parse(Main.E_Page_TB.Text))
@@ -1934,8 +1978,6 @@ namespace ViewPort.Views
             ImageNameEQ = new Label[(cols * rows)];
             for (int i = 0; i < (cols * rows); i++)
             {
-
-
                 temp_LB = new Label();
                 temp_LB.Font = new Font("맑은 고딕", 9, FontStyle.Bold);
                 temp_LB.ForeColor = Color.Red;
@@ -1949,7 +1991,6 @@ namespace ViewPort.Views
             for (int i = 0; i < (cols * rows); i++)
             {
                 this.Controls.Add(PictureData.ElementAt(i));
-
             }
 
             Last_Picture_Selected_Index = -1;
@@ -2474,8 +2515,6 @@ namespace ViewPort.Views
 
                     PictureData.ElementAt(i).Tag = Color.Yellow;
 
-
-                    PictureData.ElementAt(i).Tag = Color.Yellow;
                 }
                 else
                 {

@@ -27,6 +27,7 @@ namespace ViewPort.Views
             if(this.PSW_Input_TB.Text == "1234")
             {
                 this.Close();
+
                 Main.ZipLoadFile_Viewmode();
                 
             }
