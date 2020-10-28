@@ -16,7 +16,7 @@ namespace ViewPort.Views
     public partial class Change_Code : Form
     {
         ImageViewer Open;
-
+        List<string> Select_Pic_change = new List<string>();
         Dictionary<string, ImageInfo> dicInfo_Code_Change = new Dictionary<string, ImageInfo>();
 
         public Dictionary<string, ImageInfo> DicInfo_Code_Change { get => dicInfo_Code_Change; set => dicInfo_Code_Change = value; }
@@ -29,22 +29,41 @@ namespace ViewPort.Views
         public void Change_Sdip()
         {
             string code = null;
+            Select_Pic_change = Open.Select_Pic_List;
 
-       
+
             if (Open.OpenViewType == "FrameSetView" || Open.OpenViewType == "DLFrameSetView")
             {
                 DicInfo_Code_Change = Open.Frame_dicInfo_Filter;
 
 
                 code = Code_Change_TB.Text;
-
-                foreach (KeyValuePair<string, ImageInfo> pair in Open.DicInfo_Filtered)
+                for (int i = 0; i < Select_Pic_change.Count; i++)
                 {
-
-                    Open.Frame_dicInfo_Filter[pair.Key].sdip_no = code;
-                    Open.Frame_dicInfo_Filter[pair.Key].Change_Code = "Change";
-
+                    if (Open.DicInfo_Filtered.ContainsKey(Select_Pic_change[i]))
+                    {
+                        Open.Frame_dicInfo_Filter[Select_Pic_change[i]].sdip_no = code;
+                        Open.Frame_dicInfo_Filter[Select_Pic_change[i]].Change_Code = "Change";
+                    }
                 }
+            }
+            else if(Open.OpenViewType == "Code_200_SetView")
+            {
+                DicInfo_Code_Change = new Dictionary<string, ImageInfo>(Open.DicInfo_Filtered);
+
+
+                code = Code_Change_TB.Text;
+
+
+                for(int i =0; i < Select_Pic_change.Count; i++)
+                {
+                    if(Open.DicInfo_Filtered.ContainsKey(Select_Pic_change[i]))
+                    {
+                        Open.DicInfo_Filtered[Select_Pic_change[i]].sdip_no = code;
+                        Open.DicInfo_Filtered[Select_Pic_change[i]].Change_Code = "Change";
+                    }
+                }
+            
             }
             else
             {
@@ -52,12 +71,13 @@ namespace ViewPort.Views
 
                 code = Code_Change_TB.Text;
 
-                foreach (KeyValuePair<string, ImageInfo> pair in Open.DicInfo_Filtered)
+                for (int i = 0; i < Select_Pic_change.Count; i++)
                 {
-
-                    Open.DicInfo_Filtered[pair.Key].sdip_no = code;
-                    Open.DicInfo_Filtered[pair.Key].Change_Code = "Change";
-
+                    if (Open.DicInfo_Filtered.ContainsKey(Select_Pic_change[i]))
+                    {
+                        Open.DicInfo_Filtered[Select_Pic_change[i]].sdip_no = code;
+                        Open.DicInfo_Filtered[Select_Pic_change[i]].Change_Code = "Change";
+                    }
                 }
             }
 

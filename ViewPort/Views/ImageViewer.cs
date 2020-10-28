@@ -236,13 +236,13 @@ namespace ViewPort.Views
                             }
 
                         }
-                        if (Filter_NO_1 == 1)
-                        {
-                            Main.No1_Dl_PrintList();
-                            Filter_NO_1 = 0;
-                        }
-                        else
-                            Main.Dl_PrintList();
+                        //if (Filter_NO_1 == 1)
+                        //{
+                        //    Main.No1_Dl_PrintList();
+                        //    Filter_NO_1 = 0;
+                        //}
+                        //else
+                        Main.Dl_PrintList();
 
                         Eq_cb_need_del = new List<string>(Select_Pic_List);
                         DL_Frame_Set_View();
@@ -276,12 +276,12 @@ namespace ViewPort.Views
 
                         }
 
-                        if (Filter_NO_1 == 1)
-                        {
-                            Main.No1_Dl_PrintList();
-                            Filter_NO_1 = 0;
-                        }
-                        else
+                        //if (Filter_NO_1 == 1)
+                        //{
+                        //    Main.No1_Dl_PrintList();
+                        //    Filter_NO_1 = 0;
+                        //}
+                        //else
                             Main.Dl_PrintList();
 
 
@@ -388,10 +388,11 @@ namespace ViewPort.Views
 
                         }
 
-
+                       
 
                         if (Filter_NO_1 == 1)
                         {
+                            
                             Main.No1_Dl_PrintList();
                             Filter_NO_1 = 0;
                         }
@@ -496,8 +497,18 @@ namespace ViewPort.Views
                 {
                     waitform.Show();
                     Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
-                    DicInfo_Filtered = Main.Sdip_NO1_dicInfo;
-
+                    DicInfo_Filtered = new Dictionary<string, ImageInfo>(Main.DicInfo);
+                    foreach(string no in DicInfo_Filtered.Keys.ToList())
+                    {
+                        if (DicInfo_Filtered[no].sdip_no == "1")
+                        {
+                            
+                        }
+                        else
+                        {
+                            DicInfo_Filtered.Remove(no);
+                        }
+                    }
 
                     Filter_NO_1 = 1;
                     Set_View();
@@ -673,10 +684,9 @@ namespace ViewPort.Views
             {
                 if (MessageBox.Show("Limit가 넘지않은 Frame에 대해서 SDIP 불량 판정한 Frame 內 Image 출력", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    DicInfo_Filtered = Main.F9_Find_in_Dicinfo();
                     if (Main.F9_code_dicInfo.Count > 0)
                     {
-                        DicInfo_Filtered = Main.F9_code_dicInfo;
-
                         Filter_F9 = 1;
                         Set_View();
                         Main.Print_List();
@@ -702,9 +712,10 @@ namespace ViewPort.Views
             {
                 if (MessageBox.Show("Limit가 넘은 Frame에 대해서 SDIP 불량 판정한 Frame 內 Image 출력", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    DicInfo_Filtered = Main.F10_Find_in_Dicinfo();
                     if (Main.F10_code_dicInfo.Count > 0)
                     {
-                        DicInfo_Filtered = Main.F10_code_dicInfo;
+                       
 
                         Filter_F10 = 1;
                         Set_View();
@@ -1039,6 +1050,12 @@ namespace ViewPort.Views
                         }
                         else
                             DicInfo_Filtered.Remove(No);
+
+                        if(DicInfo_Filtered.Count == 0)
+                        {
+                            MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                            Main.Camera_NO_Filter_TB.Text = string.Empty;
+                        }
                     }
 
                 }
@@ -2157,8 +2174,6 @@ namespace ViewPort.Views
 
         public void Frame_Set_Image()
         {
-
-
             Bitmap tmp_Img = null;
 
             string Current_ImageFrame = "";
@@ -2170,11 +2185,12 @@ namespace ViewPort.Views
             EachPage_ImageNum = cols * rows;
 
             if (Frame_Filter_check == 1)
-            {
-                Main.Frame_S_TB.Text = Main.Frame_S_TB.Text;
-                Main.Frame_E_TB.Text = Main.Frame_S_TB.Text;
-                Frame_List_Index = frame_List_Img.FindIndex(r => r.Equals(int.Parse(Main.Frame_S_TB.Text)));
-                Frame_Filter_check = 0;
+            {  
+                    Main.Frame_S_TB.Text = Main.Frame_S_TB.Text;
+                    Main.Frame_E_TB.Text = Main.Frame_S_TB.Text;
+                    Frame_List_Index = frame_List_Img.FindIndex(r => r.Equals(int.Parse(Main.Frame_S_TB.Text)));
+                    Frame_Filter_check = 0;
+
             }
             else
             {
@@ -2182,36 +2198,43 @@ namespace ViewPort.Views
                 Main.Frame_E_TB.Text = Main.Frame_S_TB.Text;
             }
 
-
-            frame_dicInfo_Filter.Clear();
-
-            foreach (KeyValuePair<string, ImageInfo> kvp in DicInfo_Filtered)
+            if(Main.Camera_NO_Filter_TB.Text !="")
             {
-                if (kvp.Value.FrameNo == frame_List_Img[Frame_List_Index])
-                    if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
-                        continue;
-                    else
-                        frame_dicInfo_Filter.Add(kvp.Key, kvp.Value);
 
             }
+            else
+            {
+                frame_dicInfo_Filter.Clear();
 
-            foreach (string pair in frame_dicInfo_Filter.Keys.ToList())
-            {
-                if (frame_dicInfo_Filter[pair].FrameNo == frame_List_Img[Frame_List_Index])
-                    continue;
-                else
-                    frame_dicInfo_Filter.Remove(pair);
-            }
-            if (DicInfo_Delete.Count > 0)
-            {
+                foreach (KeyValuePair<string, ImageInfo> kvp in DicInfo_Filtered)
+                {
+                    if (kvp.Value.FrameNo == frame_List_Img[Frame_List_Index])
+                        if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
+                            continue;
+                        else
+                            frame_dicInfo_Filter.Add(kvp.Key, kvp.Value);
+
+                }
+
                 foreach (string pair in frame_dicInfo_Filter.Keys.ToList())
                 {
-                    if (DicInfo_Delete.ContainsKey(pair))
-                    {
+                    if (frame_dicInfo_Filter[pair].FrameNo == frame_List_Img[Frame_List_Index])
+                        continue;
+                    else
                         frame_dicInfo_Filter.Remove(pair);
+                }
+                if (DicInfo_Delete.Count > 0)
+                {
+                    foreach (string pair in frame_dicInfo_Filter.Keys.ToList())
+                    {
+                        if (DicInfo_Delete.ContainsKey(pair))
+                        {
+                            frame_dicInfo_Filter.Remove(pair);
+                        }
                     }
                 }
             }
+         
 
 
             Frame_Del_Range.Clear();
@@ -2854,7 +2877,7 @@ namespace ViewPort.Views
                     Current_PageNum = 1;
                     Last_Picture_Selected_Index = -1;
                     Current_Frame_PageNum = Frame;
-                    Main.Frame_S_Page_TB.Text = Current_Frame_PageNum.ToString();
+                    Main.Frame_S_Page_TB.Text = Convert.ToString(frame_List_Img.FindIndex(r => r.Equals(Frame)) + 1);
 
                     Frame_Filter_check = 1;
 
