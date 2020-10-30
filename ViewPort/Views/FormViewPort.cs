@@ -2586,7 +2586,6 @@ namespace ViewPort
             {
                 Frame_E_TB.Enabled = true;
                 Frame_E_TB.ReadOnly = false;
- 
             }
             else
             {
