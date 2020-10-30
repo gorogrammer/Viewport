@@ -1437,7 +1437,15 @@ namespace ViewPort
         {
             if (e.KeyCode == Keys.Enter)
             {
-                Height_TB.Text = Width_TB.Text;
+                if(Fixed_CB.Checked == true)
+                {
+                    Height_TB.Text = Width_TB.Text;
+                }
+                else
+                {
+
+                }
+                
                 {
                     switch (ViewType)
                     {
@@ -1678,8 +1686,16 @@ namespace ViewPort
 
         private void 중간저장ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            F12_del_list_main = new List<string>(open.F12_del_list);
-            Func.SaveDelFileID(Waiting_Del, F12_del_list_main);
+            if(MessageBox.Show("현재 삭제대기 정보를 저장하시겠습니까? \r 주의: Zip 파일의 이미지를 삭제 한 후에는 저장이 되지 않습니다", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                F12_del_list_main = new List<string>(open.F12_del_list);
+                Func.SaveDelFileID(Waiting_Del, F12_del_list_main);
+            }
+            else
+            {
+
+            }
+            
 
         }
 
@@ -1704,11 +1720,61 @@ namespace ViewPort
         {
             if (Fixed_CB.Checked == true)
             {
-                Height_TB.Enabled = false;
+                Height_TB.Enabled = true;
+                Height_TB.ReadOnly = true;
                 Height_TB.Text = Width_TB.Text;
+
+               
+                    if (Fixed_CB.Checked == true)
+                    {
+                        Height_TB.Text = Width_TB.Text;
+                    }
+                    else
+                    {
+
+                    }
+                        switch (ViewType)
+                        {
+                            case "SetView":
+                                open.Set_View();
+                                break;
+
+                            case "FrameSetView":
+                                open.Frame_Set_View();
+                                break;
+
+                            case "DLFrameSetView":
+                                open.DL_Frame_Set_View();
+                                break;
+
+                            case "EQCBSetView":
+                                open.Eq_CB_Set_View();
+                                break;
+
+                            case "EQCBSetView_ING":
+                                open.Eq_CB_Set_View_ING();
+                                break;
+
+                            case "FilterCBafterSetView":
+                                open.Filter_CB_after_Set_View();
+                                break;
+
+                            case "Code_200_SetView":
+                                open.Code_200_Set_View();
+                                break;
+
+                        }
+
+                 
+                
             }
             else
+            {
                 Height_TB.Enabled = true;
+                Height_TB.ReadOnly = false;
+            }
+                
+            
         }
 
         private void Frame_View_CB_CheckedChanged(object sender, EventArgs e)
@@ -2168,8 +2234,6 @@ namespace ViewPort
             exceed_List.Clear();
             exceed_filter.Clear();
 
-
-
             if (Exceed_CB.Checked)
             {
                 foreach (string pair in DicInfo.Keys.ToList())
@@ -2200,25 +2264,40 @@ namespace ViewPort
                     }
 
                 }
-                foreach (string pair in open.DicInfo_Filtered.Keys.ToList())
+
+                if (exceed_List.Count > 0)
                 {
-                    if (exceed_Count.ContainsKey(open.DicInfo_Filtered[pair].FrameNo))
+                    foreach (string pair in open.DicInfo_Filtered.Keys.ToList())
                     {
-                        exceed_filter.Add(pair, open.DicInfo_Filtered[pair]);
+                        if (exceed_Count.ContainsKey(open.DicInfo_Filtered[pair].FrameNo))
+                        {
+                            exceed_filter.Add(pair, open.DicInfo_Filtered[pair]);
+                        }
+
                     }
 
+                    open.Set_View();
+                    Print_List();
                 }
-
-                open.Set_View();
-                Print_List();
+                else
+                {
+                    MessageBox.Show("해당 프레임이 없습니다.");
+                    Exceed_TB.Text = "41";
+                    Exceed_CB.Checked = false;
+                }
+                    
+               
             }
 
         }
 
         private void Frame_S_TB_KeyDown(object sender, KeyEventArgs e)
         {
+            List<int> Frame_filter_List = new List<int>();
             if (e.KeyCode == Keys.Enter)
             {
+                open.Set_Frame_Filter();
+
                 if (open.Frame_List_Img.Contains(int.Parse(Frame_S_TB.Text)))
                 {
                     open.Frame_Filter(int.Parse(Frame_S_TB.Text));
@@ -2231,6 +2310,7 @@ namespace ViewPort
                 }
 
             }
+            open.Frame_List_Img.Clear();
         }
 
         private void FormViewPort_MouseMove(object sender, MouseEventArgs e)
@@ -2256,10 +2336,17 @@ namespace ViewPort
 
         private void frameListFilerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Setting == 1)
+            {
+                ListFilertView Listfilter = new ListFilertView(this);
+                Listfilter.ShowDialog();
+                Set_Frame_List_Filter();
+            }
+            else
+            {
+                MessageBox.Show("로드 후 사용 부탁드립니다");
+            }
 
-            ListFilertView Listfilter = new ListFilertView(this);
-            Listfilter.ShowDialog();
-            Set_Frame_List_Filter();
         }
 
         public void Set_List_Filter()
@@ -2442,6 +2529,73 @@ namespace ViewPort
                 Manual_Mode_RB.Checked = true;
             }
         }
+
+        private void Height_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (Fixed_CB.Checked == true)
+                {
+                    Height_TB.Text = Width_TB.Text;
+                }
+                else
+                {
+
+                }
+
+                {
+                    switch (ViewType)
+                    {
+                        case "SetView":
+                            open.Set_View();
+                            break;
+
+                        case "FrameSetView":
+                            open.Frame_Set_View();
+                            break;
+
+                        case "DLFrameSetView":
+                            open.DL_Frame_Set_View();
+                            break;
+
+                        case "EQCBSetView":
+                            open.Eq_CB_Set_View();
+                            break;
+
+                        case "EQCBSetView_ING":
+                            open.Eq_CB_Set_View_ING();
+                            break;
+
+                        case "FilterCBafterSetView":
+                            open.Filter_CB_after_Set_View();
+                            break;
+
+                        case "Code_200_SetView":
+                            open.Code_200_Set_View();
+                            break;
+
+                    }
+
+                }
+            }
+        }
+
+        private void Frame_Interval_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Frame_Interval_CB.Checked == true)
+            {
+                Frame_E_TB.Enabled = true;
+                Frame_E_TB.ReadOnly = false;
+ 
+            }
+            else
+            {
+              Frame_E_TB.Enabled = true;
+              Frame_E_TB.ReadOnly = true;
+              
+            }
+        }
+
     }
 
 

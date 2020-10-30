@@ -70,6 +70,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.Frame_Interval_CB = new System.Windows.Forms.CheckBox();
             this.Print_Image_EQ = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.ImageSize_CB = new System.Windows.Forms.ComboBox();
@@ -223,7 +224,7 @@
             // 
             this.Frame_S_TB.Location = new System.Drawing.Point(93, 114);
             this.Frame_S_TB.Name = "Frame_S_TB";
-            this.Frame_S_TB.Size = new System.Drawing.Size(54, 21);
+            this.Frame_S_TB.Size = new System.Drawing.Size(38, 21);
             this.Frame_S_TB.TabIndex = 1;
             this.Frame_S_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frame_S_TB_KeyDown);
             // 
@@ -557,6 +558,7 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitContainer5.Panel1.Controls.Add(this.Frame_Interval_CB);
             this.splitContainer5.Panel1.Controls.Add(this.Print_Image_EQ);
             this.splitContainer5.Panel1.Controls.Add(this.checkBox1);
             this.splitContainer5.Panel1.Controls.Add(this.ImageSize_CB);
@@ -606,6 +608,16 @@
             this.splitContainer5.Size = new System.Drawing.Size(322, 353);
             this.splitContainer5.SplitterDistance = 271;
             this.splitContainer5.TabIndex = 0;
+            // 
+            // Frame_Interval_CB
+            // 
+            this.Frame_Interval_CB.AutoSize = true;
+            this.Frame_Interval_CB.Location = new System.Drawing.Point(194, 119);
+            this.Frame_Interval_CB.Name = "Frame_Interval_CB";
+            this.Frame_Interval_CB.Size = new System.Drawing.Size(15, 14);
+            this.Frame_Interval_CB.TabIndex = 31;
+            this.Frame_Interval_CB.UseVisualStyleBackColor = true;
+            this.Frame_Interval_CB.CheckedChanged += new System.EventHandler(this.Frame_Interval_CheckedChanged);
             // 
             // Print_Image_EQ
             // 
@@ -840,10 +852,10 @@
             // 
             // Frame_E_TB
             // 
-            this.Frame_E_TB.Location = new System.Drawing.Point(156, 114);
+            this.Frame_E_TB.Location = new System.Drawing.Point(150, 114);
             this.Frame_E_TB.Name = "Frame_E_TB";
             this.Frame_E_TB.ReadOnly = true;
-            this.Frame_E_TB.Size = new System.Drawing.Size(53, 21);
+            this.Frame_E_TB.Size = new System.Drawing.Size(38, 21);
             this.Frame_E_TB.TabIndex = 1;
             // 
             // Height_TB
@@ -855,6 +867,7 @@
             this.Height_TB.TabIndex = 3;
             this.Height_TB.Text = "120";
             this.Height_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Height_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Height_TB_KeyDown);
             // 
             // Rows_TB
             // 
@@ -1029,6 +1042,7 @@
         public System.Windows.Forms.CheckBox Exceed_CB;
         private System.Windows.Forms.ToolStripMenuItem listFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem frameListFilerToolStripMenuItem;
+        private System.Windows.Forms.CheckBox Frame_Interval_CB;
     }
 }
 

@@ -36,7 +36,7 @@ namespace ViewPort.Views
             this.Text = Expand_ImgInfo[Expand_ImgInfo.Keys.ElementAt(0)].Imagename;
             pictureBox1.Size = new Size(869, 390);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            //img.RotateFlip(RotateFlipType.Rotate90FlipNone);
             pictureBox1.Image = img;
             
         }

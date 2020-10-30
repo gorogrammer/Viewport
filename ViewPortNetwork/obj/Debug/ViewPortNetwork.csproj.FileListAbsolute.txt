@@ -220,3 +220,9 @@ C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPortNetwork\obj\Deb
 C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
 C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
 C:\Users\metalheedo\Desktop\스템코\1023\Viewport-1022\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\1028\Viewport\DLLs\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\1028\Viewport\DLLs\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\1028\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csprojAssemblyReference.cache
+C:\Users\metalheedo\Desktop\스템코\1028\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
+C:\Users\metalheedo\Desktop\스템코\1028\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\1028\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb

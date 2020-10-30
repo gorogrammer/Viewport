@@ -21,15 +21,61 @@ namespace ViewPort.Views
         {
             InitializeComponent();
             Main = parent;
-            listBox1.Items.Clear();
+            
+            DataTable dt = new DataTable();
+            dt.Columns.Add("SDIP Code");
+            dt.Columns.Add("SDIP 불량명");
+            dt.Columns.Add("자동불량수(투입수)");
+            dt.Columns.Add("자동불량율(%)");
+            dt.Columns.Add("Limit(%)");
+
+            dataGridView1.DataSource = dt;
+
         }
 
         public void Dl_LIst_ADD(List<string> list)
         {
-            for(int i =0; i < list.Count; i++)
+            DataTable Dt = (DataTable)dataGridView1.DataSource;
+
+            Dt.Rows.Clear();
+            textBox1.Text = string.Empty;
+
+            if (list.Count >0)
             {
-                listBox1.Items.Add(list[i]);
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("SDIP Code");
+                dt.Columns.Add("SDIP 불량명");
+                dt.Columns.Add("자동불량수(투입수)");
+                dt.Columns.Add("자동불량율(%)");
+                dt.Columns.Add("Limit(%)");
+
+                foreach (string dl in list)
+                {
+                    if(dl.Split(',').Length == 2)
+                    {
+                        textBox1.Text = dl;
+                    }
+                    else
+                    {
+                        string[] dl_text = dl.Split(',');
+                        string[] col_2_3 = dl_text[1].Split(':');
+                        dt.Rows.Add(dl_text[0], col_2_3[0], col_2_3[1], dl_text[2], dl_text[3]);
+
+                    }
+
+                    dataGridView1.DataSource = dt;
+                }
             }
+            else
+            {
+
+            }
+           
+
+          
         }
     }
 }
