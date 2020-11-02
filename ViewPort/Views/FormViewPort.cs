@@ -2579,7 +2579,7 @@ namespace ViewPort
                 }
             }
         }
-
+    
         private void Frame_Interval_CheckedChanged(object sender, EventArgs e)
         {
             if (Frame_Interval_CB.Checked == true)
