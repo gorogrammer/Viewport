@@ -55,6 +55,7 @@ namespace ViewPort
         string viewType = null;
         int state_Filter = 0;
         string listFiler = string.Empty;
+        string path_check = string.Empty;
         int Rotate_Option = 1;
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
         //List<ImageListInfo> FilterList = new List<ImageListInfo>();
@@ -799,6 +800,7 @@ namespace ViewPort
                 Eq_CB_dicInfo.Clear();
                 Camera_NO_Filter_TB.Text = "";
                 textBox4.Text = "";
+                Frame_S_TB.Text = "";
                 Initial_Equipment_DF_FilterList();
                 Exceed_CB.CheckState = CheckState.Unchecked;
                 if (Frame_View_CB.Checked)
@@ -806,6 +808,14 @@ namespace ViewPort
                     Frame_View_CB.Checked = false;
                     Frame_S_Page_TB.Text = "";
                     Frame_E_Page_TB.Text = "";
+                }
+
+                if(Frame_Interval_CB.Checked)
+                {
+                    Frame_E_TB.Enabled = true;
+                    Frame_E_TB.ReadOnly = true;
+                    Frame_E_TB.Text = string.Empty;
+
                 }
                 //eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
 
@@ -947,7 +957,8 @@ namespace ViewPort
                 }
                 else
                 {
-                    ZipFilePath = null;
+                  
+                    ZipFilePath = "";
                 }
 
             }
@@ -957,18 +968,29 @@ namespace ViewPort
 
             open.Filter_NO_Set();
             Load_State = 1;
-            if (View_Mode_RB.Checked)
-            {
-                ViewModePassword psw = new ViewModePassword(this);
-                psw.ShowDialog();
-            }
-            else
-            {
+       
                 string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
+            path_check = path;
+            if (path =="")
+            {
+                if(DicInfo.Count > 0 && View_Mode_RB.Checked == true)
+                {
+                    View_Mode_RB.Checked = false;
+                    Manual_Mode_RB.Checked = true;
+                }
+                else if(DicInfo.Count > 0 && Manual_Mode_RB.Checked == true)
+                {
+                    Manual_Mode_RB.Checked = false;
+                    View_Mode_RB.Checked = true;
+                }
+                return;
+            }
                 string FileName = string.Empty;
                 if (string.IsNullOrEmpty(path) == false)
                 {
-                    FileName = Util.GetFileName();
+                All_Clear();
+                InitialData();
+                FileName = Util.GetFileName();
                     DirPath = Directory.GetParent(path).ToString();
                     ZipFilePath = path;
                     Equipment_DF_CLB.Items.Clear();
@@ -1030,7 +1052,7 @@ namespace ViewPort
                     }
 
                 }
-            }
+            
 
 
 
@@ -1086,8 +1108,8 @@ namespace ViewPort
         }
         private void zipLoadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            All_Clear();
-            InitialData();
+            //All_Clear();
+            //InitialData();
 
             ZipLoadFile_Async();
 
@@ -1099,77 +1121,84 @@ namespace ViewPort
 
                 dicInfo_Copy = new Dictionary<string, ImageInfo>(DicInfo);
 
-                if (Manual_Mode_RB.Checked)
+                if (path_check != "")
                 {
-                    //MAP 정보에서 제외될 프레임 적용
-
-
-                    //SDIP 코드 211~230 제외
-                    foreach (string pair in dicInfo.Keys.ToList())
+                    if (Manual_Mode_RB.Checked)
                     {
-                        if (F5_Img_KeyList_Main.Contains(pair))
-                        {
-                            F5_code_dicInfo.Add(pair, dicInfo[pair]);
-                        }
+                        //MAP 정보에서 제외될 프레임 적용
 
 
-                        if (dicInfo[pair].sdip_no != "-" && 200 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 299)
+                        //SDIP 코드 211~230 제외
+                        foreach (string pair in dicInfo.Keys.ToList())
                         {
-                            if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[pair].EquipmentDefectName)) == -1)
-                                continue;
-                            else
+                            if (F5_Img_KeyList_Main.Contains(pair))
                             {
-                                index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[pair].EquipmentDefectName));
-                                x = All_Equipment_DF_List[index].Item2;
-                                All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[pair].EquipmentDefectName, --x);
+                                F5_code_dicInfo.Add(pair, dicInfo[pair]);
+                            }
 
-                                if (x == 0)
+
+                            if (dicInfo[pair].sdip_no != "-" && 200 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 299)
+                            {
+                                if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[pair].EquipmentDefectName)) == -1)
+                                    continue;
+                                else
                                 {
-                                    All_Equipment_DF_List.RemoveAt(index);
+                                    index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[pair].EquipmentDefectName));
+                                    x = All_Equipment_DF_List[index].Item2;
+                                    All_Equipment_DF_List[index] = new Tuple<string, int>(dicInfo[pair].EquipmentDefectName, --x);
+
+                                    if (x == 0)
+                                    {
+                                        All_Equipment_DF_List.RemoveAt(index);
+
+                                    }
 
                                 }
-
+                                Sdip_200_code_dicInfo.Add(pair, DicInfo[pair]);
+                                Selected_Pic.Add(pair);
+                                dicInfo.Remove(pair);
                             }
-                            Sdip_200_code_dicInfo.Add(pair, DicInfo[pair]);
-                            Selected_Pic.Add(pair);
-                            dicInfo.Remove(pair);
-                        }
 
+                        }
                     }
                 }
-
-
-
-                Sorted_dic_GRID = DicInfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-                DicInfo = Sorted_dic_GRID;
-
-                Set_Dl_PrintList();
-                //First_Print_List();
-
-                All_LotID_List.Sort();
-                Initial_Equipment_DF_List();
-                Code_200_Set();
-
-                if (checkBox1.Checked)
+                    
+                if(path_check != "")
                 {
-                    for (int i = 0; i < ImageSizeList.Count; i++)
-                        ImageSize_CB.Items.Add(ImageSizeList.ElementAt(i));
 
-                    ImageSize_CB.SelectedIndex = 0;
+                    Sorted_dic_GRID = DicInfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    DicInfo = Sorted_dic_GRID;
+
+                    Set_Dl_PrintList();
+                    //First_Print_List();
+
+                    All_LotID_List.Sort();
+                    Initial_Equipment_DF_List();
+                    Code_200_Set();
+
+                    if (checkBox1.Checked)
+                    {
+                        for (int i = 0; i < ImageSizeList.Count; i++)
+                            ImageSize_CB.Items.Add(ImageSizeList.ElementAt(i));
+
+                        ImageSize_CB.SelectedIndex = 0;
+                    }
+
+
+                    for (int i = 0; i < All_Equipment_DF_List.Count; i++)
+                        Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
+
+
+                    Select_All_BTN_Click(null, null);
+                    MessageBox.Show(MSG_STR.SUCCESS);
+
+                    open.Main = this;
+                    open.Set_View();
+                    Setting = 1;
+                    open.Setting = Setting;
                 }
 
-
-                for (int i = 0; i < All_Equipment_DF_List.Count; i++)
-                    Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
-
-
-                Select_All_BTN_Click(null, null);
-                MessageBox.Show(MSG_STR.SUCCESS);
-
-                open.Main = this;
-                open.Set_View();
-                Setting = 1;
-                open.Setting = Setting;
+       
             }
             else
             {
@@ -2512,21 +2541,28 @@ namespace ViewPort
         {
             if (DicInfo.Count > 0 && Manual_Mode_RB.Checked)
             {
-                MessageBox.Show("처음 Load시에 변경 가능합니다.");
 
-                Manual_Mode_RB.Checked = false;
-                View_Mode_RB.Checked = true;
+                zipLoadFileToolStripMenuItem_Click(null, null);
+
+                View_Mode_RB.Checked = false;
             }
         }
 
         private void View_Mode_RB_Click(object sender, EventArgs e)
         {
-            if (DicInfo.Count > 0 && View_Mode_RB.Checked)
+            if (DicInfo.Count > 0 && View_Mode_RB.Checked == true)
             {
-                MessageBox.Show("처음 Load시에 변경 가능합니다.");
+                zipLoadFileToolStripMenuItem_Click(null, null);
+                
+                if (View_Mode_RB.Checked== false)
+                {
 
-                View_Mode_RB.Checked = false;
-                Manual_Mode_RB.Checked = true;
+                }
+                else
+                    Manual_Mode_RB.Checked = false;
+
+
+
             }
         }
 
@@ -2591,10 +2627,52 @@ namespace ViewPort
             {
               Frame_E_TB.Enabled = true;
               Frame_E_TB.ReadOnly = true;
-              
+              Frame_E_TB.Text = string.Empty;
+
+
             }
         }
 
+        private void Frame_E_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            List<int> Frame_inter = new List<int>();
+            
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                int min = int.Parse(Frame_S_TB.Text);
+                int max = int.Parse(Frame_E_TB.Text);
+                open.Set_Frame_Filter();
+                for(int i = 0; i < open.Frame_List_Img.Count; i++)
+                {
+                    if(min <= open.Frame_List_Img[i] && open.Frame_List_Img[i] <= max)
+                    {
+                        if (Frame_inter.Contains(open.Frame_List_Img[i]))
+                        {
+
+                        }
+                        else
+                        {
+                            Frame_inter.Add(open.Frame_List_Img[i]);
+
+                        }
+                    }
+                }
+
+                if (open.Frame_List_Img.Contains(int.Parse(Frame_S_TB.Text)))
+                {
+                    open.Frame_Interval_Filter(Frame_inter);
+                }
+                else
+                {
+
+                    MessageBox.Show("해당 프레임은 존재하지 않습니다.");
+                    Frame_S_TB.Text = Frame_E_TB.Text;
+                }
+
+            }
+            open.Frame_List_Img.Clear();
+        }
     }
 
 

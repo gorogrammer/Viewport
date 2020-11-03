@@ -388,21 +388,21 @@
             // zipLoadFileToolStripMenuItem
             // 
             this.zipLoadFileToolStripMenuItem.Name = "zipLoadFileToolStripMenuItem";
-            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
             this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
             // 
             // listFilterToolStripMenuItem
             // 
             this.listFilterToolStripMenuItem.Name = "listFilterToolStripMenuItem";
-            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.listFilterToolStripMenuItem.Text = "List Filter";
             this.listFilterToolStripMenuItem.Click += new System.EventHandler(this.listFilterToolStripMenuItem_Click);
             // 
             // frameListFilerToolStripMenuItem
             // 
             this.frameListFilerToolStripMenuItem.Name = "frameListFilerToolStripMenuItem";
-            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.frameListFilerToolStripMenuItem.Text = "Frame  List Filer";
             this.frameListFilerToolStripMenuItem.Click += new System.EventHandler(this.frameListFilerToolStripMenuItem_Click);
             // 
@@ -857,6 +857,7 @@
             this.Frame_E_TB.ReadOnly = true;
             this.Frame_E_TB.Size = new System.Drawing.Size(38, 21);
             this.Frame_E_TB.TabIndex = 1;
+            this.Frame_E_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frame_E_TB_KeyDown);
             // 
             // Height_TB
             // 

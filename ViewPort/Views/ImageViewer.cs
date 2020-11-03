@@ -44,6 +44,9 @@ namespace ViewPort.Views
         int Filter_F10 = 0;
         int Filter_F5 = 0;
         int Filter_F = 0;
+        int viewMode_PSW_Check = 0;
+        int shift_del = 0;
+        int only_del = 0;
         Image expand_img = null;
         List<BoxRange> ImageRangeInfo = new List<BoxRange>();
         List<string> Print_Frame = new List<string>();
@@ -89,6 +92,13 @@ namespace ViewPort.Views
         public List<int> Frame_List_Img { get => frame_List_Img; set => frame_List_Img = value; }
 
         public int Setting { get => setting; set => setting = value; }
+
+        public int ViewMode_PSW_Check { get => viewMode_PSW_Check; set => viewMode_PSW_Check = value; }
+
+        public int Shift_del { get => shift_del; set => shift_del = value; }
+
+
+        public int Only_del { get => only_del; set => only_del = value; }
         public string OpenViewType { get => openViewType; set => openViewType = value; }
         public Dictionary<string, ImageInfo> Frame_dicInfo_Filter { get => frame_dicInfo_Filter; set => frame_dicInfo_Filter = value; }
         public List<string> F12_del_list { get => f12_del_list; set => f12_del_list = value; }
@@ -206,239 +216,48 @@ namespace ViewPort.Views
 
             else if (e.Shift && e.KeyCode == Keys.Delete)
             {
-                if(MessageBox.Show("리스트에서 선택된 모든 이미지를 삭제List로 보냅니다.", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                shift_del = 1;
+                if (Main.View_Mode_RB.Checked ==true)
                 {
-                    Select_Pic_List.Clear();
-                    try
+                    if(ViewMode_PSW_Check == 0)
                     {
-                        waitform.Show();
-
-
-                        if (Main.Frame_View_CB.Checked)
-                        {
-
-                            foreach (string pair in frame_dicInfo_Filter.Keys.ToList())
-                            {
-                                if (frame_dicInfo_Filter[pair].ReviewDefectName == "선택")
-                                {
-                                    Select_Pic_List.Add(pair);
-                                }
-                                else
-                                {
-
-                                }
-                            }
-                            Get_Delete_IMG();
-
-                            for (int i = 0; i < Select_Pic_List.Count; i++)
-                            {
-                                if (frame_dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
-                                {
-                                    frame_dicInfo_Filter.Remove(Select_Pic_List[i]);
-                                }
-
-                            }
-                            //if (Filter_NO_1 == 1)
-                            //{
-                            //    Main.No1_Dl_PrintList();
-                            //    Filter_NO_1 = 0;
-                            //}
-                            //else
-                            Main.Dl_PrintList();
-
-                            Eq_cb_need_del = new List<string>(Select_Pic_List);
-                            DL_Frame_Set_View();
-
-
-                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
-                            Main.Wait_Del_Print_List();
-
-                        }
-                        else
-                        {
-                            foreach (string pair in dicInfo_Filter.Keys.ToList())
-                            {
-                                if (dicInfo_Filter[pair].ReviewDefectName == "선택")
-                                {
-                                    Select_Pic_List.Add(pair);
-                                }
-                                else
-                                {
-
-                                }
-                            }
-                            Get_Delete_IMG();
-
-                            for (int i = 0; i < Select_Pic_List.Count; i++)
-                            {
-                                if (dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
-                                {
-                                    dicInfo_Filter.Remove(Select_Pic_List[i]);
-                                }
-
-                            }
-
-                            //if (Filter_NO_1 == 1)
-                            //{
-                            //    Main.No1_Dl_PrintList();
-                            //    Filter_NO_1 = 0;
-                            //}
-                            //else
-                            Main.Dl_PrintList();
-
-
-                            Eq_cb_need_del = new List<string>(Select_Pic);
-                            Del_Set_View();
-
-
-                            Main.Wait_Del_Print_List();
-                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
-
-
-                        }
-
-                        Select_Pic_List.Clear();
-                        waitform.Close();
-                        //Eq_cb_need_del.Clear();
-                    }
-                    catch (Exception ex)
-                    {
-                        waitform.Close();
-                        MessageBox.Show(ex.ToString());
+                        ViewModePassword psw = new ViewModePassword(this);
+                        psw.ShowDialog();
 
                     }
-
-
+                    else
+                    {
+                        Key_shift_del();
+                    }
                 }
                 else
                 {
-
+                    Key_shift_del();
                 }
-               
 
+                shift_del = 0;
             }
 
             else if (e.KeyCode == Keys.Delete)
             {
-                if(MessageBox.Show("현재 페이지에서 선택된 이미지를 삭제List로 보냅니다.", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (Main.View_Mode_RB.Checked == true)
                 {
-                    Select_Pic_List.Clear();
-                    int index = ((Current_PageNum - 1) * (cols * rows));
-                    Selected_Picture_Index.Clear();
-                    try
+                    if (ViewMode_PSW_Check == 0)
                     {
-                        waitform.Show();
+                        ViewModePassword psw = new ViewModePassword(this);
+                        psw.ShowDialog();
 
-
-                        if (Main.Frame_View_CB.Checked)
-                        {
-                            for (int i = 0; i < (cols * rows); i++)
-                            {
-                                if ((index + i) >= frame_dicInfo_Filter.Count)
-                                    break;
-                                Selected_Picture_Index.Add(index + i);
-                            }
-                            for (int p = 0; p < Selected_Picture_Index.Count; p++)
-                            {
-                                if (frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName == "선택")
-                                {
-                                    Select_Pic_List.Add(frame_dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
-                                }
-                            }
-
-                            Get_Delete_IMG();
-
-                            for (int i = 0; i < Select_Pic_List.Count; i++)
-                            {
-                                if (frame_dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
-                                {
-                                    frame_dicInfo_Filter.Remove(Select_Pic_List[i]);
-                                }
-
-                            }
-                            if (Filter_NO_1 == 1)
-                            {
-                                Main.No1_Dl_PrintList();
-                                Filter_NO_1 = 0;
-                            }
-                            else
-                                Main.Dl_PrintList();
-
-                            Eq_cb_need_del = new List<string>(Select_Pic_List);
-                            DL_Frame_Set_View();
-
-
-                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
-                            Main.Wait_Del_Print_List();
-
-                        }
-                        else
-                        {
-                            for (int i = 0; i < (cols * rows); i++)
-                            {
-                                if ((index + i) >= dicInfo_Filter.Count)
-                                    break;
-                                Selected_Picture_Index.Add(index + i);
-                            }
-                            for (int p = 0; p < Selected_Picture_Index.Count; p++)
-                            {
-                                if (dicInfo_Filter[dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName == "선택")
-                                {
-                                    Select_Pic_List.Add(dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
-                                }
-                            }
-
-                            Get_Delete_IMG();
-
-                            for (int i = 0; i < Select_Pic_List.Count; i++)
-                            {
-                                if (dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
-                                {
-                                    dicInfo_Filter.Remove(Select_Pic_List[i]);
-                                }
-
-                            }
-
-
-
-                            if (Filter_NO_1 == 1)
-                            {
-
-                                Main.No1_Dl_PrintList();
-                                Filter_NO_1 = 0;
-                            }
-                            else
-                                Main.Dl_PrintList();
-
-
-                            Eq_cb_need_del = new List<string>(Select_Pic);
-                            Del_Set_View();
-
-
-                            Main.Wait_Del_Print_List();
-                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
-
-
-                        }
-
-                        Select_Pic_List.Clear();
-                        waitform.Close();
-                        //Eq_cb_need_del.Clear();
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        waitform.Close();
-                        MessageBox.Show(ex.ToString());
-
+                        Key_only_del();
                     }
                 }
                 else
                 {
-
+                    Key_only_del();
                 }
                
-
-
             }
 
             else if (e.KeyCode == Keys.Z)
@@ -926,6 +745,237 @@ namespace ViewPort.Views
 
         }
 
+        public void Key_only_del()
+        {
+            if (MessageBox.Show("현재 페이지에서 선택된 이미지를 삭제List로 보냅니다.", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Select_Pic_List.Clear();
+                int index = ((Current_PageNum - 1) * (cols * rows));
+                Selected_Picture_Index.Clear();
+                try
+                {
+                    waitform.Show();
+
+
+                    if (Main.Frame_View_CB.Checked)
+                    {
+                        for (int i = 0; i < (cols * rows); i++)
+                        {
+                            if ((index + i) >= frame_dicInfo_Filter.Count)
+                                break;
+                            Selected_Picture_Index.Add(index + i);
+                        }
+                        for (int p = 0; p < Selected_Picture_Index.Count; p++)
+                        {
+                            if (frame_dicInfo_Filter[frame_dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName == "선택")
+                            {
+                                Select_Pic_List.Add(frame_dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
+                            }
+                        }
+
+                        Get_Delete_IMG();
+
+                        for (int i = 0; i < Select_Pic_List.Count; i++)
+                        {
+                            if (frame_dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
+                            {
+                                frame_dicInfo_Filter.Remove(Select_Pic_List[i]);
+                            }
+
+                        }
+                        if (Filter_NO_1 == 1)
+                        {
+                            Main.No1_Dl_PrintList();
+                            Filter_NO_1 = 0;
+                        }
+                        else
+                            Main.Dl_PrintList();
+
+                        Eq_cb_need_del = new List<string>(Select_Pic_List);
+                        DL_Frame_Set_View();
+
+
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
+                        Main.Wait_Del_Print_List();
+
+                    }
+                    else
+                    {
+                        for (int i = 0; i < (cols * rows); i++)
+                        {
+                            if ((index + i) >= dicInfo_Filter.Count)
+                                break;
+                            Selected_Picture_Index.Add(index + i);
+                        }
+                        for (int p = 0; p < Selected_Picture_Index.Count; p++)
+                        {
+                            if (dicInfo_Filter[dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName == "선택")
+                            {
+                                Select_Pic_List.Add(dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
+                            }
+                        }
+
+                        Get_Delete_IMG();
+
+                        for (int i = 0; i < Select_Pic_List.Count; i++)
+                        {
+                            if (dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
+                            {
+                                dicInfo_Filter.Remove(Select_Pic_List[i]);
+                            }
+
+                        }
+
+
+
+                        if (Filter_NO_1 == 1)
+                        {
+
+                            Main.No1_Dl_PrintList();
+                            Filter_NO_1 = 0;
+                        }
+                        else
+                            Main.Dl_PrintList();
+
+
+                        Eq_cb_need_del = new List<string>(Select_Pic);
+                        Del_Set_View();
+
+
+                        Main.Wait_Del_Print_List();
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+
+
+                    }
+
+                    Select_Pic_List.Clear();
+                    waitform.Close();
+                    //Eq_cb_need_del.Clear();
+                }
+                catch (Exception ex)
+                {
+                    waitform.Close();
+                    MessageBox.Show(ex.ToString());
+
+                }
+            }
+            else
+            {
+
+            }
+
+        }
+        public void Key_shift_del()
+        {
+            if (MessageBox.Show("리스트에서 선택된 모든 이미지를 삭제 List로 보냅니다.", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Select_Pic_List.Clear();
+                try
+                {
+                    waitform.Show();
+
+
+                    if (Main.Frame_View_CB.Checked)
+                    {
+
+                        foreach (string pair in frame_dicInfo_Filter.Keys.ToList())
+                        {
+                            if (frame_dicInfo_Filter[pair].ReviewDefectName == "선택")
+                            {
+                                Select_Pic_List.Add(pair);
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        Get_Delete_IMG();
+
+                        for (int i = 0; i < Select_Pic_List.Count; i++)
+                        {
+                            if (frame_dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
+                            {
+                                frame_dicInfo_Filter.Remove(Select_Pic_List[i]);
+                            }
+
+                        }
+                        //if (Filter_NO_1 == 1)
+                        //{
+                        //    Main.No1_Dl_PrintList();
+                        //    Filter_NO_1 = 0;
+                        //}
+                        //else
+                        Main.Dl_PrintList();
+
+                        Eq_cb_need_del = new List<string>(Select_Pic_List);
+                        DL_Frame_Set_View();
+
+
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
+                        Main.Wait_Del_Print_List();
+
+                    }
+                    else
+                    {
+                        foreach (string pair in dicInfo_Filter.Keys.ToList())
+                        {
+                            if (dicInfo_Filter[pair].ReviewDefectName == "선택")
+                            {
+                                Select_Pic_List.Add(pair);
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        Get_Delete_IMG();
+
+                        for (int i = 0; i < Select_Pic_List.Count; i++)
+                        {
+                            if (dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
+                            {
+                                dicInfo_Filter.Remove(Select_Pic_List[i]);
+                            }
+
+                        }
+
+                        //if (Filter_NO_1 == 1)
+                        //{
+                        //    Main.No1_Dl_PrintList();
+                        //    Filter_NO_1 = 0;
+                        //}
+                        //else
+                        Main.Dl_PrintList();
+
+
+                        Eq_cb_need_del = new List<string>(Select_Pic);
+                        Del_Set_View();
+
+
+                        Main.Wait_Del_Print_List();
+                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+
+
+                    }
+
+                    Select_Pic_List.Clear();
+                    waitform.Close();
+                    //Eq_cb_need_del.Clear();
+                }
+                catch (Exception ex)
+                {
+                    waitform.Close();
+                    MessageBox.Show(ex.ToString());
+
+                }
+
+
+            }
+            else
+            {
+
+            }
+        }
         private void ImageViewer_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Menu)
@@ -1066,6 +1116,7 @@ namespace ViewPort.Views
             Filter_F10 = 0;
             Filter_F5 = 0;
             Filter_F = 0;
+            ViewMode_PSW_Check = 0;
         }
         public void Set_View()
         {
@@ -1400,15 +1451,15 @@ namespace ViewPort.Views
         public void Set_Frame_Filter()
         {
             Frame_List_Img.Clear();
-            foreach (string pair in DicInfo_Filtered.Keys.ToList())
+            foreach (string pair in Main.DicInfo.Keys.ToList())
             {
-                if (Frame_List_Img.Contains(DicInfo_Filtered[pair].FrameNo))
+                if (Frame_List_Img.Contains(Main.DicInfo[pair].FrameNo))
                 {
 
                 }
                 else
                 {
-                    Frame_List_Img.Add(DicInfo_Filtered[pair].FrameNo);
+                    Frame_List_Img.Add(Main.DicInfo[pair].FrameNo);
 
                 }
             }
@@ -2991,6 +3042,30 @@ namespace ViewPort.Views
                 Main.Print_List();
             }
             Frame_Filter_check = 0;
+        }
+
+        public void Frame_Interval_Filter(List<int> inter)
+        {
+
+      
+                foreach (string no in DicInfo_Filtered.Keys.ToList())
+                {
+                    if (inter.Contains(DicInfo_Filtered[no].FrameNo))
+                    {
+
+                    }
+                    else
+                    {
+                        DicInfo_Filtered.Remove(no);
+                    }
+                }
+
+                Frame_Filter_check = 1;
+
+                Set_View();
+                Main.Print_List();
+            
+                Frame_Filter_check = 0;
         }
 
 

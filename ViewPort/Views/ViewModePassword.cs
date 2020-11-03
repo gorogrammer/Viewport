@@ -15,11 +15,11 @@ namespace ViewPort.Views
 {
     public partial class ViewModePassword : Form
     {
-        FormViewPort  Main;
-        public ViewModePassword(FormViewPort parent)
+        ImageViewer  open;
+        public ViewModePassword(ImageViewer parent)
         {
             InitializeComponent();
-            Main = parent;
+            open = parent;
         }
 
         public void Check_PSW()
@@ -27,15 +27,23 @@ namespace ViewPort.Views
             if(this.PSW_Input_TB.Text == "1234")
             {
                 this.Close();
-
-                Main.ZipLoadFile_Viewmode();
+               if(open.Shift_del == 1)
+               {
+                    open.Key_shift_del();
+               }
+               else
+               {
+                    open.Key_only_del();
+               }
                 
+                open.ViewMode_PSW_Check = 1;
             }
             else
             {
                 MessageBox.Show("비밀번호가 일치하지 않습니다.", "오류", MessageBoxButtons.OK);
                 this.Close();
             }
+           
         }
 
         private void PSW_Check_BT_Click(object sender, EventArgs e)

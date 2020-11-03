@@ -90,11 +90,11 @@ namespace ViewPort.Views
             {
                 if (progressBar1.InvokeRequired)
                 {
-                    progressBar1.BeginInvoke(new Action(() => progressBar1.Value += AddValue));
+                    progressBar1.Invoke(new Action(() => progressBar1.Value += AddValue));
                 }
                 else
                 {
-                    progressBar1.BeginInvoke(new Action(() => progressBar1.Value += AddValue));
+                    progressBar1.Invoke(new Action(() => progressBar1.Value += AddValue));
                 }
 
             }
@@ -110,11 +110,11 @@ namespace ViewPort.Views
             {
                 if (progressBar1.InvokeRequired)
                 {
-                    progressBar1.BeginInvoke(new Action(() => progressBar1.Value = Value));
+                    progressBar1.Invoke(new Action(() => progressBar1.Value = Value));
                 }
                 else
                 {
-                    progressBar1.BeginInvoke(new Action(() => progressBar1.Value = Value));
+                    progressBar1.Invoke(new Action(() => progressBar1.Value = Value));
                 }
 
             }
@@ -128,7 +128,7 @@ namespace ViewPort.Views
         {
             if (progressBar1.InvokeRequired)
             {
-                progressBar1.BeginInvoke(new Action(() => progressBar1.Maximum = value));
+                progressBar1.Invoke(new Action(() => progressBar1.Maximum = value));
             }
             else
             {
@@ -138,9 +138,9 @@ namespace ViewPort.Views
 
         private void ExitProgressBarSafe()
         {
-           if (this.InvokeRequired)
+            if (this.InvokeRequired)
             {
-                this.BeginInvoke(new Action(() => this.Close()));
+                this.Invoke(new Action(() => this.Close()));
             }
             else
             {
@@ -152,7 +152,7 @@ namespace ViewPort.Views
         {
             if (this.InvokeRequired)
             {
-                this.BeginInvoke(new Action(() => this.Text = Value));
+                this.Invoke(new Action(() => this.Text = Value));
             }
             else
             {
@@ -194,6 +194,8 @@ namespace ViewPort.Views
 
             InitializeComponent();
 
+            this.progressBar1.Size = new System.Drawing.Size(550, 26);
+            this.ClientSize = new System.Drawing.Size(550, 26);
             DoLoadingThread(path);
         }
 
@@ -206,6 +208,7 @@ namespace ViewPort.Views
 
         public void DoLoadingThread(string path)
         {
+            
             Thread LoadThread = new Thread(new ParameterizedThreadStart(Loading));
             LoadThread.Start(path);
         }
@@ -283,6 +286,7 @@ namespace ViewPort.Views
             IMG_TXT_combine();
             MakeDataTables();
 
+            //this.Close();
             ExitProgressBarSafe();
         }
 
@@ -711,13 +715,7 @@ namespace ViewPort.Views
 
          }
 
-        public void gridset(Dictionary<string, ImageInfo> dicinfo_Main)
-        {
-            EditFormNameSafe(MSG_STR.LOAD_ROWS);
 
-            MakeDataTables();
-            ExitProgressBarSafe();
-        }
         private void MakeDataTables()
         {
             Dt = new DataTable();
