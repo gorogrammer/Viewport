@@ -1719,6 +1719,7 @@ namespace ViewPort
             {
                 F12_del_list_main = new List<string>(open.F12_del_list);
                 Func.SaveDelFileID(Waiting_Del, F12_del_list_main);
+                MessageBox.Show("저장 되었습니다.");
             }
             else
             {
