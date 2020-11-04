@@ -399,7 +399,7 @@ namespace ViewPort.Functions
                         File.AppendAllLines(txtFilePath, listdel);
                     }
                 }
-
+                MessageBox.Show("저장 되었습니다.");
             }
             else
             {

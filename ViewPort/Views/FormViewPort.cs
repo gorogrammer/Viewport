@@ -46,6 +46,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> set_filter_frame_dicinfo = new Dictionary<string, ImageInfo>();
         List<int> set_filter_frame = new List<int>();
         List<string> f12_del_list_main = new List<string>();
+        int eq_filter = 0;
         int list_filter = 0;
         List<int> exceed_List = new List<int>();
         int setting = 0;
@@ -154,6 +155,7 @@ namespace ViewPort
         public string DirPath { get => dirPath; set => dirPath = value; }
         public int Load_State { get => _load_State; set => _load_State = value; }
 
+        public int Eq_filter { get => eq_filter; set => eq_filter = value; }
         public int GetLoad_State()
         {
             return Load_State;
@@ -814,7 +816,8 @@ namespace ViewPort
                 {
                     Frame_E_TB.Enabled = true;
                     Frame_E_TB.ReadOnly = true;
-                    Frame_E_TB.Text = string.Empty;
+                    Frame_E_TB.Text = "";
+                    Frame_Interval_CB.CheckState = CheckState.Unchecked;
 
                 }
                 //eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
@@ -967,6 +970,7 @@ namespace ViewPort
         {
 
             open.Filter_NO_Set();
+            open.ImageViewer_Clear();
             Load_State = 1;
        
                 string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
@@ -975,8 +979,9 @@ namespace ViewPort
             {
                 if(DicInfo.Count > 0 && View_Mode_RB.Checked == true)
                 {
-                    View_Mode_RB.Checked = false;
                     Manual_Mode_RB.Checked = true;
+                    View_Mode_RB.Checked = false;
+                    
                 }
                 else if(DicInfo.Count > 0 && Manual_Mode_RB.Checked == true)
                 {
@@ -1619,6 +1624,20 @@ namespace ViewPort
         }
         private void All_Clear()
         {
+            if(Frame_View_CB.Checked || Frame_Interval_CB.Checked || Exceed_CB.Checked)
+            {
+                Frame_View_CB.Checked = false;
+                Frame_Interval_CB.Checked = false;
+                Exceed_CB.Checked = false;
+            }
+            Eq_filter = 0;
+            textBox4.Text = "";
+            EQ_Search_TB.Text = "";
+            Frame_S_TB.Text = "";
+            Frame_E_TB.Text = "";
+            Frame_S_Page_TB.Text = "";
+            Frame_E_Page_TB.Text = "";
+            Camera_NO_Filter_TB.Text = "";
             CODE_200_List.Clear();
             Setting = 0;
             Exception_Frame.Clear();
@@ -1719,7 +1738,7 @@ namespace ViewPort
             {
                 F12_del_list_main = new List<string>(open.F12_del_list);
                 Func.SaveDelFileID(Waiting_Del, F12_del_list_main);
-                MessageBox.Show("저장 되었습니다.");
+                
             }
             else
             {
@@ -1818,6 +1837,10 @@ namespace ViewPort
                 open.Frame_Set_View();
                 Exceed_CB.Enabled = false;
             }
+            else if(Eq_filter == 1)
+            {
+                return;
+            }
             else
             {
                 Exceed_CB.Enabled = true;
@@ -1874,6 +1897,7 @@ namespace ViewPort
 
         private void EQ_Search()
         {
+            Eq_filter = 1;
             string txt = EQ_Search_TB.Text;
             txt = txt.ToUpper();
 
@@ -1894,6 +1918,7 @@ namespace ViewPort
 
         private void button4_Click(object sender, EventArgs e)
         {
+            Eq_filter = 0;
             EQ_Search_TB.Text = null;
             Initial_Equipment_DF_List();
             Equipment_DF_CLB.Items.Clear();
@@ -1906,31 +1931,30 @@ namespace ViewPort
 
         private void 번코드변경ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            selected_Pic = open.Select_Pic_List;
 
-            Change_Code change = new Change_Code(open);
+            Change_Code change = new Change_Code(this);
             change.ShowDialog();
 
             if (open.OpenViewType == "Code_200_SetView")
             {
-                foreach (string pair in open.DicInfo_Filtered.Keys.ToList())
-                {
-                    if (int.Parse(open.DicInfo_Filtered[pair].sdip_no) < 200 || int.Parse(open.DicInfo_Filtered[pair].sdip_no) > 300)
-                    {
-                        open.DicInfo_Filtered[pair].ReviewDefectName = "양품";
-                        DicInfo.Add(pair, open.DicInfo_Filtered[pair]);
-                        Sdip_200_code_dicInfo.Remove(pair);
+                //foreach (string pair in open.DicInfo_Filtered.Keys.ToList())
+                //{
+                //    if (int.Parse(open.DicInfo_Filtered[pair].sdip_no) < 200 || int.Parse(open.DicInfo_Filtered[pair].sdip_no) > 300)
+                //    {
+                //        open.DicInfo_Filtered[pair].ReviewDefectName = "양품";
+                //        DicInfo.Add(pair, open.DicInfo_Filtered[pair]);
+                //        Sdip_200_code_dicInfo.Remove(pair);
 
-                    }
-                }
+                //    }
+                //}
 
                 Sorted_dic = DicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
                 DicInfo = Sorted_dic;
 
-                Return_update_Equipment_DF_CLB(open.Select_Pic_List);
+                Return_update_Equipment_DF_CLB(selected_Pic);
             }
-
-
-
+            selected_Pic.Clear();
         }
 
         private void Camera_NO_Filter_TB_KeyDown(object sender, KeyEventArgs e)
@@ -2125,6 +2149,7 @@ namespace ViewPort
         {
             if (e.KeyCode == Keys.Enter)
             {
+                Eq_filter = 1;
                 EQ_Search();
             }
         }
@@ -2326,6 +2351,7 @@ namespace ViewPort
             List<int> Frame_filter_List = new List<int>();
             if (e.KeyCode == Keys.Enter)
             {
+                
                 open.Set_Frame_Filter();
 
                 if (open.Frame_List_Img.Contains(int.Parse(Frame_S_TB.Text)))
@@ -2456,6 +2482,7 @@ namespace ViewPort
 
             if (e.KeyCode == Keys.Enter)
             {
+                
                 if (int.Parse(Frame_S_Page_TB.Text) <= int.Parse(Frame_E_Page_TB.Text) && int.Parse(Frame_S_Page_TB.Text) > 0)
                 {
                     open.No_Frmae_Filter(int.Parse(Frame_S_Page_TB.Text));
@@ -2545,22 +2572,17 @@ namespace ViewPort
 
                 zipLoadFileToolStripMenuItem_Click(null, null);
 
-                View_Mode_RB.Checked = false;
+               // View_Mode_RB.Checked = false;
             }
         }
 
         private void View_Mode_RB_Click(object sender, EventArgs e)
         {
-            if (DicInfo.Count > 0 && View_Mode_RB.Checked == true)
+            if (DicInfo.Count > 0 && View_Mode_RB.Checked)
             {
                 zipLoadFileToolStripMenuItem_Click(null, null);
                 
-                if (View_Mode_RB.Checked== false)
-                {
-
-                }
-                else
-                    Manual_Mode_RB.Checked = false;
+                //Manual_Mode_RB.Checked = false;
 
 
 

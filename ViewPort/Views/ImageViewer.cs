@@ -1116,6 +1116,7 @@ namespace ViewPort.Views
             Filter_F10 = 0;
             Filter_F5 = 0;
             Filter_F = 0;
+            Frame_Filter_check = 0;
             ViewMode_PSW_Check = 0;
         }
         public void Set_View()
@@ -1126,7 +1127,7 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            if (!Main.Exceed_CB.Checked && Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F != 1 && Main.List_filter != 1 && Main.State_Filter != 1&& Frame_Filter_check!=1)
+            if (!Main.Exceed_CB.Checked && Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F != 1 && Main.List_filter != 1 && Main.State_Filter != 1 && Frame_Filter_check!=1)
             {
                 dicInfo_Filter = Main.DicInfo;
 
@@ -1863,11 +1864,13 @@ namespace ViewPort.Views
                             expand_ImgInfo.Add(PictureData[ i].Name, frame_dicInfo_Filter[PictureData[i].Name]);
 
                         }
+                        else
+                        {
+                            MessageBox.Show("이미지를 다시 선택해주세요.");
+
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("이미지를 다시 선택해주세요.");
-                    }
+                  
                 }
                 else
                 {
@@ -2317,6 +2320,30 @@ namespace ViewPort.Views
 
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
+            if(Main.Frame_E_TB.Text != "" || Main.Exceed_CB.Checked || Main.Eq_filter == 1)
+            {
+                Frame_List_Img.Clear();
+                foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                {
+                    if (Frame_List_Img.Contains(DicInfo_Filtered[pair].FrameNo))
+                    {
+
+                    }
+                    else
+                    {
+                        Frame_List_Img.Add(DicInfo_Filtered[pair].FrameNo);
+
+                    }
+                }
+                //Main.Eq_filter = 0;
+            }
+            else
+            {
+                Set_Frame_Filter();
+            }
+
+            
+            
 
             if (Frame_Filter_check == 1)
             {  
@@ -3046,28 +3073,28 @@ namespace ViewPort.Views
 
         public void Frame_Interval_Filter(List<int> inter)
         {
-
+                
+                Dictionary<string, ImageInfo> interval_dic = new Dictionary<string, ImageInfo>(Main.DicInfo);
       
-                foreach (string no in DicInfo_Filtered.Keys.ToList())
+                foreach (string no in interval_dic.Keys.ToList())
                 {
-                    if (inter.Contains(DicInfo_Filtered[no].FrameNo))
+                    if (inter.Contains(interval_dic[no].FrameNo))
                     {
 
                     }
                     else
                     {
-                        DicInfo_Filtered.Remove(no);
+                        interval_dic.Remove(no);
                     }
                 }
-
+                DicInfo_Filtered = new Dictionary<string, ImageInfo>(interval_dic);
                 Frame_Filter_check = 1;
 
                 Set_View();
                 Main.Print_List();
-            
+                interval_dic.Clear();
                 Frame_Filter_check = 0;
         }
-
 
 
         public void No_Frmae_Filter(int Frame)
@@ -3075,12 +3102,7 @@ namespace ViewPort.Views
             if (Main.Frame_View_CB.Checked)
             {
 
-                if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) >= int.Parse(Main.Frame_E_Page_TB.Text))
-                {
-                    MessageBox.Show("마지막 페이지 입니다.");
-                }
-                else
-                {
+               
 
                     Current_PageNum = 1;
                     Last_Picture_Selected_Index = -1;
@@ -3091,7 +3113,7 @@ namespace ViewPort.Views
 
 
 
-                }
+                
                 Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
             }
             else
@@ -3350,10 +3372,15 @@ namespace ViewPort.Views
             Draged_PB = null;
         }
 
+        public void ImageViewer_Clear()
+        {
+            Eq_cb_need_del.Clear();
+        }
+
         public ImageViewer()
         {
             InitializeComponent();
-
+            
         }
     }
 }

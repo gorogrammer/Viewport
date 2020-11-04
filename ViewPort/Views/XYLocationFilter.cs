@@ -53,7 +53,9 @@ namespace ViewPort.Views
             {
                 foreach(string id in DicInfo_XY_filter.Keys.ToList())
                 {
-                    if (int.Parse(Master_TB.Text) == int.Parse(DicInfo_XY_filter[id].Master_NO) && int.Parse(X_TB.Text) - int.Parse(Xfilter_TB.Text) <= int.Parse(DicInfo_XY_filter[id].X_Location) && int.Parse(DicInfo_XY_filter[id].X_Location) <= int.Parse(X_TB.Text) + int.Parse(Xfilter_TB.Text))
+                    if (int.Parse(Master_TB.Text) == int.Parse(DicInfo_XY_filter[id].Master_NO) 
+                        && int.Parse(X_TB.Text) - int.Parse(Xfilter_TB.Text) <= int.Parse(DicInfo_XY_filter[id].X_Location) && int.Parse(DicInfo_XY_filter[id].X_Location) <= int.Parse(X_TB.Text) + int.Parse(Xfilter_TB.Text) 
+                        && int.Parse(Y_TB.Text) - int.Parse(YFilter_TB.Text) <= int.Parse(DicInfo_XY_filter[id].Y_Location) && int.Parse(DicInfo_XY_filter[id].Y_Location) <= int.Parse(Y_TB.Text) + int.Parse(YFilter_TB.Text))
                         continue;
                     else
                         DicInfo_XY_filter.Remove(id);

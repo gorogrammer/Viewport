@@ -15,72 +15,100 @@ namespace ViewPort.Views
 {
     public partial class Change_Code : Form
     {
-        ImageViewer Open;
+        FormViewPort Main;
         List<string> Select_Pic_change = new List<string>();
         Dictionary<string, ImageInfo> dicInfo_Code_Change = new Dictionary<string, ImageInfo>();
 
         public Dictionary<string, ImageInfo> DicInfo_Code_Change { get => dicInfo_Code_Change; set => dicInfo_Code_Change = value; }
-        public Change_Code(ImageViewer parent)
+        public Change_Code(FormViewPort parent)
         {
             InitializeComponent();
-            Open = parent;
+            Main = parent;
         }
 
         public void Change_Sdip()
         {
             string code = null;
-            Select_Pic_change = Open.Select_Pic_List;
+            Select_Pic_change = Main.selected_Pic;
 
 
-            if (Open.OpenViewType == "FrameSetView" || Open.OpenViewType == "DLFrameSetView")
+            if(Main.ViewType == "Code_200_SetView")
             {
-                DicInfo_Code_Change = Open.Frame_dicInfo_Filter;
-
-
                 code = Code_Change_TB.Text;
                 for (int i = 0; i < Select_Pic_change.Count; i++)
                 {
-                    if (Open.DicInfo_Filtered.ContainsKey(Select_Pic_change[i]))
+                    if (Main.Sdip_200_code_dicInfo.ContainsKey(Select_Pic_change[i]))
                     {
-                        Open.Frame_dicInfo_Filter[Select_Pic_change[i]].sdip_no = code;
-                        Open.Frame_dicInfo_Filter[Select_Pic_change[i]].Change_Code = "Change";
+                        Main.DicInfo.Add(Select_Pic_change[i], Main.Sdip_200_code_dicInfo[Select_Pic_change[i]]);
+                        Main.Sdip_200_code_dicInfo.Remove(Select_Pic_change[i]);
+                        
+                        Main.DicInfo[Select_Pic_change[i]].sdip_no = code;
+                        Main.DicInfo[Select_Pic_change[i]].Change_Code = "Change";
                     }
                 }
-            }
-            else if(Open.OpenViewType == "Code_200_SetView")
-            {
-                DicInfo_Code_Change = new Dictionary<string, ImageInfo>(Open.DicInfo_Filtered);
-
-
-                code = Code_Change_TB.Text;
-
-
-                for(int i =0; i < Select_Pic_change.Count; i++)
-                {
-                    if(Open.DicInfo_Filtered.ContainsKey(Select_Pic_change[i]))
-                    {
-                        Open.DicInfo_Filtered[Select_Pic_change[i]].sdip_no = code;
-                        Open.DicInfo_Filtered[Select_Pic_change[i]].Change_Code = "Change";
-                    }
-                }
-            
             }
             else
             {
-                DicInfo_Code_Change = new Dictionary<string, ImageInfo>(Open.DicInfo_Filtered);
-
                 code = Code_Change_TB.Text;
-
                 for (int i = 0; i < Select_Pic_change.Count; i++)
                 {
-                    if (Open.DicInfo_Filtered.ContainsKey(Select_Pic_change[i]))
+                    if (Main.DicInfo.ContainsKey(Select_Pic_change[i]))
                     {
-                        Open.DicInfo_Filtered[Select_Pic_change[i]].sdip_no = code;
-                        Open.DicInfo_Filtered[Select_Pic_change[i]].Change_Code = "Change";
+                        Main.DicInfo[Select_Pic_change[i]].sdip_no = code;
+                        Main.DicInfo[Select_Pic_change[i]].Change_Code = "Change";
                     }
                 }
             }
 
+            //if (Open.OpenViewType == "FrameSetView" || Open.OpenViewType == "DLFrameSetView")
+            //{
+            //    DicInfo_Code_Change = Open.Frame_dicInfo_Filter;
+
+
+            //    code = Code_Change_TB.Text;
+            //    for (int i = 0; i < Select_Pic_change.Count; i++)
+            //    {
+            //        if (Open.DicInfo_Filtered.ContainsKey(Select_Pic_change[i]))
+            //        {
+            //            Open.Frame_dicInfo_Filter[Select_Pic_change[i]].sdip_no = code;
+            //            Open.Frame_dicInfo_Filter[Select_Pic_change[i]].Change_Code = "Change";
+            //        }
+            //    }
+            //}
+            //else if(Open.OpenViewType == "Code_200_SetView")
+            //{
+            //    DicInfo_Code_Change = new Dictionary<string, ImageInfo>(Open.DicInfo_Filtered);
+
+
+            //    code = Code_Change_TB.Text;
+
+
+            //    for(int i =0; i < Select_Pic_change.Count; i++)
+            //    {
+            //        if(Open.DicInfo_Filtered.ContainsKey(Select_Pic_change[i]))
+            //        {
+            //            Open.DicInfo_Filtered[Select_Pic_change[i]].sdip_no = code;
+            //            Open.DicInfo_Filtered[Select_Pic_change[i]].Change_Code = "Change";
+            //        }
+            //    }
+
+            //}
+            //else
+            //{
+            //    DicInfo_Code_Change = new Dictionary<string, ImageInfo>(Open.DicInfo_Filtered);
+
+            //    code = Code_Change_TB.Text;
+
+            //    for (int i = 0; i < Select_Pic_change.Count; i++)
+            //    {
+            //        if (Open.DicInfo_Filtered.ContainsKey(Select_Pic_change[i]))
+            //        {
+            //            Open.DicInfo_Filtered[Select_Pic_change[i]].sdip_no = code;
+            //            Open.DicInfo_Filtered[Select_Pic_change[i]].Change_Code = "Change";
+            //        }
+            //    }
+            //}
+            MessageBox.Show("코드가 변경되었습니다.");
         
         }
 
