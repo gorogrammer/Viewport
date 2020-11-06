@@ -2320,7 +2320,8 @@ namespace ViewPort.Views
 
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
-            if(Main.Frame_E_TB.Text != "" || Main.Exceed_CB.Checked || Main.Eq_filter == 1)
+            
+            if(Main.Frame_Interval_CB.Checked || Main.Exceed_CB.Checked || Main.Eq_filter == 1)
             {
                 Frame_List_Img.Clear();
                 foreach (string pair in DicInfo_Filtered.Keys.ToList())
@@ -2337,10 +2338,10 @@ namespace ViewPort.Views
                 }
                 //Main.Eq_filter = 0;
             }
-            else
-            {
-                Set_Frame_Filter();
-            }
+            //else
+            //{
+            //    Set_Frame_Filter();
+            //}
 
             
             
@@ -2415,12 +2416,15 @@ namespace ViewPort.Views
                 }
             }
 
-            var Sorted_frame_dic =
-                                                from ent in frame_dicInfo_Filter
-                                                orderby ent.Key
-                                                select ent;
+            Sorted_dic = Frame_dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Frame_dicInfo_Filter = Sorted_dic;
 
-            frame_dicInfo_Filter = Sorted_frame_dic.ToDictionary(pair => pair.Key, pair => pair.Value);
+            //var Sorted_frame_dic =
+            //                                    from ent in frame_dicInfo_Filter
+            //                                    orderby ent.Key
+            //                                    select ent;
+
+            //frame_dicInfo_Filter = Sorted_frame_dic.ToDictionary(pair => pair.Key, pair => pair.Value);
 
             Main.S_Page_TB.Text = Current_PageNum.ToString();
             Total_PageNum = ((frame_dicInfo_Filter.Count - 1) / (cols * rows)) + 1;

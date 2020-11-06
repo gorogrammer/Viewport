@@ -1043,7 +1043,7 @@
         public System.Windows.Forms.CheckBox Exceed_CB;
         private System.Windows.Forms.ToolStripMenuItem listFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem frameListFilerToolStripMenuItem;
-        private System.Windows.Forms.CheckBox Frame_Interval_CB;
+        public System.Windows.Forms.CheckBox Frame_Interval_CB;
     }
 }
 

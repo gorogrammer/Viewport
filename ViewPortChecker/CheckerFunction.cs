@@ -20,11 +20,30 @@ namespace ViewPortChecker
 
                 foreach (string filePath in Directory.GetFiles(NewVersionFolder))
                 {
+                   
                     if (filePath.Contains(CHECKER_STR.CHECKER))
                         continue;
 
-                    string FileName = Path.GetFileName(filePath);
-                    File.Copy(filePath, Path.Combine(CHECKER_STR.INSTORAGE, FileName), true);
+              
+                        if((filePath.Contains(".exe")) )
+                        {
+                            string FileName = Path.GetFileName(filePath);
+                            
+                            File.Copy(filePath, Path.Combine(CHECKER_STR.INSTORAGE, FileName), true);
+                        }
+                            
+                
+
+                    string Finded_Name = Directory.GetFiles(CHECKER_STR.INSTORAGE).ToList().Find(x => x.Contains(Path.GetFileNameWithoutExtension(filePath)));
+
+                    if (string.IsNullOrEmpty(Finded_Name))
+                    {
+                        string FileName = Path.GetFileName(filePath);
+                        File.Copy(filePath, Path.Combine(CHECKER_STR.INSTORAGE, FileName), true);
+                    }
+
+                    
+                    
                 }
                 return true;
             }

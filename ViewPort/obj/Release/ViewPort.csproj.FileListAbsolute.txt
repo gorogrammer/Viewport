@@ -198,40 +198,6 @@ C:\Users\metalheedo\Desktop\스템코 뷰어\0908\Viewport\ViewPort\obj\Release\
 C:\Users\metalheedo\Desktop\스템코 뷰어\0908\Viewport\ViewPort\obj\Release\ViewPort.csproj.CopyComplete
 C:\Users\metalheedo\Desktop\스템코 뷰어\0908\Viewport\ViewPort\obj\Release\ViewPort.exe
 C:\Users\metalheedo\Desktop\스템코 뷰어\0908\Viewport\ViewPort\obj\Release\ViewPort.pdb
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\ViewPort.exe.config
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\ViewPort.exe
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\ViewPort.pdb
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\MetroFramework.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\MetroFramework.Fonts.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\microsoft.windowsapicodepack.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\microsoft.windowsapicodepack.shell.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\MySql.Data.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\ViewPortNetwork.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\Google.Protobuf.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\Zstandard.Net.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\K4os.Compression.LZ4.Streams.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\BouncyCastle.Crypto.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\Ubiety.Dns.Core.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\Renci.SshNet.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\System.Buffers.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\K4os.Compression.LZ4.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\K4os.Hash.xxHash.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\System.Memory.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\System.Numerics.Vectors.dll
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\MySql.Data.xml
-C:\Users\user\Desktop\Viewport\ViewPort\bin\Release\ViewPortNetwork.pdb
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.csprojAssemblyReference.cache
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.exe.config
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.DeleteWaiting.resources
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.FormViewPort.resources
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Properties.Resources.resources
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.ImageViewer.resources
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.csproj.GenerateResource.cache
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.csproj.CoreCompileInputs.cache
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.csproj.CopyComplete
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.exe
-C:\Users\user\Desktop\Viewport\ViewPort\obj\Release\ViewPort.pdb
 C:\Users\metalheedo\Desktop\스템코\Viewport-0909\ViewPort\bin\Release\ViewPort.exe.config
 C:\Users\metalheedo\Desktop\스템코\Viewport-0909\ViewPort\bin\Release\ViewPort.exe
 C:\Users\metalheedo\Desktop\스템코\Viewport-0909\ViewPort\bin\Release\ViewPort.pdb
@@ -422,3 +388,132 @@ C:\Users\metalheedo\Desktop\스템코\1103\Viewport\ViewPort\obj\Release\ViewPor
 C:\Users\metalheedo\Desktop\스템코\1103\Viewport\ViewPort\obj\Release\ViewPort.csproj.CopyComplete
 C:\Users\metalheedo\Desktop\스템코\1103\Viewport\ViewPort\obj\Release\ViewPort.exe
 C:\Users\metalheedo\Desktop\스템코\1103\Viewport\ViewPort\obj\Release\ViewPort.pdb
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\ViewPort.exe.config
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\ViewPort.exe
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\ViewPort.pdb
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\MetroFramework.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\MetroFramework.Fonts.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\microsoft.windowsapicodepack.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\microsoft.windowsapicodepack.shell.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\MySql.Data.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\Google.Protobuf.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\Zstandard.Net.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\K4os.Compression.LZ4.Streams.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\BouncyCastle.Crypto.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\Ubiety.Dns.Core.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\Renci.SshNet.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\System.Buffers.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\K4os.Compression.LZ4.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\K4os.Hash.xxHash.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\System.Memory.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\System.Numerics.Vectors.dll
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\MySql.Data.xml
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\bin\Release\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.csprojAssemblyReference.cache
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.exe.config
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.Change_Code.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.Code200View.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.DeleteWaiting.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.DL_ViewFrom.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.ExpandImage.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.FormLoading.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.FormViewPort.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Properties.Resources.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.ImageViewer.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.ListFilertView.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.LoadingGIF.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.ViewModePassword.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.Views.XYLocationFilter.resources
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.csproj.GenerateResource.cache
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.csproj.CoreCompileInputs.cache
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.csproj.CopyComplete
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.exe
+C:\Users\metalheedo\Desktop\스템코 뷰어\1104\Viewport\ViewPort\obj\Release\ViewPort.pdb
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\ViewPort.exe.config
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\ViewPort.exe
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\ViewPort.pdb
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\MetroFramework.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\MetroFramework.Fonts.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\microsoft.windowsapicodepack.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\microsoft.windowsapicodepack.shell.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\MySql.Data.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\ViewPortNetwork.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\Google.Protobuf.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\Zstandard.Net.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\K4os.Compression.LZ4.Streams.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\BouncyCastle.Crypto.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\Ubiety.Dns.Core.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\Renci.SshNet.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\System.Buffers.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\K4os.Compression.LZ4.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\K4os.Hash.xxHash.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\System.Memory.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\System.Numerics.Vectors.dll
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\MySql.Data.xml
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\bin\Release\ViewPortNetwork.pdb
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.csprojAssemblyReference.cache
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.exe.config
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.Change_Code.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.Code200View.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.DeleteWaiting.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.DL_ViewFrom.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.ExpandImage.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.FormLoading.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.FormViewPort.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Properties.Resources.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.ImageViewer.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.ListFilertView.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.LoadingGIF.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.ViewModePassword.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.Views.XYLocationFilter.resources
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.csproj.GenerateResource.cache
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.csproj.CopyComplete
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.exe
+C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPort\obj\Release\ViewPort.pdb
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\ViewPort.exe.config
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\ViewPort.exe
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\ViewPort.pdb
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\MetroFramework.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\MetroFramework.Fonts.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\microsoft.windowsapicodepack.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\microsoft.windowsapicodepack.shell.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\MySql.Data.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\ViewPortNetwork.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\Google.Protobuf.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\Zstandard.Net.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\K4os.Compression.LZ4.Streams.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\BouncyCastle.Crypto.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\Ubiety.Dns.Core.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\Renci.SshNet.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\System.Buffers.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\K4os.Compression.LZ4.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\K4os.Hash.xxHash.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\System.Memory.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\System.Numerics.Vectors.dll
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\MySql.Data.xml
+C:\Users\USER\Desktop\Viewport\ViewPort\bin\Release\ViewPortNetwork.pdb
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.exe.config
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.Change_Code.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.Code200View.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.DeleteWaiting.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.DL_ViewFrom.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.ExpandImage.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.FormLoading.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.FormViewPort.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Properties.Resources.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.ImageViewer.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.ListFilertView.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.LoadingGIF.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.ViewModePassword.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.Views.XYLocationFilter.resources
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.csproj.GenerateResource.cache
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.csproj.CopyComplete
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.exe
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.pdb
+C:\Users\USER\Desktop\Viewport\ViewPort\obj\Release\ViewPort.csprojAssemblyReference.cache

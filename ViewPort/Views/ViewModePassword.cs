@@ -50,5 +50,14 @@ namespace ViewPort.Views
         {
             Check_PSW();
         }
+
+        private void PSW_Input_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Check_PSW();
+
+            }
+        }
     }
 }

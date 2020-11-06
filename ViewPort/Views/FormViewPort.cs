@@ -977,17 +977,17 @@ namespace ViewPort
             path_check = path;
             if (path =="")
             {
-                if(DicInfo.Count > 0 && View_Mode_RB.Checked == true)
-                {
-                    Manual_Mode_RB.Checked = true;
-                    View_Mode_RB.Checked = false;
+                //if(DicInfo.Count > 0 && View_Mode_RB.Checked == true)
+                //{
+                //    Manual_Mode_RB.Checked = true;
+                //    View_Mode_RB.Checked = false;
                     
-                }
-                else if(DicInfo.Count > 0 && Manual_Mode_RB.Checked == true)
-                {
-                    Manual_Mode_RB.Checked = false;
-                    View_Mode_RB.Checked = true;
-                }
+                //}
+                //else if(DicInfo.Count > 0 && Manual_Mode_RB.Checked == true)
+                //{
+                //    Manual_Mode_RB.Checked = false;
+                //    View_Mode_RB.Checked = true;
+                //}
                 return;
             }
                 string FileName = string.Empty;
@@ -2111,13 +2111,13 @@ namespace ViewPort
 
             if (checkBox1.Checked)
             {
-                DicInfo = new Dictionary<string, ImageInfo>(dicInfo_Copy);
+                dicInfo_Copy = new Dictionary<string, ImageInfo>(dicInfo_Copy);
 
-                foreach (string pair in DicInfo.Keys.ToList())
+                foreach (string pair in dicInfo_Copy.Keys.ToList())
                 {
-                    if (!ImageSize_CB.SelectedItem.Equals(DicInfo[pair].ImageSize))
+                    if (!ImageSize_CB.SelectedItem.Equals(dicInfo_Copy[pair].ImageSize))
                     {
-                        DicInfo.Remove(pair);
+                        dicInfo_Copy.Remove(pair);
                     }
                 }
             }
@@ -2125,11 +2125,11 @@ namespace ViewPort
             if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
             {
 
-                open.Frame_Set_Image();
+                open.Frame_Set_View();
             }
             else if (ViewType == "SetView")
             {
-                open.Set_Image();
+                open.Set_View();
             }
         }
 
@@ -2641,6 +2641,12 @@ namespace ViewPort
     
         private void Frame_Interval_CheckedChanged(object sender, EventArgs e)
         {
+            if(Frame_View_CB.Checked && Frame_Interval_CB.Checked)
+            {
+                MessageBox.Show("Frame 구간 검색은 Frame 별 체크 해제 후 사용 부탁드립니다.");
+                Frame_Interval_CB.Checked = false;
+                return;
+            }
             if (Frame_Interval_CB.Checked == true)
             {
                 Frame_E_TB.Enabled = true;
@@ -2650,7 +2656,9 @@ namespace ViewPort
             {
               Frame_E_TB.Enabled = true;
               Frame_E_TB.ReadOnly = true;
-              Frame_E_TB.Text = string.Empty;
+
+              if(!Frame_View_CB.Checked)
+               Frame_E_TB.Text = string.Empty;
 
 
             }
@@ -2660,7 +2668,6 @@ namespace ViewPort
         {
             List<int> Frame_inter = new List<int>();
             
-
             if (e.KeyCode == Keys.Enter)
             {
                 int min = int.Parse(Frame_S_TB.Text);
@@ -2682,7 +2689,7 @@ namespace ViewPort
                     }
                 }
 
-                if (open.Frame_List_Img.Contains(int.Parse(Frame_S_TB.Text)))
+                if (Frame_inter.Count > 0)
                 {
                     open.Frame_Interval_Filter(Frame_inter);
                 }
@@ -2690,7 +2697,8 @@ namespace ViewPort
                 {
 
                     MessageBox.Show("해당 프레임은 존재하지 않습니다.");
-                    Frame_S_TB.Text = Frame_E_TB.Text;
+                    Frame_S_TB.Text = "";
+                    Frame_E_TB.Text = "";
                 }
 
             }

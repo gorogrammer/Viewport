@@ -1,23 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30320.27
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1062
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewPort", "ViewPort.csproj", "{1DF26C8A-9976-416A-9C5A-5B25C484CF17}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1} = {8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Carlo ViewPort Setup", "..\Carlo ViewPort Setup\Carlo ViewPort Setup.vdproj", "{AD97445D-589B-4737-8354-AA577C5E7103}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPChecker", "..\ViewPortChecker\VPChecker.csproj", "{FE96CEFB-EFE5-4A91-A9FD-AB4833197E65}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1} = {8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}
-		{1DF26C8A-9976-416A-9C5A-5B25C484CF17} = {1DF26C8A-9976-416A-9C5A-5B25C484CF17}
-		{FE96CEFB-EFE5-4A91-A9FD-AB4833197E65} = {FE96CEFB-EFE5-4A91-A9FD-AB4833197E65}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPChecker", "..\ViewPortChecker\VPChecker.csproj", "{FE96CEFB-EFE5-4A91-A9FD-AB4833197E65}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewPortNetwork", "..\ViewPortNetwork\ViewPortNetwork.csproj", "{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "viewportsetup", "viewportsetup\viewportsetup.vdproj", "{E04EBD2B-382E-4A46-B615-D5C66B72D58D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,8 +27,6 @@ Global
 		{1DF26C8A-9976-416A-9C5A-5B25C484CF17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DF26C8A-9976-416A-9C5A-5B25C484CF17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DF26C8A-9976-416A-9C5A-5B25C484CF17}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AD97445D-589B-4737-8354-AA577C5E7103}.Debug|Any CPU.ActiveCfg = Debug
-		{AD97445D-589B-4737-8354-AA577C5E7103}.Release|Any CPU.ActiveCfg = Release
 		{FE96CEFB-EFE5-4A91-A9FD-AB4833197E65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE96CEFB-EFE5-4A91-A9FD-AB4833197E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE96CEFB-EFE5-4A91-A9FD-AB4833197E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,8 @@ Global
 		{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E04EBD2B-382E-4A46-B615-D5C66B72D58D}.Debug|Any CPU.ActiveCfg = Debug
+		{E04EBD2B-382E-4A46-B615-D5C66B72D58D}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

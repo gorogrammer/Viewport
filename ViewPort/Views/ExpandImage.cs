@@ -33,9 +33,23 @@ namespace ViewPort.Views
 
         public void Set_Expand_Img(Image img)
         {
+          
             this.Text = Expand_ImgInfo[Expand_ImgInfo.Keys.ElementAt(0)].Imagename;
-            pictureBox1.Size = new Size(869, 390);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            if(img.Width == img.Height)
+            {
+                pictureBox1.Size = new Size(img.Width*2 , img.Height*2);
+                this.Size = new Size(img.Width*2, img.Height*2);
+                pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+            else
+            {
+                pictureBox1.Size = new Size(img.Width * 3, img.Height * 3);
+                pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            }
+            
+            //pictureBox1.Size = new Size(img.Width*3, img.Height*3);
+            //pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             //img.RotateFlip(RotateFlipType.Rotate90FlipNone);
             pictureBox1.Image = img;
             
@@ -49,6 +63,14 @@ namespace ViewPort.Views
         private void ExpandImage_FormClosing(object sender, FormClosingEventArgs e)
         {
             Del_Expand_Pic();
+        }
+
+        private void ExpandImage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Escape)
+            {
+                this.Close();
+            }
         }
     }
 }

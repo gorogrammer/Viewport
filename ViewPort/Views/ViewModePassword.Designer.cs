@@ -59,6 +59,7 @@
             this.PSW_Input_TB.PasswordChar = '*';
             this.PSW_Input_TB.Size = new System.Drawing.Size(100, 21);
             this.PSW_Input_TB.TabIndex = 2;
+            this.PSW_Input_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PSW_Input_TB_KeyDown);
             // 
             // PSW_Check_BT
             // 
