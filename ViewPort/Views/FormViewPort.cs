@@ -1183,6 +1183,8 @@ namespace ViewPort
 
                     if (checkBox1.Checked)
                     {
+                        ImageSize_CB.Items.Clear();
+                        ImageSize_CB.Items.Add("");
                         for (int i = 0; i < ImageSizeList.Count; i++)
                             ImageSize_CB.Items.Add(ImageSizeList.ElementAt(i));
 
