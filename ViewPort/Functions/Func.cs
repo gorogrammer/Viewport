@@ -367,7 +367,7 @@ namespace ViewPort.Functions
                 string Lot_Name = Waiting_Del.Values.ElementAt(0).LotID;
                 SaveFileDialog saveFile = new SaveFileDialog();
 
-                saveFile.InitialDirectory = Application.StartupPath; ;
+                saveFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); 
                 saveFile.FileName = Lot_Name + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
 
                 saveFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -422,7 +422,7 @@ namespace ViewPort.Functions
 
             OpenFileDialog loadFile = new OpenFileDialog();
 
-            loadFile.InitialDirectory = Application.StartupPath;
+            loadFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             loadFile.FileName = "*.txt";
             loadFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
 
