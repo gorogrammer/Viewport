@@ -245,3 +245,9 @@ C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPortNetwork\obj\Debug
 C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
 C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
 C:\Users\user\Desktop\201105 스템코 출장\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\1106\Viewport - 1105 최종\DLLs\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\1106\Viewport - 1105 최종\DLLs\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코\1106\Viewport - 1105 최종\ViewPortNetwork\obj\Debug\ViewPortNetwork.csprojAssemblyReference.cache
+C:\Users\metalheedo\Desktop\스템코\1106\Viewport - 1105 최종\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
+C:\Users\metalheedo\Desktop\스템코\1106\Viewport - 1105 최종\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
+C:\Users\metalheedo\Desktop\스템코\1106\Viewport - 1105 최종\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb

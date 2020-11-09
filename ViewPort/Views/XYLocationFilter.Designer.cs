@@ -64,6 +64,7 @@
             // 
             this.X_TB.Location = new System.Drawing.Point(61, 56);
             this.X_TB.Name = "X_TB";
+            this.X_TB.ReadOnly = true;
             this.X_TB.Size = new System.Drawing.Size(66, 21);
             this.X_TB.TabIndex = 1;
             // 
@@ -71,6 +72,7 @@
             // 
             this.Y_TB.Location = new System.Drawing.Point(210, 56);
             this.Y_TB.Name = "Y_TB";
+            this.Y_TB.ReadOnly = true;
             this.Y_TB.Size = new System.Drawing.Size(66, 21);
             this.Y_TB.TabIndex = 2;
             // 

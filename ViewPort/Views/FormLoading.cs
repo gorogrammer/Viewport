@@ -254,6 +254,7 @@ namespace ViewPort.Views
             Load_DL_TxtAsync(FilePath);
             LoadTxtAsync(FilePath);
 
+
             ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);   // Zip파일(Lot) Load
             {
                 SetProgressBarMaxSafe(zip.Entries.Count);

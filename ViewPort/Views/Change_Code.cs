@@ -30,11 +30,13 @@ namespace ViewPort.Views
         {
             string code = null;
             Select_Pic_change = Main.selected_Pic;
+            code = Code_Change_TB.Text;
+       
 
-
-            if(Main.ViewType == "Code_200_SetView")
+     
+            if (Main.ViewType == "Code_200_SetView")
             {
-                code = Code_Change_TB.Text;
+                
                 for (int i = 0; i < Select_Pic_change.Count; i++)
                 {
                     if (Main.Sdip_200_code_dicInfo.ContainsKey(Select_Pic_change[i]))
@@ -49,7 +51,7 @@ namespace ViewPort.Views
             }
             else
             {
-                code = Code_Change_TB.Text;
+               
                 for (int i = 0; i < Select_Pic_change.Count; i++)
                 {
                     if (Main.DicInfo.ContainsKey(Select_Pic_change[i]))
@@ -114,10 +116,56 @@ namespace ViewPort.Views
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show(" SDIP 코드를 " + Code_Change_TB.Text+"로 변경하시겠습니까?", "코드 변경",MessageBoxButtons.YesNo) == DialogResult.Yes)
+
+            if (int.Parse(Code_Change_TB.Text) == 1)
             {
+                MessageBox.Show("1번 코드로 변경되지 않습니다.");
+                Code_Change_TB.Text = "";
+
+                return;
+            }
+            else if (int.Parse(Code_Change_TB.Text[0].ToString()) == 2)
+            {
+                MessageBox.Show("200번 대 코드로 변경되지 않습니다.");
+                Code_Change_TB.Text = "";
+
+                return;
+            }
+
+
+            if (MessageBox.Show(" SDIP 코드를 " + Code_Change_TB.Text+"로 변경하시겠습니까?", "코드 변경",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
                 Change_Sdip();
                 this.Close();
+            }
+        }
+
+        private void Code_Change_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if(int.Parse(Code_Change_TB.Text) == 1)
+                {
+                    MessageBox.Show("1번 코드로 변경되지 않습니다.");
+                    Code_Change_TB.Text = "";
+
+                    return;
+                }
+                else if(int.Parse(Code_Change_TB.Text[0].ToString())==2)
+                {
+                    MessageBox.Show("200번 대 코드로 변경되지 않습니다.");
+                    Code_Change_TB.Text = "";
+
+                    return;
+                }
+
+
+                if (MessageBox.Show(" SDIP 코드를 " + Code_Change_TB.Text + "로 변경하시겠습니까?", "코드 변경", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    Change_Sdip();
+                    this.Close();
+                }
             }
         }
     }

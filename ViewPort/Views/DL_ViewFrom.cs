@@ -77,5 +77,13 @@ namespace ViewPort.Views
 
           
         }
+
+        private void DL_ViewFrom_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Close();
+            }
+        }
     }
 }

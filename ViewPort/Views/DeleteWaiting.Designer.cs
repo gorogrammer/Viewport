@@ -82,6 +82,7 @@
             // 
             this.Del_img_list.Location = new System.Drawing.Point(322, 4);
             this.Del_img_list.Name = "Del_img_list";
+            this.Del_img_list.ReadOnly = true;
             this.Del_img_list.Size = new System.Drawing.Size(100, 21);
             this.Del_img_list.TabIndex = 22;
             // 
@@ -119,9 +120,9 @@
             // 
             this.S_Page_TB.Location = new System.Drawing.Point(101, 5);
             this.S_Page_TB.Name = "S_Page_TB";
-            this.S_Page_TB.ReadOnly = true;
             this.S_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.S_Page_TB.TabIndex = 9;
+            this.S_Page_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.S_Page_TB_KeyDown);
             // 
             // E_Page_TB
             // 

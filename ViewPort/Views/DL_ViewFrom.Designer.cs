@@ -52,8 +52,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(427, 305);
-            this.splitContainer1.SplitterDistance = 272;
+            this.splitContainer1.Size = new System.Drawing.Size(787, 351);
+            this.splitContainer1.SplitterDistance = 313;
             this.splitContainer1.TabIndex = 0;
             // 
             // dataGridView1
@@ -66,7 +66,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(427, 272);
+            this.dataGridView1.Size = new System.Drawing.Size(787, 313);
             this.dataGridView1.TabIndex = 0;
             // 
             // textBox1
@@ -74,18 +74,19 @@
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(427, 21);
+            this.textBox1.Size = new System.Drawing.Size(787, 21);
             this.textBox1.TabIndex = 0;
             // 
             // DL_ViewFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(427, 305);
+            this.ClientSize = new System.Drawing.Size(787, 351);
             this.Controls.Add(this.splitContainer1);
             this.Name = "DL_ViewFrom";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DL_ViewFrom";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DL_ViewFrom_KeyDown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();

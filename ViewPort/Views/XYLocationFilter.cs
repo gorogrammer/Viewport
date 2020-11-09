@@ -25,6 +25,7 @@ namespace ViewPort.Views
         public XYLocationFilter(ImageViewer parent)
         {
             InitializeComponent();
+            Xfilter_TB.Select();
             Open = parent;
         }
 

@@ -46,6 +46,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> set_filter_frame_dicinfo = new Dictionary<string, ImageInfo>();
         List<int> set_filter_frame = new List<int>();
         List<string> f12_del_list_main = new List<string>();
+        int mode_change = 0;
         int eq_filter = 0;
         int list_filter = 0;
         List<int> exceed_List = new List<int>();
@@ -973,23 +974,31 @@ namespace ViewPort
             open.ImageViewer_Clear();
             Load_State = 1;
        
-                string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
+            string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
             path_check = path;
-            if (path =="")
+            if (path == "" && mode_change == 1)
             {
-                //if(DicInfo.Count > 0 && View_Mode_RB.Checked == true)
-                //{
-                //    Manual_Mode_RB.Checked = true;
-                //    View_Mode_RB.Checked = false;
-                    
-                //}
-                //else if(DicInfo.Count > 0 && Manual_Mode_RB.Checked == true)
-                //{
-                //    Manual_Mode_RB.Checked = false;
-                //    View_Mode_RB.Checked = true;
-                //}
+                if (DicInfo.Count > 0 && View_Mode_RB.Checked == true)
+                {
+                    Manual_Mode_RB.Checked = true;
+                    View_Mode_RB.Checked = false;
+
+                }
+                else if (DicInfo.Count > 0 && Manual_Mode_RB.Checked == true)
+                {
+                    Manual_Mode_RB.Checked = false;
+                    View_Mode_RB.Checked = true;
+                }
+                mode_change = 0;
                 return;
             }
+            else if (path == "")
+            {
+                mode_change = 0;
+                return;
+            }
+                
+
                 string FileName = string.Empty;
                 if (string.IsNullOrEmpty(path) == false)
                 {
@@ -1940,16 +1949,6 @@ namespace ViewPort
 
             if (open.OpenViewType == "Code_200_SetView")
             {
-                //foreach (string pair in open.DicInfo_Filtered.Keys.ToList())
-                //{
-                //    if (int.Parse(open.DicInfo_Filtered[pair].sdip_no) < 200 || int.Parse(open.DicInfo_Filtered[pair].sdip_no) > 300)
-                //    {
-                //        open.DicInfo_Filtered[pair].ReviewDefectName = "양품";
-                //        DicInfo.Add(pair, open.DicInfo_Filtered[pair]);
-                //        Sdip_200_code_dicInfo.Remove(pair);
-
-                //    }
-                //}
 
                 Sorted_dic = DicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
                 DicInfo = Sorted_dic;
@@ -2571,6 +2570,8 @@ namespace ViewPort
         {
             if (DicInfo.Count > 0 && Manual_Mode_RB.Checked)
             {
+                mode_change = 1;
+
 
                 zipLoadFileToolStripMenuItem_Click(null, null);
 
@@ -2582,6 +2583,7 @@ namespace ViewPort
         {
             if (DicInfo.Count > 0 && View_Mode_RB.Checked)
             {
+                mode_change = 1;
                 zipLoadFileToolStripMenuItem_Click(null, null);
                 
                 //Manual_Mode_RB.Checked = false;

@@ -320,9 +320,19 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.L)
             {
-                DL_ViewFrom DL = new DL_ViewFrom(Main);
-                DL.Dl_LIst_ADD(Main.Dl_List_Main);
-                DL.ShowDialog();
+                if(Main.Dl_List_Main.Count == 0)
+                {
+                    MessageBox.Show("텍스트 파일이 없습니다.");
+                    return;
+                }
+                else
+                {
+                    DL_ViewFrom DL = new DL_ViewFrom(Main);
+                    DL.Dl_LIst_ADD(Main.Dl_List_Main);
+                    DL.ShowDialog();
+
+                }
+              
 
 
             }
