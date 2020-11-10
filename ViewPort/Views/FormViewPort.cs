@@ -49,6 +49,7 @@ namespace ViewPort
         int mode_change = 0;
         int eq_filter = 0;
         int list_filter = 0;
+        int imageSize_Filter = 0;
         List<int> exceed_List = new List<int>();
         int setting = 0;
         string[] dic_ready = null;
@@ -110,6 +111,8 @@ namespace ViewPort
 
         public List<Tuple<string, int>> CODE_200_List { get => code_200_List; set => code_200_List = value; }
         public int Setting { get => setting; set => setting = value; }
+
+        public int ImageSize_Filter_NO { get => imageSize_Filter; set => imageSize_Filter = value; }
         public int State_Filter { get => state_Filter; set => state_Filter = value; }
         public int List_filter { get => list_filter; set => list_filter = value; }
         public List<int> Exception_Frame { get => exception_Frame; set => exception_Frame = value; }
@@ -804,6 +807,9 @@ namespace ViewPort
                 Camera_NO_Filter_TB.Text = "";
                 textBox4.Text = "";
                 Frame_S_TB.Text = "";
+                checkBox1.Checked = false;
+                ImageSize_CB.Items.Clear();
+                ImageSize_CB.Text = "";
                 Initial_Equipment_DF_FilterList();
                 Exceed_CB.CheckState = CheckState.Unchecked;
                 if (Frame_View_CB.Checked)
@@ -1197,7 +1203,7 @@ namespace ViewPort
                         for (int i = 0; i < ImageSizeList.Count; i++)
                             ImageSize_CB.Items.Add(ImageSizeList.ElementAt(i));
 
-                        ImageSize_CB.SelectedIndex = 0;
+                        //ImageSize_CB.SelectedIndex = 0;
                     }
 
 
@@ -2107,20 +2113,22 @@ namespace ViewPort
 
         private void ImageSize_Filter()
         {
+            Dictionary<string, ImageInfo> IamgeSize_dic = new Dictionary<string, ImageInfo>(DicInfo);
             if (ImageSize_CB.SelectedIndex == 0)
                 return;
 
             if (checkBox1.Checked)
             {
-                dicInfo_Copy = new Dictionary<string, ImageInfo>(dicInfo_Copy);
+                
 
-                foreach (string pair in dicInfo_Copy.Keys.ToList())
+                foreach (string pair in IamgeSize_dic.Keys.ToList())
                 {
-                    if (!ImageSize_CB.SelectedItem.Equals(dicInfo_Copy[pair].ImageSize))
+                    if (!ImageSize_CB.SelectedItem.Equals(IamgeSize_dic[pair].ImageSize))
                     {
-                        dicInfo_Copy.Remove(pair);
+                        IamgeSize_dic.Remove(pair);
                     }
                 }
+                open.DicInfo_Filtered = IamgeSize_dic;
             }
 
             if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
@@ -2131,12 +2139,15 @@ namespace ViewPort
             else if (ViewType == "SetView")
             {
                 open.Set_View();
+                Print_List();
             }
         }
 
         private void ImageSize_CB_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ImageSize_Filter_NO = 1;
             ImageSize_Filter();
+            ImageSize_Filter_NO = 0;
         }
 
         private void Code_200_View_Click(object sender, EventArgs e)
