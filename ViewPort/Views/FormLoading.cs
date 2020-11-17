@@ -263,9 +263,12 @@ namespace ViewPort.Views
                 foreach (ZipArchiveEntry entry in zip.Entries)
                 {
                   
-                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
+                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 )
                     {
-                        Frame_List.Add(int.Parse(entry.Name.Substring(0, 5)));
+                        if (!main.View_Mode_RB.Checked &&!Ignore_map_List.Contains(int.Parse(entry.Name.Substring(0, 5)).ToString()))
+                            Frame_List.Add(int.Parse(entry.Name.Substring(0, 5)));
+                        else
+                            Frame_List.Add(int.Parse(entry.Name.Substring(0, 5)));
                     }
 
                     LoadSubZipAsync(LotName, entry);
@@ -364,9 +367,40 @@ namespace ViewPort.Views
                 }
                 else
                 {
+                    //if (Map_List.Count > 0)
+                    //{
+                    //    if (Map_List.Contains(FrameNo))
+                    //    {
+                    //        if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
+                    //            All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
+                    //        else
+                    //        {
+                    //            index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
+                    //            x = All_Equipment_DF_List[index].Item2;
+                    //            All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
+
+                    //        }
+
+
+                    //        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
+                    //        All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
+                    //    else
+                    //    {
+                    //        index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
+                    //        x = All_Equipment_DF_List[index].Item2;
+                    //        All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
+
+                    //    }
+                    //    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
+                    //}
                     if (Map_List.Count > 0)
                     {
-                        if (Map_List.Contains(FrameNo))
+                        if (Frame_List.Contains(FrameNo))
                         {
                             if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
                                 All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
@@ -418,7 +452,7 @@ namespace ViewPort.Views
                     return;
                 }
 
-                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.UTF8);
                 string text = SR.ReadToEnd();
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
@@ -428,7 +462,11 @@ namespace ViewPort.Views
                     string[] dic_ready = items[i + 1].Split(',');
                     dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0","0"));
 
-                    if(200 <= int.Parse(dic_ready[8]) && int.Parse(dic_ready[8]) <= 299)
+                    if(dic_ready[8]=="" || dic_ready[8] ==" ")
+                    {
+                        dic_ready[8] = "0";
+                    }
+                    if (200 <= int.Parse(dic_ready[8]) && int.Parse(dic_ready[8]) <= 299)
                     {
                         Sdip_no_200.Add(dic_ready[0].Substring(0, 12));
                     }

@@ -769,7 +769,7 @@ namespace ViewPort.Views
 
                 }
                 waitform.Close();
-
+                Main.mAPTXTUpdateToolStripMenuItem1_Click(null, null);
             }
             catch(Exception ex)
             {

@@ -45,6 +45,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> set_filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> set_filter_frame_dicinfo = new Dictionary<string, ImageInfo>();
         List<int> set_filter_frame = new List<int>();
+        List<int> final_Frame_List = new List<int>();
         List<string> f12_del_list_main = new List<string>();
         int mode_change = 0;
         int eq_filter = 0;
@@ -95,6 +96,7 @@ namespace ViewPort
         int btnColumnIdx;
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic_GRID = new Dictionary<string, ImageInfo>();
+        Dictionary<int, int> Sorted_Map_dic = new Dictionary<int, int>();
         private int _load_State;
         private string dirPath;
         private string zipFilePath;
@@ -1962,6 +1964,10 @@ namespace ViewPort
                 Return_update_Equipment_DF_CLB(selected_Pic);
             }
             selected_Pic.Clear();
+            if(MessageBox.Show("코드 변경 후 IMG TXT 파일 변경 하시겠습니까?","알림",MessageBoxButtons.YesNo)== DialogResult.Yes)
+            {
+                Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
+            }
         }
 
         private void Camera_NO_Filter_TB_KeyDown(object sender, KeyEventArgs e)
@@ -2181,6 +2187,7 @@ namespace ViewPort
                     waitform.Show();
                     Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
                     waitform.Close();
+                    MessageBox.Show("변경되었습니다.");
 
                 }
                 catch (Exception ex)
@@ -2192,14 +2199,28 @@ namespace ViewPort
             }
         }
 
-        private void mAPTXTUpdateToolStripMenuItem1_Click(object sender, EventArgs e)
+        public void mAPTXTUpdateToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(" MAP TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 try
                 {
                     waitform.Show();
+                    final_Frame_List.Clear();
                     Counting_IMG_inZip(ZipFilePath);
+
+                    foreach (string pair in DicInfo.Keys.ToList())
+                    {
+                        if (final_Frame_List.Contains(DicInfo[pair].FrameNo))
+                        {
+
+                        }
+                        else
+                        {
+                            final_Frame_List.Add(DicInfo[pair].FrameNo);
+
+                        }
+                    }
 
                     foreach (int pair in Map_List_Dic_main.Keys.ToList())
                     {
@@ -2208,6 +2229,38 @@ namespace ViewPort
                             Map_List_Dic_main.Remove(pair);
                         }
                     }
+                    foreach (int pair in Map_List_Dic_Compare_main.Keys.ToList())
+                    {
+                        if (Exception_Frame.Contains(pair))
+                        {
+                            Map_List_Dic_Compare_main.Remove(pair);
+                        }
+                    }
+
+                    foreach (int pair in final_Frame_List)
+                    {
+                        if(Map_List_Dic_main.Keys.ToList().Contains(pair))
+                        {
+
+                        }
+                        else
+                        {
+                            Map_List_Dic_main.Add(pair, 88);
+                            Map_List_Dic_Compare_main.Add(pair, 31);
+                        }
+                        
+                    }
+                    Sorted_Map_dic = Map_List_Dic_main.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    Map_List_Dic_main = new Dictionary<int,int>(Sorted_Map_dic);
+                    Sorted_Map_dic.Clear();
+
+            
+
+
+                    Sorted_Map_dic = Map_List_Dic_Compare_main.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    Map_List_Dic_Compare_main = new Dictionary<int, int>(Sorted_Map_dic);
+                    Sorted_Map_dic.Clear();
+
 
                     foreach (int pair in Map_List_Dic_main.Keys.ToList())
                     {
@@ -2218,21 +2271,12 @@ namespace ViewPort
                             Map_TXT_NO_Counting[Map_List_Dic_main[pair]] = Map_TXT_NO_Counting[Map_List_Dic_main[pair]] + 1;
                         }
 
-
-
-                    }
-
-                    foreach (int pair in Map_List_Dic_Compare_main.Keys.ToList())
-                    {
-                        if (Exception_Frame.Contains(pair))
-                        {
-                            Map_List_Dic_Compare_main.Remove(pair);
-                        }
                     }
 
 
                     Func.Map_TXT_Update_inZip(ZipFilePath, Map_TXT_NO_Counting, Map_List_Dic_main, Map_List_Dic_Compare_main);
                     waitform.Close();
+                    MessageBox.Show("변경되었습니다.");
                 }
                 catch (Exception ex)
                 {
@@ -2581,10 +2625,17 @@ namespace ViewPort
         {
             if (DicInfo.Count > 0 && Manual_Mode_RB.Checked)
             {
-                mode_change = 1;
+                if(MessageBox.Show("재로드 하시겠습니까?","알림",MessageBoxButtons.YesNo)==DialogResult.Yes)
+                {
+                    mode_change = 1;
 
+                    zipLoadFileToolStripMenuItem_Click(null, null);
+                }
+                else
+                {
 
-                zipLoadFileToolStripMenuItem_Click(null, null);
+                    View_Mode_RB.Checked = true;
+                }
 
                // View_Mode_RB.Checked = false;
             }
@@ -2594,9 +2645,15 @@ namespace ViewPort
         {
             if (DicInfo.Count > 0 && View_Mode_RB.Checked)
             {
-                mode_change = 1;
-                zipLoadFileToolStripMenuItem_Click(null, null);
-                
+                if (MessageBox.Show("재로드 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    mode_change = 1;
+                    zipLoadFileToolStripMenuItem_Click(null, null);
+                }
+                else
+                {
+                    Manual_Mode_RB.Checked = true;
+                }
                 //Manual_Mode_RB.Checked = false;
 
 
