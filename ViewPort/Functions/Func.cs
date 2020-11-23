@@ -285,12 +285,27 @@ namespace ViewPort.Functions
                 StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string[] encoding_check = items[0].Split(',');
+                if (encoding_check[2] == "자동판정")
+                {
+                    SR.Close();
+                }
+                else
+                {
+                    SR.Close();
 
+                    StreamReader SR1 = new StreamReader(ImgEntry.Open(), Encoding.UTF8);
+                    string text_1 = SR1.ReadToEnd();
+
+                    items = text_1.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                    SR1.Close();
+                }
 
                 string top = string.Empty;
 
                 top = items[0];
-                SR.Close();
+                
                 ImgEntry.Delete();
 
                 ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetLotNameFromPath(FilePath));

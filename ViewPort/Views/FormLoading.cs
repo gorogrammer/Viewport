@@ -444,6 +444,8 @@ namespace ViewPort.Views
             
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
             {
+                System.Text.Encoding utf8 = System.Text.Encoding.UTF8;
+
                 ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetLotNameFromPath(FilePath));
 
                 if (ImgEntry == null)
@@ -451,10 +453,25 @@ namespace ViewPort.Views
                     MessageBox.Show(MSG_STR.NONE_SDIP_TXT);
                     return;
                 }
-
-                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.UTF8);
+                Encoding txt = Encoding.UTF8;
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
+
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string[] encoding_check = items[0].Split(',');
+                if(encoding_check[2] == "자동판정")
+                {
+
+                }
+                else
+                {
+                    
+                    StreamReader SR1 = new StreamReader(ImgEntry.Open(), Encoding.UTF8);
+                    string text_1 = SR1.ReadToEnd();
+
+                    items = text_1.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                }
+
 
 
                 for (int i = 0; i < items.Length - 2; i++)
@@ -462,7 +479,7 @@ namespace ViewPort.Views
                     string[] dic_ready = items[i + 1].Split(',');
                     dicTxt_info.Add(dic_ready[0].Substring(0, 12), new txtInfo(dic_ready[0].Substring(13, dic_ready[0].Length - 13), dic_ready[8], dic_ready[10], "양품", "0","0","0"));
 
-                    if(dic_ready[8]=="" || dic_ready[8] ==" ")
+                    if(dic_ready[8]=="" || dic_ready[8] ==" "|| dic_ready[8] == "-")
                     {
                         dic_ready[8] = "0";
                     }
@@ -814,6 +831,11 @@ namespace ViewPort.Views
 
         public void IMG_TXT_combine()
         {
+            Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
+            Sorted_dic = Dic_Load.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            Dic_Load = Sorted_dic;
+
             foreach (KeyValuePair<string, Models.txtInfo> kvp in DicTxt_info)
             {
                 if (Dic_Load.ContainsKey(kvp.Key))

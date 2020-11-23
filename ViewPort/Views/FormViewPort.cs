@@ -1967,6 +1967,12 @@ namespace ViewPort
             if(MessageBox.Show("코드 변경 후 IMG TXT 파일 변경 하시겠습니까?","알림",MessageBoxButtons.YesNo)== DialogResult.Yes)
             {
                 Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
+                MessageBox.Show("변경되었습니다.");
+            }
+            if (MessageBox.Show("코드 변경 후 MAP TXT 파일 변경 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                mAPTXTUpdateToolStripMenuItem1_Click(null, null);
+               
             }
         }
 
@@ -2201,6 +2207,8 @@ namespace ViewPort
 
         public void mAPTXTUpdateToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            
+
             if (MessageBox.Show(" MAP TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 try
@@ -2208,6 +2216,9 @@ namespace ViewPort
                     waitform.Show();
                     final_Frame_List.Clear();
                     Counting_IMG_inZip(ZipFilePath);
+
+              
+
 
                     foreach (string pair in DicInfo.Keys.ToList())
                     {
@@ -2217,10 +2228,16 @@ namespace ViewPort
                         }
                         else
                         {
-                            final_Frame_List.Add(DicInfo[pair].FrameNo);
+                            if(DicInfo[pair].sdip_no != "1")
+                            {
+                                final_Frame_List.Add(DicInfo[pair].FrameNo);
+                            }
+                           
 
                         }
                     }
+
+                   
 
                     foreach (int pair in Map_List_Dic_main.Keys.ToList())
                     {
@@ -2633,8 +2650,8 @@ namespace ViewPort
                 }
                 else
                 {
-
                     View_Mode_RB.Checked = true;
+
                 }
 
                // View_Mode_RB.Checked = false;
