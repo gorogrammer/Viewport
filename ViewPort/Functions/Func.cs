@@ -15,7 +15,7 @@ namespace ViewPort.Functions
 {
     public class Func
     {
-       
+        Dictionary<string, ImageInfo> Combine_DicInfo_SDIP200 = new Dictionary<string, ImageInfo>();
         List<string> Exception_Frame = new List<string>();
         List<string> f12_List_del = new List<string>();
         public static void SearchTXT_inZip(string FilePath, Dictionary<string, txtInfo> dicTxt_info)
@@ -270,8 +270,23 @@ namespace ViewPort.Functions
 
         }
 
-        public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo)
+        public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo, Dictionary<string, ImageInfo> SDIP_200_CODE)
         {
+            Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
+            foreach (string pair in SDIP_200_CODE.Keys.ToList())
+            {
+                if(dicInfo.ContainsKey(pair))
+                {
+
+                }
+                else
+                {
+                    dicInfo.Add(pair, SDIP_200_CODE[pair]);
+                }
+            }
+            Sorted_dic = dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            dicInfo = Sorted_dic;
+
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
             {
                 ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetLotNameFromPath(FilePath));

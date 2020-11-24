@@ -698,6 +698,7 @@
             this.Manual_Mode_RB.TabStop = true;
             this.Manual_Mode_RB.Text = "Manual Mode";
             this.Manual_Mode_RB.UseVisualStyleBackColor = true;
+            this.Manual_Mode_RB.CheckedChanged += new System.EventHandler(this.Manual_Mode_RB_CheckedChanged);
             this.Manual_Mode_RB.Click += new System.EventHandler(this.Manual_Mode_RB_Click);
             // 
             // View_Mode_RB

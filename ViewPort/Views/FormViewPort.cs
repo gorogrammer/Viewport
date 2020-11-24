@@ -47,6 +47,7 @@ namespace ViewPort
         List<int> set_filter_frame = new List<int>();
         List<int> final_Frame_List = new List<int>();
         List<string> f12_del_list_main = new List<string>();
+        int curruent_viewtype = 0;
         int mode_change = 0;
         int eq_filter = 0;
         int list_filter = 0;
@@ -977,26 +978,64 @@ namespace ViewPort
         }
         private void ZipLoadFile_Async()
         {
+            //if (path == "" && curruent_viewtype == 1)
+            //{
+            //    if (DicInfo.Count > 0 && View_Mode_RB.Checked == true)
+            //    {
+            //        Manual_Mode_RB.Checked = true;
+            //        View_Mode_RB.Checked = false;
 
+            //    }
+            //    else if (DicInfo.Count > 0 && Manual_Mode_RB.Checked == true)
+            //    {
+            //        Manual_Mode_RB.Checked = true;
+            //        View_Mode_RB.Checked = false;
+
+            //    }
+            //    mode_change = 0;
+            //    return;
+            //}
+            //else if (path == "" && curruent_viewtype == 0)
+            //{
+            //    if (DicInfo.Count > 0 && View_Mode_RB.Checked == true)
+            //    {
+            //        Manual_Mode_RB.Checked = false;
+            //        View_Mode_RB.Checked = true;
+
+            //    }
+            //    else if (DicInfo.Count > 0 && Manual_Mode_RB.Checked == true)
+            //    {
+            //        Manual_Mode_RB.Checked = false;
+            //        View_Mode_RB.Checked = true;
+
+            //    }
+            //    mode_change = 0;
+            //    return;
+            //}
             open.Filter_NO_Set();
             open.ImageViewer_Clear();
             Load_State = 1;
        
             string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
             path_check = path;
-            if (path == "" && mode_change == 1)
+            if(path == "" && curruent_viewtype == 1)
             {
-                if (DicInfo.Count > 0 && View_Mode_RB.Checked == true)
-                {
+               
                     Manual_Mode_RB.Checked = true;
                     View_Mode_RB.Checked = false;
 
-                }
-                else if (DicInfo.Count > 0 && Manual_Mode_RB.Checked == true)
-                {
+             
+                mode_change = 0;
+                return;
+            }
+            else if (path == "" && curruent_viewtype == 0)
+            {
+               
+                
                     Manual_Mode_RB.Checked = false;
                     View_Mode_RB.Checked = true;
-                }
+
+                
                 mode_change = 0;
                 return;
             }
@@ -1134,7 +1173,7 @@ namespace ViewPort
             //InitialData();
 
             ZipLoadFile_Async();
-
+            
             int x = 1;
             int index = 0;
             if (ZipFilePath != "")
@@ -1147,9 +1186,7 @@ namespace ViewPort
                 {
                     if (Manual_Mode_RB.Checked)
                     {
-                        //MAP 정보에서 제외될 프레임 적용
-
-
+                        curruent_viewtype = 1;
                         //SDIP 코드 211~230 제외
                         foreach (string pair in dicInfo.Keys.ToList())
                         {
@@ -1182,6 +1219,10 @@ namespace ViewPort
                             }
 
                         }
+                    }
+                    else
+                    {
+                        curruent_viewtype = 0;
                     }
                 }
                     
@@ -1966,7 +2007,7 @@ namespace ViewPort
             selected_Pic.Clear();
             if(MessageBox.Show("코드 변경 후 IMG TXT 파일 변경 하시겠습니까?","알림",MessageBoxButtons.YesNo)== DialogResult.Yes)
             {
-                Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
+                Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo,Sdip_200_code_dicInfo);
                 MessageBox.Show("변경되었습니다.");
             }
             if (MessageBox.Show("코드 변경 후 MAP TXT 파일 변경 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -2011,26 +2052,32 @@ namespace ViewPort
                     }
                     else
                     {
-                        foreach (string No in open.DicInfo_Filtered.Keys.ToList())
+                        Sorted_dic = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
+                        open.DicInfo_Filtered.Clear();
+                        foreach (string No in DicInfo.Keys.ToList())
                         {
-                            if (open.DicInfo_Filtered.ContainsKey(No))
+                            if (DicInfo.ContainsKey(No))
                             {
-                                if (Split_String.Contains(open.DicInfo_Filtered[No].CameraNo.ToString()))
+                                if (Split_String.Contains(DicInfo[No].CameraNo.ToString()))
                                 {
-                                    continue;
+                                    open.DicInfo_Filtered.Add(No, DicInfo[No]);
                                 }
-                                else
-                                    open.DicInfo_Filtered.Remove(No);
+                                
+                                    
 
-                                if (open.DicInfo_Filtered.Count == 0)
-                                {
-                                    MessageBox.Show("해당 카메라 이미지가 없습니다.");
-                                    Camera_NO_Filter_TB.Text = string.Empty;
-                                }
+                               
                             }
+                        }
+
+                        if (open.DicInfo_Filtered.Count == 0)
+                        {
+                            open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
+                            MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                            Camera_NO_Filter_TB.Text = string.Empty;
                         }
                         open.Set_Image();
                         Print_List();
+                        Sorted_dic.Clear();
                     }
                     //switch (ViewType)
                     //{
@@ -2191,7 +2238,7 @@ namespace ViewPort
                 try
                 {
                     waitform.Show();
-                    Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo);
+                    Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo, Sdip_200_code_dicInfo);
                     waitform.Close();
                     MessageBox.Show("변경되었습니다.");
 
@@ -2650,7 +2697,16 @@ namespace ViewPort
                 }
                 else
                 {
-                    View_Mode_RB.Checked = true;
+                    if(curruent_viewtype == 0)
+                    {
+                        View_Mode_RB.Checked = true;
+                    }
+                    else
+                    {
+                        View_Mode_RB.Checked = false;
+                        Manual_Mode_RB.Checked = true;
+                    }
+                    
 
                 }
 
@@ -2669,7 +2725,16 @@ namespace ViewPort
                 }
                 else
                 {
-                    Manual_Mode_RB.Checked = true;
+                    if (curruent_viewtype == 0)
+                    {
+                        View_Mode_RB.Checked = true;
+                    }
+                    else
+                    {
+                        View_Mode_RB.Checked = false;
+                        Manual_Mode_RB.Checked = true;
+                    }
+                   
                 }
                 //Manual_Mode_RB.Checked = false;
 
@@ -2792,6 +2857,11 @@ namespace ViewPort
 
             }
             open.Frame_List_Img.Clear();
+        }
+
+        private void Manual_Mode_RB_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

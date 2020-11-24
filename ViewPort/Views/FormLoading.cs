@@ -363,7 +363,7 @@ namespace ViewPort.Views
                     }
 
 
-                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
+                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
                 }
                 else
                 {
@@ -830,7 +830,7 @@ namespace ViewPort.Views
         }
 
         public void IMG_TXT_combine()
-        {
+         {
             Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
             Sorted_dic = Dic_Load.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 

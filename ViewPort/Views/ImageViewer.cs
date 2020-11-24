@@ -1150,32 +1150,31 @@ namespace ViewPort.Views
 
             Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            DicInfo_Filtered = Sorted_dic;
+            DicInfo_Filtered = new Dictionary<string,ImageInfo>(Sorted_dic);
 
             if (Main.Camera_NO_Filter_TB.Text != "")
             {
                 string[] Split_String = null;
                 Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
                 bool Target = false;
-
-                foreach (string No in DicInfo_Filtered.Keys.ToList())
+                DicInfo_Filtered.Clear();
+                foreach (string No in Main.DicInfo.Keys.ToList())
                 {
-                    if (DicInfo_Filtered.ContainsKey(No))
+                    if (Main.DicInfo.ContainsKey(No))
                     {
-                        if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
+                        if (Split_String.Contains(Main.DicInfo[No].CameraNo.ToString()))
                         {
-                            continue;
+                            DicInfo_Filtered.Add(No, Main.DicInfo[No]);
                         }
-                        else
-                            DicInfo_Filtered.Remove(No);
-
-                        if(DicInfo_Filtered.Count == 0)
-                        {
-                            MessageBox.Show("해당 카메라 이미지가 없습니다.");
-                            Main.Camera_NO_Filter_TB.Text = string.Empty;
-                        }
+                        
                     }
 
+                }
+                if (DicInfo_Filtered.Count == 0)
+                {
+                    DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
+                    MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                    Main.Camera_NO_Filter_TB.Text = string.Empty;
                 }
 
             }
@@ -2334,7 +2333,7 @@ namespace ViewPort.Views
             if(Main.Frame_Interval_CB.Checked || Main.Exceed_CB.Checked || Main.Eq_filter == 1)
             {
                 Frame_List_Img.Clear();
-                foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                foreach (string pair in Main.DicInfo.Keys.ToList())
                 {
                     if (Frame_List_Img.Contains(DicInfo_Filtered[pair].FrameNo))
                     {
@@ -2342,7 +2341,7 @@ namespace ViewPort.Views
                     }
                     else
                     {
-                        Frame_List_Img.Add(DicInfo_Filtered[pair].FrameNo);
+                        Frame_List_Img.Add(Main.DicInfo[pair].FrameNo);
 
                     }
                 }
@@ -3065,15 +3064,16 @@ namespace ViewPort.Views
             }
             else
             {
-                foreach(string no in DicInfo_Filtered.Keys.ToList())
+                DicInfo_Filtered.Clear();
+                foreach (string no in Main.DicInfo.Keys.ToList())
                 {
-                    if(DicInfo_Filtered[no].FrameNo == Frame)
+                    if(Main.DicInfo[no].FrameNo == Frame)
                     {
-
+                        DicInfo_Filtered.Add(no, Main.DicInfo[no]);
                     }
                     else
                     {
-                        DicInfo_Filtered.Remove(no);
+                        //DicInfo_Filtered.Remove(no);
                     }
                 }
 
