@@ -782,6 +782,7 @@
             this.Cols_TB.TabIndex = 1;
             this.Cols_TB.Text = "12";
             this.Cols_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Cols_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Cols_TB_KeyDown);
             // 
             // label2
             // 

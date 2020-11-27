@@ -358,10 +358,23 @@ namespace ViewPort.Views
                             }
                         }
 
-                        Filter_NO_1 = 1;
-                        Set_View();
-                        Main.Print_List();
-                        waitform.Close();
+                        if(DicInfo_Filtered.Count >0)
+                        {
+                            Filter_NO_1 = 1;
+                            Set_View();
+                            Main.Print_List();
+                            waitform.Close();
+                        }
+                        else
+                        {
+                            waitform.Close();
+                            DicInfo_Filtered = Before_No1_Filter_dicInfo;
+                            MessageBox.Show("[SDIP] 양품 판정된 이미지가 없습니다.");
+                            Set_View();
+                            Main.Print_List();
+                            
+                        }
+                        
                     }
                     catch { }
 
@@ -569,7 +582,9 @@ namespace ViewPort.Views
             {
                 if (MessageBox.Show("[SDIP] 강제불량 처리 대상(Limit 미초과)인 Frame에 대한 이미지를 필터링합니다.\r (단, 강제불량 처리된 해당 이미지는 미표시)", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    DicInfo_Filtered = Main.F9_Find_in_Dicinfo();
+                    Dictionary<string, ImageInfo> Before_Dic = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
+                    Dictionary<string, ImageInfo> F9_Dic = new Dictionary<string, ImageInfo>(Main.F9_Find_in_Dicinfo());
+                    DicInfo_Filtered = F9_Dic;
                     if (Main.F9_code_dicInfo.Count > 0)
                     {
                         Filter_F9 = 1;
@@ -581,6 +596,7 @@ namespace ViewPort.Views
                     else
                     {
                         MessageBox.Show("Limit 아래 부품이 없습니다.");
+                        DicInfo_Filtered = Before_Dic;
                     }
                 }
                 else
@@ -597,11 +613,12 @@ namespace ViewPort.Views
             {
                 if (MessageBox.Show("[SDIP] 강제불량 처리 해제된(Limit 초과) Frame에 대한 이미지를 필터링합니다.\r (단, 강제불량 처리된 해당 이미지는 미표시)", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    Dictionary<string, ImageInfo> Before_Dic = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
+                    Dictionary<string, ImageInfo> F10_Dic = new Dictionary<string, ImageInfo>(Main.F10_Find_in_Dicinfo());
                     DicInfo_Filtered = Main.F10_Find_in_Dicinfo();
                     if (Main.F10_code_dicInfo.Count > 0)
                     {
                        
-
                         Filter_F10 = 1;
                         Set_View();
                         Main.Print_List();
@@ -609,7 +626,11 @@ namespace ViewPort.Views
 
                     }
                     else
+                    {
                         MessageBox.Show("Limit 초과 부품이 없습니다.");
+                        DicInfo_Filtered = Before_Dic;
+                    }
+                        
                 }
                 else
                 {
@@ -1209,7 +1230,6 @@ namespace ViewPort.Views
                 Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
                 Total_Frame_PageNum = frame_List_Img.Count;
                 Main.Frame_E_Page_TB.Text = Total_Frame_PageNum.ToString();
-
 
 
                 Frame_Set_Image();
@@ -2624,7 +2644,7 @@ namespace ViewPort.Views
             Rectangle regSelection = new Rectangle();
             Graphics gPic;
 
-
+            
 
             for (int i = 0; i < EachPage_ImageNum; i++)
             {

@@ -178,8 +178,8 @@ namespace ViewPort.Functions
 
                 for (int i = 0; i <= Frame_Count.Length / 5 - 1; i++)
                 {
-
-                    Compare_No.Add(int.Parse(Frame_Count.Substring(i * 5, 5)));
+                    Compare_No.Add(0);
+                    //Compare_No.Add(int.Parse(Frame_Count.Substring(i * 5, 5)));
 
                 }
 
@@ -215,7 +215,15 @@ namespace ViewPort.Functions
 
                 foreach (int pair in Front.Keys.ToList())
                 {
-                    Change_Frame_Count.Append(" " + Front[pair].ToString());
+                    if(Front[pair] < 10)
+                    {
+                        Change_Frame_Count.Append(" " +"0"+Front[pair].ToString());
+                    }
+                    else
+                    {
+                        Change_Frame_Count.Append(" " + Front[pair].ToString());
+                    }
+                    
 
                     Compare_No_length = pair.ToString().Length;
 
@@ -236,7 +244,15 @@ namespace ViewPort.Functions
 
                 foreach (int pair in Back.Keys.ToList())
                 {
-                    Change_Frame_Count.Append(" " + Back[pair].ToString());
+
+                    if (Back[pair] < 10)
+                    {
+                        Change_Frame_Count.Append(" " + "0" + Back[pair].ToString());
+                    }
+                    else
+                    {
+                        Change_Frame_Count.Append(" " + Back[pair].ToString());
+                    }
 
                     Compare_No_length = pair.ToString().Length;
 

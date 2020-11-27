@@ -350,6 +350,10 @@ namespace ViewPort.Views
                 int index = 0;
                 //if(main.)
 
+                if(FrameNo==18)
+                {
+
+                }
                 if(main.View_Mode_RB.Checked)
                 {
                     if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
@@ -363,41 +367,10 @@ namespace ViewPort.Views
                     }
 
 
-                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
+                    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "0", "양품", "O", "0", "0", ImageSize, "", "0"));
                 }
                 else
                 {
-                    //if (Map_List.Count > 0)
-                    //{
-                    //    if (Map_List.Contains(FrameNo))
-                    //    {
-                    //        if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
-                    //            All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
-                    //        else
-                    //        {
-                    //            index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
-                    //            x = All_Equipment_DF_List[index].Item2;
-                    //            All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
-
-                    //        }
-
-
-                    //        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
-                    //        All_Equipment_DF_List.Add(new Tuple<string, int>(Equipment_Name, x));
-                    //    else
-                    //    {
-                    //        index = All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name));
-                    //        x = All_Equipment_DF_List[index].Item2;
-                    //        All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
-
-                    //    }
-                    //    Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
-                    //}
                     if (Map_List.Count > 0)
                     {
                         if (Frame_List.Contains(FrameNo))
@@ -413,7 +386,7 @@ namespace ViewPort.Views
                             }
 
 
-                            Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
+                            Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "0", "양품", "O", "0", "0", ImageSize, "", "0"));
                         }
                     }
                     else
@@ -427,7 +400,7 @@ namespace ViewPort.Views
                             All_Equipment_DF_List[index] = new Tuple<string, int>(Equipment_Name, ++x);
 
                         }
-                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "-", "-", "양품", "O", "0", "0", ImageSize, "", "0"));
+                        Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "0", "양품", "O", "0", "0", ImageSize, "", "0"));
                     }
 
                 }
@@ -748,16 +721,23 @@ namespace ViewPort.Views
                 
                 if (pair.Value == 88 )
                 {
+                    try
+                    {
+                        if (map_List_Dic_Compare[pair.Key] != 39 && map_List_Dic_Compare[pair.Key] != 40)
+                        {
+                            map_List.Add(pair.Key);
+                        }
+                        else
+                        {
+                            Ignore_map_List.Add(pair.Key.ToString());
+                        }
 
-                    if (map_List_Dic_Compare[pair.Key] != 39  &&  map_List_Dic_Compare[pair.Key] != 40)
-                    {
-                        map_List.Add(pair.Key);
                     }
-                    else
+                    catch
                     {
-                        Ignore_map_List.Add(pair.Key.ToString());
+                        MessageBox.Show("Map TXT에서 " + pair.Key.ToString() + " 프레임이 매칭되지 않습니다.\r 제외 후 출력됩니다.");
                     }
-                    
+                
                 }
                 else
                 {

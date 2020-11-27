@@ -47,6 +47,7 @@ namespace ViewPort
         List<int> set_filter_frame = new List<int>();
         List<int> final_Frame_List = new List<int>();
         List<string> f12_del_list_main = new List<string>();
+        int state_filter = 0;
         int curruent_viewtype = 0;
         int mode_change = 0;
         int eq_filter = 0;
@@ -114,9 +115,9 @@ namespace ViewPort
 
         public List<Tuple<string, int>> CODE_200_List { get => code_200_List; set => code_200_List = value; }
         public int Setting { get => setting; set => setting = value; }
-
+        public int State_Filter { get => state_filter; set => state_filter = value; }
         public int ImageSize_Filter_NO { get => imageSize_Filter; set => imageSize_Filter = value; }
-        public int State_Filter { get => state_Filter; set => state_Filter = value; }
+    
         public int List_filter { get => list_filter; set => list_filter = value; }
         public List<int> Exception_Frame { get => exception_Frame; set => exception_Frame = value; }
         public string Final_text_main { get => final_text_main; set => final_text_main = value; }
@@ -2019,8 +2020,25 @@ namespace ViewPort
 
         private void Camera_NO_Filter_TB_KeyDown(object sender, KeyEventArgs e)
         {
+            int Num;
             if (e.KeyCode == Keys.Enter)
             {
+                if (Camera_NO_Filter_TB.Text == "")
+                {
+                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(DicInfo); 
+                    open.Set_View();
+                    Print_List();
+                    Camera_NO_Filter_TB.Text = "";
+                    return;
+
+                }
+                else if (!int.TryParse(Camera_NO_Filter_TB.Text, out Num))
+                {
+                    MessageBox.Show("입력을 숫자로 부탁드립니다.");
+                    Camera_NO_Filter_TB.Text = "";
+                    return;
+                }
+
                 string[] Split_String = null;
                 Split_String = Camera_NO_Filter_TB.Text.Split(',');
 
@@ -2063,9 +2081,6 @@ namespace ViewPort
                                     open.DicInfo_Filtered.Add(No, DicInfo[No]);
                                 }
                                 
-                                    
-
-                               
                             }
                         }
 
@@ -2314,6 +2329,30 @@ namespace ViewPort
                         }
                         
                     }
+
+                    foreach(int frame_del in Map_List_Dic_main.Keys.ToList())
+                    {
+                        if(final_Frame_List.Contains(frame_del))
+                        { }
+                        else
+                        {
+                            Map_List_Dic_main.Remove(frame_del);
+                        }
+
+                    }
+
+                    foreach (int frame_del in Map_List_Dic_Compare_main.Keys.ToList())
+                    {
+                        if (final_Frame_List.Contains(frame_del))
+                        { }
+                        else
+                        {
+                            Map_List_Dic_main.Remove(frame_del);
+                        }
+
+                    }
+
+
                     Sorted_Map_dic = Map_List_Dic_main.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
                     Map_List_Dic_main = new Dictionary<int,int>(Sorted_Map_dic);
                     Sorted_Map_dic.Clear();
@@ -2324,7 +2363,7 @@ namespace ViewPort
                     Sorted_Map_dic = Map_List_Dic_Compare_main.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
                     Map_List_Dic_Compare_main = new Dictionary<int, int>(Sorted_Map_dic);
                     Sorted_Map_dic.Clear();
-
+                    Map_TXT_NO_Counting.Clear();
 
                     foreach (int pair in Map_List_Dic_main.Keys.ToList())
                     {
@@ -2468,10 +2507,25 @@ namespace ViewPort
 
         private void Frame_S_TB_KeyDown(object sender, KeyEventArgs e)
         {
+            int Num;
             List<int> Frame_filter_List = new List<int>();
             if (e.KeyCode == Keys.Enter)
             {
-                
+                if(Frame_S_TB.Text == "")
+                {
+                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(DicInfo);
+                    open.Set_View();
+                    Print_List();
+                    Frame_E_TB.Text = "";
+                    return;
+
+                }
+                else if(!int.TryParse(Frame_S_TB.Text,out Num))
+                {
+                    MessageBox.Show("입력을 숫자로 부탁드립니다.");
+                    Frame_S_TB.Text = "";
+                    return;
+                }
                 open.Set_Frame_Filter();
 
                 if (open.Frame_List_Img.Contains(int.Parse(Frame_S_TB.Text)))
@@ -2619,8 +2673,22 @@ namespace ViewPort
 
         private void textBox4_KeyDown(object sender, KeyEventArgs e)
         {
+            int Num;
             if (e.KeyCode == Keys.Enter)
             {
+                
+                if (textBox4.Text == "")
+                {
+                    State_Filter = 1;
+                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(DicInfo);
+                    open.Set_View();
+                    Print_List();
+                    textBox4.Text = "";
+                    return;
+
+                }
+             
+
                 if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
                 {
                     if (textBox4.Text == "양품" || textBox4.Text == "선택")
@@ -2655,20 +2723,21 @@ namespace ViewPort
                     if (textBox4.Text == "양품" || textBox4.Text == "선택")
                     {
                         State_Filter = 1;
-                        foreach (string pair in open.DicInfo_Filtered.Keys.ToList())
+                        open.DicInfo_Filtered.Clear();
+                        foreach (string pair in DicInfo.Keys.ToList())
                         {
-                            if (open.DicInfo_Filtered[pair].ReviewDefectName == textBox4.Text)
+                            if (DicInfo[pair].ReviewDefectName == textBox4.Text)
                             {
-
+                                open.DicInfo_Filtered.Add(pair, DicInfo[pair]);
                             }
                             else
                             {
-                                open.DicInfo_Filtered.Remove(pair);
+                              
 
                             }
                         }
 
-                        open.Set_Image();
+                        open.Set_View();
                         Print_List();
                         textBox4.Text = string.Empty;
                         State_Filter = 0;
@@ -2862,6 +2931,41 @@ namespace ViewPort
         private void Manual_Mode_RB_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Cols_TB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                switch (ViewType)
+                {
+                    case "SetView":
+                        open.Set_View();
+                        break;
+
+                    case "FrameSetView":
+                        open.Frame_Set_View();
+                        break;
+
+                    case "DLFrameSetView":
+                        open.DL_Frame_Set_View();
+                        break;
+
+                    case "EQCBSetView":
+                        open.Eq_CB_Set_View();
+                        break;
+
+                    case "EQCBSetView_ING":
+                        open.Eq_CB_Set_View_ING();
+                        break;
+
+                    case "FilterCBafterSetView":
+                        open.Filter_CB_after_Set_View();
+                        break;
+
+                }
+
+            }
         }
     }
 

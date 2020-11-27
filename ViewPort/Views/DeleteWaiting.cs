@@ -58,7 +58,7 @@ namespace ViewPort.Views
         public DeleteWaiting(FormViewPort parent) 
         {
             InitializeComponent();
-            Del_img_list.Select();
+            //Del_img_list.Select();
 
             Main = parent;
            
@@ -305,7 +305,7 @@ namespace ViewPort.Views
 
         private void DeleteWaiting_KeyDown(object sender, KeyEventArgs e)
         {
-            Del_img_list.Select();
+            //Del_img_list.Select();
             this.KeyPreview = true;
             if (e.Control)
             {
@@ -435,6 +435,7 @@ namespace ViewPort.Views
         
 
             }
+            //this.splitContainer1.Panel2.Focus();
         }
 
         private void Set_Image()
@@ -491,7 +492,16 @@ namespace ViewPort.Views
                     }
                     
                     MemoryStream subEntryMS = new MemoryStream();
-                    zip.Entries[compare_zip.FindIndex(x => x.Equals(Compare_Dicinfo[img_names].Imagename.Substring(1, 5) + ".zip"))].Open().CopyTo(subEntryMS);
+                    if(compare_zip.FindIndex(x => x.Equals(Compare_Dicinfo[img_names].Imagename.Substring(1, 5) + ".zip")) == -1)
+                    {
+                        zip.Entries[compare_zip.FindIndex(x => x.Equals(Compare_Dicinfo[img_names].Imagename.Substring(1, 5) + ".Zip"))].Open().CopyTo(subEntryMS);
+                    }
+                    else
+                    {
+                        zip.Entries[compare_zip.FindIndex(x => x.Equals(Compare_Dicinfo[img_names].Imagename.Substring(1, 5) + ".zip"))].Open().CopyTo(subEntryMS);
+
+                    }
+                    
 
                     ZipArchive subZip = new ZipArchive(subEntryMS);
 
@@ -680,8 +690,8 @@ namespace ViewPort.Views
             Current_PageNum = page;
             S_Page_TB.Text = Current_PageNum.ToString();
 
-
-                Set_Image();
+            Set_Image();
+            this.Focus();
         }
         private void DeleteWaiting_FormClosing(object sender, FormClosingEventArgs e)
         {
