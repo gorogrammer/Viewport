@@ -260,7 +260,7 @@ namespace ViewPort.Views
                 SetProgressBarMaxSafe(zip.Entries.Count);
 
                
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
                 {
                   
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 )

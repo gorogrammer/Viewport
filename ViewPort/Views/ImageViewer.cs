@@ -2235,8 +2235,10 @@ namespace ViewPort.Views
             {
                 zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
                 string Open_ZipName;
+                ZipArchiveEntry sortzip;
+               
 
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
                 {
                     Open_ZipName = entry.Name.Split('.')[0];
                     if (Open_ZipName[0].Equals('R'))
@@ -2468,7 +2470,7 @@ namespace ViewPort.Views
                 zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
                 string Open_ZipName;
 
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
                 {
                     Open_ZipName = entry.Name.Split('.')[0];
                     if (Open_ZipName[0].Equals('R'))

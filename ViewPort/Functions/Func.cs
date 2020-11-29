@@ -70,7 +70,7 @@ namespace ViewPort.Functions
             {
                 zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);       // Zip파일(Lot) Load
 
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
                 {
                     
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && del_frame_List.Contains(int.Parse(entry.Name.Substring(0,5))))             // Zip파일 내에 Zip파일이 있을 경우...
@@ -99,7 +99,8 @@ namespace ViewPort.Functions
                     if (dl_no == dicInfo_del.Count)
                         break;
                 }
-                zip.Dispose();
+
+                ((IDisposable)zip).Dispose();
 
             }
             catch (System.Exception ex)
@@ -121,7 +122,7 @@ namespace ViewPort.Functions
             ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);   // Zip파일(Lot) Load
             {
 
-                foreach (ZipArchiveEntry entry in zip.Entries)
+                foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
                 {
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
                     {
