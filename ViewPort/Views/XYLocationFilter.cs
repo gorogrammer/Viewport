@@ -17,15 +17,17 @@ namespace ViewPort.Views
     public partial class XYLocationFilter : Form
     {
         ImageViewer Open;
-
+      
         Dictionary<string, ImageInfo> xy_Location = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_XY_filter = new Dictionary<string, ImageInfo>();
         public Dictionary<string, ImageInfo> XY_Location { get => xy_Location; set => xy_Location = value; }
         public Dictionary<string, ImageInfo> DicInfo_XY_filter { get => dicInfo_XY_filter; set => dicInfo_XY_filter = value; }
-        public XYLocationFilter(ImageViewer parent)
+        public XYLocationFilter(ImageViewer parent,int x,int y)
         {
             InitializeComponent();
             Xfilter_TB.Select();
+            Xfilter_TB.Text = x.ToString();
+            YFilter_TB.Text = y.ToString();
             Open = parent;
         }
 
@@ -52,7 +54,9 @@ namespace ViewPort.Views
         {
             if (MessageBox.Show("좌표 Filter를 진행 하시겠습니까?", "좌표 FIlter", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                foreach(string id in DicInfo_XY_filter.Keys.ToList())
+                Open.Befroe_X = int.Parse(Xfilter_TB.Text);
+                Open.Before_Y = int.Parse(YFilter_TB.Text);
+                foreach (string id in DicInfo_XY_filter.Keys.ToList())
                 {
                     if (int.Parse(Master_TB.Text) == int.Parse(DicInfo_XY_filter[id].Master_NO) 
                         && int.Parse(X_TB.Text) - int.Parse(Xfilter_TB.Text) <= int.Parse(DicInfo_XY_filter[id].X_Location) && int.Parse(DicInfo_XY_filter[id].X_Location) <= int.Parse(X_TB.Text) + int.Parse(Xfilter_TB.Text) 

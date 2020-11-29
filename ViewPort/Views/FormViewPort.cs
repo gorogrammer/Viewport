@@ -70,6 +70,7 @@ namespace ViewPort
         Dictionary<string, string> sdip_result_dic = new Dictionary<string, string>();
         List<string> All_VerifyDF_List = new List<string>();
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
+        List<Tuple<string, int>> All_Equipment_DF_List_DEL = new List<Tuple<string, int>>();
         List<Tuple<string, int>> code_200_List = new List<Tuple<string, int>>();
         List<int> MAP_LIST = new List<int>();
         List<int> frame_List_main = new List<int>();
@@ -846,7 +847,7 @@ namespace ViewPort
                 Eq_Filter_after_Print_List();
                 open.Main = this;
                 open.Eq_CB_Set_View();
-
+                Equipment_DF_CLB.SelectedIndex = Equipment_DF_CLB.Items.IndexOf(Equipment_DF_CLB.CheckedItems[0].ToString());
 
 
                 waitform.Close();
@@ -1019,7 +1020,11 @@ namespace ViewPort
        
             string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
             path_check = path;
-            if(path == "" && curruent_viewtype == 1)
+            if(path == "" && DicInfo.Count==0)
+            {
+                return;
+            }
+            else if(path == "" && curruent_viewtype == 1)
             {
                
                     Manual_Mode_RB.Checked = true;
@@ -1375,8 +1380,11 @@ namespace ViewPort
                 else
                     Equipment_DF_CLB.SetItemChecked(i, false);
             }
-
-
+            if (checked_name.Count > 0)
+            {
+                Equipment_DF_CLB.SelectedIndex = Equipment_DF_CLB.Items.IndexOf(Equipment_DF_CLB.CheckedItems[0].ToString());
+            }
+                
         }
 
         public void Update_Code_No200_List(List<string> deleted_pic)
@@ -1638,11 +1646,29 @@ namespace ViewPort
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //All_Equipment_DF_List_DEL.Clear();
+            //int x = 1;
+            //int index = 0;
             Wait_Del_Img_List = open.DicInfo_Delete.Keys.ToList();
             DeleteWaiting deleteWaiting = new DeleteWaiting(this);
+            //foreach(string pair in Waiting_Del.Keys.ToList())
+            //{
+            //    if (All_Equipment_DF_List_DEL.FindIndex(s => s.Item1.Equals(Waiting_Del[pair].EquipmentDefectName)) == -1)
+            //        All_Equipment_DF_List_DEL.Add(new Tuple<string, int>(Waiting_Del[pair].EquipmentDefectName, 1));
+            //    else
+            //    {
+            //        index = All_Equipment_DF_List_DEL.FindIndex(s => s.Item1.Equals(Waiting_Del[pair].EquipmentDefectName));
+            //        x = All_Equipment_DF_List_DEL[index].Item2;
+            //        All_Equipment_DF_List_DEL[index] = new Tuple<string, int>(Waiting_Del[pair].EquipmentDefectName, ++x);
+
+            //    }
+            //}
+            //deleteWaiting.All_Equipment_DF_List = All_Equipment_DF_List_DEL;
             deleteWaiting.Waiting_Img = Waiting_Del;
             deleteWaiting.ZipFilePath = zipFilePath;
             deleteWaiting.Set_View_Del();
+            deleteWaiting.Set_EQ();
+            
             deleteWaiting.ShowDialog();
 
 
@@ -2032,12 +2058,12 @@ namespace ViewPort
                     return;
 
                 }
-                else if (!int.TryParse(Camera_NO_Filter_TB.Text, out Num))
-                {
-                    MessageBox.Show("입력을 숫자로 부탁드립니다.");
-                    Camera_NO_Filter_TB.Text = "";
-                    return;
-                }
+                //else if (!int.TryParse(Camera_NO_Filter_TB.Text, out Num))
+                //{
+                //    MessageBox.Show("입력을 숫자로 부탁드립니다.");
+                //    Camera_NO_Filter_TB.Text = "";
+                //    return;
+                //}
 
                 string[] Split_String = null;
                 Split_String = Camera_NO_Filter_TB.Text.Split(',');
@@ -2094,34 +2120,7 @@ namespace ViewPort
                         Print_List();
                         Sorted_dic.Clear();
                     }
-                    //switch (ViewType)
-                    //{
-                    //    case "SetView":
-                    //        open.Set_View();
-                    //        Print_List();
-                    //        break;
-
-                    //    case "FrameSetView":
-                    //        open.Frame_Set_View();
-                    //        break;
-
-                    //    case "DLFrameSetView":
-                    //        open.DL_Frame_Set_View();
-                    //        break;
-
-                    //    case "EQCBSetView":
-                    //        open.Eq_CB_Set_View();
-                    //        break;
-
-                    //    case "EQCBSetView_ING":
-                    //        open.Eq_CB_Set_View_ING();
-                    //        break;
-
-                    //    case "FilterCBafterSetView":
-                    //        open.Filter_CB_after_Set_View();
-                    //        break;
-
-                    //}
+        
                     Print_Image_BT_Click(null, null);
 
                 }
@@ -2168,6 +2167,37 @@ namespace ViewPort
 
         private void Print_Image_BT_Click(object sender, EventArgs e)
         {
+            switch (ViewType)
+            {
+                case "SetView":
+                    open.Set_View();
+                    break;
+
+                case "FrameSetView":
+                    open.Frame_Set_View();
+                    break;
+
+                case "DLFrameSetView":
+                    open.DL_Frame_Set_View();
+                    break;
+
+                case "EQCBSetView":
+                    open.Eq_CB_Set_View();
+                    break;
+
+                case "EQCBSetView_ING":
+                    open.Eq_CB_Set_View_ING();
+                    break;
+
+                case "FilterCBafterSetView":
+                    open.Filter_CB_after_Set_View();
+                    break;
+
+                case "Code_200_SetView":
+                    open.Code_200_Set_View();
+                    break;
+
+            }
 
         }
 
@@ -2242,7 +2272,7 @@ namespace ViewPort
 
         private void FilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            XYLocationFilter XYFilter = new XYLocationFilter(open);
+            XYLocationFilter XYFilter = new XYLocationFilter(open,open.Befroe_X,open.Before_Y);
             XYFilter.ShowDialog();
         }
 
@@ -2419,7 +2449,7 @@ namespace ViewPort
 
         private void xyFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            XYLocationFilter XYFilter = new XYLocationFilter(open);
+            XYLocationFilter XYFilter = new XYLocationFilter(open,open.Befroe_X,open.Before_Y);
             XYFilter.ShowDialog();
         }
 

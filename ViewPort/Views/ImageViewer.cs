@@ -38,6 +38,9 @@ namespace ViewPort.Views
         int setting = 0;
         List<int> apply_List_opne = new List<int>();
         List<int> Notapply_List_opne = new List<int>();
+        int befroe_X = 0;
+        int before_Y = 0;
+
 
         int Filter_NO_1 = 0;
         int Filter_F9 = 0;
@@ -93,6 +96,8 @@ namespace ViewPort.Views
 
         public int Setting { get => setting; set => setting = value; }
 
+        public int Befroe_X { get => befroe_X; set => befroe_X = value; }
+        public int Before_Y { get => before_Y; set => before_Y = value; }
         public int ViewMode_PSW_Check { get => viewMode_PSW_Check; set => viewMode_PSW_Check = value; }
 
         public int Shift_del { get => shift_del; set => shift_del = value; }
@@ -659,7 +664,7 @@ namespace ViewPort.Views
             {
                 Filter_F = 1;
 
-                XYLocationFilter xyFilter = new XYLocationFilter(this);
+                XYLocationFilter xyFilter = new XYLocationFilter(this,Befroe_X,Before_Y);
                 Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
                 xyFilter.XY_Location.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
 
@@ -1572,6 +1577,7 @@ namespace ViewPort.Views
 
             this.Controls.Clear();
             PictureData.Clear();
+
 
 
             dicInfo_Filter = Main.Eq_CB_dicInfo;
