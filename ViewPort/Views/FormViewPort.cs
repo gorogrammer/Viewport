@@ -46,6 +46,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> set_filter_frame_dicinfo = new Dictionary<string, ImageInfo>();
         List<int> set_filter_frame = new List<int>();
         List<int> final_Frame_List = new List<int>();
+        List<int> sdip_200_frame = new List<int>();
         List<string> f12_del_list_main = new List<string>();
         int state_filter = 0;
         int curruent_viewtype = 0;
@@ -1187,7 +1188,9 @@ namespace ViewPort
                 //Img_txt_Info_Combine();
 
                 dicInfo_Copy = new Dictionary<string, ImageInfo>(DicInfo);
-
+                sdip_200_frame.Clear();
+                Sdip_200_code_dicInfo.Clear();
+                Selected_Pic.Clear();
                 if (path_check != "")
                 {
                     if (Manual_Mode_RB.Checked)
@@ -1221,6 +1224,15 @@ namespace ViewPort
                                 }
                                 Sdip_200_code_dicInfo.Add(pair, DicInfo[pair]);
                                 Selected_Pic.Add(pair);
+                                
+                                if(sdip_200_frame.Contains(dicInfo[pair].FrameNo))
+                                {
+
+                                }
+                                else
+                                {
+                                    sdip_200_frame.Add(dicInfo[pair].FrameNo);
+                                }
                                 dicInfo.Remove(pair);
                             }
 
@@ -2329,7 +2341,49 @@ namespace ViewPort
                         }
                     }
 
+                    Dictionary<int, int> special_frame = new Dictionary<int, int>();
+                    foreach (KeyValuePair<int, int> pair in Map_List_Dic_main)
+                    {
+
+                        if (pair.Value == 88)
+                        {
+                                if (Map_List_Dic_Compare_main[pair.Key] != 39 && Map_List_Dic_Compare_main[pair.Key] != 40)
+                                {
+                                    
+                                }
+                                else
+                                {
+                                special_frame.Add(pair.Key, Map_List_Dic_main[pair.Key]);
+                                }
+                        }
+
+                    }
+
+                    
                    
+                    foreach(int pair in Map_List_Dic_main.Keys.ToList())
+                    {
+                        if(Map_List_Dic_main[pair] !=88)
+                        {
+                            if(special_frame.ContainsKey(pair))
+                            {
+
+                            }
+                            else
+                            {
+                                special_frame.Add(pair, Map_List_Dic_main[pair]);
+                            }
+                            
+                        }
+                    }
+                   
+                    foreach(int pair in special_frame.Keys.ToList())
+                    {
+                        if(Exception_Frame.Contains(pair))
+                        {
+                            Exception_Frame.Remove(pair);
+                        }
+                    }
 
                     foreach (int pair in Map_List_Dic_main.Keys.ToList())
                     {
@@ -2345,6 +2399,9 @@ namespace ViewPort
                             Map_List_Dic_Compare_main.Remove(pair);
                         }
                     }
+                   
+
+
 
                     foreach (int pair in final_Frame_List)
                     {
@@ -2359,25 +2416,63 @@ namespace ViewPort
                         }
                         
                     }
-
-                    foreach(int frame_del in Map_List_Dic_main.Keys.ToList())
+                    List<int> chec = new List<int>();
+                    int last = Map_List_Dic_main.Count;
+                    int last_frame = Map_List_Dic_main.ElementAt(last-1).Key;
+                    foreach (int frame_del in Map_List_Dic_main.Keys.ToList())
                     {
                         if(final_Frame_List.Contains(frame_del))
                         { }
                         else
                         {
-                            Map_List_Dic_main.Remove(frame_del);
+                            if (frame_del == 1)
+                            {
+
+                            }
+                            else if (frame_del == last_frame)
+                            {
+
+                            }
+                            else if (special_frame.Keys.ToList().Contains(frame_del))
+                            { }
+                            else if(sdip_200_frame.Contains(frame_del))
+                            {
+                                chec.Add(frame_del);
+                            }
+                            else
+                            {
+                                Map_List_Dic_main.Remove(frame_del);
+                            }
+                            
                         }
 
                     }
 
+                    last = Map_List_Dic_Compare_main.Count;
+                    last_frame = Map_List_Dic_Compare_main.ElementAt(last - 1).Key;
+                   
                     foreach (int frame_del in Map_List_Dic_Compare_main.Keys.ToList())
                     {
                         if (final_Frame_List.Contains(frame_del))
                         { }
                         else
                         {
-                            Map_List_Dic_main.Remove(frame_del);
+                            if (frame_del == 1)
+                            {
+
+                            }
+                            else if (frame_del == last_frame)
+                            {
+
+                            }
+                            else if (special_frame.Keys.ToList().Contains(frame_del))
+                            { }
+                            else if (sdip_200_frame.Contains(frame_del))
+                            { }
+                            else
+                            {
+                                Map_List_Dic_Compare_main.Remove(frame_del);
+                            }
                         }
 
                     }

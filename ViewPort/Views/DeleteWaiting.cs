@@ -900,15 +900,20 @@ namespace ViewPort.Views
             {
                 for (int i = 0; i < Select_Pic.Count; i++)
                 {
-                    if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
+                    if (Main_Dic.ContainsKey(Select_Pic[i]))
                     {
-                        dicInfo_Filter_Del[Select_Pic[i]].ReviewDefectName = "양품";
-                        dicInfo_Filter_Del[Select_Pic[i]].DeleteCheck = "0";
-                        Main.DicInfo[Select_Pic[i]] = dicInfo_Filter_Del[Select_Pic[i]];
+                        Main_Dic[Select_Pic[i]].ReviewDefectName = "양품";
+                        Main_Dic[Select_Pic[i]].DeleteCheck = "0";
+                        Main.DicInfo[Select_Pic[i]] = Main_Dic[Select_Pic[i]];
 
                         //Main.selected_Pic.Add(Select_Pic[i]);
-                        dicInfo_Filter_Del.Remove(Select_Pic[i]);
+                        if(dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
+                        {
+                            dicInfo_Filter_Del.Remove(Select_Pic[i]);
+                        }
+                     
                         Main_Dic.Remove(Select_Pic[i]);
+                        Main.Waiting_Del.Remove(Select_Pic[i]);
                     }
 
 
@@ -921,6 +926,8 @@ namespace ViewPort.Views
             Select_Pic.Clear();
             Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
 
+
+            
             Main.Dl_Wait_Del_Print_List();
             Main.Return_Img_Print();
             dicInfo_Delete_Sel.Clear();
@@ -1359,10 +1366,10 @@ namespace ViewPort.Views
             }
             for (int p = 0; p < Select_Pic.Count; p++)
             {
-                if (dicInfo_Filter_Del.ContainsKey(Select_Pic[p]))
+                if (Main_Dic.ContainsKey(Select_Pic[p]))
                 {
 
-                    dicInfo_Delete_Sel.Add(Select_Pic[p], dicInfo_Filter_Del[Select_Pic[p]]);
+                    dicInfo_Delete_Sel.Add(Select_Pic[p], Main_Dic[Select_Pic[p]]);
 
                     dicInfo_Delete_Sel[Select_Pic[p]].DeleteCheck = "삭제대기";
                 }
