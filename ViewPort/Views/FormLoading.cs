@@ -517,7 +517,7 @@ namespace ViewPort.Views
                 string text = SR.ReadToEnd();
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 
-
+                
                 for (int i = 0; i < items.Length - 4; i++)
                 {
                     string[] dic_ready = items[i + 3].Split(',');
@@ -526,6 +526,13 @@ namespace ViewPort.Views
                         dicTxt_info[dic_ready[0].Substring(0, 12)].Master_No = dic_ready[1];
                         dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
                         dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
+                    }
+                    else if(Dic_Load.ContainsKey(dic_ready[0].Substring(0, 12)))
+                    {
+                       
+                        Dic_Load[dic_ready[0].Substring(0, 12)].Master_NO = dic_ready[1];
+                        Dic_Load[dic_ready[0].Substring(0, 12)].X_Location = dic_ready[2];
+                        Dic_Load[dic_ready[0].Substring(0, 12)].Y_Location = dic_ready[3];
                     }
                     
                     

@@ -98,6 +98,9 @@ namespace ViewPort
         List<Tuple<int, int>> Map_TXT_NO_Counting_Compare = new List<Tuple<int, int>>();
 
         int btnColumnIdx;
+
+        Dictionary<string, ImageInfo> checkEQ_Dic = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic_GRID = new Dictionary<string, ImageInfo>();
         Dictionary<int, int> Sorted_Map_dic = new Dictionary<int, int>();
@@ -130,10 +133,10 @@ namespace ViewPort
         public Dictionary<string, ImageInfo> Filter_200_dic_Main { get => filter_200_dic_Main; set => filter_200_dic_Main = value; }
         public Dictionary<string, ImageInfo> Exceed_filter { get => exceed_filter; set => exceed_filter = value; }
         public Dictionary<string, ImageInfo> Sdip_200_code_dicInfo { get => sdip_200_code_dicInfo; set => sdip_200_code_dicInfo = value; }
-
+        public Dictionary<string, ImageInfo> Filter_CheckEQ_Dic { get => filter_CheckEQ_Dic; set => filter_CheckEQ_Dic = value; }
         public Dictionary<string, ImageInfo> F9_code_dicInfo { get => f9_code_dicInfo; set => f9_code_dicInfo = value; }
         public Dictionary<string, ImageInfo> F10_code_dicInfo { get => f10_code_dicInfo; set => f10_code_dicInfo = value; }
-
+        public Dictionary<string, ImageInfo> CheckEQ_Dic { get => checkEQ_Dic; set => checkEQ_Dic = value; }
         public Dictionary<string, ImageInfo> F5_code_dicInfo { get => f5_code_dicInfo; set => f5_code_dicInfo = value; }
         public Dictionary<string, ImageInfo> Sdip_NO1_dicInfo { get => sdip_NO1_dicInfo; set => sdip_NO1_dicInfo = value; }
         public Dictionary<string, ImageInfo> DicInfo_Copy { get => dicInfo_Copy; set => dicInfo_Copy = value; }
@@ -856,6 +859,21 @@ namespace ViewPort
             catch { }
 
 
+        }
+
+        private void Set_EQ_Dic()
+        {
+            Initial_Equipment_DF_FilterList();
+
+            if (Waiting_Del.Count > 0)
+            {
+                foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
+                    eq_CB_dicInfo.Remove(kvp.Key);
+
+            }
+            CheckEQ_Dic = new Dictionary<string, ImageInfo>(eq_CB_dicInfo);
+            Sorted_dic = CheckEQ_Dic.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            CheckEQ_Dic = Sorted_dic;
         }
 
         private void Initial_Equipment_DF_FilterList()
@@ -1927,6 +1945,9 @@ namespace ViewPort
 
         private void Frame_View_CB_CheckedChanged(object sender, EventArgs e)
         {
+            Camera_NO_Filter_TB.Text = "";
+            textBox4.Text = "";
+
             if (Frame_View_CB.Checked && Exceed_CB.Checked)
             {
                 open.Frame_Set_View();
@@ -2058,123 +2079,179 @@ namespace ViewPort
 
         private void Camera_NO_Filter_TB_KeyDown(object sender, KeyEventArgs e)
         {
-            int Num;
-            if (e.KeyCode == Keys.Enter)
+
+            if(e.KeyCode == Keys.Enter)
             {
-                if (Camera_NO_Filter_TB.Text == "")
-                {
-                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(DicInfo); 
-                    open.Set_View();
-                    Print_List();
-                    Camera_NO_Filter_TB.Text = "";
-                    return;
-
-                }
-                //else if (!int.TryParse(Camera_NO_Filter_TB.Text, out Num))
-                //{
-                //    MessageBox.Show("입력을 숫자로 부탁드립니다.");
-                //    Camera_NO_Filter_TB.Text = "";
-                //    return;
-                //}
-
-                string[] Split_String = null;
-                Split_String = Camera_NO_Filter_TB.Text.Split(',');
-
-
-                if (int.Parse(Split_String[0]) > 0)
-                {
-
-                    if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
-                    {
-                        foreach (string No in open.Frame_dicInfo_Filter.Keys.ToList())
-                        {
-                            if (open.Frame_dicInfo_Filter.ContainsKey(No))
-                            {
-                                if (Split_String.Contains(open.Frame_dicInfo_Filter[No].CameraNo.ToString()))
-                                {
-                                    continue;
-                                }
-                                else
-                                    open.Frame_dicInfo_Filter.Remove(No);
-
-                                if (open.Frame_dicInfo_Filter.Count == 0)
-                                {
-                                    MessageBox.Show("해당 카메라 이미지가 없습니다.");
-                                    Camera_NO_Filter_TB.Text = string.Empty;
-                                }
-                            }
-                        }
-                        open.Frame_Set_Image();
-                    }
-                    else
-                    {
-                        Sorted_dic = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
-                        open.DicInfo_Filtered.Clear();
-                        foreach (string No in DicInfo.Keys.ToList())
-                        {
-                            if (DicInfo.ContainsKey(No))
-                            {
-                                if (Split_String.Contains(DicInfo[No].CameraNo.ToString()))
-                                {
-                                    open.DicInfo_Filtered.Add(No, DicInfo[No]);
-                                }
-                                
-                            }
-                        }
-
-                        if (open.DicInfo_Filtered.Count == 0)
-                        {
-                            open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
-                            MessageBox.Show("해당 카메라 이미지가 없습니다.");
-                            Camera_NO_Filter_TB.Text = string.Empty;
-                        }
-                        open.Set_Image();
-                        Print_List();
-                        Sorted_dic.Clear();
-                    }
-        
-                    Print_Image_BT_Click(null, null);
-
-                }
-                else if (Camera_NO_Filter_TB.Text == "")
-                {
-                    switch (ViewType)
-                    {
-                        case "SetView":
-                            open.Set_View();
-                            Print_List();
-                            break;
-
-                        case "FrameSetView":
-                            open.Frame_Set_View();
-                            break;
-
-                        case "DLFrameSetView":
-                            open.DL_Frame_Set_View();
-                            break;
-
-                        case "EQCBSetView":
-                            open.Eq_CB_Set_View();
-                            break;
-
-                        case "EQCBSetView_ING":
-                            open.Eq_CB_Set_View_ING();
-                            break;
-
-                        case "FilterCBafterSetView":
-                            open.Filter_CB_after_Set_View();
-                            break;
-
-                    }
-                    Print_Image_BT_Click(null, null);
-                }
-                else
-                    MessageBox.Show("숫자만 입력해주세요.");
-
-
-
-                Print_Image_BT.Focus();
+                Filter_Check();
             }
+            
+            //int Num;
+            //if (e.KeyCode == Keys.Enter)
+            //{
+            //    if (Camera_NO_Filter_TB.Text == "")
+            //    {
+            //        open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(DicInfo); 
+            //        open.Set_View();
+            //        Print_List();
+            //        Camera_NO_Filter_TB.Text = "";
+            //        return;
+
+            //    }
+            //    //else if (!int.TryParse(Camera_NO_Filter_TB.Text, out Num))
+            //    //{
+            //    //    MessageBox.Show("입력을 숫자로 부탁드립니다.");
+            //    //    Camera_NO_Filter_TB.Text = "";
+            //    //    return;
+            //    //}
+
+            //    string[] Split_String = null;
+            //    Split_String = Camera_NO_Filter_TB.Text.Split(',');
+
+
+            //    if (int.Parse(Split_String[0]) > 0)
+            //    {
+
+            //        if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
+            //        {
+            //            foreach (string No in open.Frame_dicInfo_Filter.Keys.ToList())
+            //            {
+            //                if (open.Frame_dicInfo_Filter.ContainsKey(No))
+            //                {
+            //                    if (Split_String.Contains(open.Frame_dicInfo_Filter[No].CameraNo.ToString()))
+            //                    {
+            //                        continue;
+            //                    }
+            //                    else
+            //                        open.Frame_dicInfo_Filter.Remove(No);
+
+            //                    if (open.Frame_dicInfo_Filter.Count == 0)
+            //                    {
+            //                        MessageBox.Show("해당 카메라 이미지가 없습니다.");
+            //                        Camera_NO_Filter_TB.Text = string.Empty;
+            //                    }
+            //                }
+            //            }
+            //            open.Frame_Set_Image();
+            //        }
+            //        else
+            //        {
+            //            if(Eq_CB_dicInfo.Count >0)
+            //            {
+            //                Sorted_dic = new Dictionary<string, ImageInfo>(Eq_CB_dicInfo);
+            //                Dictionary<string, ImageInfo> before_dic = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
+            //                open.DicInfo_Filtered.Clear();
+
+            //                foreach(string No in Sorted_dic.Keys.ToList())
+            //                {
+            //                    if (Sorted_dic.ContainsKey(No))
+            //                    {
+            //                        if (Split_String.Contains(Sorted_dic[No].CameraNo.ToString()))
+            //                        {
+
+            //                        }
+            //                        else
+            //                        {
+            //                            Sorted_dic.Remove(No);
+            //                        }
+
+            //                    }
+            //                }
+
+            //                open.DicInfo_Filtered = Sorted_dic;
+
+            //                if (open.DicInfo_Filtered.Count == 0)
+            //                {
+            //                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(before_dic);
+            //                    MessageBox.Show("해당 카메라 이미지가 없습니다.");
+            //                    //Camera_NO_Filter_TB.Text = string.Empty;
+
+            //                    open.Set_Image();
+            //                    Print_List();
+            //                    //Sorted_dic.Clear();
+
+            //                }
+            //                else
+            //                {
+            //                    open.Set_Image();
+            //                    Print_List();
+            //                    //Sorted_dic.Clear();
+            //                }
+
+            //            }
+            //            else
+            //            {
+            //                Sorted_dic = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
+            //                open.DicInfo_Filtered.Clear();
+            //                foreach (string No in DicInfo.Keys.ToList())
+            //                {
+            //                    if (DicInfo.ContainsKey(No))
+            //                    {
+            //                        if (Split_String.Contains(DicInfo[No].CameraNo.ToString()))
+            //                        {
+            //                            open.DicInfo_Filtered.Add(No, DicInfo[No]);
+            //                        }
+
+            //                    }
+            //                }
+
+            //                if (open.DicInfo_Filtered.Count == 0)
+            //                {
+            //                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
+            //                    MessageBox.Show("해당 카메라 이미지가 없습니다.");
+            //                    //Camera_NO_Filter_TB.Text = string.Empty;
+            //                }
+            //                open.Set_Image();
+            //                Print_List();
+            //                Sorted_dic.Clear();
+            //            }
+
+            //            //Sorted_dic.Clear();
+
+
+            //        }
+
+            //        Print_Image_BT_Click(null, null);
+
+            //    }
+            //    else if (Camera_NO_Filter_TB.Text == "")
+            //    {
+            //        switch (ViewType)
+            //        {
+            //            case "SetView":
+            //                open.Set_View();
+            //                Print_List();
+            //                break;
+
+            //            case "FrameSetView":
+            //                open.Frame_Set_View();
+            //                break;
+
+            //            case "DLFrameSetView":
+            //                open.DL_Frame_Set_View();
+            //                break;
+
+            //            case "EQCBSetView":
+            //                open.Eq_CB_Set_View();
+            //                break;
+
+            //            case "EQCBSetView_ING":
+            //                open.Eq_CB_Set_View_ING();
+            //                break;
+
+            //            case "FilterCBafterSetView":
+            //                open.Filter_CB_after_Set_View();
+            //                break;
+
+            //        }
+            //        Print_Image_BT_Click(null, null);
+            //    }
+            //    else
+            //        MessageBox.Show("숫자만 입력해주세요.");
+
+
+
+            //    Print_Image_BT.Focus();
+            //}
         }
 
         private void Print_Image_BT_Click(object sender, EventArgs e)
@@ -2210,7 +2287,7 @@ namespace ViewPort
                     break;
 
             }
-
+            Filter_Check();
         }
 
         private void Rotate_CLB_SelectedIndexChanged(object sender, EventArgs e)
@@ -2632,40 +2709,44 @@ namespace ViewPort
 
         private void Frame_S_TB_KeyDown(object sender, KeyEventArgs e)
         {
-            int Num;
-            List<int> Frame_filter_List = new List<int>();
             if (e.KeyCode == Keys.Enter)
             {
-                if(Frame_S_TB.Text == "")
-                {
-                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(DicInfo);
-                    open.Set_View();
-                    Print_List();
-                    Frame_E_TB.Text = "";
-                    return;
-
-                }
-                else if(!int.TryParse(Frame_S_TB.Text,out Num))
-                {
-                    MessageBox.Show("입력을 숫자로 부탁드립니다.");
-                    Frame_S_TB.Text = "";
-                    return;
-                }
-                open.Set_Frame_Filter();
-
-                if (open.Frame_List_Img.Contains(int.Parse(Frame_S_TB.Text)))
-                {
-                    open.Frame_Filter(int.Parse(Frame_S_TB.Text));
-                }
-                else
-                {
-
-                    MessageBox.Show("해당 프레임은 존재하지 않습니다.");
-                    Frame_S_TB.Text = Frame_E_TB.Text;
-                }
-
+                Filter_Check();
             }
-            open.Frame_List_Img.Clear();
+            //int Num;
+            //List<int> Frame_filter_List = new List<int>();
+            //if (e.KeyCode == Keys.Enter)
+            //{
+            //    if(Frame_S_TB.Text == "")
+            //    {
+            //        open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(DicInfo);
+            //        open.Set_View();
+            //        Print_List();
+            //        Frame_E_TB.Text = "";
+            //        return;
+
+            //    }
+            //    else if(!int.TryParse(Frame_S_TB.Text,out Num))
+            //    {
+            //        MessageBox.Show("입력을 숫자로 부탁드립니다.");
+            //        Frame_S_TB.Text = "";
+            //        return;
+            //    }
+            //    open.Set_Frame_Filter();
+
+            //    if (open.Frame_List_Img.Contains(int.Parse(Frame_S_TB.Text)))
+            //    {
+            //        open.Frame_Filter(int.Parse(Frame_S_TB.Text));
+            //    }
+            //    else
+            //    {
+
+            //        MessageBox.Show("해당 프레임은 존재하지 않습니다.");
+            //        Frame_S_TB.Text = Frame_E_TB.Text;
+            //    }
+
+            //}
+            //open.Frame_List_Img.Clear();
         }
 
         private void FormViewPort_MouseMove(object sender, MouseEventArgs e)
@@ -2781,7 +2862,9 @@ namespace ViewPort
 
             if (e.KeyCode == Keys.Enter)
             {
-                
+                Camera_NO_Filter_TB.Text = "";
+                textBox4.Text = "";
+
                 if (int.Parse(Frame_S_Page_TB.Text) <= int.Parse(Frame_E_Page_TB.Text) && int.Parse(Frame_S_Page_TB.Text) > 0)
                 {
                     open.No_Frmae_Filter(int.Parse(Frame_S_Page_TB.Text));
@@ -2798,84 +2881,88 @@ namespace ViewPort
 
         private void textBox4_KeyDown(object sender, KeyEventArgs e)
         {
-            int Num;
             if (e.KeyCode == Keys.Enter)
             {
+                Filter_Check();
+            }
+            //int Num;
+            //if (e.KeyCode == Keys.Enter)
+            //{
                 
-                if (textBox4.Text == "")
-                {
-                    State_Filter = 1;
-                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(DicInfo);
-                    open.Set_View();
-                    Print_List();
-                    textBox4.Text = "";
-                    return;
+            //    if (textBox4.Text == "")
+            //    {
+            //        State_Filter = 1;
+            //        open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(DicInfo);
+            //        open.Set_View();
+            //        Print_List();
+            //        textBox4.Text = "";
+            //        return;
 
-                }
+            //    }
              
 
-                if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
-                {
-                    if (textBox4.Text == "양품" || textBox4.Text == "선택")
-                    {
-                        State_Filter = 1;
-                        foreach (string pair in open.Frame_dicInfo_Filter.Keys.ToList())
-                        {
-                            if (open.Frame_dicInfo_Filter[pair].ReviewDefectName == textBox4.Text)
-                            {
+            //    if (ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
+            //    {
+            //        if (textBox4.Text == "양품" || textBox4.Text == "선택")
+            //        {
+            //            State_Filter = 1;
+            //            foreach (string pair in open.Frame_dicInfo_Filter.Keys.ToList())
+            //            {
+            //                if (open.Frame_dicInfo_Filter[pair].ReviewDefectName == textBox4.Text)
+            //                {
 
-                            }
-                            else
-                            {
-                                open.Frame_dicInfo_Filter.Remove(pair);
+            //                }
+            //                else
+            //                {
+            //                    open.Frame_dicInfo_Filter.Remove(pair);
 
-                            }
-                        }
+            //                }
+            //            }
 
-                        open.Frame_Set_Image();
+            //            open.Frame_Set_Image();
                      
-                        textBox4.Text = string.Empty;
-                        State_Filter = 0;
-                    }
-                    else
-                    {
-                        textBox4.Text = string.Empty;
-                        MessageBox.Show("양품 or 선택으로 입력.");
-                    }
-                }
-                else
-                {
-                    if (textBox4.Text == "양품" || textBox4.Text == "선택")
-                    {
-                        State_Filter = 1;
-                        open.DicInfo_Filtered.Clear();
-                        foreach (string pair in DicInfo.Keys.ToList())
-                        {
-                            if (DicInfo[pair].ReviewDefectName == textBox4.Text)
-                            {
-                                open.DicInfo_Filtered.Add(pair, DicInfo[pair]);
-                            }
-                            else
-                            {
+            //            //textBox4.Text = string.Empty;
+            //            State_Filter = 0;
+            //        }
+            //        else
+            //        {
+            //            textBox4.Text = string.Empty;
+            //            MessageBox.Show("양품 or 선택으로 입력.");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (textBox4.Text == "양품" || textBox4.Text == "선택")
+            //        {
+            //            State_Filter = 1;
+            //            open.DicInfo_Filtered.Clear();
+            //            foreach (string pair in DicInfo.Keys.ToList())
+            //            {
+            //                if (DicInfo[pair].ReviewDefectName == textBox4.Text)
+            //                {
+            //                    open.DicInfo_Filtered.Add(pair, DicInfo[pair]);
+            //                }
+            //                else
+            //                {
                               
 
-                            }
-                        }
+            //                }
+            //            }
 
-                        open.Set_View();
-                        Print_List();
-                        textBox4.Text = string.Empty;
-                        State_Filter = 0;
-                    }
-                    else
-                    {
-                        textBox4.Text = string.Empty;
-                        MessageBox.Show("양품 or 선택으로 입력.");
-                    }
-                }
+            //            open.Set_View();
+            //            Print_List();
+            //            //textBox4.Text = string.Empty;
+            //            State_Filter = 0;
+            //        }
+            //        else
+            //        {
+            //            textBox4.Text = string.Empty;
+            //            MessageBox.Show("양품 or 선택으로 입력.");
+            //        }
+            //    }
                 
 
-            }
+            //}
 
         }
 
@@ -3091,6 +3178,233 @@ namespace ViewPort
                 }
 
             }
+        }
+
+        private void Filter_Check()
+        {
+            Set_EQ_Dic();
+            if (CheckEQ_Dic.Count > 0)
+            {
+
+                if(ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
+                {
+                    open.Filter_Frame_Set_IMG();
+                    Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(open.Frame_dicInfo_Filter);
+                    Dictionary<string, ImageInfo> before_dic = new Dictionary<string, ImageInfo>(open.Frame_dicInfo_Filter);
+                    State_Filter = 1;
+                    if (Camera_NO_Filter_TB.Text != "")
+                    {
+                        string[] Split_String = null;
+                        Split_String = Camera_NO_Filter_TB.Text.Split(',');
+
+                        foreach (string No in Filter_CheckEQ_Dic.Keys.ToList())
+                        {
+                            if (Filter_CheckEQ_Dic.ContainsKey(No))
+                            {
+                                if (Split_String.Contains(Filter_CheckEQ_Dic[No].CameraNo.ToString()))
+                                {
+
+                                }
+                                else
+                                {
+                                    Filter_CheckEQ_Dic.Remove(No);
+                                }
+
+                            }
+                        }
+
+
+                        if (Filter_CheckEQ_Dic.Count == 0)
+                        {
+                            Filter_CheckEQ_Dic = before_dic;
+                            MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                            Camera_NO_Filter_TB.Text = "";
+                        }
+
+                    }
+
+                    if (textBox4.Text != "")
+                    {
+                        if (textBox4.Text == "양품" || textBox4.Text == "선택")
+                        {
+
+
+                            foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
+                            {
+                                if (Filter_CheckEQ_Dic[pair].ReviewDefectName == textBox4.Text)
+                                {
+
+                                }
+                                else
+                                {
+                                    Filter_CheckEQ_Dic.Remove(pair);
+                                }
+                            }
+
+
+
+                        }
+                        else
+                        {
+                            textBox4.Text = string.Empty;
+                            MessageBox.Show("양품 or 선택으로 입력.");
+                            Filter_CheckEQ_Dic = before_dic;
+                        }
+                    }
+                    else
+                    {
+
+
+                    }
+
+                    open.Frame_dicInfo_Filter = Filter_CheckEQ_Dic;
+                    open.Frame_Set_Image();
+                    State_Filter = 0;
+                }
+                else
+                {
+                    
+                    Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(CheckEQ_Dic);
+                    Dictionary<string, ImageInfo> before_dic = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
+                    State_Filter = 1;
+                    //EQ 필터체크
+                    if (Camera_NO_Filter_TB.Text != "")
+                    {
+                        string[] Split_String = null;
+                        Split_String = Camera_NO_Filter_TB.Text.Split(',');
+
+                        foreach (string No in Filter_CheckEQ_Dic.Keys.ToList())
+                        {
+                            if (Filter_CheckEQ_Dic.ContainsKey(No))
+                            {
+                                if (Split_String.Contains(Filter_CheckEQ_Dic[No].CameraNo.ToString()))
+                                {
+
+                                }
+                                else
+                                {
+                                    Filter_CheckEQ_Dic.Remove(No);
+                                }
+
+                            }
+                        }
+
+
+                        if (Filter_CheckEQ_Dic.Count == 0)
+                        {
+                            Filter_CheckEQ_Dic = before_dic;
+                            MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                            Camera_NO_Filter_TB.Text = "";
+                        }
+
+                    }
+                    else
+                    {
+
+                    }
+
+                    if (textBox4.Text != "")
+                    {
+                        if (textBox4.Text == "양품" || textBox4.Text == "선택")
+                        {
+
+
+                            foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
+                            {
+                                if (Filter_CheckEQ_Dic[pair].ReviewDefectName == textBox4.Text)
+                                {
+
+                                }
+                                else
+                                {
+                                    Filter_CheckEQ_Dic.Remove(pair);
+                                }
+                            }
+
+
+
+                        }
+                        else
+                        {
+                            textBox4.Text = string.Empty;
+                            MessageBox.Show("양품 or 선택으로 입력.");
+                            Filter_CheckEQ_Dic = before_dic;
+                        }
+                    }
+                    else
+                    {
+
+
+                    }
+
+                    if (Frame_S_TB.Text != "")
+                    {
+                        int Num;
+                        List<int> Frame_filter_List = new List<int>();
+                        if (!int.TryParse(Frame_S_TB.Text, out Num))
+                        {
+                            MessageBox.Show("입력을 숫자로 부탁드립니다.");
+                            Frame_S_TB.Text = "";
+                            open.DicInfo_Filtered = Filter_CheckEQ_Dic;
+                            open.Set_View();
+                            Print_List();
+
+                            return;
+                        }
+
+                        foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
+                        {
+                            if (Frame_filter_List.Contains(Filter_CheckEQ_Dic[pair].FrameNo))
+                            {
+
+                            }
+                            else
+                            {
+                                Frame_filter_List.Add(Filter_CheckEQ_Dic[pair].FrameNo);
+
+                            }
+                        }
+
+                        if (Frame_filter_List.Contains(int.Parse(Frame_S_TB.Text)))
+                        {
+                            open.Frame_Filter(int.Parse(Frame_S_TB.Text));
+                        }
+                        else
+                        {
+
+                            MessageBox.Show("해당 프레임은 존재하지 않습니다.");
+                            Frame_S_TB.Text = Frame_E_TB.Text;
+                            open.DicInfo_Filtered = Filter_CheckEQ_Dic;
+                            open.Set_View();
+                            Print_List();
+
+                            return;
+                        }
+
+                        Filter_CheckEQ_Dic.Clear();
+                    }
+                    else
+                    {
+
+                    }
+                    /// 뷰
+                    if (Frame_S_TB.Text != "")
+                    {
+
+
+                    }
+                    else
+                    {
+                        open.DicInfo_Filtered = Filter_CheckEQ_Dic;
+                        open.Set_View();
+                        Print_List();
+                    }
+                    State_Filter = 0;
+
+                }
+               
+            }
+
         }
     }
 
