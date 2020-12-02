@@ -516,26 +516,33 @@ namespace ViewPort.Views
                 StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                int E_index = Array.FindIndex(items, i => i == "E");
                 
-                
-                for (int i = 0; i < items.Length - 4; i++)
+                for (int i = E_index+1; i < items.Length; i++)
                 {
-                    string[] dic_ready = items[i + 3].Split(',');
-                    if(dicTxt_info.ContainsKey(dic_ready[0].Substring(0, 12)))
+                    if(items[i] != "")
                     {
-                        dicTxt_info[dic_ready[0].Substring(0, 12)].Master_No = dic_ready[1];
-                        dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
-                        dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
+                        if(i == 12449)
+                        { }
+
+                        string[] dic_ready = items[i].Split(',');
+                        if (dicTxt_info.ContainsKey(dic_ready[0].Substring(0, 12)))
+                        {
+                            dicTxt_info[dic_ready[0].Substring(0, 12)].Master_No = dic_ready[1];
+                            dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
+                            dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
+                        }
+                        else if (Dic_Load.ContainsKey(dic_ready[0].Substring(0, 12)))
+                        {
+
+                            Dic_Load[dic_ready[0].Substring(0, 12)].Master_NO = dic_ready[1];
+                            Dic_Load[dic_ready[0].Substring(0, 12)].X_Location = dic_ready[2];
+                            Dic_Load[dic_ready[0].Substring(0, 12)].Y_Location = dic_ready[3];
+                        }
+
                     }
-                    else if(Dic_Load.ContainsKey(dic_ready[0].Substring(0, 12)))
-                    {
-                       
-                        Dic_Load[dic_ready[0].Substring(0, 12)].Master_NO = dic_ready[1];
-                        Dic_Load[dic_ready[0].Substring(0, 12)].X_Location = dic_ready[2];
-                        Dic_Load[dic_ready[0].Substring(0, 12)].Y_Location = dic_ready[3];
-                    }
-                    
-                    
+
+
                 }
                 zip.Dispose();
             }
