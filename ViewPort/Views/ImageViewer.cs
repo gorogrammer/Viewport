@@ -714,14 +714,28 @@ namespace ViewPort.Views
             {
                 //Get_Delete_IMG();
                 Select_Pic_List.Clear();
+                
                 if (MessageBox.Show("선택한 이미지 List에서 제거 \r (※ 실제 파일에서 Image 삭제는 안함!!)", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     if (Main.Frame_View_CB.Checked)
                     {
+                        foreach (string pair in frame_dicInfo_Filter.Keys.ToList())
+                        {
+                            if (frame_dicInfo_Filter[pair].ReviewDefectName == "선택")
+                            {
+                                Select_Pic_List.Add(pair);
+                            }
+                            else
+                            {
+
+                            }
+                        }
+
                         for (int i = 0; i < Select_Pic_List.Count; i++)
                         {
                             if (frame_dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
                             {
+                                f12_del_list.Add(Select_Pic_List[i]);
                                 frame_dicInfo_Filter.Remove(Select_Pic_List[i]);
                             }
 
@@ -3518,6 +3532,7 @@ namespace ViewPort.Views
         public void ImageViewer_Clear()
         {
             Eq_cb_need_del.Clear();
+            F12_del_list.Clear();
         }
 
         public ImageViewer()

@@ -1412,7 +1412,22 @@ namespace ViewPort
             }
             if (checked_name.Count > 0)
             {
-                Equipment_DF_CLB.SelectedIndex = Equipment_DF_CLB.Items.IndexOf(Equipment_DF_CLB.CheckedItems[0].ToString());
+
+                for (int i = 0; i < checked_name.Count; i++)
+                {
+                    bool contain_ch = All_Equipment_DF_List.Any(c => c.Item1.Contains(checked_name[i]));
+                    if (contain_ch)
+                    {
+                        Equipment_DF_CLB.SelectedIndex = Equipment_DF_CLB.Items.IndexOf(Equipment_DF_CLB.CheckedItems[0].ToString());
+
+                        return;
+                    }
+                    else
+                    {
+
+                    }
+                }
+                
             }
                 
         }
