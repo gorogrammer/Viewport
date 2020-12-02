@@ -533,7 +533,7 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.G)
             {
-                Select_Pic_List.Clear();
+                //Select_Pic_List.Clear();
                 Change_state_List.Clear();
                 int index = ((Current_PageNum - 1) * (cols * rows));
                 Selected_Picture_Index.Clear();
@@ -2364,6 +2364,7 @@ namespace ViewPort.Views
 
         public void Filter_Frame_Set_IMG()
         {
+
             Current_Frame_PageNum = int.Parse(Main.Frame_S_TB.Text);
             string Current_ImageFrame = "";
             int S_ImageIndex = (cols * rows) * (Current_PageNum - 1);
@@ -2390,12 +2391,12 @@ namespace ViewPort.Views
                 }
                 //Main.Eq_filter = 0;
             }
-            if (Frame_Filter_check == 1)
+            if (Frame_Filter_check == 1 || Main.State_Filter ==1)
             {
                 Main.Frame_S_TB.Text = Main.Frame_S_TB.Text;
                 Main.Frame_E_TB.Text = Main.Frame_S_TB.Text;
                 Frame_List_Index = frame_List_Img.FindIndex(r => r.Equals(int.Parse(Main.Frame_S_TB.Text)));
-                Frame_Filter_check = 0;
+                //Frame_Filter_check = 0;
 
             }
             else
@@ -2408,11 +2409,15 @@ namespace ViewPort.Views
 
             foreach (KeyValuePair<string, ImageInfo> kvp in Main.DicInfo)
             {
-                if (kvp.Value.FrameNo == frame_List_Img[Frame_List_Index])
-                    if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
-                        continue;
-                    else
-                        frame_dicInfo_Filter.Add(kvp.Key, kvp.Value);
+                if(Frame_List_Index != -1)
+                {
+                    if (kvp.Value.FrameNo == frame_List_Img[Frame_List_Index])
+                        if (frame_dicInfo_Filter.ContainsKey(kvp.Key))
+                            continue;
+                        else
+                            frame_dicInfo_Filter.Add(kvp.Key, kvp.Value);
+                }
+              
 
             }
 
@@ -2423,7 +2428,25 @@ namespace ViewPort.Views
                 else
                     frame_dicInfo_Filter.Remove(pair);
             }
+            if (Main.Frame_View_CB.Checked)
+            {
 
+                if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) >= int.Parse(Main.Frame_E_Page_TB.Text))
+                {
+                    MessageBox.Show("마지막 페이지 입니다.");
+                }
+                else
+                {
+
+                    Current_PageNum = 1;
+                    Last_Picture_Selected_Index = -1;
+                    Current_Frame_PageNum = int.Parse(Main.Frame_S_TB.Text);
+                    Main.Frame_S_Page_TB.Text = Convert.ToString(frame_List_Img.FindIndex(r => r.Equals(Current_Frame_PageNum)) + 1);
+
+                 
+                }
+                //Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
+            }
         }
         public void Frame_Set_Image()
         {
@@ -2462,7 +2485,7 @@ namespace ViewPort.Views
             
             
 
-            if (Frame_Filter_check == 1)
+            if (Frame_Filter_check == 1 || Main.State_Filter ==1)
             {  
                     Main.Frame_S_TB.Text = Main.Frame_S_TB.Text;
                     Main.Frame_E_TB.Text = Main.Frame_S_TB.Text;

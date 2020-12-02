@@ -1410,12 +1410,15 @@ namespace ViewPort
                 else
                     Equipment_DF_CLB.SetItemChecked(i, false);
             }
+
+            
             if (checked_name.Count > 0)
             {
 
                 for (int i = 0; i < checked_name.Count; i++)
                 {
-                    bool contain_ch = All_Equipment_DF_List.Any(c => c.Item1.Contains(checked_name[i]));
+                    bool contain_ch = All_Equipment_DF_List.Any(c => c.Item1.Equals(checked_name[i]));
+                    
                     if (contain_ch)
                     {
                         Equipment_DF_CLB.SelectedIndex = Equipment_DF_CLB.Items.IndexOf(Equipment_DF_CLB.CheckedItems[0].ToString());
@@ -3203,10 +3206,20 @@ namespace ViewPort
 
                 if(ViewType == "FrameSetView" || ViewType == "DLFrameSetView")
                 {
+                    State_Filter = 1;
+                    Dictionary<string, ImageInfo> before_dic = new Dictionary<string, ImageInfo>(open.Frame_dicInfo_Filter);
                     open.Filter_Frame_Set_IMG();
                     Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(open.Frame_dicInfo_Filter);
-                    Dictionary<string, ImageInfo> before_dic = new Dictionary<string, ImageInfo>(open.Frame_dicInfo_Filter);
-                    State_Filter = 1;
+                    
+                    
+                    if(Filter_CheckEQ_Dic.Count == 0)
+                    {
+                        MessageBox.Show("해당 이미지가 없습니다.");
+                        
+                        State_Filter = 0;
+                        return;
+                    }
+                   
                     if (Camera_NO_Filter_TB.Text != "")
                     {
                         string[] Split_String = null;
@@ -3233,6 +3246,7 @@ namespace ViewPort
                         {
                             Filter_CheckEQ_Dic = before_dic;
                             MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                            
                             Camera_NO_Filter_TB.Text = "";
                         }
 
@@ -3263,6 +3277,7 @@ namespace ViewPort
                         {
                             textBox4.Text = string.Empty;
                             MessageBox.Show("양품 or 선택으로 입력.");
+                            
                             Filter_CheckEQ_Dic = before_dic;
                         }
                     }
@@ -3272,6 +3287,7 @@ namespace ViewPort
 
                     }
 
+               
                     open.Frame_dicInfo_Filter = Filter_CheckEQ_Dic;
                     open.Frame_Set_Image();
                     State_Filter = 0;
@@ -3309,6 +3325,7 @@ namespace ViewPort
                         {
                             Filter_CheckEQ_Dic = before_dic;
                             MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                            State_Filter = 0;
                             Camera_NO_Filter_TB.Text = "";
                         }
 
@@ -3343,6 +3360,7 @@ namespace ViewPort
                         {
                             textBox4.Text = string.Empty;
                             MessageBox.Show("양품 or 선택으로 입력.");
+                            State_Filter = 0;
                             Filter_CheckEQ_Dic = before_dic;
                         }
                     }
@@ -3362,6 +3380,7 @@ namespace ViewPort
                             Frame_S_TB.Text = "";
                             open.DicInfo_Filtered = Filter_CheckEQ_Dic;
                             open.Set_View();
+                            State_Filter = 0;
                             Print_List();
 
                             return;
@@ -3392,7 +3411,7 @@ namespace ViewPort
                             open.DicInfo_Filtered = Filter_CheckEQ_Dic;
                             open.Set_View();
                             Print_List();
-
+                            State_Filter = 0;
                             return;
                         }
 
