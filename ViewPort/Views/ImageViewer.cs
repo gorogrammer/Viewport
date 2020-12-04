@@ -486,8 +486,106 @@ namespace ViewPort.Views
 
 
             }
-
             else if (e.KeyCode == Keys.S)
+            {
+                if (MessageBox.Show("현재 이미지들을 파일로 저장 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    string fileName;
+
+                    string save_path = "";
+                    Bitmap tmp_Img = null;
+                    Dictionary<string, ImageInfo> copy_IMG = new Dictionary<string, ImageInfo>();
+                    FolderBrowserDialog dialog = new FolderBrowserDialog();
+                    dialog.ShowDialog();
+                    save_path = dialog.SelectedPath;
+
+                    if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
+                    {
+                        copy_IMG = new Dictionary<string, ImageInfo>(Frame_dicInfo_Filter);
+                    }
+                    else
+                    {
+                        copy_IMG = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
+                    }
+
+                    
+                    if(save_path != "")
+                    {
+                        List<int> frame_copy = new List<int>();
+                        foreach(string pair in copy_IMG.Keys.ToList())
+                        {
+                            if(frame_copy.Contains(copy_IMG[pair].FrameNo))
+                            { }
+                            else
+                            {
+                                frame_copy.Add(copy_IMG[pair].FrameNo);
+                            }
+                        }
+
+                        if (Main.ZipFilePath != "")
+                        {
+                            zip = ZipFile.Open(Main.ZipFilePath, ZipArchiveMode.Read);       // Zip파일(Lot) Load
+                            string Open_ZipName;
+                            ZipArchiveEntry sortzip;
+
+
+                            foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
+                            {
+                                Open_ZipName = entry.Name.Split('.')[0];
+                                if (Open_ZipName[0].Equals('R'))
+                                    Open_ZipName = Open_ZipName.Substring(1, Open_ZipName.Length - 1);
+
+                                if ( entry.Name.ToUpper().IndexOf(".ZIP") != -1 && frame_copy.Contains(int.Parse(entry.Name.ToString().Substring(0, 5))))
+                                {
+                                    MemoryStream subEntryMS = new MemoryStream();           // 2중 압축파일을 MemoryStream으로 읽는다.
+                                    entry.Open().CopyTo(subEntryMS);
+
+                                    ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
+
+
+                                    var sub =
+                                                        from ent in subZip.Entries
+                                                        orderby ent.Name
+                                                        select ent;
+
+
+                                    foreach (ZipArchiveEntry subEntry in sub)       // 2중 압축파일 내에 있는 파일을 탐색
+                                    {
+                                      
+                                        foreach(string pair in copy_IMG.Keys.ToList())
+                                        {
+                                            if (subEntry.Name.Equals(dicInfo_Filter[pair].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                                            {
+                                                tmp_Img = new Bitmap(subEntry.Open());
+
+                                                
+                                                
+                                                tmp_Img.Save(save_path +"\\" +copy_IMG[pair].Imagename + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                                                copy_IMG.Remove(pair);
+                                            }
+                                        }
+                                    
+                                       
+
+                                    }
+                                    subZip.Dispose();
+                                }
+                             
+                            }
+                            zip.Dispose();
+
+                        }
+                    }
+              
+                }
+                else
+                {
+
+                }
+
+            }
+            else if (e.KeyCode == Keys.T)
             {
                 if (MessageBox.Show("현재 삭제대기 정보를 저장하시겠습니까? \r 주의: Zip 파일의 이미지를 삭제 한 후에는 저장이 되지 않습니다", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
@@ -512,6 +610,7 @@ namespace ViewPort.Views
             {
                 string FileName = string.Empty;
                 FileName = Util.GetFileName();
+                Clipboard.SetText(FileName);
                 MessageBox.Show("Lot Name: "+FileName +"\r"+"위치: "+ Main.ZipFilePath, "알림");
 
             }

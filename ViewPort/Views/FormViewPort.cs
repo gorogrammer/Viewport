@@ -1144,6 +1144,30 @@ namespace ViewPort
 
 
         }
+        public Dictionary<string, ImageInfo> F5_Find_in_Dicinfo()
+        {
+            F9_code_dicInfo.Clear();
+            F10_code_dicInfo.Clear();
+            foreach (KeyValuePair<string, ImageInfo> pair in DicInfo)
+            {
+                if (F9_Frame_List_Main.Contains(pair.Value.FrameNo))
+                {
+                    if (!F9_code_dicInfo.ContainsKey(pair.Key))
+                        F9_code_dicInfo.Add(pair.Key, pair.Value);
+
+
+                }
+                else if (F10_Frame_List_Main.Contains(pair.Value.FrameNo))
+                {
+                    if (!F10_code_dicInfo.ContainsKey(pair.Key))
+                        F10_code_dicInfo.Add(pair.Key, pair.Value);
+
+
+                }
+
+            }
+            return F9_code_dicInfo;
+        }
         public Dictionary<string, ImageInfo> F9_Find_in_Dicinfo()
         {
             F9_code_dicInfo.Clear();
