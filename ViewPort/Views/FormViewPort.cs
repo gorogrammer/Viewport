@@ -1370,6 +1370,16 @@ namespace ViewPort
             int x = 1;
             int index = 0;
             Char[] sd = { '-' };
+            
+            foreach(string id in deleted_pic)
+            {
+                if(F5_code_dicInfo.ContainsKey(id))
+                {
+                    return;
+                
+                }
+            }
+
             for (int i = 0; i < deleted_pic.Count; i++)
             {
                 if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(dicInfo[deleted_pic[i]].EquipmentDefectName)) == -1)

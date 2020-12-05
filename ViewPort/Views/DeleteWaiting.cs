@@ -876,7 +876,7 @@ namespace ViewPort.Views
         {
             Get_Delete_IMG();
             
-
+            
             if(Main.ViewType == "Code_200_SetView")
             {
                 for (int i = 0; i < Select_Pic.Count; i++)
