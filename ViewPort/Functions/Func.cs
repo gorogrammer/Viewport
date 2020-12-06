@@ -407,7 +407,7 @@ namespace ViewPort.Functions
 
         public static void SaveDelFileID(Dictionary<string, ImageInfo> Waiting_Del,List<string> listdel)
         {
-
+            
             string txtFilePath = string.Empty;
             if(Waiting_Del.Count > 0)
             {

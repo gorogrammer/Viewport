@@ -1172,6 +1172,18 @@ namespace ViewPort.Views
                     Select_Pic_List.Add(key);
                     dicInfo_Filter.Remove(key);
                 }
+                else if(Main.Real_SDIP_200_DIc.Keys.ToList().Contains(key))
+                {
+                    if(Main.Sdip_200_code_dicInfo.Keys.ToList().Contains(key))
+                    {
+                        Main.Sdip_200_code_dicInfo.Remove(key);
+                    }
+                }
+                else if(Main.F5_code_dicInfo.Keys.ToList().Contains(key))
+                {
+
+                }
+                
             }
 
             if(Main.F12_del_list_main.Count>0)
@@ -1210,6 +1222,7 @@ namespace ViewPort.Views
         }
         public void Get_Delete_IMG()
         {
+            dicInfo_Delete.Clear();
             if (Main.Frame_View_CB.Checked)
             {
                 for (int p = 0; p < Select_Pic_List.Count; p++)
@@ -1237,7 +1250,17 @@ namespace ViewPort.Views
                 }
             }
 
-            Main.Waiting_Del = dicInfo_Delete;
+            foreach(string pair in dicInfo_Delete.Keys.ToList())
+            {
+                if(Main.Waiting_Del.ContainsKey(pair))
+                { }
+                else
+                {
+                    Main.Waiting_Del.Add(pair, dicInfo_Delete[pair]);
+                }
+            }
+
+            
         }
 
         private void ImageViewer_PL_MouseDown(object sender, MouseEventArgs e)
@@ -1764,27 +1787,27 @@ namespace ViewPort.Views
             DicInfo_Filtered = Sorted_dic;
             Eq_cb_need_del = Main.selected_Pic;
 
-            if (Main.Camera_NO_Filter_TB.Text != "")
-            {
-                string[] Split_String = null;
-                Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
-                bool Target = false;
+            //if (Main.Camera_NO_Filter_TB.Text != "")
+            //{
+            //    string[] Split_String = null;
+            //    Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
+            //    bool Target = false;
 
-                foreach (string No in DicInfo_Filtered.Keys.ToList())
-                {
-                    if (DicInfo_Filtered.ContainsKey(No))
-                    {
-                        if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
-                        {
-                            continue;
-                        }
-                        else
-                            DicInfo_Filtered.Remove(No);
-                    }
+            //    foreach (string No in DicInfo_Filtered.Keys.ToList())
+            //    {
+            //        if (DicInfo_Filtered.ContainsKey(No))
+            //        {
+            //            if (Split_String.Contains(DicInfo_Filtered[No].CameraNo.ToString()))
+            //            {
+            //                continue;
+            //            }
+            //            else
+            //                DicInfo_Filtered.Remove(No);
+            //        }
 
-                }
+            //    }
 
-            }
+            //}
             cols = int.Parse(Main.Cols_TB.Text);
             rows = int.Parse(Main.Rows_TB.Text);
             width = int.Parse(Main.Width_TB.Text);
@@ -2317,6 +2340,8 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
+            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            DicInfo_Filtered = Sorted_dic;
             if (imglist.Count > 0)
                 imglist.Clear();
 

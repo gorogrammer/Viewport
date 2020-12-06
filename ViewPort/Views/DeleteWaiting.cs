@@ -890,6 +890,7 @@ namespace ViewPort.Views
                         //Main.selected_Pic.Add(Select_Pic[i]);
                         dicInfo_Filter_Del.Remove(Select_Pic[i]);
                         Main_Dic.Remove(Select_Pic[i]);
+                        Main.Waiting_Del.Remove(Select_Pic[i]);
                     }
 
 
@@ -902,18 +903,35 @@ namespace ViewPort.Views
                 {
                     if (Main_Dic.ContainsKey(Select_Pic[i]))
                     {
-                        Main_Dic[Select_Pic[i]].ReviewDefectName = "양품";
-                        Main_Dic[Select_Pic[i]].DeleteCheck = "0";
-                        Main.DicInfo[Select_Pic[i]] = Main_Dic[Select_Pic[i]];
-
-                        //Main.selected_Pic.Add(Select_Pic[i]);
-                        if(dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
+                        if(Main.F5_code_dicInfo.Keys.ToList().Contains(Select_Pic[i]))
                         {
-                            dicInfo_Filter_Del.Remove(Select_Pic[i]);
+                            
+                            Main.F5_code_dicInfo[Select_Pic[i]].ReviewDefectName = "양품";
+                            Main.F5_code_dicInfo[Select_Pic[i]].DeleteCheck = "0";
+                            if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
+                            {
+                                dicInfo_Filter_Del.Remove(Select_Pic[i]);
+                            }
+
+                            Main_Dic.Remove(Select_Pic[i]);
+                            Main.Waiting_Del.Remove(Select_Pic[i]);
                         }
-                     
-                        Main_Dic.Remove(Select_Pic[i]);
-                        Main.Waiting_Del.Remove(Select_Pic[i]);
+                        else
+                        {
+                            Main_Dic[Select_Pic[i]].ReviewDefectName = "양품";
+                            Main_Dic[Select_Pic[i]].DeleteCheck = "0";
+                            Main.DicInfo[Select_Pic[i]] = Main_Dic[Select_Pic[i]];
+
+                            //Main.selected_Pic.Add(Select_Pic[i]);
+                            if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
+                            {
+                                dicInfo_Filter_Del.Remove(Select_Pic[i]);
+                            }
+
+                            Main_Dic.Remove(Select_Pic[i]);
+                            Main.Waiting_Del.Remove(Select_Pic[i]);
+                        }
+                      
                     }
 
 
