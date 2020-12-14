@@ -46,6 +46,7 @@ namespace ViewPort.Views
         private Dictionary<string, ImageInfo> sdip_200_code_dicInfo;
         private Dictionary<string, ImageInfo> sdip_no1_dicload;
         private Dictionary<string, ImageInfo> Sorted_dic_GRID;
+        private string betweenEA;
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }
 
         public Dictionary<string, ImageInfo> F5_code_dicInfo_Loading { get => f5_code_dicInfo_Loading; set => f5_code_dicInfo_Loading = value; }
@@ -57,8 +58,8 @@ namespace ViewPort.Views
         public List<string> Ignore_map_List { get => ignore_map_List; set => ignore_map_List = value; }
 
         public string[] Final_text { get => final_text; set => final_text = value; }
-
         public List<string> Sdip_no_200 { get => sdip_no_200; set => sdip_no_200 = value; }
+        public string BetweenEA { get => betweenEA; set => betweenEA = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
         public List<int> Map_List { get => map_List; set => map_List = value; }
         public List<string> Map_List_Compare { get => map_List_Compare; set => map_List_Compare = value; }
@@ -166,7 +167,7 @@ namespace ViewPort.Views
         {
             dic_Load = new Dictionary<string, ImageInfo>();
             dicTxt_info = new Dictionary<string, txtInfo>();
-
+            betweenEA = string.Empty;
             All_LotID_List = new List<string>();
             All_Equipment_DF_List = new List<Tuple<string, int>>();
             All_VerifyDF_List = new List<string>();
@@ -704,6 +705,7 @@ namespace ViewPort.Views
                         
                     else if (i > index && items[i].Length <= 9 && items[i].Length > 5)
                     {
+                       
                         Map_List_Compare.Add(items[i]);
                         if(items[i].Contains("E@"))
                         {
@@ -713,6 +715,20 @@ namespace ViewPort.Views
                         }
                         else
                             Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                    }
+                    else if(items[i].Contains("E"))
+                    {
+                        
+                        int value = 0;
+                        string[] change = items[i].Split('E');
+                        if(int.TryParse(change[0], out value))
+                        {
+                            betweenEA = string.Empty;
+                            betweenEA = "E" + change[1];
+                            items[i] = change[0];
+                            Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                        }
+                        
                     }
                         
 
@@ -725,6 +741,7 @@ namespace ViewPort.Views
                 }
                 zip.Dispose();
 
+                main.Between = betweenEA;
                 main.Map_List_Dic_main = Map_List_Dic;
                 main.Map_List_Dic_Compare_main = Map_List_Dic_Compare;
                 main.Final_text_main = Final_text[1];

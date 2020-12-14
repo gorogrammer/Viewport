@@ -68,39 +68,75 @@ namespace ViewPort.Functions
 
           try
             {
-                zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);       // Zip파일(Lot) Load
-
-                foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
+                //zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);       // Zip파일(Lot) Load
+                using(zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
                 {
-                    
-                    if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && del_frame_List.Contains(int.Parse(entry.Name.Substring(0,5))))             // Zip파일 내에 Zip파일이 있을 경우...
-                    {   
-                        
+                    foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
+                    {
 
-                        subEntryMS = entry.Open();           // 2중 압축파일을 MemoryStream으로 읽는다.
-                        subZip = new ZipArchive(subEntryMS, ZipArchiveMode.Update);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
-                        
-                        for(int i = 0; i < subZip.Entries.Count; i++ )
+                        if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 && del_frame_List.Contains(int.Parse(entry.Name.Substring(0, 5))))             // Zip파일 내에 Zip파일이 있을 경우...
                         {
-                            if (dicInfo_del.ContainsKey(subZip.Entries[i].Name.Substring(0, 12)))
+
+
+                            subEntryMS = entry.Open();           // 2중 압축파일을 MemoryStream으로 읽는다.
+                                                                 // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
+
+                            using (subZip = new ZipArchive(subEntryMS, ZipArchiveMode.Update))
                             {
-                                ZipArchiveEntry del_entry = subZip.GetEntry(subZip.Entries[i].Name);
-                                del_entry.Delete();
-                                dl_no++;
-                                i--;
+                                //for (int i = 0; i < subZip.Entries.Count; i++)
+                                //{
+                                //    if (dicInfo_del.ContainsKey(subZip.Entries[i].Name.Substring(0, 12)))
+                                //    {
+
+                                //        ZipArchiveEntry del_entry = subZip.GetEntry(subZip.Entries[i].Name);
+                                //        del_entry.Delete();
+                                //        dl_no++;
+                                //        i--;
+                                //    }
+
+
+                                //}
+
+                                foreach(var item in subZip.Entries.ToList())
+                                {
+                                    if(dicInfo_del.ContainsKey(item.Name.Substring(0,12)))
+                                    {
+                                        item.Delete();
+                                        dl_no++;
+                                    
+                                    }
+                                }
+
+                                subZip.Dispose();
                             }
 
-                            
-                        }
+                             
 
-                        subZip.Dispose();
-                       
+                        }
+                        if (dl_no == dicInfo_del.Count)
+                        {
+                            zip = null;
+                            return;
+                        }
+                           
                     }
-                    if (dl_no == dicInfo_del.Count)
-                        break;
+
+                    
                 }
 
-                ((IDisposable)zip).Dispose();
+                //using (FileStream zipToOpen = new FileStream(FilePath, FileMode.Open))
+                //{
+                //    using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
+                //    {
+                //       foreach(var item in archive.Entries.OrderBy(x => x.Name))
+                //        {
+                //            if(del_frame_List.Contains(int.Parse(item.Name.Split('.')[0])))
+                //            {
+
+                //            }
+                //        }
+                //    }
+                //}
 
             }
             catch (System.Exception ex)
@@ -141,7 +177,7 @@ namespace ViewPort.Functions
             }
             
         }
-        public static void Map_TXT_Update_inZip(string FilePath, Dictionary<int, int> No_Counting, Dictionary<int, int> Front, Dictionary<int, int> Back)
+        public static void Map_TXT_Update_inZip(string FilePath, Dictionary<int, int> No_Counting, Dictionary<int, int> Front, Dictionary<int, int> Back, string bt)
         {
 
             ///////////////////////////
@@ -159,12 +195,26 @@ namespace ViewPort.Functions
                 string text = SR.ReadToEnd();
                 SR.Close();
                 char[] df = { '@' };
+                string[] Final = null;
 
+                string Final_Text = string.Empty;
                 string[] items = text.Split(' ', '!');
                 var items_List = items.ToList();
-                string[] Final = text.Split(df);
 
-                string Final_Text = "E@" + Final[1];
+                if(bt != string.Empty)
+                {
+                    Final = text.Split(df);
+
+                    Final_Text = bt + Final[1];
+                }
+                else
+                {
+                    Final = text.Split(df);
+
+                    Final_Text = "E@" + Final[1];
+
+                }
+                
 
                 string Start_Text = items[0].Substring(0, 3);
                 string Frame_Count = items[0].Substring(3, 440);
@@ -245,6 +295,7 @@ namespace ViewPort.Functions
 
                 foreach (int pair in Back.Keys.ToList())
                 {
+                   
 
                     if (Back[pair] < 10)
                     {
