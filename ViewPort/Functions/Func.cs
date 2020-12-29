@@ -53,7 +53,11 @@ namespace ViewPort.Functions
             ZipArchive zip, subZip;
             Stream subEntryMS;
             int dl_no = 0;
-            foreach(string name in dicInfo_del.Keys.ToList())
+            Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
+            Sorted_dic = dicInfo_del.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            dicInfo_del = Sorted_dic;
+
+            foreach (string name in dicInfo_del.Keys.ToList())
             {
                 if (del_frame_List.Contains(dicInfo_del[name].FrameNo))
                 {
@@ -97,7 +101,7 @@ namespace ViewPort.Functions
 
                                 //}
 
-                                foreach(var item in subZip.Entries.ToList())
+                                foreach(var item in subZip.Entries.ToList().OrderBy(x => x.Name))
                                 {
                                     if(dicInfo_del.ContainsKey(item.Name.Substring(0,12)))
                                     {

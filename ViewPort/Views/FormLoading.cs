@@ -41,6 +41,9 @@ namespace ViewPort.Views
         private List<int> f10_Frame_List;
         private List<string> f5_dic_Load;
         private List<string> sdip_no_200;
+
+        private List<string> overlap_key;
+
         private string[] final_text;
         private Dictionary<string, ImageInfo> f5_code_dicInfo_Loading;
         private Dictionary<string, ImageInfo> sdip_200_code_dicInfo;
@@ -56,6 +59,7 @@ namespace ViewPort.Views
         public Dictionary<string, txtInfo> DicTxt_info { get => dicTxt_info; set => dicTxt_info = value; }
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> Ignore_map_List { get => ignore_map_List; set => ignore_map_List = value; }
+        public List<string> Overlap_key { get => overlap_key; set => overlap_key = value; }
 
         public string[] Final_text { get => final_text; set => final_text = value; }
         public List<string> Sdip_no_200 { get => sdip_no_200; set => sdip_no_200 = value; }
@@ -190,6 +194,7 @@ namespace ViewPort.Views
             sdip_no1_dicload = new Dictionary<string, ImageInfo>();
             Sdip_no_200 = new List<string>();
             Sorted_dic_GRID = new Dictionary<string, ImageInfo>();
+            Overlap_key = new List<string>();
 
             this.Opacity = 0.9;
 
@@ -234,7 +239,7 @@ namespace ViewPort.Views
             Contain_200_Frame_List.Clear();
             F9_Frame_List.Clear();
             ImageSizeList.Clear();
-            
+            Overlap_key.Clear();
             F10_Frame_List.Clear();
             F5_dic_Load.Clear();
             F5_code_dicInfo_Loading.Clear();
@@ -386,8 +391,16 @@ namespace ViewPort.Views
 
                             }
 
-
-                            Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "0", "양품", "O", "0", "0", ImageSize, "", "0"));
+                            if(Dic_Load.ContainsKey(File_ID))
+                            {
+                                Overlap_key.Add(FileName);
+                            }
+                            else
+                            {
+                                Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "0", "양품", "O", "0", "0", ImageSize, "", "0"));
+                            }
+                           
+                            
                         }
                     }
                     else

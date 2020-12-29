@@ -48,6 +48,7 @@ namespace ViewPort
         List<int> final_Frame_List = new List<int>();
         List<int> sdip_200_frame = new List<int>();
         List<string> f12_del_list_main = new List<string>();
+        List<string> overlap_key_Main = new List<string>();
         string between = string.Empty;
         int state_filter = 0;
         int curruent_viewtype = 0;
@@ -69,6 +70,7 @@ namespace ViewPort
         //List<ImageListInfo> FilterList = new List<ImageListInfo>();
 
         List<string> list_Filter_Main = new List<string>();
+
         List<string> All_LotID_List = new List<string>();
         Dictionary<string, string> sdip_result_dic = new Dictionary<string, string>();
         List<string> All_VerifyDF_List = new List<string>();
@@ -157,6 +159,8 @@ namespace ViewPort
         public List<int> F10_Frame_List_Main { get => f10_Frame_List_Main; set => f10_Frame_List_Main = value; }
 
         public List<string> F5_Img_KeyList_Main { get => f5_Img_KeyList; set => f5_Img_KeyList = value; }
+
+        public List<string> Overlap_key_Main { get => overlap_key_Main; set => overlap_key_Main = value; }
 
 
         public List<int> mAP_LIST { get => MAP_LIST; set => MAP_LIST = value; }
@@ -1198,10 +1202,13 @@ namespace ViewPort
                         Dl_Apply_List_Main = formLoading.Dl_Apply_List;
                         Dl_NotApply_List_Main = formLoading.Dl_NOt_Apply_List;
                         ImageSizeList = formLoading.ImageSizeList;
+                        Overlap_key_Main = formLoading.Overlap_key;
 
                         Sdip_NO1_dicInfo = formLoading.Sdip_no1_dicload;
 
                         dataGridView1.DataSource = formLoading.Dt;
+
+
 
 
 
@@ -1398,6 +1405,20 @@ namespace ViewPort
 
                     Select_All_BTN_Click(null, null);
                     MessageBox.Show(MSG_STR.SUCCESS);
+
+                    if (Overlap_key_Main.Count > 0)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        foreach(string key in Overlap_key_Main)
+                        {
+                            sb.Append(key).Append("\n");
+                        }
+                        Clipboard.SetText(sb.ToString());
+                        MessageBox.Show("아래의 키는 중복되어 리스트에 제외 되었습니다" +"\n" + "\n" +sb.ToString()+"\n"+"클립보드에 저장되었습니다.");
+
+                        
+
+                    }
 
                     open.Main = this;
                     open.Set_View();
