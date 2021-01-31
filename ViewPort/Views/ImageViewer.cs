@@ -174,7 +174,7 @@ namespace ViewPort.Views
             {
                 if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) <= 1)
                 {
-                    MessageBox.Show("첫 페이지 입니다.");
+                    //MessageBox.Show("첫 페이지 입니다.");
                 }
                 else
                 {
@@ -272,7 +272,7 @@ namespace ViewPort.Views
                     e.Handled = true;
                     if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) <= 1)
                     {
-                        MessageBox.Show("첫 페이지 입니다.");
+                        //MessageBox.Show("첫 페이지 입니다.");
                     }
                     else
                     {
@@ -301,7 +301,7 @@ namespace ViewPort.Views
                     e.Handled = true;
                     if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) >= int.Parse(Main.Frame_E_Page_TB.Text))
                     {
-                        MessageBox.Show("마지막 페이지 입니다.");
+                       // MessageBox.Show("마지막 페이지 입니다.");
                     }
                     else
                     {
@@ -770,15 +770,23 @@ namespace ViewPort.Views
 
                 if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
                 {
-                    xyFilter.DicInfo_XY_filter = frame_dicInfo_Filter;
+                    xyFilter.DicInfo_XY_filter = new Dictionary<string, ImageInfo>(frame_dicInfo_Filter);
                 }
                 else
                 {
-                    xyFilter.DicInfo_XY_filter = DicInfo_Filtered;
+                    if(Main.Sdip_200_code_dicInfo.ContainsKey(DicInfo_Filtered.ElementAt(0).Key))
+                    {
+                        xyFilter.DicInfo_XY_filter = new Dictionary<string, ImageInfo>(Main.Sdip_200_code_dicInfo);
+                    }
+                    else
+                    {
+                        xyFilter.DicInfo_XY_filter = new Dictionary<string,ImageInfo>(Main.DicInfo);
+                    }
+                    
                 }
 
                 xyFilter.Set_XY_TB();
-                xyFilter.ShowDialog();
+                xyFilter.ShowDialog();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
             }
 
@@ -1133,7 +1141,7 @@ namespace ViewPort.Views
                 e.Handled = true;
                 if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) >= int.Parse(Main.E_Page_TB.Text))
                 {
-                    MessageBox.Show("마지막 페이지 입니다.");
+                   // MessageBox.Show("마지막 페이지 입니다.");
                 }
                 else
                 {
@@ -2340,14 +2348,30 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
-            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            DicInfo_Filtered = Sorted_dic;
+            //Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            //DicInfo_Filtered = Sorted_dic;
+
+            var list = DicInfo_Filtered.Keys.ToList();
+            list.OrderBy(x => x);
+
             if (imglist.Count > 0)
                 imglist.Clear();
 
-            imglist = dicInfo_Filter.Keys.ToList();
+            
 
-            if (dicInfo_Filter.Count <= 0)
+            //if (dicInfo_Filter.Count <= 0)
+            //{
+            //    for (int i = 0; i < PictureData.Count; i++)
+            //    {
+            //        if (PictureData.ElementAt(i).Image != null)
+            //        {
+            //            PictureData.ElementAt(i).Image.Dispose();
+            //            PictureData.ElementAt(i).Image = null;
+            //        }
+            //    }
+            //}
+
+            if (list.Count <= 0)
             {
                 for (int i = 0; i < PictureData.Count; i++)
                 {
@@ -2359,8 +2383,11 @@ namespace ViewPort.Views
                 }
             }
 
-            if (dicInfo_Filter.Count - ((cols * rows) * Current_PageNum) < 0)
-                EachPage_ImageNum += dicInfo_Filter.Count - ((cols * rows) * Current_PageNum);
+            //if (dicInfo_Filter.Count - ((cols * rows) * Current_PageNum) < 0)
+            //    EachPage_ImageNum += dicInfo_Filter.Count - ((cols * rows) * Current_PageNum);
+
+            if (list.Count - ((cols * rows) * Current_PageNum) < 0)
+                EachPage_ImageNum += list.Count - ((cols * rows) * Current_PageNum);
 
             if (Print_Frame.Count > 0)
             {
@@ -2368,13 +2395,23 @@ namespace ViewPort.Views
                 Print_Frame = new List<string>();
             }
 
+            //for (int i = 0; i < EachPage_ImageNum; i++)
+            //{
+            //    Current_ImageFrame = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + i).Substring(1, 5);
+
+            //    if (!Print_Frame.Contains(Current_ImageFrame))
+            //        Print_Frame.Add(Current_ImageFrame);
+            //}
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
-                Current_ImageFrame = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + i).Substring(1, 5);
+               
+                Current_ImageFrame = list[S_ImageIndex + i].Substring(1, 5);
+
 
                 if (!Print_Frame.Contains(Current_ImageFrame))
                     Print_Frame.Add(Current_ImageFrame);
             }
+
             Print_Frame.Sort();
 
 
@@ -2407,13 +2444,16 @@ namespace ViewPort.Views
 
                         foreach (ZipArchiveEntry subEntry in sub)       // 2중 압축파일 내에 있는 파일을 탐색
                         {
-                            if (dicInfo_Filter.ContainsKey(subEntry.Name.Substring(0, 12)))
-                            {
+                            //if (dicInfo_Filter.ContainsKey(subEntry.Name.Substring(0, 12)))
+                            //{
 
-                            }
+                            //}
+
+
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
-                            if (subEntry.Name.Equals(dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                            //if (subEntry.Name.Equals(dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                            if (subEntry.Name.Contains(list[S_ImageIndex + Current_Index] ))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
                             {
                                 tmp_Img = new Bitmap(subEntry.Open());
 
@@ -2446,14 +2486,20 @@ namespace ViewPort.Views
                                 }
 
                                 PictureData.ElementAt(Current_Index).Image = tmp_Img;
-                                PictureData.ElementAt(Current_Index).Name = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
+                                //PictureData.ElementAt(Current_Index).Name = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
+                                PictureData.ElementAt(Current_Index).Name = list[S_ImageIndex + Current_Index];
 
                                 Current_Index++;
                             }
 
                             if (Current_Index >= EachPage_ImageNum)
                                 break;
-                            if (!dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index).Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
+                            //if (!dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index).Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
+                            //{
+                            //    PF_index++;
+                            //    break;
+                            //}
+                            if (!list[S_ImageIndex + Current_Index].Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
                             {
                                 PF_index++;
                                 break;
@@ -2557,7 +2603,7 @@ namespace ViewPort.Views
 
                 if (Main.Frame_S_Page_TB.Text == "" || int.Parse(Main.Frame_S_Page_TB.Text) >= int.Parse(Main.Frame_E_Page_TB.Text))
                 {
-                    MessageBox.Show("마지막 페이지 입니다.");
+                    //MessageBox.Show("마지막 페이지 입니다.");
                 }
                 else
                 {
@@ -2690,8 +2736,8 @@ namespace ViewPort.Views
                 }
             }
 
-            Sorted_dic = Frame_dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            Frame_dicInfo_Filter = Sorted_dic;
+            //Sorted_dic = Frame_dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            //Frame_dicInfo_Filter = Sorted_dic;
 
             //var Sorted_frame_dic =
             //                                    from ent in frame_dicInfo_Filter

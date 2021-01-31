@@ -41,7 +41,7 @@ namespace ViewPort.Views
         private List<int> f10_Frame_List;
         private List<string> f5_dic_Load;
         private List<string> sdip_no_200;
-
+        private bool zip_Error;
         private List<string> overlap_key;
 
         private string[] final_text;
@@ -60,7 +60,7 @@ namespace ViewPort.Views
         public List<string> All_LotID_List { get => all_LotID_List; set => all_LotID_List = value; }
         public List<string> Ignore_map_List { get => ignore_map_List; set => ignore_map_List = value; }
         public List<string> Overlap_key { get => overlap_key; set => overlap_key = value; }
-
+        public bool Zip_Error { get => zip_Error; set => zip_Error = value; }
         public string[] Final_text { get => final_text; set => final_text = value; }
         public List<string> Sdip_no_200 { get => sdip_no_200; set => sdip_no_200 = value; }
         public string BetweenEA { get => betweenEA; set => betweenEA = value; }
@@ -147,6 +147,10 @@ namespace ViewPort.Views
             {
                 this.Invoke(new Action(() => this.Close()));
             }
+            else if(zip_Error)
+            {
+                this.Close();
+            }
             else
             {
                 this.Close();
@@ -169,6 +173,7 @@ namespace ViewPort.Views
 
         public FormLoading(string path, FormViewPort parent)
         {
+            zip_Error = false;
             dic_Load = new Dictionary<string, ImageInfo>();
             dicTxt_info = new Dictionary<string, txtInfo>();
             betweenEA = string.Empty;
@@ -223,7 +228,7 @@ namespace ViewPort.Views
         {
             dic_Load.Clear();
             dicTxt_info.Clear();
-
+            zip_Error = false;
             All_LotID_List.Clear();
             All_Equipment_DF_List.Clear();
             All_VerifyDF_List.Clear();
@@ -257,6 +262,14 @@ namespace ViewPort.Views
             All_clear();
             //Load_Old_Map_TxtAsync(FilePath);
             Load_Map_TxtAsync(FilePath);
+            if(zip_Error)
+            {
+                FormViewPort test = new FormViewPort();
+                ExitProgressBarSafe();
+                test.zipLoadFileToolStripMenuItem_Click(null, null);
+
+                return;
+            }
             Load_DL_TxtAsync(FilePath);
             LoadTxtAsync(FilePath);
 
@@ -276,28 +289,49 @@ namespace ViewPort.Views
                         else
                             Frame_List.Add(int.Parse(entry.Name.Substring(0, 5)));
                     }
+                    if(!zip_Error)
+                        LoadSubZipAsync(LotName, entry);
+                    else
+                    {
+                        
+                        zip.Dispose();
+                        ExitProgressBarSafe();
 
-                    LoadSubZipAsync(LotName, entry);
+                        return;
+                    }
                    
                 }
 
                 zip.Dispose();
             }
+            if (zip_Error)
+            {
+                FormViewPort test = new FormViewPort();
+                ExitProgressBarSafe();
+                test.zipLoadFileToolStripMenuItem_Click(null, null);
+                
+            }
+            else
+            {
+                EditFormNameSafe(MSG_STR.LOAD_SDIP_TXT);
 
-            EditFormNameSafe(MSG_STR.LOAD_SDIP_TXT);
-            
 
-            Load_XY_TxtAsync(FilePath);
-            
+                Load_XY_TxtAsync(FilePath);
 
-            EditFormNameSafe(MSG_STR.LOAD_ROWS);
-            //Filtering();
 
-            IMG_TXT_combine();
-            MakeDataTables();
+                EditFormNameSafe(MSG_STR.LOAD_ROWS);
+                //Filtering();
 
-            //this.Close();
-            ExitProgressBarSafe();
+                IMG_TXT_combine();
+                MakeDataTables();
+
+                //this.Close();
+                ExitProgressBarSafe();
+            }
+
+
+        
+          
         }
 
         private void LoadSubZipAsync(string LotName, ZipArchiveEntry entry)
@@ -320,9 +354,20 @@ namespace ViewPort.Views
             //    }
             //}
 
-
             Stream subEntryMS = entry.Open();
-            ZipArchive subZip = new ZipArchive(subEntryMS);
+            ZipArchive subZip = null;
+            try
+            {
+                
+                subZip = new ZipArchive(subEntryMS);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(entry.Name + " 압축파일에 문제가 있습니다. 확인 부탁드립니다.");
+                zip_Error = true;
+                return;
+            }
+            
 
             
             foreach (ZipArchiveEntry subEntry in subZip.Entries)        // 2중 압축파일 내에 있는 파일을 탐색
@@ -588,10 +633,14 @@ namespace ViewPort.Views
                 for(int p = 2; p < Dl_List.Count-1; p++)
                 {
                     string[] split_string = Dl_List[p].Split(',', '%', ' ');
-                    if (double.Parse(split_string[6]) < double.Parse(split_string[8]))
-                        Dl_Apply_List.Add(split_string[0]);
-                    else
-                        Dl_NOt_Apply_List.Add(split_string[0]);
+                    if(split_string[0] != "New" && split_string.Length > 2)
+                    {
+                        if (double.Parse(split_string[6]) < double.Parse(split_string[8]))
+                            Dl_Apply_List.Add(split_string[0]);
+                        else
+                            Dl_NOt_Apply_List.Add(split_string[0]);
+                    }
+                  
                     
                 }
 
@@ -708,42 +757,55 @@ namespace ViewPort.Views
                 int index = items_List.IndexOf("");
 
 
+
+
                 for (int i = 0; i < items.Length; i++)
                 {
-                    if (i < index && items[i].Length <= 9 && items[i].Length > 5)
+
+                    try
                     {
-                        
-                        map_List_Dic.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
-                    }
-                        
-                    else if (i > index && items[i].Length <= 9 && items[i].Length > 5)
-                    {
-                       
-                        Map_List_Compare.Add(items[i]);
-                        if(items[i].Contains("E@"))
+
+                        if (i < index && items[i].Length <= 9 && items[i].Length > 5)
                         {
-                            string change = items[i].Replace("E@", "");
-                            items[i] = change;
-                            Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+
+                            map_List_Dic.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
                         }
-                        else
-                            Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
-                    }
-                    else if(items[i].Contains("E"))
-                    {
-                        
-                        int value = 0;
-                        string[] change = items[i].Split('E');
-                        if(int.TryParse(change[0], out value))
+
+                        else if (i > index && items[i].Length <= 9 && items[i].Length > 5)
                         {
-                            betweenEA = string.Empty;
-                            betweenEA = "E" + change[1];
-                            items[i] = change[0];
-                            Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+
+                            Map_List_Compare.Add(items[i]);
+                            if (items[i].Contains("E@"))
+                            {
+                                string change = items[i].Replace("E@", "");
+                                items[i] = change;
+                                Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                            }
+                            else
+                                Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
                         }
-                        
+                        else if (items[i].Contains("E"))
+                        {
+
+                            int value = 0;
+                            string[] change = items[i].Split('E');
+                            if (int.TryParse(change[0], out value))
+                            {
+                                betweenEA = string.Empty;
+                                betweenEA = "E" + change[1];
+                                items[i] = change[0];
+                                Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                            }
+
+                        }
                     }
-                        
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("MAP TXT에 오류가 있습니다. 확인 부탁드립니다.");
+                        zip_Error = true;
+                        return;
+                    }
+
 
                 }
                 if(Map_List_Compare[Map_List_Compare.Count-1].Contains("E@"))

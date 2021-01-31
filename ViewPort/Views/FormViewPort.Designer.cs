@@ -103,6 +103,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.iMGTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mAPTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.versionNo = new MetroFramework.Controls.MetroLabel();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -490,7 +491,6 @@
             // 
             this.splitContainer1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(10, 84);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(1);
             this.splitContainer1.Name = "splitContainer1";
@@ -927,11 +927,20 @@
             this.mAPTXTUpdateToolStripMenuItem.Name = "mAPTXTUpdateToolStripMenuItem";
             this.mAPTXTUpdateToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
             // 
+            // versionNo
+            // 
+            this.versionNo.AutoSize = true;
+            this.versionNo.Location = new System.Drawing.Point(189, 29);
+            this.versionNo.Name = "versionNo";
+            this.versionNo.Size = new System.Drawing.Size(0, 0);
+            this.versionNo.TabIndex = 4;
+            // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1805, 883);
+            this.Controls.Add(this.versionNo);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1046,6 +1055,7 @@
         private System.Windows.Forms.ToolStripMenuItem listFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem frameListFilerToolStripMenuItem;
         public System.Windows.Forms.CheckBox Frame_Interval_CB;
+        private MetroFramework.Controls.MetroLabel versionNo;
     }
 }
 

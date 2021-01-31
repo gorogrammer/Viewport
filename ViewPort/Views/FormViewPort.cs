@@ -25,6 +25,7 @@ namespace ViewPort
     {
         #region MEMBER VARIABLES
 
+        bool Zip_Error = false;
         ImageViewer open = new ImageViewer();
         LoadingGIF_Func waitform = new LoadingGIF_Func();
         Dictionary<string, ImageInfo> eq_CB_dicInfo = new Dictionary<string, ImageInfo>();
@@ -200,8 +201,15 @@ namespace ViewPort
 
             Init();
             InitialData();
+            Assembly assemObj = Assembly.GetExecutingAssembly();
+            Version v = assemObj.GetName().Version; // 현재 실행되는 어셈블리..dll의 버전 가져오기
 
+            int majorV = v.Major; // 주버전
+            int minorV = v.Minor; // 부버전
+            int buildV = v.Build; // 빌드번호
+            int revisionV = v.Revision; // 수정번호
 
+            versionNo.Text = "Version" + " "+ revisionV.ToString();
 
         }
 
@@ -244,6 +252,8 @@ namespace ViewPort
             Rotate_CLB.Items.Add("270˚");
             Rotate_CLB.SelectedIndex = 1;
 
+            typeof(DataGridView).InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, dataGridView1, new object[] { true });
+            typeof(DataGridView).InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, dataGridView2, new object[] { true });
         }
         private void InitialData()
         {
@@ -1023,9 +1033,16 @@ namespace ViewPort
                     FormLoading formLoading = new FormLoading(path, this);
                     formLoading.Opacity = 0.9;
                     formLoading.ShowDialog();
-
+                    if (formLoading.Zip_Error)
+                    {
+                        Zip_Error = formLoading.Zip_Error;
+                        return;
+                    }
 
                     DicInfo = formLoading.Dic_Load;
+                    Dictionary<string, ImageInfo> sort_dic = new Dictionary<string, ImageInfo>(DicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value));
+                    
+                    DicInfo = sort_dic;
                     f9_Frame_List_Main = formLoading.F9_Frame_List;
                     f10_Frame_List_Main = formLoading.F10_Frame_List;
                     F5_Img_KeyList_Main = formLoading.F5_dic_Load;
@@ -1166,6 +1183,13 @@ namespace ViewPort
                         FormLoading formLoading = new FormLoading(path, this);
                         formLoading.Opacity = 0.9;
                         formLoading.ShowDialog();
+                    if(formLoading.Zip_Error)
+                    {
+                        Zip_Error = formLoading.Zip_Error;
+                        return;
+                    }
+
+                                         
 
 
                         DicInfo = formLoading.Dic_Load;
@@ -1300,13 +1324,18 @@ namespace ViewPort
             }
             return F10_code_dicInfo;
         }
-        private void zipLoadFileToolStripMenuItem_Click(object sender, EventArgs e)
+        public void zipLoadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //All_Clear();
             //InitialData();
 
             ZipLoadFile_Async();
             
+            if(Zip_Error)
+            {
+                this.Close();
+                return;
+            }
             int x = 1;
             int index = 0;
             if (ZipFilePath != "")
@@ -1859,7 +1888,7 @@ namespace ViewPort
             //    }
             //}
             //deleteWaiting.All_Equipment_DF_List = All_Equipment_DF_List_DEL;
-            deleteWaiting.Waiting_Img = Waiting_Del;
+            deleteWaiting.Waiting_Img = new Dictionary<string,ImageInfo>(Waiting_Del);
             deleteWaiting.ZipFilePath = zipFilePath;
             deleteWaiting.Set_View_Del();
             deleteWaiting.Set_EQ();
@@ -1978,13 +2007,33 @@ namespace ViewPort
 
         private void FormViewPort_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Waiting_Del.Count > 0)
+            if(Zip_Error)
             {
-                if (MessageBox.Show("" + Waiting_Del.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+
+            }
+            else
+            {
+                if (Waiting_Del.Count > 0)
                 {
-                    Delete_ZipImg();
-                    Dispose(true);
+                    if (MessageBox.Show("" + Waiting_Del.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        Delete_ZipImg();
+                        Dispose(true);
+                    }
+                    else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        Dispose(true);
+
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+
+
                 }
+
                 else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     Dispose(true);
@@ -1996,18 +2045,6 @@ namespace ViewPort
                     return;
                 }
 
-
-            }
-
-            else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                Dispose(true);
-
-            }
-            else
-            {
-                e.Cancel = true;
-                return;
             }
 
 

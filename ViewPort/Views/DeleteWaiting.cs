@@ -580,7 +580,7 @@ namespace ViewPort.Views
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(Main_Dic);
             }
             //Sorted_dic = dicInfo_Filter_Del.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            //dicInfo_Filter_Del = Sorted_dic;
+            //dicInfo_Filter_Del = new Dictionary<string,ImageInfo>(Sorted_dic);
 
             if (dicInfo_Filter_Del.Count <= 0)
             {
@@ -985,8 +985,8 @@ namespace ViewPort.Views
         public void Cheked_State_DF()
         {
             int length = 0;
-            Sorted_dic = dicInfo_Filter_Del.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            dicInfo_Filter_Del = Sorted_dic;
+            //Sorted_dic = dicInfo_Filter_Del.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            //dicInfo_Filter_Del = Sorted_dic;
 
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
@@ -1023,7 +1023,7 @@ namespace ViewPort.Views
                     else
                         ImageNameEQ[i].Text = "";
 
-                    if (Print_Image_Name.Checked && Main.Print_Image_EQ.Checked)
+                    if (Print_Image_Name.Checked && Print_Image_EQ.Checked)
                     {
 
                         length = dicInfo_Filter_Del[dicInfo_Filter_Del.Keys.ElementAt(index)].Imagename.Length;
@@ -1047,7 +1047,7 @@ namespace ViewPort.Views
 
                    
 
-                    if (Print_Image_Name.Checked && !Main.Print_Image_EQ.Checked)
+                    if (Print_Image_Name.Checked && !Print_Image_EQ.Checked)
                     {
                         ImageNameLB[i].Location = new Point(4, height - 15);
                         ImageNameLB[i].Text = dicInfo_Filter_Del.Keys.ElementAt(index);

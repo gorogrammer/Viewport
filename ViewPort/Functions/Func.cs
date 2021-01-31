@@ -141,6 +141,7 @@ namespace ViewPort.Functions
                 //        }
                 //    }
                 //}
+                
 
             }
             catch (System.Exception ex)
@@ -149,7 +150,6 @@ namespace ViewPort.Functions
 
                 return;
             }
-            
             
         }
 
@@ -397,7 +397,7 @@ namespace ViewPort.Functions
 
                 ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetLotNameFromPath(FilePath));
 
-                using (StreamWriter SW = new StreamWriter(readmeEntry.Open()))
+                using (StreamWriter SW = new StreamWriter(readmeEntry.Open(),Encoding.Default))
                 {
                     SW.WriteLine(top);
                     for (int i = 0; i < dicInfo.Count; i++)
@@ -406,10 +406,22 @@ namespace ViewPort.Functions
                     }
                 }
 
-
+         
                 zip.Dispose();
             }
           
+        }
+
+        private static Encoding GetTextEncodingInfo(string path)
+        {
+            Encoding enc;
+            using (StreamReader sr = new StreamReader(path, true))
+            {
+                enc = sr.CurrentEncoding;
+                sr.Close();
+            }
+
+            return enc;
         }
         public static string GetFileNameWithoutJPG(string str)
         {
