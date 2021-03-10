@@ -796,8 +796,9 @@ namespace ViewPort.Views
                                 items[i] = change[0];
                                 Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
                             }
-
+                            break;
                         }
+                      
                     }
                     catch (Exception ex)
                     {

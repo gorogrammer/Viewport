@@ -993,7 +993,6 @@
         private System.Windows.Forms.Label label10;
         public System.Windows.Forms.TextBox Frame_S_TB;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckedListBox Equipment_DF_CLB;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button _filterAct_bt;
         private System.Windows.Forms.Button Select_All_BTN;
@@ -1056,6 +1055,7 @@
         private System.Windows.Forms.ToolStripMenuItem frameListFilerToolStripMenuItem;
         public System.Windows.Forms.CheckBox Frame_Interval_CB;
         private MetroFramework.Controls.MetroLabel versionNo;
+        public System.Windows.Forms.CheckedListBox Equipment_DF_CLB;
     }
 }
 

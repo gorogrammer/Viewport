@@ -172,6 +172,10 @@ namespace ViewPort
         public List<string> F12_del_list_main { get => f12_del_list_main; set => f12_del_list_main = value; }
         public List<string> Dl_NotApply_List_Main { get => dl_NotApply_List_Main; set => dl_NotApply_List_Main = value; }
         public List<string> Dl_List_Main { get => dl_List_Main; set => dl_List_Main = value; }
+
+        public List<string> Selected_Equipment_DF_List_Main { get => Selected_Equipment_DF_List; set => Selected_Equipment_DF_List = value; }
+
+
         public string ZipFilePath { get => zipFilePath; set => zipFilePath = value; }
         public string REF_DirPath { get => ref_DirPath; set => ref_DirPath = value; }
         public string DirPath { get => dirPath; set => dirPath = value; }
@@ -996,6 +1000,37 @@ namespace ViewPort
                 
 
       
+        }
+
+        public Dictionary<string, ImageInfo> Get_selected_item_inEQ()
+        {
+            Selected_Equipment_DF_List.Clear();
+
+            foreach (int index in Equipment_DF_CLB.CheckedIndices)
+            {
+                if (Equipment_DF_CLB.Items[index].ToString().Split('-').Length > 2)
+                {
+                    Selected_Equipment_DF_List.Add(Equipment_DF_CLB.Items[index].ToString().Split('-')[0] + "-" + Equipment_DF_CLB.Items[index].ToString().Split('-')[1]);
+                }
+                else
+                {
+                    Selected_Equipment_DF_List.Add(Equipment_DF_CLB.Items[index].ToString().Split('-')[0]);
+                }
+
+            }
+
+            Initial_Equipment_DF_FilterList();
+            Sorted_dic = eq_CB_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Eq_CB_dicInfo = Sorted_dic;
+
+            if (Waiting_Del.Count > 0)
+            {
+                foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
+                    Eq_CB_dicInfo.Remove(kvp.Key);
+
+            }
+
+            return Eq_CB_dicInfo;
         }
 
         private void Select_All_BTN_Click(object sender, EventArgs e)

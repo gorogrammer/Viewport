@@ -780,7 +780,9 @@ namespace ViewPort.Views
                     }
                     else
                     {
-                        xyFilter.DicInfo_XY_filter = new Dictionary<string,ImageInfo>(Main.DicInfo);
+                        Dictionary<string, ImageInfo> eq_filter_dic = new Dictionary<string, ImageInfo>(Main.Get_selected_item_inEQ());
+                    
+                        xyFilter.DicInfo_XY_filter = new Dictionary<string,ImageInfo>(eq_filter_dic);
                     }
                     
                 }

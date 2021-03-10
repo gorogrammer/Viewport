@@ -356,8 +356,8 @@ namespace ViewPort.Functions
                     dicInfo.Add(pair, SDIP_200_CODE[pair]);
                 }
             }
-            Sorted_dic = dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            dicInfo = Sorted_dic;
+            //Sorted_dic = dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            //dicInfo = Sorted_dic;
 
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
             {
