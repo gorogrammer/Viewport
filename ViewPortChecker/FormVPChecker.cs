@@ -13,7 +13,7 @@ using ViewPortNetwork;
 using MySql.Data.MySqlClient;
 using System.Reflection;
 using System.IO;
-
+using CredentialManagement;
 namespace ViewPortChecker
 {
     public partial class FormViewPortChecker : Form
@@ -29,7 +29,34 @@ namespace ViewPortChecker
 
         void Init()
         {
-            if(File.Exists(CHECKER_STR.PATH))
+
+            Credential checkCredential_91 = new Credential
+            {
+                Target = "16.100.29.91",
+                Username = "admin",
+                Password = "qwe123!@#",
+                PersistanceType = PersistanceType.LocalComputer
+            };
+            if (checkCredential_91.Load() == true)
+            { }
+            else
+            { checkCredential_91.Save(); }
+
+            Credential checkCredential_90 = new Credential
+            {
+                Target = "16.100.29.90",
+                Username = "admin",
+                Password = "qwe123!@#",
+                PersistanceType = PersistanceType.LocalComputer
+            };
+            if (checkCredential_90.Load() == true)
+            { }
+            else
+            { checkCredential_90.Save(); }
+
+
+
+            if (File.Exists(CHECKER_STR.PATH))
                 VersionInfo = AssemblyName.GetAssemblyName(CHECKER_STR.PATH).Version.ToString();
         }
 

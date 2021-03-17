@@ -16,6 +16,8 @@ using ViewPort.Views;
 using ViewPortNetwork;
 using MetroFramework.Forms;
 using System.Reflection;
+using CredentialManagement;
+
 
 namespace ViewPort
 {
@@ -1063,7 +1065,7 @@ namespace ViewPort
                 DirPath = Directory.GetParent(path).ToString();
                 ZipFilePath = path;
                 Equipment_DF_CLB.Items.Clear();
-                if (MessageBox.Show("" + FileName + "로트 파일을 로드 하시겠습니까?", "프로그램 로드", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("" + FileName + "로트 파일을 로드 하시겠습니까?", "프로그램 로드", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
                     FormLoading formLoading = new FormLoading(path, this);
                     formLoading.Opacity = 0.9;
@@ -1213,7 +1215,7 @@ namespace ViewPort
                     DirPath = Directory.GetParent(path).ToString();
                     ZipFilePath = path;
                     Equipment_DF_CLB.Items.Clear();
-                    if (MessageBox.Show("" + FileName + "로트 파일을 로드 하시겠습니까?", "프로그램 로드", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show("" + FileName + "로트 파일을 로드 하시겠습니까?", "프로그램 로드", MessageBoxButtons.YesNo) ==System.Windows.Forms.DialogResult.Yes)
                     {
                         FormLoading formLoading = new FormLoading(path, this);
                         formLoading.Opacity = 0.9;
@@ -2050,12 +2052,12 @@ namespace ViewPort
             {
                 if (Waiting_Del.Count > 0)
                 {
-                    if (MessageBox.Show("" + Waiting_Del.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show("" + Waiting_Del.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
                         Delete_ZipImg();
                         Dispose(true);
                     }
-                    else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
                         Dispose(true);
 
@@ -2069,7 +2071,7 @@ namespace ViewPort
 
                 }
 
-                else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
                     Dispose(true);
 
@@ -2088,7 +2090,7 @@ namespace ViewPort
 
         private void 중간저장ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("현재 삭제대기 정보를 저장하시겠습니까? \r 주의: Zip 파일의 이미지를 삭제 한 후에는 저장이 되지 않습니다", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if(MessageBox.Show("현재 삭제대기 정보를 저장하시겠습니까? \r 주의: Zip 파일의 이미지를 삭제 한 후에는 저장이 되지 않습니다", "알림", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
                 F12_del_list_main = new List<string>(open.F12_del_list);
                 Func.SaveDelFileID(Waiting_Del, F12_del_list_main);
@@ -2302,12 +2304,12 @@ namespace ViewPort
                 Return_update_Equipment_DF_CLB(selected_Pic);
             }
             selected_Pic.Clear();
-            if(MessageBox.Show("코드 변경 후 IMG TXT 파일 변경 하시겠습니까?","알림",MessageBoxButtons.YesNo)== DialogResult.Yes)
+            if(MessageBox.Show("코드 변경 후 IMG TXT 파일 변경 하시겠습니까?","알림",MessageBoxButtons.YesNo)== System.Windows.Forms.DialogResult.Yes)
             {
                 Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo,Sdip_200_code_dicInfo);
                 MessageBox.Show("변경되었습니다.");
             }
-            if (MessageBox.Show("코드 변경 후 MAP TXT 파일 변경 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("코드 변경 후 MAP TXT 파일 변경 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
                 mAPTXTUpdateToolStripMenuItem1_Click(null, null);
                
@@ -2604,7 +2606,7 @@ namespace ViewPort
 
         private void iMGTXTUpdateToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(" IMG TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(" IMG TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
                 try
                 {
@@ -2627,7 +2629,7 @@ namespace ViewPort
         {
             
 
-            if (MessageBox.Show(" MAP TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(" MAP TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
                 try
                 {
@@ -2840,6 +2842,8 @@ namespace ViewPort
             {
                 string Version = string.Empty;
 
+
+                
                 if (NetworkFunc.SaveFilesToStemcoNas(path, out Version))
                 {
                     string LastVersion = NetworkFunc.GetLastViewPortVersion(MYSQL_STR.CONNECTION_STEMCO);
@@ -3207,7 +3211,7 @@ namespace ViewPort
         {
             if (DicInfo.Count > 0 && Manual_Mode_RB.Checked)
             {
-                if(MessageBox.Show("재로드 하시겠습니까?","알림",MessageBoxButtons.YesNo)==DialogResult.Yes)
+                if(MessageBox.Show("재로드 하시겠습니까?","알림",MessageBoxButtons.YesNo)== System.Windows.Forms.DialogResult.Yes)
                 {
                     mode_change = 1;
 
@@ -3236,7 +3240,7 @@ namespace ViewPort
         {
             if (DicInfo.Count > 0 && View_Mode_RB.Checked)
             {
-                if (MessageBox.Show("재로드 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("재로드 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
                     mode_change = 1;
                     zipLoadFileToolStripMenuItem_Click(null, null);

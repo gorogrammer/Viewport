@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPChecker", "..\ViewPortChe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewPortNetwork", "..\ViewPortNetwork\ViewPortNetwork.csproj", "{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "viewportsetup", "viewportsetup\viewportsetup.vdproj", "{E04EBD2B-382E-4A46-B615-D5C66B72D58D}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ViewportSetup", "..\ViewportSetup\ViewportSetup.vdproj", "{4F9FE75D-5B49-43D6-8416-4C401478668F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,8 +35,8 @@ Global
 		{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EAC8220-0BB8-4815-BFEE-E93A52E91BF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E04EBD2B-382E-4A46-B615-D5C66B72D58D}.Debug|Any CPU.ActiveCfg = Debug
-		{E04EBD2B-382E-4A46-B615-D5C66B72D58D}.Release|Any CPU.ActiveCfg = Release
+		{4F9FE75D-5B49-43D6-8416-4C401478668F}.Debug|Any CPU.ActiveCfg = Debug
+		{4F9FE75D-5B49-43D6-8416-4C401478668F}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using CredentialManagement;
 
 namespace ViewPortNetwork
 {
@@ -118,8 +119,33 @@ namespace ViewPortNetwork
             return true;
         }
 
+     
         public static bool SaveFilesToStemcoNas(string folderPath, out string Version)
         {
+            Credential checkCredential_91 = new Credential
+            {
+                Target = "16.100.29.91",
+                Username = "admin",
+                Password = "qwe123!@#",
+                PersistanceType = PersistanceType.LocalComputer
+            };
+            if (checkCredential_91.Load() == true)
+            { }
+            else
+            { checkCredential_91.Save(); }
+
+            Credential checkCredential_90 = new Credential
+            {
+                Target = "16.100.29.90",
+                Username = "admin",
+                Password = "qwe123!@#",
+                PersistanceType = PersistanceType.LocalComputer
+            };
+            if (checkCredential_90.Load() == true)
+            { }
+            else
+            { checkCredential_90.Save(); }
+
             Version = AssemblyName.GetAssemblyName(Path.Combine(folderPath, NET_DEF.VIEWPORT_EXE_NAME)).Version.ToString();
             string SaveVersionPath = Path.Combine(NET_DEF.STEMCO_NAS_PATH, Version);
             Directory.CreateDirectory(SaveVersionPath);
