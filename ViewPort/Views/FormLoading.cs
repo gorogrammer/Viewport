@@ -274,8 +274,9 @@ namespace ViewPort.Views
             LoadTxtAsync(FilePath);
 
 
-            ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read);   // Zip파일(Lot) Load
+            ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read,Encoding.UTF8);   // Zip파일(Lot) Load
             {
+               
                 SetProgressBarMaxSafe(zip.Entries.Count);
 
                
@@ -359,7 +360,7 @@ namespace ViewPort.Views
             try
             {
                 
-                subZip = new ZipArchive(subEntryMS);
+                subZip = new ZipArchive(subEntryMS,ZipArchiveMode.Read, false, Encoding.Default);
             }
             catch(Exception ex)
             {
@@ -373,6 +374,10 @@ namespace ViewPort.Views
             foreach (ZipArchiveEntry subEntry in subZip.Entries)        // 2중 압축파일 내에 있는 파일을 탐색
             {
                 
+                //string subEn_Name = subEntry.Name.ToString();
+                //byte[] bytes = Encoding.Default.GetBytes(subEn_Name);
+                //subEn_Name = Encoding.Default.GetString(bytes);
+
                 if (!subEntry.Name.ToUpper().Contains(".JPG"))
                     continue;
 
@@ -382,6 +387,8 @@ namespace ViewPort.Views
                 int FrameNo = Func.GetFrameNumber(subEntry.Name);
                 int CameraNo = Func.GetCamNumber(subEntry.Name);
 
+                if(File_ID == "B00001030001")
+                { }
                 
                 if (main.checkBox1.Checked)
                 {

@@ -47,6 +47,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> exceed_filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> set_filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> set_filter_frame_dicinfo = new Dictionary<string, ImageInfo>();
+        
         List<int> set_filter_frame = new List<int>();
         List<int> final_Frame_List = new List<int>();
         List<int> sdip_200_frame = new List<int>();
@@ -899,7 +900,7 @@ namespace ViewPort
             {
                 waitform.Show(this);
                 Eq_CB_dicInfo.Clear();
-                Camera_NO_Filter_TB.Text = "";
+                //Camera_NO_Filter_TB.Text = "";
                 textBox4.Text = "";
                 Frame_S_TB.Text = "";
                 checkBox1.Checked = false;
@@ -928,6 +929,27 @@ namespace ViewPort
                 {
                     foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
                         eq_CB_dicInfo.Remove(kvp.Key);
+
+                }
+                if (Camera_NO_Filter_TB.Text != "")
+                {
+                    string[] Split_String = null;
+                    Split_String = Camera_NO_Filter_TB.Text.Split(',');
+
+
+                    foreach (string No in eq_CB_dicInfo.Keys.ToList())
+                    {
+                        if (eq_CB_dicInfo.ContainsKey(No))
+                        {
+                            if (Split_String.Contains(eq_CB_dicInfo[No].CameraNo.ToString()))
+                            {
+                                continue;
+                            }
+                            else
+                                eq_CB_dicInfo.Remove(No);
+                        }
+
+                    }
 
                 }
 
