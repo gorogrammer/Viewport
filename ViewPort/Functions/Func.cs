@@ -85,7 +85,7 @@ namespace ViewPort.Functions
                             subEntryMS = entry.Open();           // 2중 압축파일을 MemoryStream으로 읽는다.
                                                                  // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
-                            using (subZip = new ZipArchive(subEntryMS, ZipArchiveMode.Update))
+                            using (subZip = new ZipArchive(subEntryMS, ZipArchiveMode.Update,false,Encoding.Default))
                             {
                                 //for (int i = 0; i < subZip.Entries.Count; i++)
                                 //{
@@ -342,8 +342,9 @@ namespace ViewPort.Functions
 
         }
 
-        public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo, Dictionary<string, ImageInfo> SDIP_200_CODE)
+        public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo, Dictionary<string, ImageInfo> SDIP_200_CODE, Dictionary<string, ImageInfo> dicinfo_copy, List<string> f12_del)
         {
+
             Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
             foreach (string pair in SDIP_200_CODE.Keys.ToList())
             {
@@ -354,6 +355,21 @@ namespace ViewPort.Functions
                 else
                 {
                     dicInfo.Add(pair, SDIP_200_CODE[pair]);
+                }
+            }
+
+            if(f12_del.Count>0)
+            {
+                foreach (string pair in f12_del)
+                {
+                    if (dicInfo.ContainsKey(pair))
+                    {
+
+                    }
+                    else
+                    {
+                        dicInfo.Add(pair, dicinfo_copy[pair]);
+                    }
                 }
             }
             //Sorted_dic = dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);

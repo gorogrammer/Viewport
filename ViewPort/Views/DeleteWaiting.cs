@@ -117,7 +117,7 @@ namespace ViewPort.Views
             }
             else if(EQ_Filter_check==1)
             {
-
+                //dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
             }
             else
             {
@@ -580,7 +580,7 @@ namespace ViewPort.Views
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(Main_Dic);
             }
             //Sorted_dic = dicInfo_Filter_Del.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            //dicInfo_Filter_Del = new Dictionary<string,ImageInfo>(Sorted_dic);
+            //dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(Sorted_dic);
 
             if (dicInfo_Filter_Del.Count <= 0)
             {
@@ -611,13 +611,14 @@ namespace ViewPort.Views
 
             }
 
-            
-            
+         
+
             if (ZipFilePath != "")
             {
                 foreach(string img_names in Compare_Dicinfo.Keys.ToList())
                 {
-                    if(S_ImageIndex > 0)
+                  
+                    if (S_ImageIndex > 0)
                     {
 
                     }
@@ -653,7 +654,7 @@ namespace ViewPort.Views
                         if (S_ImageIndex + Current_Index >= dicInfo_Filter_Del.Count)
                             break;
 
-                        if (subEntry.Name.Equals(Compare_Dicinfo[img_names].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                        if (subEntry.Name.Contains(img_names))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
                         {
                             tmp_Img = new Bitmap(subEntry.Open());
 

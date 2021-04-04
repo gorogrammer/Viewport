@@ -387,7 +387,7 @@ namespace ViewPort.Views
                 int FrameNo = Func.GetFrameNumber(subEntry.Name);
                 int CameraNo = Func.GetCamNumber(subEntry.Name);
 
-                if(File_ID == "B00001030001")
+                if(File_ID == "B00005090009")
                 { }
                 
                 if (main.checkBox1.Checked)
@@ -483,7 +483,7 @@ namespace ViewPort.Views
             
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
             {
-                System.Text.Encoding utf8 = System.Text.Encoding.UTF8;
+                
 
                 ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetLotNameFromPath(FilePath));
 
@@ -492,7 +492,7 @@ namespace ViewPort.Views
                     MessageBox.Show(MSG_STR.NONE_SDIP_TXT);
                     return;
                 }
-                Encoding txt = Encoding.UTF8;
+                
                 StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
 
@@ -746,88 +746,103 @@ namespace ViewPort.Views
         {
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
             {
-                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetMapFromPath(FilePath));
-
-                if (ImgEntry == null)
-                {
-                    MessageBox.Show(MSG_STR.NONE_MAP_TXT);
-                    return;
-                }
-
-                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
-                string text = SR.ReadToEnd();
-
-                char[] df = {'@'};
-                Final_text = text.Split(df);
-                string[] items = text.Split(' ', '!');
-                var items_List = items.ToList();
-                int index = items_List.IndexOf("");
-
-
-
-
-                for (int i = 0; i < items.Length; i++)
+                try
                 {
 
-                    try
+                    ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetMapFromPath(FilePath));
+                    if (ImgEntry == null)
                     {
-
-                        if (i < index && items[i].Length <= 9 && items[i].Length > 5)
-                        {
-
-                            map_List_Dic.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
-                        }
-
-                        else if (i > index && items[i].Length <= 9 && items[i].Length > 5)
-                        {
-
-                            Map_List_Compare.Add(items[i]);
-                            if (items[i].Contains("E@"))
-                            {
-                                string change = items[i].Replace("E@", "");
-                                items[i] = change;
-                                Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
-                            }
-                            else
-                                Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
-                        }
-                        else if (items[i].Contains("E"))
-                        {
-
-                            int value = 0;
-                            string[] change = items[i].Split('E');
-                            if (int.TryParse(change[0], out value))
-                            {
-                                betweenEA = string.Empty;
-                                betweenEA = "E" + change[1];
-                                items[i] = change[0];
-                                Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
-                            }
-                            break;
-                        }
-                      
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("MAP TXT에 오류가 있습니다. 확인 부탁드립니다.");
-                        zip_Error = true;
+                        MessageBox.Show(MSG_STR.NONE_MAP_TXT);
                         return;
                     }
 
+                    StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                    string text = SR.ReadToEnd();
 
+                    char[] df = { '@' };
+                    Final_text = text.Split(df);
+                    string[] items = text.Split(' ', '!');
+                    var items_List = items.ToList();
+                    int index = items_List.IndexOf("");
+
+                    for (int i = 0; i < items.Length; i++)
+                    {
+
+                        try
+                        {
+
+                            if (i < index && items[i].Length <= 9 && items[i].Length > 5)
+                            {
+
+                                map_List_Dic.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                            }
+
+                            else if (i > index && items[i].Length <= 9 && items[i].Length > 5)
+                            {
+
+                                Map_List_Compare.Add(items[i]);
+                                if (items[i].Contains("E@"))
+                                {
+                                    string change = items[i].Replace("E@", "");
+                                    items[i] = change;
+                                    Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                                }
+                                else
+                                    Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                            }
+                            else if (items[i].Contains("E"))
+                            {
+
+                                int value = 0;
+                                string[] change = items[i].Split('E');
+                                if (int.TryParse(change[0], out value))
+                                {
+                                    betweenEA = string.Empty;
+                                    betweenEA = "E" + change[1];
+                                    items[i] = change[0];
+                                    Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
+                                }
+                                break;
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("MAP TXT에 오류가 있습니다. 확인 부탁드립니다.");
+                            zip_Error = true;
+                            return;
+                        }
+
+
+                    }
+                    if (Map_List_Compare[Map_List_Compare.Count - 1].Contains("E@"))
+                    {
+                        string change = Map_List_Compare[Map_List_Compare.Count - 1].Replace("E@", "");
+                        Map_List_Compare[Map_List_Compare.Count - 1] = change;
+
+                    }
+                    zip.Dispose();
+
+                    main.Between = betweenEA;
+                    main.Map_List_Dic_main = Map_List_Dic;
+                    main.Map_List_Dic_Compare_main = Map_List_Dic_Compare;
+                    main.Final_text_main = Final_text[1];
                 }
-                if(Map_List_Compare[Map_List_Compare.Count-1].Contains("E@"))
+                catch (Exception ex)
                 {
-                   string change = Map_List_Compare[Map_List_Compare.Count - 1].Replace("E@", "");
-                   Map_List_Compare[Map_List_Compare.Count - 1] = change;
-
+                    MessageBox.Show( " 압축파일에 문제가 있습니다. 확인 부탁드립니다.");
+                    
+                    return;
                 }
-                zip.Dispose();
 
-                main.Between = betweenEA;
-                main.Map_List_Dic_main = Map_List_Dic;
-                main.Map_List_Dic_Compare_main = Map_List_Dic_Compare;
-                main.Final_text_main = Final_text[1];
+                
+
+             
+
+
+
+
+             
             }
 
             foreach (KeyValuePair<int, int> pair in map_List_Dic)

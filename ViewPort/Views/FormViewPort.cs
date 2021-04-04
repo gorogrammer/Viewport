@@ -866,26 +866,27 @@ namespace ViewPort
                 {
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
                     {
-                        subEntryMS = entry.Open();
-                        subZip = new ZipArchive(subEntryMS);
-                        ZipArchiveEntry ImgEntry = zip.GetEntry(entry.Name);
-                        if (subZip.Entries.Count == 0)
+                        if(!final_Frame_List.Contains(int.Parse(entry.Name.Substring(0, 5)))&& !sdip_200_frame.Contains(int.Parse(entry.Name.Substring(0, 5))))
                         {
-                            arg = 1;
-                            Exception_Frame.Add(int.Parse(entry.Name.Substring(0, 5)));
+                            subEntryMS = entry.Open();
+                            subZip = new ZipArchive(subEntryMS);
+                            ZipArchiveEntry ImgEntry = zip.GetEntry(entry.Name);
+                            if (subZip.Entries.Count == 0)
+                            {
+                                arg = 1;
+                                Exception_Frame.Add(int.Parse(entry.Name.Substring(0, 5)));
 
+                            }
+                            else
+                                arg = 0;
+
+                            subZip.Dispose();
+
+                            if (arg == 1)
+                            {
+                                ImgEntry.Delete();
+                            }
                         }
-                        else
-                            arg = 0;
-
-                        subZip.Dispose();
-
-                        if (arg == 1)
-                        {
-                            ImgEntry.Delete();
-                        }
-
-
                     }
 
                 }
@@ -951,6 +952,36 @@ namespace ViewPort
 
                     }
 
+                }
+
+                if (textBox4.Text != "")
+                {
+                    if (textBox4.Text == "양품" || textBox4.Text == "선택")
+                    {
+
+
+                        foreach (string pair in eq_CB_dicInfo.Keys.ToList())
+                        {
+                            if (eq_CB_dicInfo[pair].ReviewDefectName == textBox4.Text)
+                            {
+
+                            }
+                            else
+                            {
+                                eq_CB_dicInfo.Remove(pair);
+                            }
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        textBox4.Text = string.Empty;
+                        MessageBox.Show("양품 or 선택으로 입력.");
+                        State_Filter = 0;
+                      
+                    }
                 }
 
                 Sorted_dic = eq_CB_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
@@ -1401,12 +1432,14 @@ namespace ViewPort
             {
                 //Img_txt_Info_Combine();
 
-                dicInfo_Copy = new Dictionary<string, ImageInfo>(DicInfo);
-                sdip_200_frame.Clear();
-                Sdip_200_code_dicInfo.Clear();
-                Selected_Pic.Clear();
+                
                 if (path_check != "")
                 {
+                    dicInfo_Copy = new Dictionary<string, ImageInfo>(DicInfo);
+                    sdip_200_frame.Clear();
+                    Sdip_200_code_dicInfo.Clear();
+                    Selected_Pic.Clear();
+
                     if (Manual_Mode_RB.Checked)
                     {
                         curruent_viewtype = 1;
@@ -2328,7 +2361,7 @@ namespace ViewPort
             selected_Pic.Clear();
             if(MessageBox.Show("코드 변경 후 IMG TXT 파일 변경 하시겠습니까?","알림",MessageBoxButtons.YesNo)== System.Windows.Forms.DialogResult.Yes)
             {
-                Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo,Sdip_200_code_dicInfo);
+                Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo, Sdip_200_code_dicInfo, DicInfo_Copy, open.F12_del_list);
                 MessageBox.Show("변경되었습니다.");
             }
             if (MessageBox.Show("코드 변경 후 MAP TXT 파일 변경 하시겠습니까?", "알림", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
@@ -2632,8 +2665,10 @@ namespace ViewPort
             {
                 try
                 {
+                    
+                   
                     waitform.Show();
-                    Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo, Sdip_200_code_dicInfo);
+                    Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo, Sdip_200_code_dicInfo, DicInfo_Copy, open.F12_del_list);
                     waitform.Close();
                     MessageBox.Show("변경되었습니다.");
 
@@ -2657,9 +2692,21 @@ namespace ViewPort
                 {
                     waitform.Show();
                     final_Frame_List.Clear();
-                    Counting_IMG_inZip(ZipFilePath);
 
-              
+                    if (open.F12_del_list.Count > 0)
+                    {
+                        foreach (string pair in open.F12_del_list)
+                        {
+                            if (dicInfo.ContainsKey(pair))
+                            {
+
+                            }
+                            else
+                            {
+                                dicInfo.Add(pair, DicInfo_Copy[pair]);
+                            }
+                        }
+                    }
 
 
                     foreach (string pair in DicInfo.Keys.ToList())
@@ -2670,14 +2717,18 @@ namespace ViewPort
                         }
                         else
                         {
-                            if(DicInfo[pair].sdip_no != "1")
+                            if (DicInfo[pair].sdip_no != "1")
                             {
                                 final_Frame_List.Add(DicInfo[pair].FrameNo);
                             }
-                           
+
 
                         }
                     }
+
+                    Counting_IMG_inZip(ZipFilePath);
+
+             
 
                     Dictionary<int, int> special_frame = new Dictionary<int, int>();
                     foreach (KeyValuePair<int, int> pair in Map_List_Dic_main)
@@ -2774,9 +2825,7 @@ namespace ViewPort
                             else if (special_frame.Keys.ToList().Contains(frame_del))
                             { }
                             else if(sdip_200_frame.Contains(frame_del))
-                            {
-                                chec.Add(frame_del);
-                            }
+                            { }
                             else
                             {
                                 Map_List_Dic_main.Remove(frame_del);
