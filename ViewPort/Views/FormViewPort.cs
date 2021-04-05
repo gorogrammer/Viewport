@@ -866,7 +866,7 @@ namespace ViewPort
                 {
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
                     {
-                        if(!final_Frame_List.Contains(int.Parse(entry.Name.Substring(0, 5)))&& !sdip_200_frame.Contains(int.Parse(entry.Name.Substring(0, 5))))
+                        if(!final_Frame_List.Contains(int.Parse(entry.Name.Substring(0, 5))) && !sdip_200_frame.Contains(int.Parse(entry.Name.Substring(0, 5))))
                         {
                             subEntryMS = entry.Open();
                             subZip = new ZipArchive(subEntryMS);
@@ -1221,11 +1221,16 @@ namespace ViewPort
             //    mode_change = 0;
             //    return;
             //}
-            open.Filter_NO_Set();
-            open.ImageViewer_Clear();
-            Load_State = 1;
-       
             string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
+            if (path !="")
+            {
+                open.Filter_NO_Set();
+                open.ImageViewer_Clear();
+                Load_State = 1;
+            }
+          
+       
+           
             path_check = path;
             if(path == "" && DicInfo.Count==0)
             {
@@ -1294,22 +1299,23 @@ namespace ViewPort
                         Dl_List_Main = formLoading.Dl_List;
 
                         Frame_List_Main = formLoading.Frame_List;
-
-                        for (int i = 0; i < MAP_LIST.Count; i++)
+                    
+                    List<int> Map_Last_Frame = Map_List_Dic_main.Keys.ToList();
+       
+                    for (int i = 0; i < Frame_List_Main.Count; i++)
+                    {
+                        if (Map_List_Dic_main.Keys.ToList().Contains(Frame_List_Main[i]))
+                            continue;
+                        else if (Frame_List_Main[i] != 1 || Frame_List_Main[i] != Map_Last_Frame[Map_List_Dic_main.Count - 1])
                         {
-                            if (Frame_List_Main.Contains(MAP_LIST[i]))
-                                continue;
-                            else
-                            {
-                                MAP_LIST.RemoveAt(i);
-                                i--;
-                            }
+                            MessageBox.Show("MAP TXT에는 " + Frame_List_Main[i] + "프레임이 있지만 해당 프레임 이미지가 없습니다.");
+                            ZipFilePath = "";
+                            return;
                         }
+                    }
 
 
-
-
-                        dicTxt_info = formLoading.DicTxt_info;
+                    dicTxt_info = formLoading.DicTxt_info;
 
                         All_Equipment_DF_List = formLoading.All_Equipment_DF_List;
                         All_LotID_List = formLoading.All_LotID_List;
@@ -1470,7 +1476,7 @@ namespace ViewPort
 
                                 }
                                 Sdip_200_code_dicInfo.Add(pair, DicInfo[pair]);
-                                Selected_Pic.Add(pair);
+                                //Selected_Pic.Add(pair);
                                 
                                 if(sdip_200_frame.Contains(dicInfo[pair].FrameNo))
                                 {
@@ -1482,6 +1488,41 @@ namespace ViewPort
                                 }
                                 dicInfo.Remove(pair);
                             }
+
+                        }
+                    }
+                    else if(View_Mode_RB.Checked)
+                    {
+                        curruent_viewtype = 1;
+                        //SDIP 코드 211~230 제외
+                        foreach (string pair in dicInfo.Keys.ToList())
+                        {
+                            if (F5_Img_KeyList_Main.Contains(pair))
+                            {
+                                F5_code_dicInfo.Add(pair, dicInfo[pair]);
+                            }
+
+                    
+
+
+
+                            if (dicInfo[pair].sdip_no != "-" && 200 <= int.Parse(dicInfo[pair].sdip_no) && int.Parse(dicInfo[pair].sdip_no) <= 299)
+                            {
+                                Sdip_200_code_dicInfo.Add(pair, DicInfo[pair]);
+                                //Selected_Pic.Add(pair);
+
+                                if (sdip_200_frame.Contains(dicInfo[pair].FrameNo))
+                                {
+
+                                }
+                                else
+                                {
+                                    sdip_200_frame.Add(dicInfo[pair].FrameNo);
+                                }
+                            }
+                             
+                               
+                          
 
                         }
                     }

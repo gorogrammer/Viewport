@@ -266,7 +266,7 @@ namespace ViewPort.Views
             {
                 FormViewPort test = new FormViewPort();
                 ExitProgressBarSafe();
-                test.zipLoadFileToolStripMenuItem_Click(null, null);
+                
 
                 return;
             }
