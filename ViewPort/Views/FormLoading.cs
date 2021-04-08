@@ -765,6 +765,8 @@ namespace ViewPort.Views
                     var items_List = items.ToList();
                     int index = items_List.IndexOf("");
 
+                    int x = items_List.FindIndex(a=>a.Contains("K"));
+
                     for (int i = 0; i < items.Length; i++)
                     {
 
@@ -777,7 +779,7 @@ namespace ViewPort.Views
                                 map_List_Dic.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
                             }
 
-                            else if (i > index && items[i].Length <= 9 && items[i].Length > 5)
+                            else if (i > index && items[i].Length <= 9 && items[i].Length > 5 && i < x)
                             {
 
                                 Map_List_Compare.Add(items[i]);
@@ -790,7 +792,7 @@ namespace ViewPort.Views
                                 else
                                     Map_List_Dic_Compare.Add(int.Parse(items[i].Substring(2)), int.Parse(items[i].Substring(0, 2)));
                             }
-                            else if (items[i].Contains("E"))
+                            else if (items[i].Contains("E") && i < x)
                             {
 
                                 int value = 0;
@@ -804,6 +806,8 @@ namespace ViewPort.Views
                                 }
                                 break;
                             }
+                     
+
 
                         }
                         catch (Exception ex)

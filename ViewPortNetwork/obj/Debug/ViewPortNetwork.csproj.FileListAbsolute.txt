@@ -340,3 +340,4 @@ C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPortNetwork\obj
 C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
 C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
 C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb
+C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csprojAssemblyReference.cache
