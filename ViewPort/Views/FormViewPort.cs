@@ -1299,20 +1299,20 @@ namespace ViewPort
                         Dl_List_Main = formLoading.Dl_List;
 
                         Frame_List_Main = formLoading.Frame_List;
-                    
-                    List<int> Map_Last_Frame = Map_List_Dic_main.Keys.ToList();
 
-                    for (int i = 0; i < Frame_List_Main.Count; i++)
-                    {
-                        if (Map_List_Dic_main.Keys.ToList().Contains(Frame_List_Main[i]))
-                            continue;
-                        else if (Frame_List_Main[i] != 1 || Frame_List_Main[i] != Map_Last_Frame[Map_List_Dic_main.Count - 1])
-                        {
-                            MessageBox.Show("이미지에는 " + Frame_List_Main[i] + "프레임이 있지만 MAP TXT에 " + Frame_List_Main[i] + " 프레임이 없습니다.");
-                            ZipFilePath = "";
-                            return;
-                        }
-                    }
+                    //List<int> Map_Last_Frame = Map_List_Dic_main.Keys.ToList();
+
+                    //for (int i = 0; i < Frame_List_Main.Count; i++)
+                    //{
+                    //    if (Map_List_Dic_main.Keys.ToList().Contains(Frame_List_Main[i]))
+                    //        continue;
+                    //    else if (Frame_List_Main[i] != 1 || Frame_List_Main[i] != Map_Last_Frame[Map_List_Dic_main.Count - 1])
+                    //    {
+                    //        MessageBox.Show("이미지에는 " + Frame_List_Main[i] + "프레임이 있지만 MAP TXT에 " + Frame_List_Main[i] + " 프레임이 없습니다.");
+                    //        ZipFilePath = "";
+                    //        return;
+                    //    }
+                    //}
 
 
                     dicTxt_info = formLoading.DicTxt_info;
