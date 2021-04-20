@@ -2126,4 +2126,3 @@ C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPort\obj\Releas
 C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPort\obj\Release\ViewPort.csproj.CopyComplete
 C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPort\obj\Release\ViewPort.exe
 C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPort\obj\Release\ViewPort.pdb
-C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPort\obj\Release\ViewPort.csprojAssemblyReference.cache

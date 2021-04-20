@@ -536,6 +536,10 @@ namespace ViewPort.Views
                     {
                         F5_dic_Load.Add(dic_ready[0].Substring(0, 12));
                     }
+                    else if (int.Parse(dic_ready[8]) == 215)
+                    {
+                        F5_dic_Load.Add(dic_ready[0].Substring(0, 12));
+                    }
 
                     if (Dl_Apply_List.Contains(dic_ready[8]))
                     {

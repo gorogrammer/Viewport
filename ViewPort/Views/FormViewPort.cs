@@ -47,7 +47,8 @@ namespace ViewPort
         Dictionary<string, ImageInfo> exceed_filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> set_filter = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> set_filter_frame_dicinfo = new Dictionary<string, ImageInfo>();
-        
+
+        List<int> f5_frame_List = new List<int>();
         List<int> set_filter_frame = new List<int>();
         List<int> final_Frame_List = new List<int>();
         List<int> sdip_200_frame = new List<int>();
@@ -133,6 +134,9 @@ namespace ViewPort
     
         public int List_filter { get => list_filter; set => list_filter = value; }
         public List<int> Exception_Frame { get => exception_Frame; set => exception_Frame = value; }
+        public List<int> F5_frame_List { get => f5_frame_List; set => f5_frame_List = value; }
+        
+
         public string Final_text_main { get => final_text_main; set => final_text_main = value; }
         public Dictionary<string, ImageInfo> Eq_CB_dicInfo { get => eq_CB_dicInfo; set => eq_CB_dicInfo = value; }
 
@@ -1455,6 +1459,8 @@ namespace ViewPort
                             if (F5_Img_KeyList_Main.Contains(pair))
                             {
                                 F5_code_dicInfo.Add(pair, dicInfo[pair]);
+                                if (!F5_frame_List.Contains(dicInfo[pair].FrameNo))
+                                    F5_frame_List.Add(dicInfo[pair].FrameNo);
                             }
 
 
@@ -1490,9 +1496,15 @@ namespace ViewPort
                             }
 
                         }
+                        foreach (int frame in F5_frame_List)
+                        {
+                            if (sdip_200_frame.Contains(frame))
+                                sdip_200_frame.Remove(frame);
+                        }
                     }
                     else if(View_Mode_RB.Checked)
                     {
+                        
                         curruent_viewtype = 1;
                         //SDIP 코드 211~230 제외
                         foreach (string pair in dicInfo.Keys.ToList())
@@ -1500,6 +1512,8 @@ namespace ViewPort
                             if (F5_Img_KeyList_Main.Contains(pair))
                             {
                                 F5_code_dicInfo.Add(pair, dicInfo[pair]);
+                                if (!F5_frame_List.Contains(dicInfo[pair].FrameNo))
+                                    F5_frame_List.Add(dicInfo[pair].FrameNo);
                             }
 
                     
@@ -1530,6 +1544,11 @@ namespace ViewPort
                     {
                         curruent_viewtype = 0;
                     }
+                }
+                foreach(int frame in F5_frame_List)
+                {
+                    if (sdip_200_frame.Contains(frame))
+                        sdip_200_frame.Remove(frame);
                 }
 
                 if(Sdip_200_code_dicInfo.Count>0)
@@ -2094,7 +2113,7 @@ namespace ViewPort
             Sdip_200_code_dicInfo.Clear();
             F9_code_dicInfo.Clear();
             F10_code_dicInfo.Clear();
-
+            F5_frame_List.Clear();
             F5_code_dicInfo.Clear();
             Sdip_NO1_dicInfo.Clear();
             DicInfo_Copy.Clear();
