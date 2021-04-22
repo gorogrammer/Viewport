@@ -687,7 +687,7 @@ namespace ViewPort
             for (int i = 0; i < Selected_Pic.Count; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr = dt.Rows.Find(DicInfo_Copy[Selected_Pic[i]].Imagename);
+                dr = dt.Rows.Find(DicInfo[Selected_Pic[i]].Imagename);
                 index = dt.Rows.IndexOf(dr);
                 dt.Rows[index].Delete();
 
@@ -870,6 +870,28 @@ namespace ViewPort
                 {
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1)
                     {
+                        if(F5_frame_List.Contains(int.Parse(entry.Name.Substring(0, 5))))
+                        {
+                            subEntryMS = entry.Open();
+                            subZip = new ZipArchive(subEntryMS);
+                            ZipArchiveEntry ImgEntry = zip.GetEntry(entry.Name);
+                            if (subZip.Entries.Count == 0)
+                            {
+                                arg = 1;
+                                Exception_Frame.Add(int.Parse(entry.Name.Substring(0, 5)));
+
+                            }
+                            else
+                                arg = 0;
+
+                            subZip.Dispose();
+
+                            if (arg == 1)
+                            {
+                                ImgEntry.Delete();
+                            }
+                        }
+
                         if(!final_Frame_List.Contains(int.Parse(entry.Name.Substring(0, 5))) && !sdip_200_frame.Contains(int.Parse(entry.Name.Substring(0, 5))))
                         {
                             subEntryMS = entry.Open();
@@ -1496,11 +1518,7 @@ namespace ViewPort
                             }
 
                         }
-                        foreach (int frame in F5_frame_List)
-                        {
-                            if (sdip_200_frame.Contains(frame))
-                                sdip_200_frame.Remove(frame);
-                        }
+                       
                     }
                     else if(View_Mode_RB.Checked)
                     {
@@ -1545,12 +1563,7 @@ namespace ViewPort
                         curruent_viewtype = 0;
                     }
                 }
-                foreach(int frame in F5_frame_List)
-                {
-                    if (sdip_200_frame.Contains(frame))
-                        sdip_200_frame.Remove(frame);
-                }
-
+            
                 if(Sdip_200_code_dicInfo.Count>0)
                 {
                     Real_SDIP_200_DIc = new Dictionary<string, ImageInfo>(Sdip_200_code_dicInfo);
@@ -1562,8 +1575,8 @@ namespace ViewPort
                     Sorted_dic_GRID = DicInfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
                     DicInfo = Sorted_dic_GRID;
 
-                    Set_Dl_PrintList();
-                    //First_Print_List();
+                    //Set_Dl_PrintList();
+                    First_Print_List();
 
                     All_LotID_List.Sort();
                     Initial_Equipment_DF_List();
