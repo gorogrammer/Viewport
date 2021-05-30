@@ -819,7 +819,7 @@ namespace ViewPort.Views
             }
 
 
-            else if (e.KeyCode == Keys.F12)
+            else if (e.KeyCode == Keys.F1)
             {
                 //Get_Delete_IMG();
                 Select_Pic_List.Clear();
