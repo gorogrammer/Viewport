@@ -28,7 +28,7 @@ namespace ViewPort.Models
             Delete_Check = DeleteNo;
             Equipment_DefectName = Equipment_DF;
             Review_DefectName = Review_DF;
-                       
+          
             SDIP_NO = sdip_no;
             SDIP_Result = sdip_result;
             xLocation = XLocation;
@@ -56,7 +56,7 @@ namespace ViewPort.Models
 
         public string X_Location { get { return xLocation; } set { xLocation = value; } }
         public string Y_Location { get { return yLocation; } set { yLocation = value; } }
-
+      
         public string ImageSize { get { return imageSize; } set { imageSize = value; } }
 
         public string Change_Code { get { return changeCode; } set { changeCode = value; } }

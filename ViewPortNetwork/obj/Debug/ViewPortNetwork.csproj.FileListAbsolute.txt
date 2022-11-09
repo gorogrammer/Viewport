@@ -341,3 +341,9 @@ C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPortNetwork\obj
 C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
 C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb
 C:\Users\metalheedo\Desktop\스템코 뷰어\210404\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csprojAssemblyReference.cache
+C:\Users\User\Source\Repos\Viewport\DLLs\ViewPortNetwork.dll
+C:\Users\User\Source\Repos\Viewport\DLLs\ViewPortNetwork.pdb
+C:\Users\User\Source\Repos\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csprojAssemblyReference.cache
+C:\Users\User\Source\Repos\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.csproj.CopyComplete
+C:\Users\User\Source\Repos\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.dll
+C:\Users\User\Source\Repos\Viewport\ViewPortNetwork\obj\Debug\ViewPortNetwork.pdb

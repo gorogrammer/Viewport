@@ -543,7 +543,45 @@ namespace ViewPort.Functions
 
 
         }
-       
+        public static void Rewrite_XY_TxtAsync(string FilePath, Dictionary<string, ImageInfo> Waiting_Del)
+        {
+            List<string> dic_ready = new List<string>();
+            int del_index = 0;
+            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+            {
+                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetXYFromPath(FilePath));
+
+                if (ImgEntry == null)
+                {
+                    MessageBox.Show(MSG_STR.NONE_XY_TXT);
+                    return;
+                }
+
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                string text = SR.ReadToEnd();
+                string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                int E_index = Array.FindIndex(items, i => i == "E") + 1;
+                dic_ready = items.ToList();
+
+                for (int i = E_index; i < dic_ready.Count; i++)
+                {
+                    if (Waiting_Del.Keys.ElementAt(del_index).Equals(dic_ready[i].Substring(0, 12)))
+                    {
+                        dic_ready.RemoveAt(i);
+                        del_index++;
+                    }
+                }
+
+                using (StreamWriter SW = new StreamWriter(ImgEntry.Open()))
+                {
+                    SW.WriteLine(dic_ready);
+                }
+
+                zip.Dispose();
+            }
+        }
+
+        
         public static void LoadDelFileID(FormViewPort parent, Dictionary<string, ImageInfo> Waiting_Del, Dictionary<string, ImageInfo> dicInfo)
         {
             FormViewPort Main = parent;

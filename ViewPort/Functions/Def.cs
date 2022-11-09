@@ -47,4 +47,20 @@ namespace ViewPort.Functions
     {
         public const string EXETENSION = "Zip Files (*.zip)|*.zip";
     }
+    public class EQ_STR
+    {
+        public const string DEFAULT = "Normal";
+        public const string SHORT = "SHORT";
+        public const string SPIN = "돌기";
+        public const string OPEN = "OPEN";
+        public const string MB = "MB";
+        public const string DISCOLORATION = "변색";
+        public const string TOP = "TOP결함";
+        public const string SR = "SR";
+    }
+    public class FORM_STR
+    {
+        public const string DLForm = "DL";
+        public const string ViewPort = "VP";
+    }
 }
