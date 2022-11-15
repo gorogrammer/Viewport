@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetroFramework.Forms;
 
 namespace ViewPort.Views
 {
-    public partial class RegForm : Form
+    public partial class RegForm : MetroForm
     {
         Functions.DBFunc db = new Functions.DBFunc();
         public RegForm()

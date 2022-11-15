@@ -155,6 +155,12 @@
     <Compile Include="Models\ImageListInfo.cs" />
     <Compile Include="Models\Interface1.cs" />
     <Compile Include="Models\txtInfo.cs" />
+    <Compile Include="Views\AlramForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\AlramForm.Designer.cs">
+      <DependentUpon>AlramForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Change_Code.cs">
       <SubType>Form</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -178,6 +184,12 @@
     <Compile Include="Views\DeleteWaiting.Designer.cs">
       <DependentUpon>DeleteWaiting.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Views\DL_Eng_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\DL_Eng_Form.Designer.cs">
+      <DependentUpon>DL_Eng_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\DL_ViewFrom.cs">
       <SubType>Form</SubType>
@@ -289,6 +301,9 @@
       <DependentUpon>XYLocationFilter.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <EmbeddedResource Include="Views\AlramForm.resx">
+      <DependentUpon>AlramForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Change_Code.resx">
       <DependentUpon>Change_Code.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -300,6 +315,9 @@
     <EmbeddedResource Include="Views\DeleteWaiting.resx">
       <DependentUpon>DeleteWaiting.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\DL_Eng_Form.resx">
+      <DependentUpon>DL_Eng_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DL_ViewFrom.resx">
       <DependentUpon>DL_ViewFrom.cs</DependentUpon>

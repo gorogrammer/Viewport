@@ -31,12 +31,16 @@ namespace SDIP.Forms
 
         private void LogIn()
         {
-            
+
 
             if (db.DBConnection(Int32.Parse(TB_ID.Text), TB_PASSWORD.Text))
+            {
                 MessageBox.Show("로그인성공");
-
-            this.Close();
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else
+                MessageBox.Show("로그인실패");
         }
 
         private void TB_PASSWORD_KeyDown(object sender, KeyEventArgs e)
@@ -48,6 +52,13 @@ namespace SDIP.Forms
         private void BTN_LOGIN_Click(object sender, EventArgs e)
         {
             LogIn();
+        }
+
+        private void BTN_등록_Click(object sender, EventArgs e)
+        {
+            ViewPort.Views.RegForm regForm = new ViewPort.Views.RegForm();
+
+            regForm.ShowDialog();
         }
     }
 }

@@ -31,6 +31,7 @@
             this.TB_ID = new System.Windows.Forms.TextBox();
             this.TB_PASSWORD = new System.Windows.Forms.TextBox();
             this.BTN_LOGIN = new MetroFramework.Controls.MetroTile();
+            this.BTN_등록 = new MetroFramework.Controls.MetroTile();
             this.SuspendLayout();
             // 
             // TB_ID
@@ -54,16 +55,27 @@
             // 
             this.BTN_LOGIN.Location = new System.Drawing.Point(211, 89);
             this.BTN_LOGIN.Name = "BTN_LOGIN";
-            this.BTN_LOGIN.Size = new System.Drawing.Size(103, 64);
+            this.BTN_LOGIN.Size = new System.Drawing.Size(66, 64);
             this.BTN_LOGIN.TabIndex = 2;
             this.BTN_LOGIN.Text = "LOGIN";
             this.BTN_LOGIN.Click += new System.EventHandler(this.BTN_LOGIN_Click);
+            // 
+            // BTN_등록
+            // 
+            this.BTN_등록.Location = new System.Drawing.Point(283, 89);
+            this.BTN_등록.Name = "BTN_등록";
+            this.BTN_등록.Size = new System.Drawing.Size(66, 64);
+            this.BTN_등록.TabIndex = 3;
+            this.BTN_등록.Text = "등록";
+            this.BTN_등록.Click += new System.EventHandler(this.BTN_등록_Click);
             // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(337, 169);
+            this.ClientSize = new System.Drawing.Size(369, 188);
+            this.ControlBox = false;
+            this.Controls.Add(this.BTN_등록);
             this.Controls.Add(this.BTN_LOGIN);
             this.Controls.Add(this.TB_PASSWORD);
             this.Controls.Add(this.TB_ID);
@@ -84,5 +96,6 @@
         private System.Windows.Forms.TextBox TB_ID;
         private System.Windows.Forms.TextBox TB_PASSWORD;
         private MetroFramework.Controls.MetroTile BTN_LOGIN;
+        private MetroFramework.Controls.MetroTile BTN_등록;
     }
 }

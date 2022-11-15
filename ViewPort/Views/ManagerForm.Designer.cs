@@ -30,6 +30,20 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.SRCheck = new System.Windows.Forms.CheckBox();
+            this.변색Check = new System.Windows.Forms.CheckBox();
+            this.TopCheck = new System.Windows.Forms.CheckBox();
+            this.MBCheck = new System.Windows.Forms.CheckBox();
+            this.OpenCheck = new System.Windows.Forms.CheckBox();
+            this.돌기Check = new System.Windows.Forms.CheckBox();
+            this.ShortCheck = new System.Windows.Forms.CheckBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -42,18 +56,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -63,13 +69,7 @@
             this.label24 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.NormalCheck = new System.Windows.Forms.CheckBox();
-            this.ShortCheck = new System.Windows.Forms.CheckBox();
-            this.돌기Check = new System.Windows.Forms.CheckBox();
-            this.OpenCheck = new System.Windows.Forms.CheckBox();
-            this.MBCheck = new System.Windows.Forms.CheckBox();
-            this.TopCheck = new System.Windows.Forms.CheckBox();
-            this.변색Check = new System.Windows.Forms.CheckBox();
-            this.SRCheck = new System.Windows.Forms.CheckBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -145,8 +145,163 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(604, 468);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // SRCheck
+            // 
+            this.SRCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.SRCheck.AutoSize = true;
+            this.SRCheck.Location = new System.Drawing.Point(519, 434);
+            this.SRCheck.Name = "SRCheck";
+            this.SRCheck.Size = new System.Drawing.Size(15, 14);
+            this.SRCheck.TabIndex = 50;
+            this.SRCheck.UseVisualStyleBackColor = true;
+            this.SRCheck.CheckedChanged += new System.EventHandler(this.SRCheck_CheckedChanged);
+            // 
+            // 변색Check
+            // 
+            this.변색Check.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.변색Check.AutoSize = true;
+            this.변색Check.Location = new System.Drawing.Point(519, 381);
+            this.변색Check.Name = "변색Check";
+            this.변색Check.Size = new System.Drawing.Size(15, 14);
+            this.변색Check.TabIndex = 49;
+            this.변색Check.UseVisualStyleBackColor = true;
+            this.변색Check.CheckedChanged += new System.EventHandler(this.변색Check_CheckedChanged);
+            // 
+            // TopCheck
+            // 
+            this.TopCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TopCheck.AutoSize = true;
+            this.TopCheck.Location = new System.Drawing.Point(519, 329);
+            this.TopCheck.Name = "TopCheck";
+            this.TopCheck.Size = new System.Drawing.Size(15, 14);
+            this.TopCheck.TabIndex = 48;
+            this.TopCheck.UseVisualStyleBackColor = true;
+            this.TopCheck.CheckedChanged += new System.EventHandler(this.TopCheck_CheckedChanged);
+            // 
+            // MBCheck
+            // 
+            this.MBCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.MBCheck.AutoSize = true;
+            this.MBCheck.Location = new System.Drawing.Point(519, 277);
+            this.MBCheck.Name = "MBCheck";
+            this.MBCheck.Size = new System.Drawing.Size(15, 14);
+            this.MBCheck.TabIndex = 47;
+            this.MBCheck.UseVisualStyleBackColor = true;
+            this.MBCheck.CheckedChanged += new System.EventHandler(this.MBCheck_CheckedChanged);
+            // 
+            // OpenCheck
+            // 
+            this.OpenCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.OpenCheck.AutoSize = true;
+            this.OpenCheck.Location = new System.Drawing.Point(519, 225);
+            this.OpenCheck.Name = "OpenCheck";
+            this.OpenCheck.Size = new System.Drawing.Size(15, 14);
+            this.OpenCheck.TabIndex = 46;
+            this.OpenCheck.UseVisualStyleBackColor = true;
+            this.OpenCheck.CheckedChanged += new System.EventHandler(this.OpenCheck_CheckedChanged);
+            // 
+            // 돌기Check
+            // 
+            this.돌기Check.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.돌기Check.AutoSize = true;
+            this.돌기Check.Location = new System.Drawing.Point(519, 173);
+            this.돌기Check.Name = "돌기Check";
+            this.돌기Check.Size = new System.Drawing.Size(15, 14);
+            this.돌기Check.TabIndex = 45;
+            this.돌기Check.UseVisualStyleBackColor = true;
+            this.돌기Check.CheckedChanged += new System.EventHandler(this.돌기Check_CheckedChanged);
+            // 
+            // ShortCheck
+            // 
+            this.ShortCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ShortCheck.AutoSize = true;
+            this.ShortCheck.Location = new System.Drawing.Point(519, 121);
+            this.ShortCheck.Name = "ShortCheck";
+            this.ShortCheck.Size = new System.Drawing.Size(15, 14);
+            this.ShortCheck.TabIndex = 44;
+            this.ShortCheck.UseVisualStyleBackColor = true;
+            this.ShortCheck.CheckedChanged += new System.EventHandler(this.ShortCheck_CheckedChanged);
+            // 
+            // label34
+            // 
+            this.label34.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label34.Location = new System.Drawing.Point(187, 433);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(77, 16);
+            this.label34.TabIndex = 33;
+            this.label34.Text = "100 X 100";
+            // 
+            // label32
+            // 
+            this.label32.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label32.Location = new System.Drawing.Point(349, 380);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(53, 16);
+            this.label32.TabIndex = 31;
+            this.label32.Text = "13 X 8";
+            // 
+            // label28
+            // 
+            this.label28.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label28.Location = new System.Drawing.Point(187, 328);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(77, 16);
+            this.label28.TabIndex = 27;
+            this.label28.Text = "100 X 100";
+            // 
+            // label20
+            // 
+            this.label20.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label20.Location = new System.Drawing.Point(353, 172);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(45, 16);
+            this.label20.TabIndex = 19;
+            this.label20.Text = "8 X 5";
+            // 
+            // label17
+            // 
+            this.label17.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label17.Location = new System.Drawing.Point(353, 120);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(45, 16);
+            this.label17.TabIndex = 16;
+            this.label17.Text = "8 X 5";
+            // 
+            // label16
+            // 
+            this.label16.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label16.Location = new System.Drawing.Point(187, 120);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(77, 16);
+            this.label16.TabIndex = 15;
+            this.label16.Text = "200 X 200";
+            // 
+            // label13
+            // 
+            this.label13.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label13.Location = new System.Drawing.Point(187, 69);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(77, 16);
+            this.label13.TabIndex = 12;
+            this.label13.Text = "120 X 120";
             // 
             // panel2
             // 
@@ -269,17 +424,6 @@
             this.label8.TabIndex = 7;
             this.label8.Text = "OPEN";
             // 
-            // label9
-            // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label9.Location = new System.Drawing.Point(40, 328);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(71, 16);
-            this.label9.TabIndex = 8;
-            this.label9.Text = "TOP결함";
-            // 
             // label10
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -290,6 +434,17 @@
             this.label10.Size = new System.Drawing.Size(31, 16);
             this.label10.TabIndex = 9;
             this.label10.Text = "MB";
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label9.Location = new System.Drawing.Point(40, 328);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(71, 16);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "TOP결함";
             // 
             // label11
             // 
@@ -312,94 +467,6 @@
             this.label12.Size = new System.Drawing.Size(114, 16);
             this.label12.TabIndex = 11;
             this.label12.Text = "SR Bleed/Lack";
-            // 
-            // label13
-            // 
-            this.label13.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label13.Location = new System.Drawing.Point(187, 69);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(77, 16);
-            this.label13.TabIndex = 12;
-            this.label13.Text = "120 X 120";
-            // 
-            // label14
-            // 
-            this.label14.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label14.Location = new System.Drawing.Point(349, 69);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(53, 16);
-            this.label14.TabIndex = 13;
-            this.label14.Text = "12 X 7";
-            // 
-            // label16
-            // 
-            this.label16.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label16.Location = new System.Drawing.Point(187, 120);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(77, 16);
-            this.label16.TabIndex = 15;
-            this.label16.Text = "200 X 200";
-            // 
-            // label17
-            // 
-            this.label17.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label17.Location = new System.Drawing.Point(353, 120);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(45, 16);
-            this.label17.TabIndex = 16;
-            this.label17.Text = "8 X 5";
-            // 
-            // label20
-            // 
-            this.label20.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label20.Location = new System.Drawing.Point(353, 172);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(45, 16);
-            this.label20.TabIndex = 19;
-            this.label20.Text = "8 X 5";
-            // 
-            // label28
-            // 
-            this.label28.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label28.AutoSize = true;
-            this.label28.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label28.Location = new System.Drawing.Point(187, 328);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(77, 16);
-            this.label28.TabIndex = 27;
-            this.label28.Text = "100 X 100";
-            // 
-            // label32
-            // 
-            this.label32.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label32.Location = new System.Drawing.Point(349, 380);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(53, 16);
-            this.label32.TabIndex = 31;
-            this.label32.Text = "13 X 8";
-            // 
-            // label34
-            // 
-            this.label34.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label34.Location = new System.Drawing.Point(187, 433);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(77, 16);
-            this.label34.TabIndex = 33;
-            this.label34.Text = "100 X 100";
             // 
             // label15
             // 
@@ -500,82 +567,16 @@
             this.NormalCheck.UseVisualStyleBackColor = true;
             this.NormalCheck.CheckedChanged += new System.EventHandler(this.NormalCheck_CheckedChanged);
             // 
-            // ShortCheck
+            // label14
             // 
-            this.ShortCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ShortCheck.AutoSize = true;
-            this.ShortCheck.Location = new System.Drawing.Point(519, 121);
-            this.ShortCheck.Name = "ShortCheck";
-            this.ShortCheck.Size = new System.Drawing.Size(15, 14);
-            this.ShortCheck.TabIndex = 44;
-            this.ShortCheck.UseVisualStyleBackColor = true;
-            this.ShortCheck.CheckedChanged += new System.EventHandler(this.ShortCheck_CheckedChanged);
-            // 
-            // 돌기Check
-            // 
-            this.돌기Check.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.돌기Check.AutoSize = true;
-            this.돌기Check.Location = new System.Drawing.Point(519, 173);
-            this.돌기Check.Name = "돌기Check";
-            this.돌기Check.Size = new System.Drawing.Size(15, 14);
-            this.돌기Check.TabIndex = 45;
-            this.돌기Check.UseVisualStyleBackColor = true;
-            this.돌기Check.CheckedChanged += new System.EventHandler(this.돌기Check_CheckedChanged);
-            // 
-            // OpenCheck
-            // 
-            this.OpenCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.OpenCheck.AutoSize = true;
-            this.OpenCheck.Location = new System.Drawing.Point(519, 225);
-            this.OpenCheck.Name = "OpenCheck";
-            this.OpenCheck.Size = new System.Drawing.Size(15, 14);
-            this.OpenCheck.TabIndex = 46;
-            this.OpenCheck.UseVisualStyleBackColor = true;
-            this.OpenCheck.CheckedChanged += new System.EventHandler(this.OpenCheck_CheckedChanged);
-            // 
-            // MBCheck
-            // 
-            this.MBCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.MBCheck.AutoSize = true;
-            this.MBCheck.Location = new System.Drawing.Point(519, 277);
-            this.MBCheck.Name = "MBCheck";
-            this.MBCheck.Size = new System.Drawing.Size(15, 14);
-            this.MBCheck.TabIndex = 47;
-            this.MBCheck.UseVisualStyleBackColor = true;
-            this.MBCheck.CheckedChanged += new System.EventHandler(this.MBCheck_CheckedChanged);
-            // 
-            // TopCheck
-            // 
-            this.TopCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.TopCheck.AutoSize = true;
-            this.TopCheck.Location = new System.Drawing.Point(519, 329);
-            this.TopCheck.Name = "TopCheck";
-            this.TopCheck.Size = new System.Drawing.Size(15, 14);
-            this.TopCheck.TabIndex = 48;
-            this.TopCheck.UseVisualStyleBackColor = true;
-            this.TopCheck.CheckedChanged += new System.EventHandler(this.TopCheck_CheckedChanged);
-            // 
-            // 변색Check
-            // 
-            this.변색Check.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.변색Check.AutoSize = true;
-            this.변색Check.Location = new System.Drawing.Point(519, 381);
-            this.변색Check.Name = "변색Check";
-            this.변색Check.Size = new System.Drawing.Size(15, 14);
-            this.변색Check.TabIndex = 49;
-            this.변색Check.UseVisualStyleBackColor = true;
-            this.변색Check.CheckedChanged += new System.EventHandler(this.변색Check_CheckedChanged);
-            // 
-            // SRCheck
-            // 
-            this.SRCheck.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.SRCheck.AutoSize = true;
-            this.SRCheck.Location = new System.Drawing.Point(519, 434);
-            this.SRCheck.Name = "SRCheck";
-            this.SRCheck.Size = new System.Drawing.Size(15, 14);
-            this.SRCheck.TabIndex = 50;
-            this.SRCheck.UseVisualStyleBackColor = true;
-            this.SRCheck.CheckedChanged += new System.EventHandler(this.SRCheck_CheckedChanged);
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label14.Location = new System.Drawing.Point(349, 69);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(53, 16);
+            this.label14.TabIndex = 13;
+            this.label14.Text = "12 X 7";
             // 
             // ManagerForm
             // 
@@ -634,7 +635,6 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label18;
@@ -645,5 +645,6 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.CheckBox NormalCheck;
+        private System.Windows.Forms.Label label14;
     }
 }

@@ -3374,3 +3374,5 @@ C:\Users\User\Source\Repos\Viewport\ViewPort\obj\Debug\ViewPort.csproj.GenerateR
 C:\Users\User\Source\Repos\Viewport\ViewPort\obj\Debug\ViewPort.csproj.CopyComplete
 C:\Users\User\Source\Repos\Viewport\ViewPort\obj\Debug\ViewPort.exe
 C:\Users\User\Source\Repos\Viewport\ViewPort\obj\Debug\ViewPort.pdb
+C:\Users\User\Source\Repos\Viewport\ViewPort\obj\Debug\ViewPort.Views.DL_Eng_Form.resources
+C:\Users\User\Source\Repos\Viewport\ViewPort\obj\Debug\ViewPort.Views.AlramForm.resources

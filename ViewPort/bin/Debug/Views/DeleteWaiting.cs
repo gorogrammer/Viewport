@@ -563,6 +563,11 @@ namespace ViewPort.Views
 
         private void Set_Image()
         {
+            if(zipFilePath == string.Empty)
+            {
+                return;
+            }
+
             Bitmap tmp_Img = null;
             List<string> compare_zip = new List<string>();
             Dictionary<string, ImageInfo> Compare_Dicinfo = new Dictionary<string, ImageInfo>();

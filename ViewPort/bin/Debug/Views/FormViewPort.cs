@@ -33,8 +33,10 @@ namespace ViewPort
 
         bool Zip_Error = false;
         public bool EngrMode = false;
+        
         ImageViewer open = new ImageViewer();
         LoadingGIF_Func waitform = new LoadingGIF_Func();
+        EngrModeForm engMode;
         Dictionary<string, ImageInfo> eq_CB_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Copy = new Dictionary<string, ImageInfo>();
@@ -76,6 +78,7 @@ namespace ViewPort
         string listFiler = string.Empty;
         string path_check = string.Empty;
         int Rotate_Option = 1;
+        public string LotName = string.Empty;
         public string EngrModePW = "1234";
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
         //List<ImageListInfo> FilterList = new List<ImageListInfo>();
@@ -103,6 +106,7 @@ namespace ViewPort
         List<string> Selected_Pic = new List<string>();
         List<string> Change_state_List = new List<string>();
         List<string> dl_List_Main = new List<string>();
+        List<string> dl_List_Sever = new List<string>();
         List<int> contain_200_Frame_Main = new List<int>();
         List<string> dl_Apply_List_Main = new List<string>();
         List<string> dl_NotApply_List_Main = new List<string>();
@@ -189,7 +193,7 @@ namespace ViewPort
         public List<string> F12_del_list_main { get => f12_del_list_main; set => f12_del_list_main = value; }
         public List<string> Dl_NotApply_List_Main { get => dl_NotApply_List_Main; set => dl_NotApply_List_Main = value; }
         public List<string> Dl_List_Main { get => dl_List_Main; set => dl_List_Main = value; }
-
+        public List<string> DI_List_Sever { get => dl_List_Sever; set => dl_List_Sever = value; }
         public List<string> Selected_Equipment_DF_List_Main { get => Selected_Equipment_DF_List; set => Selected_Equipment_DF_List = value; }
 
 
@@ -232,9 +236,8 @@ namespace ViewPort
             int revisionV = v.Revision; // 수정번호
             //groupBox1.Controls.boder
             versionNo.Text = "Version" + " "+ revisionV.ToString();
-            SDIP.Forms.FormLogin loginForm = new SDIP.Forms.FormLogin();
-            loginForm.StartPosition = FormStartPosition.CenterParent;
-            loginForm.ShowDialog();
+            
+            
         }
 
         public void Init()
@@ -1390,8 +1393,7 @@ namespace ViewPort
 
 
 
-
-                        formLoading.Dispose();
+                    formLoading.Dispose();
                     }
                     else
                     {
@@ -1497,7 +1499,11 @@ namespace ViewPort
         {
             //All_Clear();
             //InitialData();
-
+            EngrMode = false;
+            if(engMode != null)
+            engMode.Close();
+            if(dl_List_Sever.Count > 0)
+                DI_List_Sever.Clear();
             ZipLoadFile_Async();
             
             if(Zip_Error)
@@ -1522,6 +1528,9 @@ namespace ViewPort
                     sdip_200_frame.Clear();
                     Sdip_200_code_dicInfo.Clear();
                     Selected_Pic.Clear();
+                    LotName = sp[1];
+                    DBFunc db = new DBFunc();
+                    db.DB_DL_UpLoad(LotName, Dl_List_Main,DI_List_Sever);
                     LotIDProductName.Text = sp[1] + "     " + sp[2];
                     if (Manual_Mode_RB.Checked)
                     {
@@ -1672,13 +1681,38 @@ namespace ViewPort
                     Setting = 1;
                     open.Setting = Setting;
                 }
+                LimitAlarm();
 
-       
+
+
             }
             else
             {
 
             }
+
+        }
+        private void LimitAlarm()
+        {
+            List<string> Limit_List = new List<string>();
+            string LimitMessage = string.Empty;
+            foreach(string DL_List in DI_List_Sever)
+            {
+                string[] DL_Split=DL_List.Split(',');
+
+                if(float.Parse(DL_Split[3]) < float.Parse(DL_Split[4]) )
+                {
+                    Limit_List.Add(DL_Split[0] + "  :  " + DL_Split[5]);
+                }
+                    
+            }
+            if (Limit_List.Count > 0)
+            {
+                AlramForm alram = new AlramForm();
+                alram.AlarmText(Limit_List);
+                alram.ShowDialog();
+            }
+                
 
         }
         private void Code_200_Set()
@@ -3945,8 +3979,21 @@ namespace ViewPort
 
         private void engrModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           EngrModeForm EngrModeForm = new EngrModeForm(this,open,FORM_STR.ViewPort);
-            EngrModeForm.ShowDialog();
+            engMode = new EngrModeForm(this, open);
+            engMode.EngModeCheck = FORM_STR.ViewPort;
+            engMode.Show();
+        }
+
+        private void FormViewPort_Load(object sender, EventArgs e)
+        {
+            SDIP.Forms.FormLogin loginForm = new SDIP.Forms.FormLogin();
+            loginForm.StartPosition = FormStartPosition.CenterParent;
+            loginForm.ShowDialog();
+            if (loginForm.DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                this.Activate();
+            }
+            
         }
     }
 

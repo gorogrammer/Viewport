@@ -16,14 +16,14 @@ namespace ViewPort.Views
 {
     public partial class DL_ViewFrom : Form
     {
-
-        FormViewPort Main;
-        ImageViewer Open;
-        public DL_ViewFrom(FormViewPort parent,ImageViewer open)
+        ImageViewer image;
+        FormViewPort viewPort;
+        public DL_ViewFrom(ImageViewer imageViewer,FormViewPort formViewPort)
         {
+
             InitializeComponent();
-            Main = parent;
-            Open = open;
+            image = imageViewer;
+            viewPort = formViewPort;
             DataTable dt = new DataTable();
             dt.Columns.Add("SDIP Code");
             dt.Columns.Add("SDIP 불량명");
@@ -52,7 +52,7 @@ namespace ViewPort.Views
                 dt.Columns.Add("자동불량수(투입수)");
                 dt.Columns.Add("자동불량율(%)");
                 dt.Columns.Add("Limit(%)");
-
+                
                 foreach (string dl in list)
                 {
                     if(dl.Split(',').Length == 2)
@@ -94,8 +94,9 @@ namespace ViewPort.Views
 
         private void EngrModeBT_Click(object sender, EventArgs e)
         {
-            EngrModeForm engrMode = new EngrModeForm(Main,Open,FORM_STR.DLForm);
-            engrMode.ShowDialog();
+            EngrModeForm engrMode = new EngrModeForm(viewPort,image);
+            engrMode.EngModeCheck = FORM_STR.DLForm;
+            engrMode.Show();
             
 
         }

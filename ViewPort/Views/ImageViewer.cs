@@ -381,7 +381,7 @@ namespace ViewPort.Views
                 }
                 else
                 {
-                    DL_ViewFrom DL = new DL_ViewFrom(Main,this);
+                    DL_ViewFrom DL = new DL_ViewFrom(this,Main);
                     DL.Dl_LIst_ADD(Main.Dl_List_Main);
                     DL.ShowDialog();
 
@@ -626,7 +626,7 @@ namespace ViewPort.Views
 
                         }
                     }
-              
+                    MessageBox.Show("   이미지 추출 완료 \n Lot Name : "+Main.LotName + "\n 위치 : "+ save_path);
                 }
                 else
                 {
@@ -2717,8 +2717,12 @@ namespace ViewPort.Views
 
            // MessageBox.Show(st.ElapsedMilliseconds.ToString());
         }
-        public void Set_EngData(string StateNum)
+        public void Set_EngData(string StateNum, string Cols,string Rows, string Width , string Height)
         {
+            Main.Cols_TB.Text = Cols;
+            Main.Rows_TB.Text = Rows;
+            Main.Width_TB.Text = Width;
+            Main.Height_TB.Text = Height;
             Dictionary<string, ImageInfo> Data = new Dictionary<string, ImageInfo>();
             List<int> FramNoData = new List<int>();
 
@@ -2734,6 +2738,45 @@ namespace ViewPort.Views
 
 
             }
+            Set_PictureBox();
+            Set_Image_Eng();
+        }
+        public void Set_MultiCheck_EngData(string StateNum)
+        {
+            Dictionary<string, ImageInfo> Data = new Dictionary<string, ImageInfo>();
+            List<int> FramNoData = new List<int>();
+            Main.Cols_TB.Text = "12";
+            Main.Rows_TB.Text = "7";
+            Main.Width_TB.Text = "120";
+            Main.Height_TB.Text = "120";
+
+
+            for (int i = 0; i < DicInfo_Filtered.Count; i++)
+            {
+                if (DicInfo_Filtered.Values.ElementAt(i).EquipmentDefectName.Contains(StateNum))
+                    Main.Eng_dicinfo.Add(DicInfo_Filtered.Keys.ElementAt(i), DicInfo_Filtered.Values.ElementAt(i));
+
+
+            }
+            Set_PictureBox();
+            Set_Image_Eng();
+        }
+        public void Del_EngData(string StateNum,int check)
+        {
+            Dictionary<string, ImageInfo> Data = new Dictionary<string, ImageInfo>();
+            List<int> FramNoData = new List<int>();
+
+           
+
+            for (int i = 0; i < Main.Eng_dicinfo.Count; i++)
+            {
+                if (Main.Eng_dicinfo.Values.ElementAt(i).EquipmentDefectName.Contains(StateNum))
+                    Main.Eng_dicinfo.Remove(Main.Eng_dicinfo.Keys.ElementAt(i));
+
+
+            }
+           
+            Set_PictureBox();
             Set_Image_Eng();
         }
         public void Set_Image_Eng()

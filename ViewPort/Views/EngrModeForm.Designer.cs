@@ -102,7 +102,7 @@
             this.Controls.Add(this.EngPW);
             this.Controls.Add(this.panel1);
             this.Name = "EngrModeForm";
-            this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EngrModeForm_FormClosing);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

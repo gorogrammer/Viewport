@@ -8,32 +8,38 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ViewPort.Functions;
+using MetroFramework.Forms;
 
 namespace ViewPort.Views
 {
-    public partial class EngrModeForm : Form
+    public partial class EngrModeForm : MetroForm
     {
-        string Form_Str;
         FormViewPort Main;
         ManagerForm managerForm;
         ImageViewer ImageViewer;
-        public EngrModeForm(FormViewPort MainForm,ImageViewer image,string Form)
+        DL_Eng_Form dL_Eng_Form;
+        string engModeCheck = string.Empty;
+
+
+        public string EngModeCheck { get => engModeCheck; set => engModeCheck = value; }
+
+        public EngrModeForm(FormViewPort MainForm,ImageViewer image)
         {
            
             InitializeComponent();
             Main = MainForm;
             ImageViewer = image;
-            Form_Str = Form;
+            //Form_Str = Form;
             if (Main.EngrMode)
                 EngState.Text = "ON";
             else if (!Main.EngrMode)
                 EngState.Text = "OFF";
-            
+            this.Focus();
         }
 
         private void EngStateBT_Click(object sender, EventArgs e)
         {
-            if (Form_Str == FORM_STR.ViewPort)
+            if (EngModeCheck == FORM_STR.ViewPort)
             {
                 if (EngPW.Text == Main.EngrModePW)
                 {
@@ -53,7 +59,7 @@ namespace ViewPort.Views
                     }
                 }
             }
-            else if(Form_Str == FORM_STR.DLForm)
+            else if(EngModeCheck == FORM_STR.DLForm)
             {
                 if (EngPW.Text == Main.EngrModePW)
                 {
@@ -61,15 +67,17 @@ namespace ViewPort.Views
                     {
                         Main.EngrMode = false;
                         EngState.Text = "OFF";
-                        if (managerForm != null)
-                            managerForm.Close();
+                        if (dL_Eng_Form != null)
+                            dL_Eng_Form.Close();
                     }
                     else if (!Main.EngrMode)
                     {
                         Main.EngrMode = true;
                         EngState.Text = "ON";
-                        managerForm = new ManagerForm(ImageViewer);
-                        managerForm.Show();
+                        dL_Eng_Form = new DL_Eng_Form(ImageViewer,Main.DI_List_Sever);
+                        dL_Eng_Form.LotName = Main.LotName;                        
+                        dL_Eng_Form.Dl_LIst_ADD(Main.DI_List_Sever);                   
+                        dL_Eng_Form.ShowDialog();
                     }
                 }
             }
@@ -77,6 +85,11 @@ namespace ViewPort.Views
             {
                 MessageBox.Show("Password Error");
             }
+        }
+
+        private void EngrModeForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Main.EngrMode = false;
         }
     }
 }

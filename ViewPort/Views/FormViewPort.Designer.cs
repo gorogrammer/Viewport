@@ -516,7 +516,7 @@
             // clickToolStripMenuItem
             // 
             this.clickToolStripMenuItem.Name = "clickToolStripMenuItem";
-            this.clickToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clickToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.clickToolStripMenuItem.Text = "Click";
             this.clickToolStripMenuItem.Click += new System.EventHandler(this.clickToolStripMenuItem_Click);
             // 
@@ -658,22 +658,22 @@
             // Frame_BT
             // 
             this.Frame_BT.AutoSize = true;
-            this.Frame_BT.Checked = true;
             this.Frame_BT.Location = new System.Drawing.Point(145, 14);
             this.Frame_BT.Name = "Frame_BT";
             this.Frame_BT.Size = new System.Drawing.Size(75, 16);
             this.Frame_BT.TabIndex = 33;
-            this.Frame_BT.TabStop = true;
             this.Frame_BT.Text = "Frame 순";
             this.Frame_BT.UseVisualStyleBackColor = true;
             // 
             // XY_BT
             // 
             this.XY_BT.AutoSize = true;
+            this.XY_BT.Checked = true;
             this.XY_BT.Location = new System.Drawing.Point(11, 14);
             this.XY_BT.Name = "XY_BT";
             this.XY_BT.Size = new System.Drawing.Size(63, 16);
             this.XY_BT.TabIndex = 33;
+            this.XY_BT.TabStop = true;
             this.XY_BT.Text = "좌표 순";
             this.XY_BT.UseVisualStyleBackColor = true;
             // 
@@ -1034,6 +1034,7 @@
             this.Text = "Carlo ViewPort";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormViewPort_FormClosing);
+            this.Load += new System.EventHandler(this.FormViewPort_Load);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormViewPort_MouseMove);
             this.Resize += new System.EventHandler(this.FormViewPort_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
