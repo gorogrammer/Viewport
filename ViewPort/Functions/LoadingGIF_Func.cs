@@ -34,9 +34,12 @@ namespace ViewPort.Functions
         {
             if(wait != null)
             {
-                wait.BeginInvoke(new System.Threading.ThreadStart(wait.CloseWaitForm));
-                wait = null;
-                loadthread = null;
+                if (wait.InvokeRequired)
+                {
+                    wait.BeginInvoke(new System.Threading.ThreadStart(wait.CloseWaitForm));
+                    wait = null;
+                    loadthread = null;
+                }
 
             }
         }

@@ -959,7 +959,9 @@ namespace ViewPort.Views
             Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
 
 
-            
+            Main.delete = Main.delete  - Main.selected_Pic.Count;
+            Main.InfoListCount = Main.InfoListCount + Main.selected_Pic.Count; 
+            Main.UpdateDeleteText();
             Main.Dl_Wait_Del_Print_List();
             Main.Return_Img_Print();
             dicInfo_Delete_Sel.Clear();

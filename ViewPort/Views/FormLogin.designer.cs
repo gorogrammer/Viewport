@@ -85,7 +85,7 @@
             this.Movable = false;
             this.Name = "FormLogin";
             this.Resizable = false;
-            this.Text = "Carlo SDIP";
+            this.Text = "ViewPort";
             this.ResumeLayout(false);
             this.PerformLayout();
 

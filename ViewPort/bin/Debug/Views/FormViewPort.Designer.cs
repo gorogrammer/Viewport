@@ -67,8 +67,6 @@
             this.xyFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.engrModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Update_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tESTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -111,7 +109,7 @@
             this.mAPTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionNo = new MetroFramework.Controls.MetroLabel();
             this.LotIDProductName = new System.Windows.Forms.Label();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label13 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -143,7 +141,7 @@
             this.Print_Image_BT.Location = new System.Drawing.Point(224, 5);
             this.Print_Image_BT.Name = "Print_Image_BT";
             this.Print_Image_BT.Size = new System.Drawing.Size(92, 26);
-            this.Print_Image_BT.TabIndex = 13;
+            this.Print_Image_BT.TabIndex = 30;
             this.Print_Image_BT.Text = "Print Image";
             this.Print_Image_BT.UseVisualStyleBackColor = true;
             this.Print_Image_BT.Click += new System.EventHandler(this.Print_Image_BT_Click);
@@ -155,7 +153,7 @@
             this.List_Count_TB.Name = "List_Count_TB";
             this.List_Count_TB.ReadOnly = true;
             this.List_Count_TB.Size = new System.Drawing.Size(79, 21);
-            this.List_Count_TB.TabIndex = 18;
+            this.List_Count_TB.TabIndex = 17;
             // 
             // label5
             // 
@@ -183,7 +181,7 @@
             this.Frame_E_Page_TB.Location = new System.Drawing.Point(156, 195);
             this.Frame_E_Page_TB.Name = "Frame_E_Page_TB";
             this.Frame_E_Page_TB.Size = new System.Drawing.Size(38, 21);
-            this.Frame_E_Page_TB.TabIndex = 17;
+            this.Frame_E_Page_TB.TabIndex = 15;
             // 
             // label6
             // 
@@ -200,7 +198,7 @@
             this.S_Page_TB.Location = new System.Drawing.Point(93, 87);
             this.S_Page_TB.Name = "S_Page_TB";
             this.S_Page_TB.Size = new System.Drawing.Size(38, 21);
-            this.S_Page_TB.TabIndex = 1;
+            this.S_Page_TB.TabIndex = 7;
             this.S_Page_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.S_Page_TB_KeyDown);
             // 
             // Rotate_CLB
@@ -209,7 +207,7 @@
             this.Rotate_CLB.Location = new System.Drawing.Point(93, 61);
             this.Rotate_CLB.Name = "Rotate_CLB";
             this.Rotate_CLB.Size = new System.Drawing.Size(95, 20);
-            this.Rotate_CLB.TabIndex = 7;
+            this.Rotate_CLB.TabIndex = 6;
             this.Rotate_CLB.SelectedIndexChanged += new System.EventHandler(this.Rotate_CLB_SelectedIndexChanged);
             // 
             // Frame_S_Page_TB
@@ -217,7 +215,7 @@
             this.Frame_S_Page_TB.Location = new System.Drawing.Point(109, 195);
             this.Frame_S_Page_TB.Name = "Frame_S_Page_TB";
             this.Frame_S_Page_TB.Size = new System.Drawing.Size(38, 21);
-            this.Frame_S_Page_TB.TabIndex = 16;
+            this.Frame_S_Page_TB.TabIndex = 14;
             this.Frame_S_Page_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frame_S_Page_TB_KeyDown);
             // 
             // label10
@@ -235,7 +233,7 @@
             this.Frame_S_TB.Location = new System.Drawing.Point(93, 114);
             this.Frame_S_TB.Name = "Frame_S_TB";
             this.Frame_S_TB.Size = new System.Drawing.Size(38, 21);
-            this.Frame_S_TB.TabIndex = 1;
+            this.Frame_S_TB.TabIndex = 9;
             this.Frame_S_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frame_S_TB_KeyDown);
             // 
             // label3
@@ -256,7 +254,7 @@
             this.Equipment_DF_CLB.FormattingEnabled = true;
             this.Equipment_DF_CLB.Location = new System.Drawing.Point(0, 0);
             this.Equipment_DF_CLB.Name = "Equipment_DF_CLB";
-            this.Equipment_DF_CLB.Size = new System.Drawing.Size(322, 81);
+            this.Equipment_DF_CLB.Size = new System.Drawing.Size(322, 77);
             this.Equipment_DF_CLB.TabIndex = 0;
             this.Equipment_DF_CLB.SelectedValueChanged += new System.EventHandler(this.Equipment_DF_CLB_SelectedValueChanged);
             // 
@@ -377,8 +375,7 @@
             this.파일ToolStripMenuItem,
             this.저장ToolStripMenuItem,
             this.코드변경ToolStripMenuItem,
-            this.Update_ToolStripMenuItem,
-            this.tESTToolStripMenuItem});
+            this.Update_ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(10, 60);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1785, 24);
@@ -399,21 +396,21 @@
             // zipLoadFileToolStripMenuItem
             // 
             this.zipLoadFileToolStripMenuItem.Name = "zipLoadFileToolStripMenuItem";
-            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
             this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
             // 
             // listFilterToolStripMenuItem
             // 
             this.listFilterToolStripMenuItem.Name = "listFilterToolStripMenuItem";
-            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.listFilterToolStripMenuItem.Text = "List Filter";
             this.listFilterToolStripMenuItem.Click += new System.EventHandler(this.listFilterToolStripMenuItem_Click);
             // 
             // frameListFilerToolStripMenuItem
             // 
             this.frameListFilerToolStripMenuItem.Name = "frameListFilerToolStripMenuItem";
-            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.frameListFilerToolStripMenuItem.Text = "Frame  List Filer";
             this.frameListFilerToolStripMenuItem.Click += new System.EventHandler(this.frameListFilerToolStripMenuItem_Click);
             // 
@@ -504,21 +501,6 @@
             this.Update_ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.Update_ToolStripMenuItem.Text = "업데이트";
             this.Update_ToolStripMenuItem.Click += new System.EventHandler(this.Update_ToolStripMenuItem_Click);
-            // 
-            // tESTToolStripMenuItem
-            // 
-            this.tESTToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clickToolStripMenuItem});
-            this.tESTToolStripMenuItem.Name = "tESTToolStripMenuItem";
-            this.tESTToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.tESTToolStripMenuItem.Text = "TEST";
-            // 
-            // clickToolStripMenuItem
-            // 
-            this.clickToolStripMenuItem.Name = "clickToolStripMenuItem";
-            this.clickToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.clickToolStripMenuItem.Text = "Click";
-            this.clickToolStripMenuItem.Click += new System.EventHandler(this.clickToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -640,7 +622,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
             this.splitContainer5.Size = new System.Drawing.Size(322, 353);
-            this.splitContainer5.SplitterDistance = 268;
+            this.splitContainer5.SplitterDistance = 272;
             this.splitContainer5.TabIndex = 0;
             // 
             // groupBox1
@@ -661,9 +643,10 @@
             this.Frame_BT.Location = new System.Drawing.Point(145, 14);
             this.Frame_BT.Name = "Frame_BT";
             this.Frame_BT.Size = new System.Drawing.Size(75, 16);
-            this.Frame_BT.TabIndex = 33;
+            this.Frame_BT.TabIndex = 19;
             this.Frame_BT.Text = "Frame 순";
             this.Frame_BT.UseVisualStyleBackColor = true;
+            this.Frame_BT.CheckedChanged += new System.EventHandler(this.Frame_BT_CheckedChanged);
             // 
             // XY_BT
             // 
@@ -672,10 +655,11 @@
             this.XY_BT.Location = new System.Drawing.Point(11, 14);
             this.XY_BT.Name = "XY_BT";
             this.XY_BT.Size = new System.Drawing.Size(63, 16);
-            this.XY_BT.TabIndex = 33;
+            this.XY_BT.TabIndex = 18;
             this.XY_BT.TabStop = true;
             this.XY_BT.Text = "좌표 순";
             this.XY_BT.UseVisualStyleBackColor = true;
+            this.XY_BT.CheckedChanged += new System.EventHandler(this.XY_BT_CheckedChanged);
             // 
             // Frame_Interval_CB
             // 
@@ -693,7 +677,7 @@
             this.Print_Image_EQ.Location = new System.Drawing.Point(228, 121);
             this.Print_Image_EQ.Name = "Print_Image_EQ";
             this.Print_Image_EQ.Size = new System.Drawing.Size(80, 16);
-            this.Print_Image_EQ.TabIndex = 30;
+            this.Print_Image_EQ.TabIndex = 34;
             this.Print_Image_EQ.Text = "Image EQ";
             this.Print_Image_EQ.UseVisualStyleBackColor = true;
             this.Print_Image_EQ.CheckedChanged += new System.EventHandler(this.Print_Image_EQ_CheckedChanged);
@@ -704,7 +688,7 @@
             this.checkBox1.Location = new System.Drawing.Point(198, 172);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(88, 16);
-            this.checkBox1.TabIndex = 29;
+            this.checkBox1.TabIndex = 35;
             this.checkBox1.Text = "해상도 사용";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
@@ -714,7 +698,7 @@
             this.ImageSize_CB.Location = new System.Drawing.Point(93, 169);
             this.ImageSize_CB.Name = "ImageSize_CB";
             this.ImageSize_CB.Size = new System.Drawing.Size(95, 20);
-            this.ImageSize_CB.TabIndex = 28;
+            this.ImageSize_CB.TabIndex = 13;
             this.ImageSize_CB.SelectedIndexChanged += new System.EventHandler(this.ImageSize_CB_SelectedIndexChanged);
             // 
             // button4
@@ -722,7 +706,7 @@
             this.button4.Location = new System.Drawing.Point(263, 298);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(45, 23);
-            this.button4.TabIndex = 27;
+            this.button4.TabIndex = 24;
             this.button4.Text = "전체";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
@@ -732,7 +716,7 @@
             this.button3.Location = new System.Drawing.Point(208, 298);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(45, 23);
-            this.button3.TabIndex = 27;
+            this.button3.TabIndex = 23;
             this.button3.Text = "검색";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -752,7 +736,7 @@
             this.EQ_Search_TB.Location = new System.Drawing.Point(93, 300);
             this.EQ_Search_TB.Name = "EQ_Search_TB";
             this.EQ_Search_TB.Size = new System.Drawing.Size(95, 21);
-            this.EQ_Search_TB.TabIndex = 25;
+            this.EQ_Search_TB.TabIndex = 22;
             this.EQ_Search_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EQ_Search_TB_KeyDown);
             // 
             // Manual_Mode_RB
@@ -762,7 +746,7 @@
             this.Manual_Mode_RB.Location = new System.Drawing.Point(169, 276);
             this.Manual_Mode_RB.Name = "Manual_Mode_RB";
             this.Manual_Mode_RB.Size = new System.Drawing.Size(101, 16);
-            this.Manual_Mode_RB.TabIndex = 24;
+            this.Manual_Mode_RB.TabIndex = 21;
             this.Manual_Mode_RB.TabStop = true;
             this.Manual_Mode_RB.Text = "Manual Mode";
             this.Manual_Mode_RB.UseVisualStyleBackColor = true;
@@ -775,7 +759,7 @@
             this.View_Mode_RB.Location = new System.Drawing.Point(44, 278);
             this.View_Mode_RB.Name = "View_Mode_RB";
             this.View_Mode_RB.Size = new System.Drawing.Size(87, 16);
-            this.View_Mode_RB.TabIndex = 24;
+            this.View_Mode_RB.TabIndex = 20;
             this.View_Mode_RB.Text = "View Mode";
             this.View_Mode_RB.UseVisualStyleBackColor = true;
             this.View_Mode_RB.Click += new System.EventHandler(this.View_Mode_RB_Click);
@@ -785,7 +769,7 @@
             this.Exceed_TB.Location = new System.Drawing.Point(281, 195);
             this.Exceed_TB.Name = "Exceed_TB";
             this.Exceed_TB.Size = new System.Drawing.Size(38, 21);
-            this.Exceed_TB.TabIndex = 23;
+            this.Exceed_TB.TabIndex = 16;
             this.Exceed_TB.Text = "41";
             // 
             // label11
@@ -804,7 +788,7 @@
             this.Exceed_CB.Location = new System.Drawing.Point(268, 227);
             this.Exceed_CB.Name = "Exceed_CB";
             this.Exceed_CB.Size = new System.Drawing.Size(103, 16);
-            this.Exceed_CB.TabIndex = 21;
+            this.Exceed_CB.TabIndex = 37;
             this.Exceed_CB.Text = "초과 IMG 검사";
             this.Exceed_CB.UseVisualStyleBackColor = true;
             this.Exceed_CB.CheckedChanged += new System.EventHandler(this.Exceed_CB_CheckedChanged);
@@ -815,7 +799,7 @@
             this.Frame_View_CB.Location = new System.Drawing.Point(194, 227);
             this.Frame_View_CB.Name = "Frame_View_CB";
             this.Frame_View_CB.Size = new System.Drawing.Size(76, 16);
-            this.Frame_View_CB.TabIndex = 20;
+            this.Frame_View_CB.TabIndex = 36;
             this.Frame_View_CB.Text = "Frame 別";
             this.Frame_View_CB.UseVisualStyleBackColor = true;
             this.Frame_View_CB.CheckedChanged += new System.EventHandler(this.Frame_View_CB_CheckedChanged);
@@ -837,7 +821,7 @@
             this.button2.Location = new System.Drawing.Point(224, 37);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(92, 29);
-            this.button2.TabIndex = 4;
+            this.button2.TabIndex = 31;
             this.button2.Text = "삭제대기 확인";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -847,7 +831,7 @@
             this.Cols_TB.Location = new System.Drawing.Point(93, 32);
             this.Cols_TB.Name = "Cols_TB";
             this.Cols_TB.Size = new System.Drawing.Size(38, 21);
-            this.Cols_TB.TabIndex = 1;
+            this.Cols_TB.TabIndex = 4;
             this.Cols_TB.Text = "12";
             this.Cols_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Cols_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Cols_TB_KeyDown);
@@ -868,7 +852,7 @@
             this.Print_Image_Name.Location = new System.Drawing.Point(228, 96);
             this.Print_Image_Name.Name = "Print_Image_Name";
             this.Print_Image_Name.Size = new System.Drawing.Size(97, 16);
-            this.Print_Image_Name.TabIndex = 14;
+            this.Print_Image_Name.TabIndex = 33;
             this.Print_Image_Name.Text = "Image Name";
             this.Print_Image_Name.UseVisualStyleBackColor = true;
             this.Print_Image_Name.CheckedChanged += new System.EventHandler(this.Print_Image_Name_CheckedChanged);
@@ -878,7 +862,7 @@
             this.textBox4.Location = new System.Drawing.Point(233, 143);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(62, 21);
-            this.textBox4.TabIndex = 11;
+            this.textBox4.TabIndex = 12;
             this.textBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox4_KeyDown);
             // 
             // E_Page_TB
@@ -887,7 +871,7 @@
             this.E_Page_TB.Name = "E_Page_TB";
             this.E_Page_TB.ReadOnly = true;
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
-            this.E_Page_TB.TabIndex = 1;
+            this.E_Page_TB.TabIndex = 8;
             // 
             // label1
             // 
@@ -905,7 +889,7 @@
             this.Print_Image_State.Location = new System.Drawing.Point(228, 72);
             this.Print_Image_State.Name = "Print_Image_State";
             this.Print_Image_State.Size = new System.Drawing.Size(91, 16);
-            this.Print_Image_State.TabIndex = 14;
+            this.Print_Image_State.TabIndex = 32;
             this.Print_Image_State.Text = "Image State";
             this.Print_Image_State.UseVisualStyleBackColor = true;
             this.Print_Image_State.CheckedChanged += new System.EventHandler(this.Print_Image_State_CheckedChanged);
@@ -926,7 +910,7 @@
             this.Frame_E_TB.Name = "Frame_E_TB";
             this.Frame_E_TB.ReadOnly = true;
             this.Frame_E_TB.Size = new System.Drawing.Size(38, 21);
-            this.Frame_E_TB.TabIndex = 1;
+            this.Frame_E_TB.TabIndex = 10;
             this.Frame_E_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frame_E_TB_KeyDown);
             // 
             // Height_TB
@@ -945,7 +929,7 @@
             this.Rows_TB.Location = new System.Drawing.Point(150, 32);
             this.Rows_TB.Name = "Rows_TB";
             this.Rows_TB.Size = new System.Drawing.Size(38, 21);
-            this.Rows_TB.TabIndex = 1;
+            this.Rows_TB.TabIndex = 5;
             this.Rows_TB.Text = "7";
             this.Rows_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Rows_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Rows_TB_KeyDown);
@@ -1012,18 +996,21 @@
             this.LotIDProductName.Size = new System.Drawing.Size(0, 16);
             this.LotIDProductName.TabIndex = 5;
             // 
-            // notifyIcon1
+            // label13
             // 
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "ViewPort";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(1463, 33);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(65, 12);
+            this.label13.TabIndex = 6;
+            this.label13.Text = "DeleteText";
             // 
             // FormViewPort
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1805, 883);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.LotIDProductName);
             this.Controls.Add(this.versionNo);
             this.Controls.Add(this.splitContainer1);
@@ -1145,14 +1132,12 @@
         public System.Windows.Forms.CheckBox Frame_Interval_CB;
         private MetroFramework.Controls.MetroLabel versionNo;
         public System.Windows.Forms.CheckedListBox Equipment_DF_CLB;
-        private System.Windows.Forms.ToolStripMenuItem tESTToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clickToolStripMenuItem;
         private System.Windows.Forms.Label LotIDProductName;
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ToolStripMenuItem engrModeToolStripMenuItem;
         public System.Windows.Forms.RadioButton Frame_BT;
         public System.Windows.Forms.RadioButton XY_BT;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label13;
     }
 }
 

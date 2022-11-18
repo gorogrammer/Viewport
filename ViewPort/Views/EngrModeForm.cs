@@ -9,17 +9,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ViewPort.Functions;
 using MetroFramework.Forms;
+using Microsoft.Win32;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace ViewPort.Views
 {
     public partial class EngrModeForm : MetroForm
     {
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         FormViewPort Main;
         ManagerForm managerForm;
         ImageViewer ImageViewer;
         DL_Eng_Form dL_Eng_Form;
         string engModeCheck = string.Empty;
-
 
         public string EngModeCheck { get => engModeCheck; set => engModeCheck = value; }
 
@@ -35,6 +39,7 @@ namespace ViewPort.Views
             else if (!Main.EngrMode)
                 EngState.Text = "OFF";
             this.Focus();
+            
         }
 
         private void EngStateBT_Click(object sender, EventArgs e)
@@ -77,7 +82,7 @@ namespace ViewPort.Views
                         dL_Eng_Form = new DL_Eng_Form(ImageViewer,Main.DI_List_Sever);
                         dL_Eng_Form.LotName = Main.LotName;                        
                         dL_Eng_Form.Dl_LIst_ADD(Main.DI_List_Sever);                   
-                        dL_Eng_Form.ShowDialog();
+                        dL_Eng_Form.Show();
                     }
                 }
             }
@@ -89,7 +94,16 @@ namespace ViewPort.Views
 
         private void EngrModeForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (managerForm != null)
+                managerForm.Close();
+            if (dL_Eng_Form != null)
+                dL_Eng_Form.Close();
             Main.EngrMode = false;
+        }
+
+        private void EngrModeForm_Load(object sender, EventArgs e)
+        {
+            ShowWindow(this.Handle, 1);
         }
     }
 }

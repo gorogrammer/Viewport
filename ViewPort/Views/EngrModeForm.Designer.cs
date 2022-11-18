@@ -102,7 +102,9 @@
             this.Controls.Add(this.EngPW);
             this.Controls.Add(this.panel1);
             this.Name = "EngrModeForm";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EngrModeForm_FormClosing);
+            this.Load += new System.EventHandler(this.EngrModeForm_Load);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

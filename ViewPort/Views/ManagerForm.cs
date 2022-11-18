@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ViewPort.Functions;
+using MetroFramework.Forms;
 
 namespace ViewPort.Views
 {
-    public partial class ManagerForm : Form
+    public partial class ManagerForm : MetroForm
     {
         ImageViewer ImageViewer;
         int Checked = 0;
@@ -24,7 +25,18 @@ namespace ViewPort.Views
 
         private void NormalCheck_CheckedChanged(object sender, EventArgs e)
         {
-           
+            if (NormalCheck.Checked)
+            {
+                ShortCheck.Checked = false;
+                SRCheck.Checked = false;
+                MBCheck.Checked = false;
+                OpenCheck.Checked = false;
+                돌기Check.Checked = false;
+                변색Check.Checked = false;
+                TopCheck.Checked = false;
+                ImageViewer.Normal_Data();
+                ImageViewer.Set_Image();
+            }
         }
 
         private void ShortCheck_CheckedChanged(object sender, EventArgs e)
@@ -37,7 +49,7 @@ namespace ViewPort.Views
                     ImageViewer.Set_MultiCheck_EngData(EQ_STR.SHORT);
                 }
                 else
-                ImageViewer.Set_EngData(EQ_STR.SHORT, "8", "5", "200", "200");
+                ImageViewer.Set_EngData(EQ_STR.SHORT,textBox20.Text, textBox19.Text,textBox4.Text,textBox3.Text);
                 
             }
             else
@@ -58,7 +70,7 @@ namespace ViewPort.Views
                     ImageViewer.Set_MultiCheck_EngData(EQ_STR.SPIN);
                 }
                 else
-                ImageViewer.Set_EngData(EQ_STR.SPIN, "8", "5", "200", "200");
+                ImageViewer.Set_EngData(EQ_STR.SPIN, textBox22.Text, textBox21.Text, textBox6.Text, textBox5.Text);
             }
             else
             {
@@ -77,7 +89,7 @@ namespace ViewPort.Views
                     ImageViewer.Set_MultiCheck_EngData(EQ_STR.OPEN);
                 }
                 else
-                    ImageViewer.Set_EngData(EQ_STR.OPEN, "12", "7", "120", "120");
+                    ImageViewer.Set_EngData(EQ_STR.OPEN, textBox24.Text, textBox23.Text, textBox8.Text, textBox7.Text);
             }
             else
             {
@@ -96,7 +108,7 @@ namespace ViewPort.Views
                     ImageViewer.Set_MultiCheck_EngData(EQ_STR.MB);
                 }
                 else
-                ImageViewer.Set_EngData(EQ_STR.MB, "12", "7", "120", "120");
+                ImageViewer.Set_EngData(EQ_STR.MB, textBox26.Text, textBox25.Text, textBox10.Text, textBox9.Text);
             }
             else
             {
@@ -115,7 +127,7 @@ namespace ViewPort.Views
                     ImageViewer.Set_MultiCheck_EngData(EQ_STR.TOP);
                 }
                 else
-                    ImageViewer.Set_EngData(EQ_STR.TOP, "12", "7", "100", "100");
+                    ImageViewer.Set_EngData(EQ_STR.TOP, textBox28.Text, textBox27.Text, textBox12.Text, textBox11.Text);
             }
             else
             {
@@ -134,7 +146,7 @@ namespace ViewPort.Views
                     ImageViewer.Set_MultiCheck_EngData(EQ_STR.DISCOLORATION);
                 }
                 else
-                    ImageViewer.Set_EngData(EQ_STR.DISCOLORATION, "13", "8", "120", "120");
+                    ImageViewer.Set_EngData(EQ_STR.DISCOLORATION, textBox30.Text, textBox29.Text, textBox14.Text, textBox13.Text);
             }
             else
             {
@@ -153,7 +165,7 @@ namespace ViewPort.Views
                     ImageViewer.Set_MultiCheck_EngData(EQ_STR.SR);
                 }
                 else
-                    ImageViewer.Set_EngData(EQ_STR.SR, "10", "6", "180", "180");
+                    ImageViewer.Set_EngData(EQ_STR.SR, textBox32.Text, textBox31.Text, textBox16.Text, textBox15.Text);
             }
             else
             {

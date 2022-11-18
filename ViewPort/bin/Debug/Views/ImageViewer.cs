@@ -27,6 +27,7 @@ namespace ViewPort.Views
         LoadingGIF_Func waitform = new LoadingGIF_Func();
         public SplitterPanel split;
         string openViewType = string.Empty;
+        string openFilterType = string.Empty;
         struct BoxRange { public int left, top, width, height; }
         List<string> Display_Id = new List<string>();
         List<string> Change_state_List = new List<string>();
@@ -110,10 +111,11 @@ namespace ViewPort.Views
         public int ViewMode_PSW_Check { get => viewMode_PSW_Check; set => viewMode_PSW_Check = value; }
 
         public int Shift_del { get => shift_del; set => shift_del = value; }
-
+        public Dictionary<string, ImageInfo> sorted_dic { get => Sorted_dic; set => sorted_dic = value; }
 
         public int Only_del { get => only_del; set => only_del = value; }
         public string OpenViewType { get => openViewType; set => openViewType = value; }
+        public string OpenFilterType { get => openFilterType; set => openFilterType = value; }
         public Dictionary<string, ImageInfo> Frame_dicInfo_Filter { get => frame_dicInfo_Filter; set => frame_dicInfo_Filter = value; }
         public List<string> F12_del_list { get => f12_del_list; set => f12_del_list = value; }
         private void FPaint(object sender, PaintEventArgs e)
@@ -305,11 +307,13 @@ namespace ViewPort.Views
                     else
                     {
                         Key_only_del();
+                       
                     }
                 }
                 else
                 {
                     Key_only_del();
+                    
                 }
                
             }
@@ -1056,7 +1060,9 @@ namespace ViewPort.Views
 
 
                     }
-
+                    Main.delete = Main.delete + Select_Pic_List.Count;
+                    Main.InfoListCount = Main.InfoListCount - Select_Pic_List.Count;
+                    Main.UpdateDeleteText();
                     Select_Pic_List.Clear();
                     waitform.Close();
                     //Eq_cb_need_del.Clear();
@@ -1386,6 +1392,23 @@ namespace ViewPort.Views
 
                 DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
             }
+            else if (Main.XY_BT.Checked && OpenFilterType == "NoneFilter")
+            {
+                
+                    Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+
+                    var sort = dicInfo_Filter.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
+
+                if (SortXY_DIC_Load.Count == 0)
+                {
+                    foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
+                    {
+                        SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
+                    }
+                }
+                DicInfo_Filtered = SortXY_DIC_Load;
+            }
+            
             
             //if (Main.Camera_NO_Filter_TB.Text != "")
             //{
@@ -1999,13 +2022,15 @@ namespace ViewPort.Views
                     src_Mouse_XY.Y = dst_Mouse_XY.Y;
                     dst_Mouse_XY.Y = tmp_XY;
                 }
-
-                if (Main.Frame_View_CB.Checked)
-                    Frame_Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
+                if (!Main.EngrMode)
+                {
+                    if (Main.Frame_View_CB.Checked)
+                        Frame_Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
+                    else
+                        Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
+                }
                 else
-                    Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
-
-
+                    Eng_Find_Contain_PB(src_Mouse_XY, dst_Mouse_XY);
 
 
 
@@ -2089,6 +2114,67 @@ namespace ViewPort.Views
 
                 dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index)].ReviewDefectName = result;
                 Change_state_List.Add(dicInfo_Filter.Keys.ElementAt(Last_Picture_Selected_Index));
+
+            }
+
+
+        }
+        private void Eng_Find_Contain_PB(Point Src, Point Dst)
+        {
+            List<string> Change_Data = new List<string>();
+            Rectangle PB_Area, Drag_Area;
+            int index = ((Current_PageNum - 1) * (cols * rows));
+            string result = "";
+            Change_state_List.Clear();
+
+            if (Selected_Picture_Index.Count > 0)
+                Selected_Picture_Index.Clear();
+
+            for (int i = 0; i < PictureData.Count; i++)
+            {
+                PB_Area = new Rectangle(PictureData.ElementAt(i).Left, PictureData.ElementAt(i).Top, PictureData.ElementAt(i).Width, PictureData.ElementAt(i).Height);
+                Drag_Area = new Rectangle(Src.X, Src.Y, Dst.X - Src.X, Dst.Y - Src.Y);
+
+                if (PB_Area.IntersectsWith(Drag_Area))
+                {
+                    if (Main.Eng_dicinfo.Count > (index + i))
+                    {
+                        Selected_Picture_Index.Add(index + i);
+                        Select_Pic_List.Add(Main.Eng_dicinfo.Keys.ElementAt(index + i));
+                    }
+                }
+
+
+            }
+            for (int i = 0; i < Selected_Picture_Index.Count; i++)
+            {
+                Last_Picture_Selected_Index = Selected_Picture_Index.ElementAt(i);
+
+                if (Main.Eng_dicinfo.Count <= Last_Picture_Selected_Index)
+                {
+                    //Last_Picture_Selected_Index = -1;
+                    return;
+                }
+
+                if (Main.Eng_dicinfo[Main.Eng_dicinfo.Keys.ElementAt(Last_Picture_Selected_Index)].ReviewDefectName.Equals("양품"))
+                    result = "선택";
+                else
+                {
+                    result = "양품";
+                    for (int p = 0; p < Select_Pic_List.Count; p++)
+                    {
+                        if (Select_Pic_List[p].Equals(Main.Eng_dicinfo.Keys.ElementAt(Last_Picture_Selected_Index)))
+                        {
+                            Select_Pic_List.RemoveAt(p);
+                            p--;
+                        }
+                    }
+
+                }
+
+
+                Main.Eng_dicinfo[Main.Eng_dicinfo.Keys.ElementAt(Last_Picture_Selected_Index)].ReviewDefectName = result;
+                Change_state_List.Add(Main.Eng_dicinfo.Keys.ElementAt(Last_Picture_Selected_Index));
 
             }
 
@@ -2717,6 +2803,37 @@ namespace ViewPort.Views
 
            // MessageBox.Show(st.ElapsedMilliseconds.ToString());
         }
+        public void Normal_Data()
+        {
+            if (Main.XY_BT.Checked)
+            {
+                
+
+                
+                Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+
+                var sort = DicInfo_Filtered.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
+
+
+                foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
+                {
+                    SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
+                }
+
+                Main.Eng_dicinfo = SortXY_DIC_Load;
+            }
+            else if (Main.Frame_BT.Checked)
+            {
+                Dictionary<string, ImageInfo> SortFrame_DIC_Load = new Dictionary<string, ImageInfo>();
+
+                SortFrame_DIC_Load = DicInfo_Filtered.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                Main.Eng_dicinfo = SortFrame_DIC_Load;
+
+            }
+            Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
+            Main.Eng_Print_List();
+        }
         public void Set_EngData(string StateNum, string Cols,string Rows, string Width , string Height)
         {
             Main.Cols_TB.Text = Cols;
@@ -2738,8 +2855,13 @@ namespace ViewPort.Views
 
 
             }
+            Data = Main.Eng_dicinfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Main.Eng_dicinfo = Data;
+            Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
             Set_PictureBox();
             Set_Image_Eng();
+            Main.Eng_Print_List();
         }
         public void Set_MultiCheck_EngData(string StateNum)
         {
@@ -2758,26 +2880,41 @@ namespace ViewPort.Views
 
 
             }
+            Data = Main.Eng_dicinfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Main.Eng_dicinfo = Data;
+            
+            Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
             Set_PictureBox();
             Set_Image_Eng();
+            Main.Eng_Print_List();
         }
         public void Del_EngData(string StateNum,int check)
         {
-            Dictionary<string, ImageInfo> Data = new Dictionary<string, ImageInfo>();
-            List<int> FramNoData = new List<int>();
+            Dictionary<string, ImageInfo> Data,RemoveList = new Dictionary<string, ImageInfo>();
+            List<string> FramNoData = new List<string>();
 
-           
-
-            for (int i = 0; i < Main.Eng_dicinfo.Count; i++)
+            RemoveList = Main.Eng_dicinfo;
+            int Count = Main.Eng_dicinfo.Count;
+            for (int i = 0; i < Count; i++)
             {
                 if (Main.Eng_dicinfo.Values.ElementAt(i).EquipmentDefectName.Contains(StateNum))
-                    Main.Eng_dicinfo.Remove(Main.Eng_dicinfo.Keys.ElementAt(i));
+                    FramNoData.Add(Main.Eng_dicinfo.Keys.ElementAt(i));
 
 
             }
-           
+            foreach(string number in FramNoData)
+            {
+                Main.Eng_dicinfo.Remove(number);
+            }
+            //Main.Eng_dicinfo = RemoveList;
+            Data = Main.Eng_dicinfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Main.Eng_dicinfo = Data;
+            Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
+            Main.E_Page_TB.Text = Total_PageNum.ToString();
             Set_PictureBox();
             Set_Image_Eng();
+            Main.Eng_Print_List();
         }
         public void Set_Image_Eng()
         {
@@ -4187,7 +4324,8 @@ namespace ViewPort.Views
             Rectangle regSelection = new Rectangle();
             Graphics gPic;
 
-
+            if (Main.Eng_dicinfo.Count <= 0)
+                return;
 
             for (int i = 0; i < EachPage_ImageNum; i++)
             {
@@ -4405,6 +4543,7 @@ namespace ViewPort.Views
 
                         }
                     }
+                    Main.Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(Sorted_dic);
                     DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
                 }
                 else

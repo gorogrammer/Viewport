@@ -562,13 +562,17 @@ namespace ViewPort.Functions
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 int E_index = Array.FindIndex(items, i => i == "E") + 1;
                 dic_ready = items.ToList();
-
+                List<int> delete_xy = new List<int>();
                 for (int i = E_index; i < dic_ready.Count; i++)
                 {
                     if (Waiting_Del.Keys.ElementAt(del_index).Equals(dic_ready[i].Substring(0, 12)))
                     {
                         dic_ready.RemoveAt(i);
                         del_index++;
+                        if(del_index == Waiting_Del.Count)
+                        {
+                            return;
+                        }
                     }
                 }
 

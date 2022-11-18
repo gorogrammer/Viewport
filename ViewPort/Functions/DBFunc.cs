@@ -11,12 +11,13 @@ namespace ViewPort.Functions
     {
         MySqlConnection conn;
         private string ConnectionString =
-            "server = 16.100.29.75; port=3306;" +
-            "Database=carloDB;" +
-            "uid=root;" +
+            "server= 16.100.29.75;" +
+            "Port=3306;" +
+            "uid = root;" +
             "pwd=;" +
             "convert zero datetime=True;" +
             "CharSet=utf8";
+
 
 
 
@@ -62,7 +63,7 @@ namespace ViewPort.Functions
                 string LimitStandard = dl_split[4];
                 string Alarm = dl_split[5];
 
-                string UPDateQuery = @"UPDATE carloDB.FM_LIMIT SET AutoLimitCnt =" + AutoLimitCnt 
+                string UPDateQuery = @"UPDATE carloDB.MF_LIMIT SET AutoLimitCnt =" + AutoLimitCnt 
                     + ",AutoLimitP =" + AutoLimitP 
                     + ", LimitP =" + LimitP 
                     + ", LimitStandard ='" + LimitStandard 
@@ -91,7 +92,7 @@ namespace ViewPort.Functions
             if (conn.State == System.Data.ConnectionState.Open)
             {
                // List<string> Sever_DL = new List<string>();
-                string CntQuery = "SELECT EXISTS(SELECT * FROM carloDB.FM_LIMIT WHERE  LotName='" + LotName + "') as cnt;";
+                string CntQuery = "SELECT EXISTS(SELECT * FROM carloDB.MF_LIMIT WHERE  LotName='" + LotName + "') as cnt;";
                 MySqlCommand command = new MySqlCommand(CntQuery, conn);
                 MySqlDataReader rdr = command.ExecuteReader();
                 if (rdr.Read())
@@ -115,7 +116,7 @@ namespace ViewPort.Functions
                                 dl_text[2] = dl_text[2].Replace("%", "");
                                 dl_text[3] = dl_text[3].Replace("%", "");
                                 //dt.Rows.Add(dl_text[0], col_2_3[0], col_2_3[1], dl_text[2], dl_text[3]);
-                                string istQuery = "INSERT INTO carloDB.FM_LIMIT(ID,LotName,SDIPName,AutoLimitCnt,AutoLimitP,LimitP,LimitStandard,Alarm) VALUES('','" + LotName + "', '" + col_2_3[0] +"','" +col_2_3[1] +"','" + dl_text[2] +"',"+dl_text[3] + ",0,'NULL')";
+                                string istQuery = "INSERT INTO carloDB.MF_LIMIT(ID,LotName,SDIPName,AutoLimitCnt,AutoLimitP,LimitP,LimitStandard,Alarm) VALUES('','" + LotName + "', '" + col_2_3[0] +"','" +col_2_3[1] +"','" + dl_text[2] +"',"+dl_text[3] + ",0,'NULL')";
                                 MySqlCommand istcommand = new MySqlCommand(istQuery, conn);
                                 istcommand.ExecuteNonQuery();
                               //  DL_Sever.Add(LotName + "," + col_2_3[0] + "," + col_2_3[1] + "," + dl_text[2] + "," + dl_text[3] + ",");
@@ -129,7 +130,7 @@ namespace ViewPort.Functions
                     {
                         command.Dispose();
                         rdr.Dispose();
-                        string DataQuery = "SELECT * FROM carloDB.FM_LIMIT WHERE LotName ='" + LotName + "'";
+                        string DataQuery = "SELECT * FROM carloDB.MF_LIMIT WHERE LotName ='" + LotName + "'";
                         MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
                         MySqlDataReader drdr = DataCommand.ExecuteReader();
 
