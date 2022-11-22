@@ -489,10 +489,26 @@ namespace ViewPort
 
             dt.DefaultView.Sort = "이름";
 
+            if (Frame_BT.Checked)
+            {
+                Sorted_dic = Return_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                Return_dicInfo = Sorted_dic;
+            }
+            else if (XY_BT.Checked)
+            {
+                Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
 
-            Sorted_dic = Return_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            Return_dicInfo = Sorted_dic;
+                var sort = Return_dicInfo.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
 
+                if (SortXY_DIC_Load.Count == 0)
+                {
+                    foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
+                    {
+                        SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
+                    }
+                }
+                Return_dicInfo = SortXY_DIC_Load;
+            }
 
 
             //open.DicInfo_Filtered = Return_dicInfo;
@@ -1704,7 +1720,7 @@ namespace ViewPort
                         
 
                     }
-
+                    open.OpenFilterType = "NoneFilter";
                     open.Main = this;
                     open.Set_View();
                     Setting = 1;

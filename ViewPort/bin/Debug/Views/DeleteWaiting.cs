@@ -123,6 +123,7 @@ namespace ViewPort.Views
             {
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(Main_Dic);
             }
+            
             cols = Int32.Parse(Cols_TB.Text);
             rows = Int32.Parse(Rows_TB.Text);
             width = Int32.Parse(Width_TB.Text);

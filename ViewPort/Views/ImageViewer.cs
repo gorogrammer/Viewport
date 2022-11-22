@@ -1884,11 +1884,30 @@ namespace ViewPort.Views
 
             dicInfo_Filter = new Dictionary<string, ImageInfo>(Main.Return_dicInfo);
 
+            
+            
+            
+            if (Main.Frame_BT.Checked)
+            {
+                Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                DicInfo_Filtered = Sorted_dic;
+            }
+            else if (Main.XY_BT.Checked)
+            {
+                Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
 
-            Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            DicInfo_Filtered = Sorted_dic;
+                var sort = dicInfo_Filter.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
+
+                if (SortXY_DIC_Load.Count == 0)
+                {
+                    foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
+                    {
+                        SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
+                    }
+                }
+                DicInfo_Filtered = SortXY_DIC_Load;
+            }
             Eq_cb_need_del = Main.selected_Pic;
-
             //if (Main.Camera_NO_Filter_TB.Text != "")
             //{
             //    string[] Split_String = null;
