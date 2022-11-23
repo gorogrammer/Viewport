@@ -10,25 +10,26 @@ using System.Windows.Forms;
 using ViewPort.Models;
 using System.IO.Compression;
 using System.IO;
+using ViewPort.Functions;
 
 namespace ViewPort.Views
 {
     public partial class DL_ViewFrom : Form
     {
-
-        FormViewPort Main;
-        public DL_ViewFrom(FormViewPort parent)
+        ImageViewer image;
+        FormViewPort viewPort;
+        public DL_ViewFrom(ImageViewer imageViewer,FormViewPort formViewPort)
         {
+
             InitializeComponent();
-            Main = parent;
-            
+            image = imageViewer;
+            viewPort = formViewPort;
             DataTable dt = new DataTable();
             dt.Columns.Add("SDIP Code");
             dt.Columns.Add("SDIP 불량명");
             dt.Columns.Add("자동불량수(투입수)");
             dt.Columns.Add("자동불량율(%)");
-            dt.Columns.Add("Limit(%)");
-
+            dt.Columns.Add("Limit(%)");            
             dataGridView1.DataSource = dt;
 
         }
@@ -51,7 +52,7 @@ namespace ViewPort.Views
                 dt.Columns.Add("자동불량수(투입수)");
                 dt.Columns.Add("자동불량율(%)");
                 dt.Columns.Add("Limit(%)");
-
+                
                 foreach (string dl in list)
                 {
                     if(dl.Split(',').Length == 2)
@@ -84,6 +85,20 @@ namespace ViewPort.Views
             {
                 this.Close();
             }
+        }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EngrModeBT_Click(object sender, EventArgs e)
+        {
+            EngrModeForm engrMode = new EngrModeForm(viewPort,image);
+            engrMode.EngModeCheck = FORM_STR.DLForm;
+            engrMode.Show();
+            
+
         }
     }
 }

@@ -123,10 +123,11 @@ namespace ViewPort.Views
             {
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(Main_Dic);
             }
-            cols = 7;
-            rows = 3;
-            width = 120;
-            height = 120;
+            
+            cols = Int32.Parse(Cols_TB.Text);
+            rows = Int32.Parse(Rows_TB.Text);
+            width = Int32.Parse(Width_TB.Text);
+            height = Int32.Parse(Height_TB.Text);
 
             Current_PageNum = 1;
 
@@ -563,6 +564,11 @@ namespace ViewPort.Views
 
         private void Set_Image()
         {
+            if(zipFilePath == string.Empty)
+            {
+                return;
+            }
+
             Bitmap tmp_Img = null;
             List<string> compare_zip = new List<string>();
             Dictionary<string, ImageInfo> Compare_Dicinfo = new Dictionary<string, ImageInfo>();
@@ -954,7 +960,9 @@ namespace ViewPort.Views
             Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
 
 
-            
+            Main.delete_W = Main.delete_W - Main.selected_Pic.Count;
+            Main.InfoListCount = Main.InfoListCount + Main.selected_Pic.Count; 
+            Main.UpdateDeleteText();
             Main.Dl_Wait_Del_Print_List();
             Main.Return_Img_Print();
             dicInfo_Delete_Sel.Clear();
@@ -971,6 +979,7 @@ namespace ViewPort.Views
                     {
                         waitform.Show();
                         Main.Delete_ZipImg();
+                        
                         Dispose(true);
                     }
                     else
@@ -980,7 +989,9 @@ namespace ViewPort.Views
                     }
 
 
-                } 
+                }
+                Main.delete_W = 0;
+                Main.UpdateDeleteText();
                 waitform.Close();
                 Main.MapTxtChange();
             }
@@ -1299,6 +1310,27 @@ namespace ViewPort.Views
            
 
         }
+
+        private void Cols_TB_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Rows_TB_TextChanged(object sender, EventArgs e)
+        { 
+        }
+
+        private void Width_TB_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Set_View_Del();
+            Set_EQ();
+        }
+
         private void Print_Image_EQ_CheckedChanged(object sender, EventArgs e)
         {
             Cheked_State_DF();

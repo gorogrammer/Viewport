@@ -317,21 +317,21 @@ namespace ViewPort.Views
 
 
                 Load_XY_TxtAsync(FilePath);
-
-
+                
                 EditFormNameSafe(MSG_STR.LOAD_ROWS);
                 //Filtering();
 
                 IMG_TXT_combine();
+               
                 MakeDataTables();
-
+                
                 //this.Close();
                 ExitProgressBarSafe();
             }
 
 
-        
-          
+            
+
         }
 
         private void LoadSubZipAsync(string LotName, ZipArchiveEntry entry)
@@ -426,6 +426,7 @@ namespace ViewPort.Views
 
                     Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "0", "양품", "O", "0", "0", ImageSize, "", "0"));
                 }
+               
                 else
                 {
                     if (Map_List.Count > 0)
@@ -608,53 +609,103 @@ namespace ViewPort.Views
                             Dic_Load[dic_ready[0].Substring(0, 12)].X_Location = dic_ready[2];
                             Dic_Load[dic_ready[0].Substring(0, 12)].Y_Location = dic_ready[3];
                         }
-
+                        
                     }
-
+                    
 
                 }
                 zip.Dispose();
             }
             
         }
-
-        private void Load_DL_TxtAsync(string FilePath)
+        private void Rewrite_XY_TxtAsync(string FilePath, Dictionary<string, ImageInfo> Waiting_Del)
         {
+            List<string> dic_ready = new List<string>();
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
             {
-                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetDLFromPath(FilePath));
+                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetXYFromPath(FilePath));
 
                 if (ImgEntry == null)
                 {
-                    MessageBox.Show(MSG_STR.NONE_DL_TXT);
+                    MessageBox.Show(MSG_STR.NONE_XY_TXT);
                     return;
                 }
 
                 StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                int E_index = Array.FindIndex(items, i => i == "E");
 
-                for(int i = 1; i < items.Length - 1; i++ )
+                for (int i = E_index + 1; i < items.Length; i++)
                 {
-                    Dl_List.Add(items[i]);
-                    
-                }
-
-                for(int p = 2; p < Dl_List.Count-1; p++)
-                {
-                    string[] split_string = Dl_List[p].Split(',', '%', ' ');
-                    if(split_string[0] != "New" && split_string.Length > 2)
+                    if (items[i] != "")
                     {
-                        if (double.Parse(split_string[6]) < double.Parse(split_string[8]))
-                            Dl_Apply_List.Add(split_string[0]);
-                        else
-                            Dl_NOt_Apply_List.Add(split_string[0]);
+                        if (i == 12449)
+                        { }
+
+                        dic_ready = items[i].Split(',').ToList();
+                        if (Waiting_Del.ContainsKey(dic_ready[0].Substring(0, 12)))
+                        {
+                            dic_ready.RemoveAt(i);
+                        }
+                        
                     }
-                  
-                    
+
+
+                }
+                using (StreamWriter SW = new StreamWriter(ImgEntry.Open()))
+                {
+                    SW.WriteLine(dic_ready);
                 }
 
                 zip.Dispose();
+            }
+
+        }
+        private void Load_DL_TxtAsync(string FilePath)
+        {
+            try
+            {
+                using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+                {
+                    ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetDLFromPath(FilePath));
+
+                    if (ImgEntry == null)
+                    {
+                        MessageBox.Show(MSG_STR.NONE_DL_TXT);
+                        return;
+                    }
+
+                    StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                    string text = SR.ReadToEnd();
+                    string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                    for (int i = 1; i < items.Length - 1; i++)
+                    {
+                        Dl_List.Add(items[i]);
+
+                    }
+
+                    for (int p = 2; p < Dl_List.Count - 1; p++)
+                    {
+                        string[] split_string = Dl_List[p].Split(',', '%', ' ');
+                        if (split_string[0] != "New" && split_string.Length > 2)
+                        {
+                            if (double.Parse(split_string[6]) < double.Parse(split_string[8]))
+                                Dl_Apply_List.Add(split_string[0]);
+                            else
+                                Dl_NOt_Apply_List.Add(split_string[0]);
+                        }
+
+
+                    }
+
+                    zip.Dispose();
+                }
+            }
+            catch
+            {
+                return;
             }
 
         }
@@ -947,7 +998,7 @@ namespace ViewPort.Views
 
             }
         }
-
+        
         public void IMG_TXT_combine()
          {
             Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
@@ -965,7 +1016,7 @@ namespace ViewPort.Views
                     Dic_Load[kvp.Key].Y_Location = kvp.Value.Y_Location;
                     Dic_Load[kvp.Key].Master_NO = kvp.Value.Master_No;
 
-
+                    
                     if (Dic_Load[kvp.Key].sdip_no == "1")
                     {
                         Sdip_no1_dicload.Add(kvp.Key, Dic_Load[kvp.Key]);

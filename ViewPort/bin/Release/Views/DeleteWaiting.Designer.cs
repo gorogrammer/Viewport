@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this._filterAct_bt = new System.Windows.Forms.Button();
+            this.Select_Empty_BTN = new System.Windows.Forms.Button();
             this.Select_All_BTN = new System.Windows.Forms.Button();
             this.Equipment_DF_CLB = new System.Windows.Forms.CheckedListBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -45,8 +47,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
             this.E_Page_TB = new System.Windows.Forms.TextBox();
-            this.Select_Empty_BTN = new System.Windows.Forms.Button();
-            this._filterAct_bt = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.Height_TB = new System.Windows.Forms.TextBox();
+            this.Width_TB = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.Cols_TB = new System.Windows.Forms.TextBox();
+            this.Rows_TB = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -61,6 +68,13 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button2);
+            this.splitContainer1.Panel1.Controls.Add(this.Cols_TB);
+            this.splitContainer1.Panel1.Controls.Add(this.Rows_TB);
+            this.splitContainer1.Panel1.Controls.Add(this.label3);
+            this.splitContainer1.Panel1.Controls.Add(this.Height_TB);
+            this.splitContainer1.Panel1.Controls.Add(this.Width_TB);
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this._filterAct_bt);
             this.splitContainer1.Panel1.Controls.Add(this.Select_Empty_BTN);
             this.splitContainer1.Panel1.Controls.Add(this.Select_All_BTN);
@@ -82,12 +96,33 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseDown);
             this.splitContainer1.Panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseMove);
             this.splitContainer1.Panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseUp);
             this.splitContainer1.Size = new System.Drawing.Size(998, 540);
             this.splitContainer1.SplitterDistance = 90;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // _filterAct_bt
+            // 
+            this._filterAct_bt.Location = new System.Drawing.Point(801, 59);
+            this._filterAct_bt.Name = "_filterAct_bt";
+            this._filterAct_bt.Size = new System.Drawing.Size(75, 23);
+            this._filterAct_bt.TabIndex = 40;
+            this._filterAct_bt.Text = "필터 적용";
+            this._filterAct_bt.UseVisualStyleBackColor = true;
+            this._filterAct_bt.Click += new System.EventHandler(this._filterAct_bt_Click);
+            // 
+            // Select_Empty_BTN
+            // 
+            this.Select_Empty_BTN.Location = new System.Drawing.Point(801, 31);
+            this.Select_Empty_BTN.Name = "Select_Empty_BTN";
+            this.Select_Empty_BTN.Size = new System.Drawing.Size(75, 23);
+            this.Select_Empty_BTN.TabIndex = 39;
+            this.Select_Empty_BTN.Text = "전체 해제";
+            this.Select_Empty_BTN.UseVisualStyleBackColor = true;
+            this.Select_Empty_BTN.Click += new System.EventHandler(this.Select_Empty_BTN_Click);
             // 
             // Select_All_BTN
             // 
@@ -112,7 +147,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(322, 34);
+            this.button1.Location = new System.Drawing.Point(348, 31);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 36;
@@ -123,7 +158,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(162, 38);
+            this.label6.Location = new System.Drawing.Point(198, 36);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(84, 12);
             this.label6.TabIndex = 34;
@@ -132,7 +167,7 @@
             // 
             // Camera_NO_Filter_TB
             // 
-            this.Camera_NO_Filter_TB.Location = new System.Drawing.Point(251, 35);
+            this.Camera_NO_Filter_TB.Location = new System.Drawing.Point(288, 31);
             this.Camera_NO_Filter_TB.Name = "Camera_NO_Filter_TB";
             this.Camera_NO_Filter_TB.Size = new System.Drawing.Size(54, 21);
             this.Camera_NO_Filter_TB.TabIndex = 35;
@@ -150,7 +185,7 @@
             // 
             // Frame_S_TB
             // 
-            this.Frame_S_TB.Location = new System.Drawing.Point(102, 33);
+            this.Frame_S_TB.Location = new System.Drawing.Point(101, 33);
             this.Frame_S_TB.Name = "Frame_S_TB";
             this.Frame_S_TB.Size = new System.Drawing.Size(38, 21);
             this.Frame_S_TB.TabIndex = 32;
@@ -159,7 +194,7 @@
             // Print_Image_EQ
             // 
             this.Print_Image_EQ.AutoSize = true;
-            this.Print_Image_EQ.Location = new System.Drawing.Point(163, 59);
+            this.Print_Image_EQ.Location = new System.Drawing.Point(440, 12);
             this.Print_Image_EQ.Name = "Print_Image_EQ";
             this.Print_Image_EQ.Size = new System.Drawing.Size(80, 16);
             this.Print_Image_EQ.TabIndex = 31;
@@ -170,7 +205,7 @@
             // Print_Image_Name
             // 
             this.Print_Image_Name.AutoSize = true;
-            this.Print_Image_Name.Location = new System.Drawing.Point(14, 59);
+            this.Print_Image_Name.Location = new System.Drawing.Point(440, 38);
             this.Print_Image_Name.Name = "Print_Image_Name";
             this.Print_Image_Name.Size = new System.Drawing.Size(97, 16);
             this.Print_Image_Name.TabIndex = 24;
@@ -181,7 +216,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(233, 9);
+            this.label1.Location = new System.Drawing.Point(198, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 12);
             this.label1.TabIndex = 23;
@@ -190,7 +225,7 @@
             // 
             // Del_img_list
             // 
-            this.Del_img_list.Location = new System.Drawing.Point(322, 4);
+            this.Del_img_list.Location = new System.Drawing.Point(288, 5);
             this.Del_img_list.Name = "Del_img_list";
             this.Del_img_list.ReadOnly = true;
             this.Del_img_list.Size = new System.Drawing.Size(100, 21);
@@ -198,7 +233,7 @@
             // 
             // Delete_Img_In_ZIp
             // 
-            this.Delete_Img_In_ZIp.Location = new System.Drawing.Point(891, 4);
+            this.Delete_Img_In_ZIp.Location = new System.Drawing.Point(892, 4);
             this.Delete_Img_In_ZIp.Name = "Delete_Img_In_ZIp";
             this.Delete_Img_In_ZIp.Size = new System.Drawing.Size(94, 23);
             this.Delete_Img_In_ZIp.TabIndex = 21;
@@ -208,7 +243,7 @@
             // 
             // Delete_wait_img_bt
             // 
-            this.Delete_wait_img_bt.Location = new System.Drawing.Point(442, 4);
+            this.Delete_wait_img_bt.Location = new System.Drawing.Point(891, 31);
             this.Delete_wait_img_bt.Name = "Delete_wait_img_bt";
             this.Delete_wait_img_bt.Size = new System.Drawing.Size(95, 23);
             this.Delete_wait_img_bt.TabIndex = 20;
@@ -243,25 +278,74 @@
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 11;
             // 
-            // Select_Empty_BTN
+            // label2
             // 
-            this.Select_Empty_BTN.Location = new System.Drawing.Point(801, 31);
-            this.Select_Empty_BTN.Name = "Select_Empty_BTN";
-            this.Select_Empty_BTN.Size = new System.Drawing.Size(75, 23);
-            this.Select_Empty_BTN.TabIndex = 39;
-            this.Select_Empty_BTN.Text = "전체 해제";
-            this.Select_Empty_BTN.UseVisualStyleBackColor = true;
-            this.Select_Empty_BTN.Click += new System.EventHandler(this.Select_Empty_BTN_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 64);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(83, 12);
+            this.label2.TabIndex = 41;
+            this.label2.Text = "■ 이미지 크기";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // _filterAct_bt
+            // Height_TB
             // 
-            this._filterAct_bt.Location = new System.Drawing.Point(801, 59);
-            this._filterAct_bt.Name = "_filterAct_bt";
-            this._filterAct_bt.Size = new System.Drawing.Size(75, 23);
-            this._filterAct_bt.TabIndex = 40;
-            this._filterAct_bt.Text = "필터 적용";
-            this._filterAct_bt.UseVisualStyleBackColor = true;
-            this._filterAct_bt.Click += new System.EventHandler(this._filterAct_bt_Click);
+            this.Height_TB.Location = new System.Drawing.Point(158, 61);
+            this.Height_TB.Name = "Height_TB";
+            this.Height_TB.Size = new System.Drawing.Size(38, 21);
+            this.Height_TB.TabIndex = 43;
+            this.Height_TB.Text = "120";
+            this.Height_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Width_TB
+            // 
+            this.Width_TB.Location = new System.Drawing.Point(102, 61);
+            this.Width_TB.Name = "Width_TB";
+            this.Width_TB.Size = new System.Drawing.Size(38, 21);
+            this.Width_TB.TabIndex = 42;
+            this.Width_TB.Text = "120";
+            this.Width_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Width_TB.TextChanged += new System.EventHandler(this.Width_TB_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(198, 64);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 12);
+            this.label3.TabIndex = 44;
+            this.label3.Text = "■ 이미지 출력";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Cols_TB
+            // 
+            this.Cols_TB.Location = new System.Drawing.Point(288, 61);
+            this.Cols_TB.Name = "Cols_TB";
+            this.Cols_TB.Size = new System.Drawing.Size(38, 21);
+            this.Cols_TB.TabIndex = 45;
+            this.Cols_TB.Text = "7";
+            this.Cols_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Cols_TB.TextChanged += new System.EventHandler(this.Cols_TB_TextChanged);
+            // 
+            // Rows_TB
+            // 
+            this.Rows_TB.Location = new System.Drawing.Point(348, 61);
+            this.Rows_TB.Name = "Rows_TB";
+            this.Rows_TB.Size = new System.Drawing.Size(38, 21);
+            this.Rows_TB.TabIndex = 46;
+            this.Rows_TB.Text = "3";
+            this.Rows_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Rows_TB.TextChanged += new System.EventHandler(this.Rows_TB_TextChanged);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(892, 59);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(95, 23);
+            this.button2.TabIndex = 47;
+            this.button2.Text = "출력";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // DeleteWaiting
             // 
@@ -303,5 +387,12 @@
         private System.Windows.Forms.Button Select_All_BTN;
         private System.Windows.Forms.Button _filterAct_bt;
         private System.Windows.Forms.Button Select_Empty_BTN;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.TextBox Height_TB;
+        public System.Windows.Forms.TextBox Width_TB;
+        public System.Windows.Forms.TextBox Cols_TB;
+        public System.Windows.Forms.TextBox Rows_TB;
+        private System.Windows.Forms.Button button2;
     }
 }
