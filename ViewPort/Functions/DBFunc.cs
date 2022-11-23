@@ -11,12 +11,20 @@ namespace ViewPort.Functions
     {
         MySqlConnection conn;
         private string ConnectionString =
-            "server= 16.100.29.75;" +
+            "server= 116.127.242.207;" +
             "Port=3306;" +
-            "uid = root;" +
-            "pwd=;" +
+            "uid =root;" +
+            "pwd=zkfmffh0125!;" +
             "convert zero datetime=True;" +
             "CharSet=utf8";
+
+        private string ConnectionString_Stemco =
+    "server= 16.100.29.75;" +
+    "Port=3306;" +
+    "uid = root;" +
+    "pwd=;" +
+    "convert zero datetime=True;" +
+    "CharSet=utf8";
 
 
 
