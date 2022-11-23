@@ -4,6 +4,10 @@
 
 /ViewPort/.vs/ViewPort/v16/Server/sqlite3/db.lock
 *.cache
+*.xml
+*.pdb
+*.txt
+*.cache
 DLLs/ViewPortNetwork.dll
 DLLs/ViewPortNetwork.pdb
 ViewPort/.vs/ViewPort/v16/.suo
