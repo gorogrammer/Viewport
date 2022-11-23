@@ -32,7 +32,7 @@ namespace ViewPort.Functions
 
         public bool DBConnection(int id, string pw)
         {
-            conn = new MySqlConnection(ConnectionString);
+            conn = new MySqlConnection(ConnectionString_Stemco);
             conn.Open();
 
             if (conn.State == System.Data.ConnectionState.Open)
@@ -59,7 +59,7 @@ namespace ViewPort.Functions
         }
         public bool DB_DL_UpDate(List<string> DL_Sever, string LotName)
         {
-            conn = new MySqlConnection(ConnectionString);
+            conn = new MySqlConnection(ConnectionString_Stemco);
             conn.Open();
             foreach (string dl_List in DL_Sever) 
             {
@@ -95,7 +95,7 @@ namespace ViewPort.Functions
         {
             try
             {
-                conn = new MySqlConnection(ConnectionString);
+                conn = new MySqlConnection(ConnectionString_Stemco);
                 conn.Open();
                 DL.RemoveAt(0);
                 DL.RemoveAt(0);
@@ -175,7 +175,7 @@ namespace ViewPort.Functions
         {
             try
             {
-                conn = new MySqlConnection(ConnectionString);
+                conn = new MySqlConnection(ConnectionString_Stemco);
                 conn.Open();
 
                 if (conn.State == System.Data.ConnectionState.Open)
