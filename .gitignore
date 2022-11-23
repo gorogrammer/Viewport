@@ -12,3 +12,5 @@
 DLLs/
 ViewPort/bin/Debug/
 ViewPort/bin/Release/
+ViewPort/.vs/ViewPort/v16/.suo
+*.cache
