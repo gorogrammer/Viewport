@@ -71,6 +71,9 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.label9 = new System.Windows.Forms.Label();
+            this.Exceed_CB = new System.Windows.Forms.CheckBox();
+            this.Frame_View_CB = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Frame_BT = new System.Windows.Forms.RadioButton();
             this.XY_BT = new System.Windows.Forms.RadioButton();
@@ -86,8 +89,6 @@
             this.View_Mode_RB = new System.Windows.Forms.RadioButton();
             this.Exceed_TB = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.Exceed_CB = new System.Windows.Forms.CheckBox();
-            this.Frame_View_CB = new System.Windows.Forms.CheckBox();
             this.Fixed_CB = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.Cols_TB = new System.Windows.Forms.TextBox();
@@ -102,7 +103,6 @@
             this.Height_TB = new System.Windows.Forms.TextBox();
             this.Rows_TB = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.Width_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.iMGTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -427,14 +427,14 @@
             // 중간저장ToolStripMenuItem
             // 
             this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
-            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.중간저장ToolStripMenuItem.Text = "중간 저장";
             this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
             // 
             // 저장불러오기ToolStripMenuItem
             // 
             this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
-            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
             this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
             // 
@@ -625,6 +625,38 @@
             this.splitContainer5.SplitterDistance = 272;
             this.splitContainer5.TabIndex = 0;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(4, 225);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(83, 12);
+            this.label9.TabIndex = 12;
+            this.label9.Text = "■ 리스트 개수";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Exceed_CB
+            // 
+            this.Exceed_CB.AutoSize = true;
+            this.Exceed_CB.Location = new System.Drawing.Point(268, 227);
+            this.Exceed_CB.Name = "Exceed_CB";
+            this.Exceed_CB.Size = new System.Drawing.Size(103, 16);
+            this.Exceed_CB.TabIndex = 37;
+            this.Exceed_CB.Text = "초과 IMG 검사";
+            this.Exceed_CB.UseVisualStyleBackColor = true;
+            this.Exceed_CB.CheckedChanged += new System.EventHandler(this.Exceed_CB_CheckedChanged);
+            // 
+            // Frame_View_CB
+            // 
+            this.Frame_View_CB.AutoSize = true;
+            this.Frame_View_CB.Location = new System.Drawing.Point(194, 227);
+            this.Frame_View_CB.Name = "Frame_View_CB";
+            this.Frame_View_CB.Size = new System.Drawing.Size(76, 16);
+            this.Frame_View_CB.TabIndex = 36;
+            this.Frame_View_CB.Text = "Frame 別";
+            this.Frame_View_CB.UseVisualStyleBackColor = true;
+            this.Frame_View_CB.CheckedChanged += new System.EventHandler(this.Frame_View_CB_CheckedChanged);
+            // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -782,28 +814,6 @@
             this.label11.Text = "■ 초과 IMG 수";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Exceed_CB
-            // 
-            this.Exceed_CB.AutoSize = true;
-            this.Exceed_CB.Location = new System.Drawing.Point(268, 227);
-            this.Exceed_CB.Name = "Exceed_CB";
-            this.Exceed_CB.Size = new System.Drawing.Size(103, 16);
-            this.Exceed_CB.TabIndex = 37;
-            this.Exceed_CB.Text = "초과 IMG 검사";
-            this.Exceed_CB.UseVisualStyleBackColor = true;
-            this.Exceed_CB.CheckedChanged += new System.EventHandler(this.Exceed_CB_CheckedChanged);
-            // 
-            // Frame_View_CB
-            // 
-            this.Frame_View_CB.AutoSize = true;
-            this.Frame_View_CB.Location = new System.Drawing.Point(194, 227);
-            this.Frame_View_CB.Name = "Frame_View_CB";
-            this.Frame_View_CB.Size = new System.Drawing.Size(76, 16);
-            this.Frame_View_CB.TabIndex = 36;
-            this.Frame_View_CB.Text = "Frame 別";
-            this.Frame_View_CB.UseVisualStyleBackColor = true;
-            this.Frame_View_CB.CheckedChanged += new System.EventHandler(this.Frame_View_CB_CheckedChanged);
-            // 
             // Fixed_CB
             // 
             this.Fixed_CB.AutoSize = true;
@@ -943,16 +953,6 @@
             this.label8.TabIndex = 12;
             this.label8.Text = "■ 초과 Frame 수";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(4, 225);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(83, 12);
-            this.label9.TabIndex = 12;
-            this.label9.Text = "■ 리스트 개수";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Width_TB
             // 

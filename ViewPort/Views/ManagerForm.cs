@@ -37,12 +37,18 @@ namespace ViewPort.Views
               //  ImageViewer.Normal_Data();
                 ImageViewer.Set_EngData(EQ_STR.DEFAULT, textBox18.Text, textBox17.Text, textBox1.Text, textBox2.Text);
             }
+            else
+            {
+                ImageViewer.Del_EngData(EQ_STR.DEFAULT, 1);
+            }
         }
 
         private void ShortCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (ShortCheck.Checked)
             {
+                if (NormalCheck.Checked)
+                    NormalCheck.Checked = false;
                 Checked++;
                 if(Checked > 1)
                 {
@@ -56,6 +62,8 @@ namespace ViewPort.Views
             {
                 ImageViewer.Del_EngData(EQ_STR.SHORT, Checked);
                 Checked--;
+                if (Checked == 0)
+                    NormalCheck.Checked =true;
             }
         }
 
@@ -63,7 +71,8 @@ namespace ViewPort.Views
         {
             if (돌기Check.Checked)
             {
-
+                if (NormalCheck.Checked)
+                    NormalCheck.Checked = false;
                 Checked++;
                 if (Checked > 1)
                 {
@@ -76,6 +85,8 @@ namespace ViewPort.Views
             {
                 ImageViewer.Del_EngData(EQ_STR.SPIN, Checked);
                 Checked--;
+                if (Checked == 0)
+                    NormalCheck.Checked = true;
             }
         }
 
@@ -83,6 +94,8 @@ namespace ViewPort.Views
         {
             if (OpenCheck.Checked)
             {
+                if (NormalCheck.Checked)
+                    NormalCheck.Checked = false;
                 Checked++;
                 if (Checked > 1)
                 {
@@ -95,6 +108,8 @@ namespace ViewPort.Views
             {
                 ImageViewer.Del_EngData(EQ_STR.OPEN,Checked);
                 Checked--;
+                if (Checked == 0)
+                    NormalCheck.Checked = true;
             }
         }
 
@@ -102,6 +117,8 @@ namespace ViewPort.Views
         {
             if (MBCheck.Checked)
             {
+                if (NormalCheck.Checked)
+                    NormalCheck.Checked = false;
                 Checked++;
                 if (Checked > 1)
                 {
@@ -114,6 +131,8 @@ namespace ViewPort.Views
             {
                 ImageViewer.Del_EngData(EQ_STR.MB, Checked);
                 Checked--;
+                if (Checked == 0)
+                    NormalCheck.Checked = true;
             }
         }
 
@@ -121,6 +140,8 @@ namespace ViewPort.Views
         {
             if (TopCheck.Checked)
             {
+                if (NormalCheck.Checked)
+                    NormalCheck.Checked = false;
                 Checked++;
                 if (Checked > 1)
                 {
@@ -133,6 +154,8 @@ namespace ViewPort.Views
             {
                 ImageViewer.Del_EngData(EQ_STR.TOP, Checked);
                 Checked--;
+                if (Checked == 0)
+                    NormalCheck.Checked = true;
             }
         }
 
@@ -140,6 +163,8 @@ namespace ViewPort.Views
         {
             if (변색Check.Checked)
             {
+                if (NormalCheck.Checked)
+                    NormalCheck.Checked = false;
                 Checked++;
                 if (Checked > 1)
                 {
@@ -152,6 +177,8 @@ namespace ViewPort.Views
             {
                 ImageViewer.Del_EngData(EQ_STR.DISCOLORATION, Checked);
                 Checked--;
+                if (Checked == 0)
+                    NormalCheck.Checked = true;
             }
         }
 
@@ -159,6 +186,8 @@ namespace ViewPort.Views
         {
             if (SRCheck.Checked)
             {
+                if (NormalCheck.Checked)
+                    NormalCheck.Checked = false;
                 Checked++;
                 if (Checked > 1)
                 {
@@ -171,6 +200,8 @@ namespace ViewPort.Views
             {
                 ImageViewer.Del_EngData(EQ_STR.SR, Checked);
                 Checked--;
+                if (Checked == 0)
+                    NormalCheck.Checked = true;
             }
         }
     }
