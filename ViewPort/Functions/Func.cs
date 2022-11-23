@@ -565,22 +565,42 @@ namespace ViewPort.Functions
                 dic_ready = items.ToList();
                 
                 int Maxindex = dic_ready.Count - 1;
-                List<int> delete_xy = new List<int>();
+                
                 using (StreamWriter writer = new StreamWriter(ImgEntry.Open(),Encoding.Default))
                 {
+                    string TestList = string.Empty;
                     for(int i=0; i< E_index; i++)
                     {
-                        writer.WriteLine(dic_ready[i]);
+                        TestList = dic_ready[i];
+                        writer.WriteLine(TestList);
+                        
                     }
                     for (int i = E_index; i < Maxindex; i++)
                     {
-
-                        if (Waiting_Del.Keys.ElementAt(del_index).Equals(dic_ready[i].Substring(0, 12)))
-                        {                                                 
+                        bool deleteCheck = false;
+                        if (dic_ready[i] == "")
+                        {
+                            return;
                         }
                         else
                         {
-                            writer.WriteLine(dic_ready[i]);
+                            foreach (string del in Waiting_Del.Keys)
+                            {
+                                if (del.Equals(dic_ready[i].Substring(0, 12)))
+                                {
+                                    deleteCheck = true;
+                                }
+                            }
+                            if (deleteCheck)
+                            {
+
+                            }
+                            else
+                            {
+                                TestList = dic_ready[i];
+                                writer.WriteLine(TestList);
+                                
+                            }
                         }
                     }
                     
