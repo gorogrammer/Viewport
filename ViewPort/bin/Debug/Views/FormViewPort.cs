@@ -2222,7 +2222,7 @@ namespace ViewPort
         {
 
             Func.DeleteJPG_inZIP(zipFilePath, dicInfo_Waiting_Del);
-            Func.Rewrite_XY_TxtAsync(zipFilePath, dicInfo_Waiting_Del);
+           // Func.Rewrite_XY_TxtAsync(zipFilePath, dicInfo_Waiting_Del);
             foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Waiting_Del)
             {
                 if (DicInfo.ContainsKey(pair.Key))

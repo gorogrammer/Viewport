@@ -396,21 +396,21 @@
             // zipLoadFileToolStripMenuItem
             // 
             this.zipLoadFileToolStripMenuItem.Name = "zipLoadFileToolStripMenuItem";
-            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
             this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
             // 
             // listFilterToolStripMenuItem
             // 
             this.listFilterToolStripMenuItem.Name = "listFilterToolStripMenuItem";
-            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.listFilterToolStripMenuItem.Text = "List Filter";
             this.listFilterToolStripMenuItem.Click += new System.EventHandler(this.listFilterToolStripMenuItem_Click);
             // 
             // frameListFilerToolStripMenuItem
             // 
             this.frameListFilerToolStripMenuItem.Name = "frameListFilerToolStripMenuItem";
-            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.frameListFilerToolStripMenuItem.Text = "Frame  List Filer";
             this.frameListFilerToolStripMenuItem.Click += new System.EventHandler(this.frameListFilerToolStripMenuItem_Click);
             // 
@@ -573,6 +573,10 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.splitContainer5.Panel1.Controls.Add(this.label9);
+            this.splitContainer5.Panel1.Controls.Add(this.List_Count_TB);
+            this.splitContainer5.Panel1.Controls.Add(this.Exceed_CB);
+            this.splitContainer5.Panel1.Controls.Add(this.Frame_View_CB);
             this.splitContainer5.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer5.Panel1.Controls.Add(this.Frame_Interval_CB);
             this.splitContainer5.Panel1.Controls.Add(this.Print_Image_EQ);
@@ -586,12 +590,9 @@
             this.splitContainer5.Panel1.Controls.Add(this.View_Mode_RB);
             this.splitContainer5.Panel1.Controls.Add(this.Exceed_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label11);
-            this.splitContainer5.Panel1.Controls.Add(this.Exceed_CB);
-            this.splitContainer5.Panel1.Controls.Add(this.Frame_View_CB);
             this.splitContainer5.Panel1.Controls.Add(this.Fixed_CB);
             this.splitContainer5.Panel1.Controls.Add(this.button2);
             this.splitContainer5.Panel1.Controls.Add(this.Print_Image_BT);
-            this.splitContainer5.Panel1.Controls.Add(this.List_Count_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label5);
             this.splitContainer5.Panel1.Controls.Add(this.label4);
             this.splitContainer5.Panel1.Controls.Add(this.Frame_E_Page_TB);
@@ -615,7 +616,6 @@
             this.splitContainer5.Panel1.Controls.Add(this.Height_TB);
             this.splitContainer5.Panel1.Controls.Add(this.Rows_TB);
             this.splitContainer5.Panel1.Controls.Add(this.label8);
-            this.splitContainer5.Panel1.Controls.Add(this.label9);
             this.splitContainer5.Panel1.Controls.Add(this.Width_TB);
             // 
             // splitContainer5.Panel2
@@ -633,14 +633,14 @@
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBox1.Location = new System.Drawing.Point(33, 240);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(237, 37);
+            this.groupBox1.Size = new System.Drawing.Size(237, 32);
             this.groupBox1.TabIndex = 34;
             this.groupBox1.TabStop = false;
             // 
             // Frame_BT
             // 
             this.Frame_BT.AutoSize = true;
-            this.Frame_BT.Location = new System.Drawing.Point(145, 14);
+            this.Frame_BT.Location = new System.Drawing.Point(136, 13);
             this.Frame_BT.Name = "Frame_BT";
             this.Frame_BT.Size = new System.Drawing.Size(75, 16);
             this.Frame_BT.TabIndex = 19;
@@ -652,7 +652,7 @@
             // 
             this.XY_BT.AutoSize = true;
             this.XY_BT.Checked = true;
-            this.XY_BT.Location = new System.Drawing.Point(11, 14);
+            this.XY_BT.Location = new System.Drawing.Point(11, 13);
             this.XY_BT.Name = "XY_BT";
             this.XY_BT.Size = new System.Drawing.Size(63, 16);
             this.XY_BT.TabIndex = 18;
