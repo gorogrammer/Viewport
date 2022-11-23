@@ -68,6 +68,7 @@ namespace ViewPort
         int eq_filter = 0;
         int list_filter = 0;
         int imageSize_Filter = 0;
+        int Delete_W = 0;
         int Delete = 0;
         int infoListCount=0;
         int AllList = 0;
@@ -206,8 +207,8 @@ namespace ViewPort
         public string DirPath { get => dirPath; set => dirPath = value; }
         public int Load_State { get => _load_State; set => _load_State = value; }
 
+        public int delete_W { get => Delete_W; set => Delete_W = value; }
         public int delete { get => Delete; set => Delete = value; }
-
         public int Eq_filter { get => eq_filter; set => eq_filter = value; }
        
         public int GetLoad_State()
@@ -1575,7 +1576,8 @@ namespace ViewPort
                     Selected_Pic.Clear();
                     LotName = sp[1];
                     DBFunc db = new DBFunc();
-                    db.DB_DL_UpLoad(LotName, Dl_List_Main,DI_List_Sever);
+                    if(!db.DB_DL_UpLoad(LotName, Dl_List_Main,DI_List_Sever))
+                        MessageBox.Show("DL Load Error");
                     LotIDProductName.Text = sp[1] + "     " + sp[2];
                     if (Manual_Mode_RB.Checked)
                     {
@@ -1727,7 +1729,7 @@ namespace ViewPort
                     open.Setting = Setting;
                 }
                 LimitAlarm();
-                label13.Text = dicInfo.Count + " / " + Delete.ToString();
+                label13.Text = dicInfo.Count + " / " + delete_W.ToString() + " / " + delete.ToString();
                 InfoListCount = dicInfo.Count; 
 
             }
@@ -1739,7 +1741,7 @@ namespace ViewPort
         }
         public void UpdateDeleteText()
         {
-            label13.Text = InfoListCount.ToString() + " / " + Delete.ToString();
+            label13.Text = dicInfo.Count + " / " + delete_W.ToString() + " / " + delete.ToString();
         }
         private void LimitAlarm()
         {
@@ -2227,7 +2229,7 @@ namespace ViewPort
                     DicInfo.Remove(pair.Key);
             }
 
-
+            delete = delete + dicInfo_Waiting_Del.Count;
             dicInfo_Waiting_Del.Clear();
             ((DataTable)dataGridView2.DataSource).Rows.Clear();
 
@@ -2925,6 +2927,7 @@ namespace ViewPort
         {
             try
             {
+                this.Focus();
                 waitform.Show();
                 final_Frame_List.Clear();
 
@@ -3123,7 +3126,7 @@ namespace ViewPort
 
                 }
 
-                this.Focus();
+                this.Activate();
                 Func.Map_TXT_Update_inZip(ZipFilePath, Map_TXT_NO_Counting, Map_List_Dic_main, Map_List_Dic_Compare_main, Between);
                 waitform.Close();
                 MessageBox.Show("Map 변경되었습니다.");

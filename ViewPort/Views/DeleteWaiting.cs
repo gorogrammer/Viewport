@@ -960,7 +960,7 @@ namespace ViewPort.Views
             Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
 
 
-            Main.delete = Main.delete  - Main.selected_Pic.Count;
+            Main.delete_W = Main.delete_W - Main.selected_Pic.Count;
             Main.InfoListCount = Main.InfoListCount + Main.selected_Pic.Count; 
             Main.UpdateDeleteText();
             Main.Dl_Wait_Del_Print_List();
@@ -989,7 +989,9 @@ namespace ViewPort.Views
                     }
 
 
-                } 
+                }
+                Main.delete_W = 0;
+                Main.UpdateDeleteText();
                 waitform.Close();
                 Main.MapTxtChange();
             }

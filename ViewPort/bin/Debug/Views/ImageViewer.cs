@@ -28,6 +28,7 @@ namespace ViewPort.Views
         public SplitterPanel split;
         string openViewType = string.Empty;
         string openFilterType = string.Empty;
+        bool normalCheck = false;
         struct BoxRange { public int left, top, width, height; }
         List<string> Display_Id = new List<string>();
         List<string> Change_state_List = new List<string>();
@@ -239,7 +240,17 @@ namespace ViewPort.Views
                         else
                             Set_Image();
                     }
-                    else { Set_Image_Eng(); }
+                    else if (Main.EngrMode)
+                    {
+
+                        if (Main.Frame_View_CB.Checked)
+                            Frame_Set_Image();
+                        else if (Main.EngrMode && !normalCheck)
+                            Set_Image_Eng();
+                        else
+                            Set_Image();
+
+                    }
 
                     //this.Refresh();
                 }
@@ -1060,7 +1071,7 @@ namespace ViewPort.Views
 
 
                     }
-                    Main.delete = Main.delete + Select_Pic_List.Count;
+                    Main.delete_W = Main.delete_W + Select_Pic_List.Count;
                     Main.InfoListCount = Main.InfoListCount - Select_Pic_List.Count;
                     Main.UpdateDeleteText();
                     Select_Pic_List.Clear();
@@ -1208,14 +1219,24 @@ namespace ViewPort.Views
                     Main.S_Page_TB.Text = Current_PageNum.ToString();
 
                     //Set_PictureBox();
-
-                    if (Main.Frame_View_CB.Checked)
-                        Frame_Set_Image();
+                    if (!Main.EngrMode)
+                    {
+                        if (Main.Frame_View_CB.Checked)
+                            Frame_Set_Image();
+                        else
+                            Set_Image();
+                    }
                     else if (Main.EngrMode)
-                        Set_Image_Eng();
-                    else
-                        Set_Image();
+                    {
 
+                        if (Main.Frame_View_CB.Checked)
+                            Frame_Set_Image();
+                        else if (Main.EngrMode && !normalCheck)
+                            Set_Image_Eng();
+                        else
+                            Set_Image();
+
+                    }
                     
                 }
 
@@ -2866,24 +2887,64 @@ namespace ViewPort.Views
             {
                 Main.Eng_dicinfo.Clear();
             }
-
-            for (int i =0; i< DicInfo_Filtered.Count; i++)
+            if (!StateNum.Equals(EQ_STR.DEFAULT))
             {
-                if (DicInfo_Filtered.Values.ElementAt(i).EquipmentDefectName.Contains(StateNum))
-                    Main.Eng_dicinfo.Add(DicInfo_Filtered.Keys.ElementAt(i), DicInfo_Filtered.Values.ElementAt(i));
+                normalCheck = false;
+                for (int i = 0; i < DicInfo_Filtered.Count; i++)
+                {
+                    if (DicInfo_Filtered.Values.ElementAt(i).EquipmentDefectName.Contains(StateNum))
+                        Main.Eng_dicinfo.Add(DicInfo_Filtered.Keys.ElementAt(i), DicInfo_Filtered.Values.ElementAt(i));
 
 
+                }
+                Data = Main.Eng_dicinfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+                Main.Eng_dicinfo = Data;
+
+                Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
+                Main.E_Page_TB.Text = Total_PageNum.ToString();
+                Set_PictureBox();
+                Set_Image_Eng();
+                Main.Eng_Print_List();
             }
-            Data = Main.Eng_dicinfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-            Main.Eng_dicinfo = Data;
-            Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
-            Main.E_Page_TB.Text = Total_PageNum.ToString();
-            Set_PictureBox();
-            Set_Image_Eng();
-            Main.Eng_Print_List();
+            else
+            {
+                normalCheck = true;
+                // Main.Eng_dicinfo = DicInfo_Filtered;
+
+                if (Main.XY_BT.Checked)
+                {
+                    Main.XYMode_Sort();
+                    Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+
+                    var sort = Main.DicInfo.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
+
+
+                    foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
+                    {
+                        SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
+                    }
+                    DicInfo_Filtered = SortXY_DIC_Load;
+
+                }
+                else if (Main.Frame_BT.Checked)
+                {
+                    Dictionary<string, ImageInfo> SortFrame_DIC_Load = new Dictionary<string, ImageInfo>();
+                    SortFrame_DIC_Load = Main.DicInfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    DicInfo_Filtered = SortFrame_DIC_Load;
+                }
+                Main.Eng_dicinfo = DicInfo_Filtered;
+                Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
+                Main.E_Page_TB.Text = Total_PageNum.ToString();
+                Set_PictureBox();
+                Set_Image();
+                Main.Print_List();
+            }
+            
         }
         public void Set_MultiCheck_EngData(string StateNum)
         {
+            
             Dictionary<string, ImageInfo> Data = new Dictionary<string, ImageInfo>();
             List<int> FramNoData = new List<int>();
             Main.Cols_TB.Text = "12";
@@ -2932,8 +2993,8 @@ namespace ViewPort.Views
             Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
             Main.E_Page_TB.Text = Total_PageNum.ToString();
             Set_PictureBox();
-            Set_Image_Eng();
-            Main.Eng_Print_List();
+            Set_Image();
+            Main.Print_List();
         }
         public void Set_Image_Eng()
         {

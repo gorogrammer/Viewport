@@ -34,8 +34,8 @@ namespace ViewPort.Views
                 돌기Check.Checked = false;
                 변색Check.Checked = false;
                 TopCheck.Checked = false;
-                ImageViewer.Normal_Data();
-                ImageViewer.Set_Image();
+              //  ImageViewer.Normal_Data();
+                ImageViewer.Set_EngData(EQ_STR.DEFAULT, textBox18.Text, textBox17.Text, textBox1.Text, textBox2.Text);
             }
         }
 

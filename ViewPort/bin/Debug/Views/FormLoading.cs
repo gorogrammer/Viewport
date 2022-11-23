@@ -664,41 +664,48 @@ namespace ViewPort.Views
         }
         private void Load_DL_TxtAsync(string FilePath)
         {
-            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+            try
             {
-                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetDLFromPath(FilePath));
-
-                if (ImgEntry == null)
+                using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
                 {
-                    MessageBox.Show(MSG_STR.NONE_DL_TXT);
-                    return;
-                }
+                    ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetDLFromPath(FilePath));
 
-                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
-                string text = SR.ReadToEnd();
-                string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-                for(int i = 1; i < items.Length - 1; i++ )
-                {
-                    Dl_List.Add(items[i]);
-                    
-                }
-
-                for(int p = 2; p < Dl_List.Count-1; p++)
-                {
-                    string[] split_string = Dl_List[p].Split(',', '%', ' ');
-                    if(split_string[0] != "New" && split_string.Length > 2)
+                    if (ImgEntry == null)
                     {
-                        if (double.Parse(split_string[6]) < double.Parse(split_string[8]))
-                            Dl_Apply_List.Add(split_string[0]);
-                        else
-                            Dl_NOt_Apply_List.Add(split_string[0]);
+                        MessageBox.Show(MSG_STR.NONE_DL_TXT);
+                        return;
                     }
-                  
-                    
-                }
 
-                zip.Dispose();
+                    StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                    string text = SR.ReadToEnd();
+                    string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                    for (int i = 1; i < items.Length - 1; i++)
+                    {
+                        Dl_List.Add(items[i]);
+
+                    }
+
+                    for (int p = 2; p < Dl_List.Count - 1; p++)
+                    {
+                        string[] split_string = Dl_List[p].Split(',', '%', ' ');
+                        if (split_string[0] != "New" && split_string.Length > 2)
+                        {
+                            if (double.Parse(split_string[6]) < double.Parse(split_string[8]))
+                                Dl_Apply_List.Add(split_string[0]);
+                            else
+                                Dl_NOt_Apply_List.Add(split_string[0]);
+                        }
+
+
+                    }
+
+                    zip.Dispose();
+                }
+            }
+            catch
+            {
+                return;
             }
 
         }
@@ -1009,7 +1016,7 @@ namespace ViewPort.Views
                     Dic_Load[kvp.Key].Y_Location = kvp.Value.Y_Location;
                     Dic_Load[kvp.Key].Master_NO = kvp.Value.Master_No;
 
-
+                    
                     if (Dic_Load[kvp.Key].sdip_no == "1")
                     {
                         Sdip_no1_dicload.Add(kvp.Key, Dic_Load[kvp.Key]);
