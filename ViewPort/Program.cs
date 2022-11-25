@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SDIP.Forms;
+using System;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -39,7 +40,19 @@ namespace ViewPort
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormViewPort());
+            SDIP.Forms.FormLogin loginForm = new SDIP.Forms.FormLogin();
+            loginForm.StartPosition = FormStartPosition.CenterParent;
+            loginForm.ShowDialog();
+            if (loginForm.DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                Application.Run(new FormViewPort());
+            }
+            else
+            {
+                
+
+            }
+            
         }
     }
 }

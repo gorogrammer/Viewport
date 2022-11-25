@@ -35,7 +35,6 @@ namespace SDIP.Forms
 
             if (db.DBConnection(Int32.Parse(TB_ID.Text), TB_PASSWORD.Text))
             {
-                MessageBox.Show("로그인성공");
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

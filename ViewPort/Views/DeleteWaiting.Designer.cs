@@ -29,6 +29,13 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button2 = new System.Windows.Forms.Button();
+            this.Cols_TB = new System.Windows.Forms.TextBox();
+            this.Rows_TB = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.Height_TB = new System.Windows.Forms.TextBox();
+            this.Width_TB = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this._filterAct_bt = new System.Windows.Forms.Button();
             this.Select_Empty_BTN = new System.Windows.Forms.Button();
             this.Select_All_BTN = new System.Windows.Forms.Button();
@@ -47,13 +54,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
             this.E_Page_TB = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.Height_TB = new System.Windows.Forms.TextBox();
-            this.Width_TB = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.Cols_TB = new System.Windows.Forms.TextBox();
-            this.Rows_TB = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -103,6 +103,75 @@
             this.splitContainer1.Size = new System.Drawing.Size(998, 540);
             this.splitContainer1.SplitterDistance = 90;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(892, 59);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(95, 23);
+            this.button2.TabIndex = 47;
+            this.button2.Text = "출력";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // Cols_TB
+            // 
+            this.Cols_TB.Location = new System.Drawing.Point(288, 61);
+            this.Cols_TB.Name = "Cols_TB";
+            this.Cols_TB.Size = new System.Drawing.Size(38, 21);
+            this.Cols_TB.TabIndex = 45;
+            this.Cols_TB.Text = "7";
+            this.Cols_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Cols_TB.TextChanged += new System.EventHandler(this.Cols_TB_TextChanged);
+            // 
+            // Rows_TB
+            // 
+            this.Rows_TB.Location = new System.Drawing.Point(348, 61);
+            this.Rows_TB.Name = "Rows_TB";
+            this.Rows_TB.Size = new System.Drawing.Size(38, 21);
+            this.Rows_TB.TabIndex = 46;
+            this.Rows_TB.Text = "3";
+            this.Rows_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Rows_TB.TextChanged += new System.EventHandler(this.Rows_TB_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(198, 64);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 12);
+            this.label3.TabIndex = 44;
+            this.label3.Text = "■ 이미지 출력";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Height_TB
+            // 
+            this.Height_TB.Location = new System.Drawing.Point(158, 61);
+            this.Height_TB.Name = "Height_TB";
+            this.Height_TB.Size = new System.Drawing.Size(38, 21);
+            this.Height_TB.TabIndex = 43;
+            this.Height_TB.Text = "120";
+            this.Height_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Width_TB
+            // 
+            this.Width_TB.Location = new System.Drawing.Point(102, 61);
+            this.Width_TB.Name = "Width_TB";
+            this.Width_TB.Size = new System.Drawing.Size(38, 21);
+            this.Width_TB.TabIndex = 42;
+            this.Width_TB.Text = "120";
+            this.Width_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Width_TB.TextChanged += new System.EventHandler(this.Width_TB_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 64);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(83, 12);
+            this.label2.TabIndex = 41;
+            this.label2.Text = "■ 이미지 크기";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // _filterAct_bt
             // 
@@ -278,75 +347,6 @@
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 11;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 64);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 12);
-            this.label2.TabIndex = 41;
-            this.label2.Text = "■ 이미지 크기";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Height_TB
-            // 
-            this.Height_TB.Location = new System.Drawing.Point(158, 61);
-            this.Height_TB.Name = "Height_TB";
-            this.Height_TB.Size = new System.Drawing.Size(38, 21);
-            this.Height_TB.TabIndex = 43;
-            this.Height_TB.Text = "120";
-            this.Height_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Width_TB
-            // 
-            this.Width_TB.Location = new System.Drawing.Point(102, 61);
-            this.Width_TB.Name = "Width_TB";
-            this.Width_TB.Size = new System.Drawing.Size(38, 21);
-            this.Width_TB.TabIndex = 42;
-            this.Width_TB.Text = "120";
-            this.Width_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Width_TB.TextChanged += new System.EventHandler(this.Width_TB_TextChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(198, 64);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 12);
-            this.label3.TabIndex = 44;
-            this.label3.Text = "■ 이미지 출력";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Cols_TB
-            // 
-            this.Cols_TB.Location = new System.Drawing.Point(288, 61);
-            this.Cols_TB.Name = "Cols_TB";
-            this.Cols_TB.Size = new System.Drawing.Size(38, 21);
-            this.Cols_TB.TabIndex = 45;
-            this.Cols_TB.Text = "7";
-            this.Cols_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Cols_TB.TextChanged += new System.EventHandler(this.Cols_TB_TextChanged);
-            // 
-            // Rows_TB
-            // 
-            this.Rows_TB.Location = new System.Drawing.Point(348, 61);
-            this.Rows_TB.Name = "Rows_TB";
-            this.Rows_TB.Size = new System.Drawing.Size(38, 21);
-            this.Rows_TB.TabIndex = 46;
-            this.Rows_TB.Text = "3";
-            this.Rows_TB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Rows_TB.TextChanged += new System.EventHandler(this.Rows_TB_TextChanged);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(892, 59);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(95, 23);
-            this.button2.TabIndex = 47;
-            this.button2.Text = "출력";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // DeleteWaiting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -358,6 +358,8 @@
             this.Text = "삭제대기 이미지";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DeleteWaiting_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DeleteWaiting_KeyDown);
+            this.MouseHover += new System.EventHandler(this.DeleteWaiting_MouseHover);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DeleteWaiting_MouseMove);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

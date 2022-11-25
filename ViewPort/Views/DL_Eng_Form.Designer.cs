@@ -48,10 +48,10 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(-1, 16);
+            this.dataGridView1.Location = new System.Drawing.Point(-1, 27);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(803, 373);
+            this.dataGridView1.Size = new System.Drawing.Size(801, 362);
             this.dataGridView1.TabIndex = 1;
             // 
             // DL_Eng_Form
@@ -62,6 +62,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "DL_Eng_Form";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DL_Eng_Form_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

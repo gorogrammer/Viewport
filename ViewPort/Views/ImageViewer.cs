@@ -24,6 +24,7 @@ namespace ViewPort.Views
     {
         
         public FormViewPort Main;
+        public ManagerForm Manager;
         LoadingGIF_Func waitform = new LoadingGIF_Func();
         public SplitterPanel split;
         string openViewType = string.Empty;
@@ -76,7 +77,7 @@ namespace ViewPort.Views
         Point src_Mouse_XY, dst_Mouse_XY;
         Point A_Mouse_XY, B_Mouse_XY;
 
-        int cols, rows, width, height;
+        public int cols, rows, width, height;
 
         ZipArchive zip = null;
         public Dictionary<string, ImageInfo> DicInfo_Filtered
@@ -167,7 +168,11 @@ namespace ViewPort.Views
             Last_Picture_Selected_Index = -1;
             Current_PageNum = view_page + 1;
             Main.S_Page_TB.Text = Current_PageNum.ToString();
-            if (Main.Frame_View_CB.Checked)
+            if (Main.Eng_dicinfo.Count > 0)
+            {
+                Set_Image_Eng();
+            }
+            else if (Main.Frame_View_CB.Checked)
             {
                 Frame_Set_Image();
 
@@ -196,7 +201,11 @@ namespace ViewPort.Views
                 }
             }
             Delay(1500);
-            if (Main.Frame_View_CB.Checked)
+            if (Main.Eng_dicinfo.Count > 0)
+            {
+                Set_Image_Eng();
+            }
+            else if (Main.Frame_View_CB.Checked)
              Frame_Set_Image();
             else
             Set_Image();
@@ -1005,23 +1014,42 @@ namespace ViewPort.Views
                             {
                                 frame_dicInfo_Filter.Remove(Select_Pic_List[i]);
                             }
-
+                            if (Main.Eng_dicinfo.Count > 1)
+                            {
+                                if (Main.Eng_dicinfo.ContainsKey(Select_Pic_List[i]))
+                                {
+                                    Main.Eng_dicinfo.Remove(Select_Pic_List[i]);
+                                }
+                            }
                         }
                         if (Filter_NO_1 == 1)
                         {
                             Main.No1_Dl_PrintList();
                             Filter_NO_1 = 0;
                         }
+                        else if(Main.Eng_dicinfo.Count > 1)
+                        {
+                            Main.Eng_Print_List();
+                        }
                         else
                             Main.Dl_PrintList();
 
+
                         Eq_cb_need_del = new List<string>(Select_Pic_List);
-                        DL_Frame_Set_View();
+                        if (Main.Eng_dicinfo.Count > 1)
+                        {
+                            Set_Image_Eng();
+                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", Main.Eng_dicinfo.Count);
+                        }
+                        else
+                        {
+                            DL_Frame_Set_View();
 
 
-                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
+                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", frame_dicInfo_Filter.Count);
+                           
+                        }
                         Main.Wait_Del_Print_List();
-
                     }
                     else
                     {
@@ -1047,7 +1075,13 @@ namespace ViewPort.Views
                             {
                                 dicInfo_Filter.Remove(Select_Pic_List[i]);
                             }
-
+                            if (Main.Eng_dicinfo.Count > 1)
+                            {
+                                if (Main.Eng_dicinfo.ContainsKey(Select_Pic_List[i]))
+                                {
+                                    Main.Eng_dicinfo.Remove(Select_Pic_List[i]);
+                                }
+                            }
                         }
 
 
@@ -1058,17 +1092,28 @@ namespace ViewPort.Views
                             Main.No1_Dl_PrintList();
                             Filter_NO_1 = 0;
                         }
+                        else if (Main.Eng_dicinfo.Count > 1)
+                        {
+                            Main.Dl_PrintList();
+                            Main.Eng_Print_List();
+                        }
                         else
                             Main.Dl_PrintList();
 
-
-                        Eq_cb_need_del = new List<string>(Select_Pic);
-                        Del_Set_View();
-
-
-                        Main.Wait_Del_Print_List();
-                        Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
-
+                        if (Main.Eng_dicinfo.Count > 1)
+                        {
+                            Set_Image_Eng();
+                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", Main.Eng_dicinfo.Count);
+                        }
+                        else
+                        {
+                            Eq_cb_need_del = new List<string>(Select_Pic);
+                            Del_Set_View();
+                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+                        }
+                            Main.Wait_Del_Print_List();
+                            
+                        
 
                     }
                     Main.delete_W = Main.delete_W + Select_Pic_List.Count;
@@ -1963,7 +2008,9 @@ namespace ViewPort.Views
             Main.E_Page_TB.Text = Total_PageNum.ToString();
 
             Set_PictureBox();
+           
             Set_Image();
+            
             Last_Picture_Selected_Index = -1;
             Main.List_Count_TB.Text = String.Format("{0:#,##0}", DicInfo_Filtered.Count);
             //Main.Return_dicInfo.Clear();
@@ -2372,7 +2419,7 @@ namespace ViewPort.Views
             this.Focus();
         }
 
-        private void Set_PictureBox()
+        public void Set_PictureBox()
         {
             int pre_cols, pre_rows;
             PictureBox temp_PB;
@@ -2539,7 +2586,10 @@ namespace ViewPort.Views
 
             Last_Picture_Selected_Index = -1;
             Current_PageNum = (pre_cols * pre_rows * (Current_PageNum - 1)) / (cols * rows) + 1;
-            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+            if(Main.Eng_dicinfo.Count > 0)
+                Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
+            else
+                Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
 
             Main.S_Page_TB.Text = Current_PageNum.ToString();
             Main.E_Page_TB.Text = Total_PageNum.ToString();
@@ -2873,6 +2923,7 @@ namespace ViewPort.Views
             Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
             Main.E_Page_TB.Text = Total_PageNum.ToString();
             Main.Eng_Print_List();
+            //Main.update_Equipment_DF_CLB(DicInfo_Filtered.Keys.ToList());
         }
         public void Set_EngData(string StateNum, string Cols,string Rows, string Width , string Height)
         {
@@ -2906,6 +2957,7 @@ namespace ViewPort.Views
                 Set_PictureBox();
                 Set_Image_Eng();
                 Main.Eng_Print_List();
+               // Main.update_Equipment_DF_CLB(Main.Eng_dicinfo.Keys.ToList());
             }
             else
             {
@@ -2925,6 +2977,7 @@ namespace ViewPort.Views
                         SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
                     }
                     DicInfo_Filtered = SortXY_DIC_Load;
+                    
 
                 }
                 else if (Main.Frame_BT.Checked)
@@ -2932,25 +2985,27 @@ namespace ViewPort.Views
                     Dictionary<string, ImageInfo> SortFrame_DIC_Load = new Dictionary<string, ImageInfo>();
                     SortFrame_DIC_Load = Main.DicInfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
                     DicInfo_Filtered = SortFrame_DIC_Load;
+                    
                 }
-                Main.Eng_dicinfo = DicInfo_Filtered;
+                Main.Eng_dicinfo = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
                 Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
                 Main.E_Page_TB.Text = Total_PageNum.ToString();
                 Set_PictureBox();
                 Set_Image();
                 Main.Print_List();
+                //Main.update_Equipment_DF_CLB(Main.Eng_dicinfo.Keys.ToList());
             }
             
         }
-        public void Set_MultiCheck_EngData(string StateNum)
+        public void Set_MultiCheck_EngData(string StateNum,string Cols, string Rows, string Width, string Height)
         {
             
             Dictionary<string, ImageInfo> Data = new Dictionary<string, ImageInfo>();
             List<int> FramNoData = new List<int>();
-            Main.Cols_TB.Text = "12";
-            Main.Rows_TB.Text = "7";
-            Main.Width_TB.Text = "120";
-            Main.Height_TB.Text = "120";
+            Main.Cols_TB.Text = Cols;
+            Main.Rows_TB.Text = Rows;
+            Main.Width_TB.Text = Width;
+            Main.Height_TB.Text = Height;
 
 
             for (int i = 0; i < DicInfo_Filtered.Count; i++)
@@ -2973,7 +3028,7 @@ namespace ViewPort.Views
         {
             Dictionary<string, ImageInfo> Data,RemoveList = new Dictionary<string, ImageInfo>();
             List<string> FramNoData = new List<string>();
-
+            //Manager = manager;
             RemoveList = Main.Eng_dicinfo;
             int Count = Main.Eng_dicinfo.Count;
             for (int i = 0; i < Count; i++)
@@ -2987,14 +3042,27 @@ namespace ViewPort.Views
             {
                 Main.Eng_dicinfo.Remove(number);
             }
+            
             //Main.Eng_dicinfo = RemoveList;
             Data = Main.Eng_dicinfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
             Main.Eng_dicinfo = Data;
-            Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
-            Main.E_Page_TB.Text = Total_PageNum.ToString();
-            Set_PictureBox();
-            Set_Image();
-            Main.Print_List();
+            if (check == 2)
+            {
+                string SingData = Manager.Del_Single_Check();
+                string[] Single = SingData.Split(',');
+
+                Set_EngData(Single[0], Single[1], Single[2], Single[3], Single[4]);
+
+            }
+            else
+            {
+                Total_PageNum = ((Main.Eng_dicinfo.Count - 1) / (cols * rows)) + 1;
+                Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+                Set_PictureBox();
+                Set_Image_Eng();
+                Main.Print_List();
+            }
         }
         public void Set_Image_Eng()
         {

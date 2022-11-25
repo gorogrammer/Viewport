@@ -427,14 +427,14 @@
             // 중간저장ToolStripMenuItem
             // 
             this.중간저장ToolStripMenuItem.Name = "중간저장ToolStripMenuItem";
-            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.중간저장ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.중간저장ToolStripMenuItem.Text = "중간 저장";
             this.중간저장ToolStripMenuItem.Click += new System.EventHandler(this.중간저장ToolStripMenuItem_Click);
             // 
             // 저장불러오기ToolStripMenuItem
             // 
             this.저장불러오기ToolStripMenuItem.Name = "저장불러오기ToolStripMenuItem";
-            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.저장불러오기ToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.저장불러오기ToolStripMenuItem.Text = "저장 불러오기";
             this.저장불러오기ToolStripMenuItem.Click += new System.EventHandler(this.저장불러오기ToolStripMenuItem_Click);
             // 
@@ -679,6 +679,7 @@
             this.Frame_BT.Text = "Frame 순";
             this.Frame_BT.UseVisualStyleBackColor = true;
             this.Frame_BT.CheckedChanged += new System.EventHandler(this.Frame_BT_CheckedChanged);
+            this.Frame_BT.Click += new System.EventHandler(this.Frame_BT_Click);
             // 
             // XY_BT
             // 
@@ -999,11 +1000,10 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(1463, 33);
+            this.label13.Location = new System.Drawing.Point(1259, 48);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(65, 12);
+            this.label13.Size = new System.Drawing.Size(0, 12);
             this.label13.TabIndex = 6;
-            this.label13.Text = "DeleteText";
             // 
             // FormViewPort
             // 
@@ -1020,6 +1020,7 @@
             this.Padding = new System.Windows.Forms.Padding(10, 60, 10, 10);
             this.Text = "Carlo ViewPort";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Activated += new System.EventHandler(this.FormViewPort_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormViewPort_FormClosing);
             this.Load += new System.EventHandler(this.FormViewPort_Load);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormViewPort_MouseMove);

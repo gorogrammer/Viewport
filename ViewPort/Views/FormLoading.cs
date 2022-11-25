@@ -49,6 +49,7 @@ namespace ViewPort.Views
         private Dictionary<string, ImageInfo> sdip_no1_dicload;
         private Dictionary<string, ImageInfo> Sorted_dic_GRID;
         private string betweenEA;
+        private bool XYLoadCheck;
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }      
         public Dictionary<string, ImageInfo> F5_code_dicInfo_Loading { get => f5_code_dicInfo_Loading; set => f5_code_dicInfo_Loading = value; }
         public Dictionary<string, ImageInfo> Sdip_200_code_dicInfo { get => sdip_200_code_dicInfo; set => sdip_200_code_dicInfo = value; }
@@ -62,6 +63,7 @@ namespace ViewPort.Views
         public string[] Final_text { get => final_text; set => final_text = value; }
         public List<string> Sdip_no_200 { get => sdip_no_200; set => sdip_no_200 = value; }
         public string BetweenEA { get => betweenEA; set => betweenEA = value; }
+        public bool xyLoadCheck { get => XYLoadCheck; set => XYLoadCheck = value; }
         public List<string> All_VerifyDF_List { get => all_VerifyDF_List; set => all_VerifyDF_List = value; }
         public List<int> Map_List { get => map_List; set => map_List = value; }
         public List<string> Map_List_Compare { get => map_List_Compare; set => map_List_Compare = value; }
@@ -273,7 +275,7 @@ namespace ViewPort.Views
             LoadTxtAsync(FilePath);
 
 
-            ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read,Encoding.UTF8);   // Zip파일(Lot) Load
+            ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read,Encoding.Default);   // Zip파일(Lot) Load
             {
                
                 SetProgressBarMaxSafe(zip.Entries.Count);
@@ -316,8 +318,8 @@ namespace ViewPort.Views
                 EditFormNameSafe(MSG_STR.LOAD_SDIP_TXT);
 
 
-                Load_XY_TxtAsync(FilePath);
-                
+                xyLoadCheck = Load_XY_TxtAsync(FilePath);
+
                 EditFormNameSafe(MSG_STR.LOAD_ROWS);
                 //Filtering();
 
@@ -505,7 +507,7 @@ namespace ViewPort.Views
                 else
                 {
                     
-                    StreamReader SR1 = new StreamReader(ImgEntry.Open(), Encoding.UTF8);
+                    StreamReader SR1 = new StreamReader(ImgEntry.Open(), Encoding.Default);
                     string text_1 = SR1.ReadToEnd();
 
                     items = text_1.Split(new string[] { "\r\n" }, StringSplitOptions.None);
@@ -571,50 +573,62 @@ namespace ViewPort.Views
             
         }
 
-        private void Load_XY_TxtAsync(string FilePath)
+        private bool Load_XY_TxtAsync(string FilePath)
         {
-            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+            try
             {
-                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetXYFromPath(FilePath));
-
-                if (ImgEntry == null)
+                using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
                 {
-                    MessageBox.Show(MSG_STR.NONE_XY_TXT);
-                    return;
-                }
+                    ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetXYFromPath(FilePath));
 
-                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
-                string text = SR.ReadToEnd();
-                string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                int E_index = Array.FindIndex(items, i => i == "E");
-                
-                for (int i = E_index+1; i < items.Length; i++)
-                {
-                    if(items[i] != "")
+                    if (ImgEntry == null)
                     {
-                        if(i == 12449)
-                        { }
+                        MessageBox.Show(MSG_STR.NONE_XY_TXT);
 
-                        string[] dic_ready = items[i].Split(',');
-                        if (dicTxt_info.ContainsKey(dic_ready[0].Substring(0, 12)))
-                        {
-                            dicTxt_info[dic_ready[0].Substring(0, 12)].Master_No = dic_ready[1];
-                            dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
-                            dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
-                        }
-                        else if (Dic_Load.ContainsKey(dic_ready[0].Substring(0, 12)))
-                        {
-
-                            Dic_Load[dic_ready[0].Substring(0, 12)].Master_NO = dic_ready[1];
-                            Dic_Load[dic_ready[0].Substring(0, 12)].X_Location = dic_ready[2];
-                            Dic_Load[dic_ready[0].Substring(0, 12)].Y_Location = dic_ready[3];
-                        }
-                        
+                        return false;
                     }
-                    
 
+                    StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
+                    string text = SR.ReadToEnd();
+                    string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                    int E_index = Array.FindIndex(items, i => i == "E");
+
+                    for (int i = E_index + 1; i < items.Length; i++)
+                    {
+                        if (items[i] != "")
+                        {
+                            if (i == 12449)
+                            { }
+
+                            string[] dic_ready = items[i].Split(',');
+                            if (dicTxt_info.ContainsKey(dic_ready[0].Substring(0, 12)))
+                            {
+                                dicTxt_info[dic_ready[0].Substring(0, 12)].Master_No = dic_ready[1];
+                                dicTxt_info[dic_ready[0].Substring(0, 12)]._x_Location = dic_ready[2];
+                                dicTxt_info[dic_ready[0].Substring(0, 12)]._y_Location = dic_ready[3];
+                            }
+                            else if (Dic_Load.ContainsKey(dic_ready[0].Substring(0, 12)))
+                            {
+
+                                Dic_Load[dic_ready[0].Substring(0, 12)].Master_NO = dic_ready[1];
+                                Dic_Load[dic_ready[0].Substring(0, 12)].X_Location = dic_ready[2];
+                                Dic_Load[dic_ready[0].Substring(0, 12)].Y_Location = dic_ready[3];
+                            }
+
+                        }
+
+
+                    }
+                    zip.Dispose();
                 }
-                zip.Dispose();
+
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("Load XY TXT ERROR");
+
+                return false;
             }
             
         }
@@ -1003,7 +1017,7 @@ namespace ViewPort.Views
          {
             Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
             Sorted_dic = Dic_Load.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-
+            
             Dic_Load = Sorted_dic;
 
             foreach (KeyValuePair<string, Models.txtInfo> kvp in DicTxt_info)

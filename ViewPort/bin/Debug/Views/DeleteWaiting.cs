@@ -135,7 +135,10 @@ namespace ViewPort.Views
             Total_PageNum = ((dicInfo_Filter_Del.Count - 1) / (cols * rows)) + 1;
             E_Page_TB.Text = Total_PageNum.ToString();
 
-
+            if(Main.Eng_dicinfo.Count > 0)
+            {
+                
+            }
             Set_PictureBox();
             Set_Image();
             Del_img_list.Text = String.Format("{0:#,##0}", dicInfo_Filter_Del.Count);
@@ -936,7 +939,6 @@ namespace ViewPort.Views
                             Main_Dic[Select_Pic[i]].ReviewDefectName = "양품";
                             Main_Dic[Select_Pic[i]].DeleteCheck = "0";
                             Main.DicInfo[Select_Pic[i]] = Main_Dic[Select_Pic[i]];
-
                             //Main.selected_Pic.Add(Select_Pic[i]);
                             if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
                             {
@@ -948,13 +950,14 @@ namespace ViewPort.Views
                         }
                       
                     }
+                  
 
 
                 }
             }
-                        
-           
-            Set_View_Del();
+
+            
+            Set_View_Del();          
             Set_EQ();
             Select_Pic.Clear();
             Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
@@ -979,8 +982,9 @@ namespace ViewPort.Views
                     {
                         waitform.Show();
                         Main.Delete_ZipImg();
-                        
+                        Main.TopMost = true;
                         Dispose(true);
+
                     }
                     else
                     {
@@ -994,6 +998,7 @@ namespace ViewPort.Views
                 Main.UpdateDeleteText();
                 waitform.Close();
                 Main.MapTxtChange();
+                Main.TopMost = false;
             }
             catch(Exception ex)
             {
@@ -1329,6 +1334,16 @@ namespace ViewPort.Views
         {
             Set_View_Del();
             Set_EQ();
+        }
+
+        private void DeleteWaiting_MouseHover(object sender, EventArgs e)
+        {
+            //this.Activate();
+        }
+
+        private void DeleteWaiting_MouseMove(object sender, MouseEventArgs e)
+        {
+           // this.Activate();
         }
 
         private void Print_Image_EQ_CheckedChanged(object sender, EventArgs e)

@@ -32,66 +32,74 @@ namespace ViewPort.Functions
 
         public bool DBConnection(int id, string pw)
         {
-            conn = new MySqlConnection(ConnectionString_Stemco);
-            conn.Open();
-
-            if (conn.State == System.Data.ConnectionState.Open)
+            try
             {
-                string Query = "SELECT * FROM carloDB.User WHERE id=" + id;
-                MySqlCommand command = new MySqlCommand(Query, conn);
-                MySqlDataReader rdr = command.ExecuteReader();
-                if (rdr.Read())
+                conn = new MySqlConnection(ConnectionString_Stemco);
+                conn.Open();
+
+                if (conn.State == System.Data.ConnectionState.Open)
                 {
-                    if (rdr["Password"].ToString() == pw)
+                    string Query = "SELECT * FROM carloDB.User WHERE idChar=" + id;
+                    MySqlCommand command = new MySqlCommand(Query, conn);
+                    MySqlDataReader rdr = command.ExecuteReader();
+                    if (rdr.Read())
                     {
-                        return true;
+                        if (rdr["Password"].ToString() == pw)
+                        {
+                            return true;
+
+                        }
+                        else
+                        {
+                            return false;
+                        }
+
 
                     }
-                    else
-                    {
-                        return false;
-                    }
-
-
                 }
+                return false;
             }
-            return false;
+            catch
+            {
+                return false;
+            }
         }
         public bool DB_DL_UpDate(List<string> DL_Sever, string LotName)
         {
-            conn = new MySqlConnection(ConnectionString_Stemco);
-            conn.Open();
-            foreach (string dl_List in DL_Sever) 
+            try
             {
-                string[] dl_split =  dl_List.Split(',');
-                string SDIPName = dl_split[0];
-                string AutoLimitCnt = dl_split[1];
-                string AutoLimitP = dl_split[2];
-                string LimitP = dl_split[3];
-                string LimitStandard = dl_split[4];
-                string Alarm = dl_split[5];
-
-                string UPDateQuery = @"UPDATE carloDB.MF_LIMIT SET AutoLimitCnt =" + AutoLimitCnt 
-                    + ",AutoLimitP =" + AutoLimitP 
-                    + ", LimitP =" + LimitP 
-                    + ", LimitStandard ='" + LimitStandard 
-                    + "', Alarm ='" + Alarm 
-                    + "' WHERE LotName ='" + LotName 
-                    + "'AND SDIPName ='" + SDIPName 
-                    + "'";
-                MySqlCommand command = new MySqlCommand(UPDateQuery, conn);
-                if(command.ExecuteNonQuery() == -1)
+                conn = new MySqlConnection(ConnectionString_Stemco);
+                conn.Open();
+                foreach (string dl_List in DL_Sever)
                 {
-                    return false;
-                }
-                command.Dispose();
+                    string[] dl_split = dl_List.Split(',');
+                    string ResultString = dl_split[0] + "." + dl_split[1];
+                    string BadLimit = dl_split[2];
+                    string Alarm = dl_split[3];
 
-               
+                    string UPDateQuery = @"UPDATE carloDB.BadResultLimit SET ResultString ='" + ResultString
+                        + "',BadLimit ='" + BadLimit
+                        + "', Alarm ='" + Alarm
+                        + "' WHERE ResultString LIKE'" + dl_split[0]
+                        + "%'";
+                    MySqlCommand command = new MySqlCommand(UPDateQuery, conn);
+                    if (command.ExecuteNonQuery() == -1)
+                    {
+                        return false;
+                    }
+                    command.Dispose();
+
+
+                }
+
+                return true;
             }
-            
-            return true;
+            catch
+            {
+                return false;
+            }
         }
-        public bool DB_DL_UpLoad(string LotName,List<string> DL,List<string>DL_Sever)
+        public bool DB_DL_UpLoad(List<string> DL,List<string>DL_Sever)
         {
             try
             {
@@ -99,69 +107,71 @@ namespace ViewPort.Functions
                 conn.Open();
                 DL.RemoveAt(0);
                 DL.RemoveAt(0);
+
                 if (conn.State == System.Data.ConnectionState.Open)
                 {
                     // List<string> Sever_DL = new List<string>();
-                    string CntQuery = "SELECT EXISTS(SELECT * FROM carloDB.MF_LIMIT WHERE  LotName='" + LotName + "') as cnt;";
-                    MySqlCommand command = new MySqlCommand(CntQuery, conn);
-                    MySqlDataReader rdr = command.ExecuteReader();
-                    if (rdr.Read())
-                    {
-                        if (rdr["cnt"].ToString() == "0")
+                    
+                            
+                     foreach (string dl_list in DL)
+                     {
+                        if (dl_list.Split(',').Count() == 2)
                         {
-                            command.Dispose();
-                            rdr.Dispose();
-                            foreach (string dl_list in DL)
+
+                        }
+                        else
+                        {
+                            string[] dl_text = dl_list.Split(',');
+                            string CntQuery = "SELECT EXISTS(SELECT * FROM carloDB.BadResultLimit WHERE  ResultString LIKE'" + dl_text[0] + "%') as cnt;";
+                            MySqlCommand command = new MySqlCommand(CntQuery, conn);
+                            MySqlDataReader rdr = command.ExecuteReader();
+                            if (rdr.Read())
                             {
 
-                                if (dl_list.Split(',').Length == 2)
+                                if (rdr["cnt"].ToString() != "0")
                                 {
 
                                 }
                                 else
                                 {
 
-                                    string[] dl_text = dl_list.Split(',');
+                                    rdr.Dispose();
+                                    //string[] dl_text = dl_list.Split(',');
                                     string[] col_2_3 = dl_text[1].Split(':');
+                                    string ResultString = dl_text[0] + "." + col_2_3[0];
                                     dl_text[2] = dl_text[2].Replace("%", "");
                                     dl_text[3] = dl_text[3].Replace("%", "");
+                                    string Alarm = col_2_3[0] + "Limit!!";
                                     //dt.Rows.Add(dl_text[0], col_2_3[0], col_2_3[1], dl_text[2], dl_text[3]);
-                                    string istQuery = "INSERT INTO carloDB.MF_LIMIT(ID,LotName,SDIPName,AutoLimitCnt,AutoLimitP,LimitP,LimitStandard,Alarm) VALUES('','" + LotName + "', '" + col_2_3[0] + "','" + col_2_3[1] + "','" + dl_text[2] + "'," + dl_text[3] + ",0,'NULL')";
+                                    string istQuery = "INSERT INTO carloDB.BadResultLimit(ResultString,BadLimit,Alarm) VALUES('','" + ResultString + "', '" + dl_text[3] + "','" + Alarm + "')";
                                     MySqlCommand istcommand = new MySqlCommand(istQuery, conn);
                                     istcommand.ExecuteNonQuery();
-                                    //  DL_Sever.Add(LotName + "," + col_2_3[0] + "," + col_2_3[1] + "," + dl_text[2] + "," + dl_text[3] + ",");
-                                    //  istcommand.Dispose();
+                                    istcommand.Dispose();
                                 }
+                                if (!rdr.IsClosed)
+                                    rdr.Dispose();
+                                string SDIPString = string.Empty;
+                                string DataQuery = "SELECT * FROM carloDB.BadResultLimit WHERE ResultString LIKE'" + dl_text[0] + "%'";
+                                MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
+                                MySqlDataReader drdr = DataCommand.ExecuteReader();
 
-                                // dataGridView1.DataSource = dt;
+                                if (drdr.Read())
+                                {
+                                    string ResultString = drdr["ResultString"].ToString();
+                                    string BadLimit = drdr["BadLimit"].ToString();
+                                    string Alarm = drdr["Alarm"].ToString();
+
+
+
+                                    DL_Sever.Add(ResultString + "," + BadLimit + "," + Alarm);
+                                    drdr.Dispose();
+                                }
                             }
                         }
-                        else
-                        {
-                            command.Dispose();
-                            rdr.Dispose();
-                            string DataQuery = "SELECT * FROM carloDB.MF_LIMIT WHERE LotName ='" + LotName + "'";
-                            MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
-                            MySqlDataReader drdr = DataCommand.ExecuteReader();
-
-                            while (drdr.Read())
-                            {
-                                string SDIPName = drdr["SDIPName"].ToString();
-                                string AutoLimitCnt = drdr["AutoLimitCnt"].ToString();
-                                string AutoLimitP = drdr["AutoLimitP"].ToString();
-                                string LimitP = drdr["LimitP"].ToString();
-                                string LimitStandard = drdr["LimitStandard"].ToString();
-                                string Alarm = drdr["Alarm"].ToString();
-
-
-
-                                DL_Sever.Add(SDIPName + "," + AutoLimitCnt + "," + AutoLimitP + "," + LimitP + "," + LimitStandard + "," + Alarm);
-                            }
-                            drdr.Dispose();
-
-
-                        }
-                    }
+                     }
+                            
+                       
+                    
                 }
                 return true;
             }

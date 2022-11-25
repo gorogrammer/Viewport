@@ -12,6 +12,7 @@ namespace ViewPort.Views
 {
     public partial class LoginForm : Form
     {
+        bool LoginCheck = false;
         Functions.DBFunc db = new Functions.DBFunc();
         public LoginForm()
         {
@@ -20,10 +21,10 @@ namespace ViewPort.Views
 
         private void loginBT_Click(object sender, EventArgs e)
         {
-            
-            
-            if(db.DBConnection(Int32.Parse(textBox1.Text),textBox2.Text))
-                    MessageBox.Show("로그인성공");
+
+
+            if (db.DBConnection(Int32.Parse(textBox1.Text), textBox2.Text))
+                LoginCheck = true;
 
             this.Close();
 

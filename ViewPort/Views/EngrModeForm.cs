@@ -61,6 +61,7 @@ namespace ViewPort.Views
                         EngState.Text = "ON";
                         managerForm = new ManagerForm(ImageViewer);
                         managerForm.Show();
+                        this.Close();
                     }
                 }
             }
@@ -83,6 +84,7 @@ namespace ViewPort.Views
                         dL_Eng_Form.LotName = Main.LotName;                        
                         dL_Eng_Form.Dl_LIst_ADD(Main.DI_List_Sever);                   
                         dL_Eng_Form.Show();
+                        this.Close();
                     }
                 }
             }
@@ -94,16 +96,12 @@ namespace ViewPort.Views
 
         private void EngrModeForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (managerForm != null)
-                managerForm.Close();
-            if (dL_Eng_Form != null)
-                dL_Eng_Form.Close();
-            Main.EngrMode = false;
+           
         }
 
         private void EngrModeForm_Load(object sender, EventArgs e)
         {
-            ShowWindow(this.Handle, 1);
+           // ShowWindow(this.Handle, 1);
         }
     }
 }

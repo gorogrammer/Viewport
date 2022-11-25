@@ -118,6 +118,7 @@
             this.textBox31 = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.textBox32 = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -289,6 +290,8 @@
             this.ShortCheck.TabIndex = 44;
             this.ShortCheck.UseVisualStyleBackColor = true;
             this.ShortCheck.CheckedChanged += new System.EventHandler(this.ShortCheck_CheckedChanged);
+            this.ShortCheck.Click += new System.EventHandler(this.ShortCheck_Click);
+            this.ShortCheck.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ShortCheck_MouseUp);
             // 
             // panel2
             // 
@@ -1076,15 +1079,27 @@
             this.textBox32.Text = "10";
             this.textBox32.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label29.Location = new System.Drawing.Point(20, 46);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(382, 13);
+            this.label29.TabIndex = 1;
+            this.label29.Text = "2개 이상의 불량이미지 선택 시 이미지 Size는 Normal Size 고정";
+            // 
             // ManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(604, 468);
+            this.Controls.Add(this.label29);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ManagerForm";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ManagerForm_FormClosing);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ManagerForm_MouseMove);
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -1129,6 +1144,7 @@
             this.panel21.ResumeLayout(false);
             this.panel21.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1136,13 +1152,6 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.CheckBox SRCheck;
-        private System.Windows.Forms.CheckBox 변색Check;
-        private System.Windows.Forms.CheckBox TopCheck;
-        private System.Windows.Forms.CheckBox MBCheck;
-        private System.Windows.Forms.CheckBox OpenCheck;
-        private System.Windows.Forms.CheckBox 돌기Check;
-        private System.Windows.Forms.CheckBox ShortCheck;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel3;
@@ -1159,7 +1168,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.CheckBox NormalCheck;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label13;
@@ -1224,5 +1232,14 @@
         private System.Windows.Forms.TextBox textBox31;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.TextBox textBox32;
+        private System.Windows.Forms.Label label29;
+        public System.Windows.Forms.CheckBox SRCheck;
+        public System.Windows.Forms.CheckBox 변색Check;
+        public System.Windows.Forms.CheckBox TopCheck;
+        public System.Windows.Forms.CheckBox MBCheck;
+        public System.Windows.Forms.CheckBox OpenCheck;
+        public System.Windows.Forms.CheckBox 돌기Check;
+        public System.Windows.Forms.CheckBox ShortCheck;
+        public System.Windows.Forms.CheckBox NormalCheck;
     }
 }

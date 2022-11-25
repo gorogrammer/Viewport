@@ -29,7 +29,7 @@ namespace ViewPort.Functions
             {
                 if (entry.Name.ToUpper().IndexOf(".TXT") != -1 && entry.Name.ToUpper().IndexOf("IMG") != -1)
                 {
-                    StreamReader SR = new StreamReader(entry.Open(), Encoding.UTF8);
+                    StreamReader SR = new StreamReader(entry.Open(), Encoding.Default);
                     
                     string text = SR.ReadToEnd();
 
@@ -85,7 +85,7 @@ namespace ViewPort.Functions
                             subEntryMS = entry.Open();           // 2중 압축파일을 MemoryStream으로 읽는다.
                                                                  // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
-                            using (subZip = new ZipArchive(subEntryMS, ZipArchiveMode.Update,false,Encoding.UTF8))
+                            using (subZip = new ZipArchive(subEntryMS, ZipArchiveMode.Update,false,Encoding.Default))
                             {
                                 //for (int i = 0; i < subZip.Entries.Count; i++)
                                 //{
@@ -195,7 +195,7 @@ namespace ViewPort.Functions
                     return;
                 }
 
-                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.UTF8);
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
                 SR.Close();
                 char[] df = { '@' };
@@ -385,7 +385,7 @@ namespace ViewPort.Functions
                     return;
                 }
 
-                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.UTF8);
+                StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 string[] encoding_check = items[0].Split(',');
@@ -413,7 +413,7 @@ namespace ViewPort.Functions
 
                 ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetLotNameFromPath(FilePath));
 
-                using (StreamWriter SW = new StreamWriter(readmeEntry.Open(),Encoding.UTF8))
+                using (StreamWriter SW = new StreamWriter(readmeEntry.Open(),Encoding.Default))
                 {
                     SW.WriteLine(top);
                     for (int i = 0; i < dicInfo.Count; i++)
@@ -632,7 +632,7 @@ namespace ViewPort.Functions
             if (loadFile.ShowDialog() == DialogResult.OK)
             {
                 txtFilePath = loadFile.FileName;
-                StreamReader SR = new StreamReader(txtFilePath, Encoding.UTF8);
+                StreamReader SR = new StreamReader(txtFilePath, Encoding.Default);
 
                 string text = SR.ReadToEnd();
                 string[] items = text.Split(new string[] { "\r\n", "a" }, StringSplitOptions.None);
