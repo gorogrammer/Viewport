@@ -994,6 +994,8 @@ namespace ViewPort.Views
 
 
                 }
+                DBFunc dBFunc = new DBFunc();
+                dBFunc.DeleteUplaod(Main.delete, Main.LotName);
                 Main.delete_W = 0;
                 Main.UpdateDeleteText();
                 waitform.Close();

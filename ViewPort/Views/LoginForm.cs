@@ -23,7 +23,7 @@ namespace ViewPort.Views
         {
 
 
-            if (db.DBConnection(Int32.Parse(textBox1.Text), textBox2.Text))
+            if (db.DBConnection(textBox1.Text, textBox2.Text))
                 LoginCheck = true;
 
             this.Close();

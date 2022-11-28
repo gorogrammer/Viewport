@@ -45,7 +45,7 @@ namespace ViewPort
             loginForm.ShowDialog();
             if (loginForm.DialogResult == System.Windows.Forms.DialogResult.OK)
             {
-                Application.Run(new FormViewPort());
+                Application.Run(new FormViewPort(loginForm.UseInfomation));
             }
             else
             {

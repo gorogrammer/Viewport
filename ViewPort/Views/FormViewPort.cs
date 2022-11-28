@@ -85,6 +85,7 @@ namespace ViewPort
         bool LoginCheck = false;
         public string LotName = string.Empty;
         public string EngrModePW = "1234";
+        UseInfomation Worker = new UseInfomation();
         //List<ImageListInfo> ImageDatabase = new List<ImageListInfo>();
         //List<ImageListInfo> FilterList = new List<ImageListInfo>();
 
@@ -144,6 +145,7 @@ namespace ViewPort
             set { dicInfo = value; }
         } 
         public int SDIPDeleteCount { get => NoChangeCount; set => NoChangeCount = value; }
+        public UseInfomation Information { get => Worker; set => Worker = value; }
         public string ViewType { get => viewType; set => viewType = value; }
         public string ListFiler { get => listFiler; set => listFiler = value; }
         public string Between { get => between; set => between = value; }
@@ -222,7 +224,7 @@ namespace ViewPort
         #endregion
 
         #region Initialize CODE
-        public FormViewPort()
+        public FormViewPort(UseInfomation WorkerInfo)
         {
 
 
@@ -239,7 +241,7 @@ namespace ViewPort
             InitialData();
             Assembly assemObj = Assembly.GetExecutingAssembly();
             Version v = assemObj.GetName().Version; // 현재 실행되는 어셈블리..dll의 버전 가져오기
-
+            Information = WorkerInfo;
             int majorV = v.Major; // 주버전
             int minorV = v.Minor; // 부버전
             int buildV = v.Build; // 빌드번호
@@ -270,10 +272,13 @@ namespace ViewPort
             btnColumn.HeaderText = COLUMN_STR.GRID_SELECT;
             btnColumn.Name = "buttonColumn";
             btnColumnIdx = dataGridView1.Columns.Add(btnColumn);
-
+            
             dataGridView1.Columns[0].Width = 230;
+            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.Columns[1].Width = 55;
+            dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.Columns[2].Width = 55;
+            dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
 
 
@@ -365,6 +370,7 @@ namespace ViewPort
 
 
             DataTable Dt = new DataTable();
+            
             Dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
             Dt.Columns.Add(COLUMN_STR.GRID_STATE);
             Dt.PrimaryKey = new DataColumn[] { Dt.Columns[COLUMN_STR.GRID_IMGNAME] };
@@ -374,6 +380,7 @@ namespace ViewPort
             foreach (KeyValuePair<string, ImageInfo> kvp in Eng_dicinfo)
                 Dt.Rows.Add(kvp.Value.Imagename, kvp.Value.ReviewDefectName);
 
+            dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.DataSource = Dt;
 
         }
@@ -1576,31 +1583,39 @@ namespace ViewPort
                 this.Close();
                 return;
             }
-            string[] sp = final_text_main.Split(' ').Except(new string[] { " ","" }).ToArray();
+           
 
             
             int x = 1;
             int index = 0;
             if (ZipFilePath != "")
             {
+                ProgressBar1 progressBar = new ProgressBar1();
+                DBFunc db = new DBFunc();
                 //Img_txt_Info_Combine();
                 int deleteCode = 0;
                 int noDelDicCount = DicInfo.Count;
-
+                
                 if (path_check != "")
                 {
-                    
+                    string[] sp = final_text_main.Split(' ').Except(new string[] { " ","" }).ToArray();
                     dicInfo_Copy = new Dictionary<string, ImageInfo>(DicInfo);
                     sdip_200_frame.Clear();
                     Sdip_200_code_dicInfo.Clear();
                     Selected_Pic.Clear();
                     LotName = sp[1];
-                    DBFunc db = new DBFunc();
-                    if(!db.DB_DL_UpLoad(Dl_List_Main,DI_List_Sever))
+                    
+                    if (!db.DB_DL_UpLoad(Dl_List_Main,DI_List_Sever))
                         MessageBox.Show("DL Load Error");
                     LotIDProductName.Text = sp[1] + "     " + sp[2];
                     if (Manual_Mode_RB.Checked)
                     {
+                        
+                        progressBar.TopMost = true;
+                        progressBar.StartPosition = FormStartPosition.CenterScreen;
+                        progressBar.Show();
+                        progressBar.Text = "SDIP Load...";
+                        this.Invoke(new Action(() => progressBar.MaxValue(100))); 
                         curruent_viewtype = 1;
                         //SDIP 코드 211~230 제외
                         foreach (string pair in dicInfo.Keys.ToList())
@@ -1643,12 +1658,18 @@ namespace ViewPort
                                 }
                                 dicInfo.Remove(pair);
                                 deleteCode++;
+                                
                             }
+
+
                             
                             
                         }
+                        this.Invoke(new Action(() => progressBar.valueChange(50)));
                         SDIPDeleteCount = deleteCode;
                         delete = (dicTxt_info.Count - DicInfo.Count) - SDIPDeleteCount;
+                       
+                       // this.Invoke(new Action(() => progressBar1.Dispose()));
                     }
                     else if(View_Mode_RB.Checked)
                     {
@@ -1694,8 +1715,10 @@ namespace ViewPort
                         curruent_viewtype = 0;
                     }
                 }
-            
-                if(Sdip_200_code_dicInfo.Count>0)
+                
+                progressBar.Text = "IMG View Load...";
+                
+                if (Sdip_200_code_dicInfo.Count>0)
                 {
                     Real_SDIP_200_DIc = new Dictionary<string, ImageInfo>(Sdip_200_code_dicInfo);
                 }
@@ -1709,11 +1732,11 @@ namespace ViewPort
                     }
                     //Set_Dl_PrintList();
                     First_Print_List();
-
+                    
                     All_LotID_List.Sort();
                     Initial_Equipment_DF_List();
                     Code_200_Set();
-
+                   
                     if (checkBox1.Checked)
                     {
                         ImageSize_CB.Items.Clear();
@@ -1724,14 +1747,15 @@ namespace ViewPort
                         //ImageSize_CB.SelectedIndex = 0;
                     }
 
-
+                    
                     for (int i = 0; i < All_Equipment_DF_List.Count; i++)
                         Equipment_DF_CLB.Items.Add(All_Equipment_DF_List.ElementAt(i).Item1 + "-" + All_Equipment_DF_List.ElementAt(i).Item2);
 
-
+                    this.Invoke(new Action(() => progressBar.valueChange(100)));
+                    this.Invoke(new Action(() => progressBar.Dispose()));
                     Select_All_BTN_Click(null, null);
                     MessageBox.Show(MSG_STR.SUCCESS);
-
+                    
                     if (Overlap_key_Main.Count > 0)
                     {
                         StringBuilder sb = new StringBuilder();
@@ -1745,15 +1769,43 @@ namespace ViewPort
                         
 
                     }
-                    open.OpenFilterType = "NoneFilter";
-                    open.Main = this;
-                    open.Set_View();
-                    Setting = 1;
-                    open.Setting = Setting;
+                    this.Activate();
+                    if (MessageBox.Show("작업을 시작하시겠습니까 ?", "Yes or No", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+                    {
+                        string LotImageCnt = (DicInfo.Count + delete).ToString();
+                        string WorkTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                        db.DBLogUpLoad(false, LotName, Information.Name, string.Empty, string.Empty, string.Empty, string.Empty, LotImageCnt, WorkTime, string.Empty);
+                        //Information.Name = db.LotWorke;
+                        Information.WorkTime = db.WorkTime;
+                        Information.EndWorker = db.EndWorke;
+                        Information.EndTime = db.EndTime;
+                        Information.TimeTaken = db.TimeTaken;
+                        Information.LotImageCnt = db.LotImageCnt;
+                        Information.WorkImageCnt = db.WorkImageCnt;
+                        Information.IdleWork = db.IdleWork;
+
+                        if (SDIPDeleteCount == 0 && dicTxt_info.Count == 0)
+                        {
+                            delete = int.Parse(Information.WorkImageCnt);
+                        }
+                        open.OpenFilterType = "NoneFilter";
+                        open.Main = this;
+                        open.Set_View();
+                        Setting = 1;
+                        open.Setting = Setting;
+                        LimitAlarm();
+                        UpdateDeleteText();
+                        InfoListCount = dicInfo.Count;
+                    }
+                    else
+                    {
+                        All_Clear();
+                        return;
+                    }
+                   
                 }
-                LimitAlarm();
-                UpdateDeleteText();
-                 InfoListCount = dicInfo.Count; 
+                
+               
 
             }
             else
@@ -1762,11 +1814,17 @@ namespace ViewPort
             }
 
         }
-       
+        
         public void UpdateDeleteText()
         {         
-
-            label13.Text =  "총 이미지 수 : " + dicTxt_info.Count + " / 현재 이미지 수 : " + DicInfo.Count + " / 삭제대기 이미지 수 : " + delete_W.ToString() + " / 삭제된 이미지 수 (SDIP  : " + SDIPDeleteCount + " 제외) : " + delete.ToString();
+            if(dicTxt_info.Count == 0)
+            {
+                
+                int index = DicInfo.Count + delete;
+                label13.Text = "총 이미지 수 : " + index + " / 현재 이미지 수 : " + DicInfo.Count + " / 삭제대기 이미지 수 : " + delete_W.ToString() + " / 삭제된 이미지 수 (200번대  : " + SDIPDeleteCount + " 제외) : " + delete.ToString();
+            }
+            else
+                label13.Text =  "총 이미지 수 : " + dicTxt_info.Count + " / 현재 이미지 수 : " + DicInfo.Count + " / 삭제대기 이미지 수 : " + delete_W.ToString() + " / 삭제된 이미지 수 (200번대  : " + SDIPDeleteCount + " 제외) : " + delete.ToString();
         }
         private void LimitAlarm()
         {
@@ -2278,7 +2336,8 @@ namespace ViewPort
             {
                 XY_BT.Enabled = true;
             }
-            XY_BT.Checked = true;
+            zipFilePath = string.Empty;
+           // XY_BT.Checked = true;
             Frame_BT.Checked = false;
             Eq_filter = 0;
             textBox4.Text = "";
@@ -2329,6 +2388,8 @@ namespace ViewPort
             Delete = 0;
             Delete_W = 0;
             label13.Text = string.Empty;
+            LotName = string.Empty;
+            LotIDProductName.Text = string.Empty;
             ZipFilePath = string.Empty;
             REF_DirPath = string.Empty;
             DirPath = string.Empty;
@@ -2354,13 +2415,9 @@ namespace ViewPort
             {
 
             }
-            else if(!LoginCheck)
-            {
-                this.Dispose();
-               
-            }
             else
             {
+                
                 if (Waiting_Del.Count > 0)
                 {
                     if (MessageBox.Show("" + Waiting_Del.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
@@ -2371,6 +2428,7 @@ namespace ViewPort
                     }
                     else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
+                        
                         //notifyIcon1.Visible = false;
                         Dispose(true);
 
@@ -2386,6 +2444,7 @@ namespace ViewPort
 
                 else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
+                    
                     //notifyIcon1.Visible = false;
                     Dispose(true);
                     
@@ -4180,8 +4239,52 @@ namespace ViewPort
         {
             
         }
-    }
 
+        private void 검사중지ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TactStopForm tactStopForm = new TactStopForm();
+            tactStopForm.ShowDialog();
+            if(tactStopForm.DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                Information.IdleWork = (Int32.Parse(Information.IdleWork) + tactStopForm.StopingTime).ToString();
+            }
+        }
+
+        private void deleteSavePathToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void 작업종료ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DBFunc db = new DBFunc();
+            string LastTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime WorkTime = DateTime.Parse(Information.WorkTime);
+            TimeSpan Time = DateTime.Parse(LastTime) - WorkTime;
+            
+            double TimeTaken = Time.TotalSeconds - double.Parse(Information.IdleWork);
+            Information.EndWorker = Information.Name;
+            Information.EndTime = LastTime;
+            Information.TimeTaken = TimeTaken.ToString();
+            Information.WorkImageCnt = delete.ToString();
+            if (db.DBLogUpDate(Information, LotName))
+            {
+                ComentsForm coments = new ComentsForm();
+                coments.ShowDialog();
+                if(coments.DialogResult == System.Windows.Forms.DialogResult.OK)
+                {
+                    Func.Coment_Insert_Alzip(coments.Coment,zipFilePath);
+                    MessageBox.Show("Log 저장 완료");
+                }
+            }
+        }
+
+        private void metroProgressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+   
 
 }
 

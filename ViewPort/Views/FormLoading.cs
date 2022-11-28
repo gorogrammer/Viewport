@@ -265,7 +265,7 @@ namespace ViewPort.Views
             Load_Map_TxtAsync(FilePath);
             if(zip_Error)
             {
-                FormViewPort test = new FormViewPort();
+                FormViewPort test = new FormViewPort(null);
                 ExitProgressBarSafe();
                 
 
@@ -308,7 +308,7 @@ namespace ViewPort.Views
             }
             if (zip_Error)
             {
-                FormViewPort test = new FormViewPort();
+                FormViewPort test = new FormViewPort(null);
                 ExitProgressBarSafe();
                 test.zipLoadFileToolStripMenuItem_Click(null, null);
                 
@@ -329,13 +329,16 @@ namespace ViewPort.Views
                 
                 //this.Close();
                 ExitProgressBarSafe();
-            }
 
+
+            }
 
             
 
-        }
 
+
+        }
+       
         private void LoadSubZipAsync(string LotName, ZipArchiveEntry entry)
         {
             string ImageSize;

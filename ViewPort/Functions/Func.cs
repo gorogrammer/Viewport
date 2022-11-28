@@ -473,6 +473,10 @@ namespace ViewPort.Functions
         {
             return Path.GetFileNameWithoutExtension(str) + "_XY.txt";
         }
+        public static string GetComentFromPath(string str)
+        {
+            return Path.GetFileNameWithoutExtension(str) + "_Com.txt";
+        }
         public static string GetMapFromPath(string str)
         {
             return Path.GetFileNameWithoutExtension(str) + ".txt";
@@ -671,6 +675,27 @@ namespace ViewPort.Functions
             Main.Waiting_Del = Waiting_Del;
             Main.Load_saveFile();
             }
-          
+        public static void Coment_Insert_Alzip(string Coment, string FilePath)
+        {
+            // List<string> dic_ready = new List<string>();
+            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
+            {
+                ZipArchiveEntry ImgEntry = zip.CreateEntry(Func.GetComentFromPath(FilePath));
+
+                if (ImgEntry == null)
+                {
+                    MessageBox.Show(MSG_STR.NONE_XY_TXT);
+                    return;
+                }
+
+                using (StreamWriter SW = new StreamWriter(ImgEntry.Open()))
+                {
+                    SW.Write(Coment);
+                }
+
+                zip.Dispose();
+            }
+        }
+
     }
 }

@@ -200,7 +200,7 @@ namespace ViewPort.Views
 
                 }
             }
-            Delay(1500);
+            Delay(0);
             if (Main.Eng_dicinfo.Count > 0)
             {
                 Set_Image_Eng();
@@ -2599,6 +2599,10 @@ namespace ViewPort.Views
 
         public void Set_Image()
         {
+            if(Main == null)
+            {
+                return;
+            }
             //Stopwatch st = new Stopwatch();
             //st.Start();
             Bitmap tmp_Img = null;

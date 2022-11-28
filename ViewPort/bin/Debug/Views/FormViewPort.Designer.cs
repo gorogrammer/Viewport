@@ -56,6 +56,7 @@
             this.zipLoadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.frameListFilerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSavePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.중간저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +68,8 @@
             this.xyFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.engrModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Update_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.검사중지ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.작업종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -375,7 +378,9 @@
             this.파일ToolStripMenuItem,
             this.저장ToolStripMenuItem,
             this.코드변경ToolStripMenuItem,
-            this.Update_ToolStripMenuItem});
+            this.Update_ToolStripMenuItem,
+            this.검사중지ToolStripMenuItem,
+            this.작업종료ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(10, 60);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1785, 24);
@@ -387,7 +392,8 @@
             this.파일ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zipLoadFileToolStripMenuItem,
             this.listFilterToolStripMenuItem,
-            this.frameListFilerToolStripMenuItem});
+            this.frameListFilerToolStripMenuItem,
+            this.deleteSavePathToolStripMenuItem});
             this.파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
             this.파일ToolStripMenuItem.ShowShortcutKeys = false;
             this.파일ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
@@ -396,23 +402,30 @@
             // zipLoadFileToolStripMenuItem
             // 
             this.zipLoadFileToolStripMenuItem.Name = "zipLoadFileToolStripMenuItem";
-            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
             this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
             // 
             // listFilterToolStripMenuItem
             // 
             this.listFilterToolStripMenuItem.Name = "listFilterToolStripMenuItem";
-            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.listFilterToolStripMenuItem.Text = "List Filter";
             this.listFilterToolStripMenuItem.Click += new System.EventHandler(this.listFilterToolStripMenuItem_Click);
             // 
             // frameListFilerToolStripMenuItem
             // 
             this.frameListFilerToolStripMenuItem.Name = "frameListFilerToolStripMenuItem";
-            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.frameListFilerToolStripMenuItem.Text = "Frame  List Filer";
             this.frameListFilerToolStripMenuItem.Click += new System.EventHandler(this.frameListFilerToolStripMenuItem_Click);
+            // 
+            // deleteSavePathToolStripMenuItem
+            // 
+            this.deleteSavePathToolStripMenuItem.Name = "deleteSavePathToolStripMenuItem";
+            this.deleteSavePathToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.deleteSavePathToolStripMenuItem.Text = "Delete Save Path";
+            this.deleteSavePathToolStripMenuItem.Click += new System.EventHandler(this.deleteSavePathToolStripMenuItem_Click);
             // 
             // 저장ToolStripMenuItem
             // 
@@ -501,6 +514,20 @@
             this.Update_ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.Update_ToolStripMenuItem.Text = "업데이트";
             this.Update_ToolStripMenuItem.Click += new System.EventHandler(this.Update_ToolStripMenuItem_Click);
+            // 
+            // 검사중지ToolStripMenuItem
+            // 
+            this.검사중지ToolStripMenuItem.Name = "검사중지ToolStripMenuItem";
+            this.검사중지ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.검사중지ToolStripMenuItem.Text = "검사중지";
+            this.검사중지ToolStripMenuItem.Click += new System.EventHandler(this.검사중지ToolStripMenuItem_Click);
+            // 
+            // 작업종료ToolStripMenuItem
+            // 
+            this.작업종료ToolStripMenuItem.Name = "작업종료ToolStripMenuItem";
+            this.작업종료ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.작업종료ToolStripMenuItem.Text = "작업종료";
+            this.작업종료ToolStripMenuItem.Click += new System.EventHandler(this.작업종료ToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -1139,6 +1166,9 @@
         public System.Windows.Forms.RadioButton XY_BT;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ToolStripMenuItem 검사중지ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteSavePathToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 작업종료ToolStripMenuItem;
     }
 }
 

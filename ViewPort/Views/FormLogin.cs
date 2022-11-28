@@ -11,12 +11,17 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 
 using SDIP;
+using ViewPort.Functions;
 //using SDIP.User;
 
 namespace SDIP.Forms
 {
     public partial class FormLogin : MetroForm
     {
+        public string information = string.Empty;
+        public UseInfomation UseInfomation = new UseInfomation(); 
+
+        //public UseInfomation UseInfomation = { useInfomation  }
         ViewPort.Functions.DBFunc db = new ViewPort.Functions.DBFunc();
         public FormLogin()
         {
@@ -33,13 +38,22 @@ namespace SDIP.Forms
         {
 
 
-            if (db.DBConnection(Int32.Parse(TB_ID.Text), TB_PASSWORD.Text))
+            if (db.DBConnection(TB_ID.Text, TB_PASSWORD.Text))
             {
+                UseInfomation.Name = db.Information;
+                UseInfomation.Authorization = db.Authorization;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             else
-                MessageBox.Show("로그인실패");
+            {
+                if(db.Authorization == string.Empty)
+                {
+                    MessageBox.Show("관리자에게 승인요청 중 입니다.");
+                }
+                else
+                    MessageBox.Show("로그인실패");
+            }
         }
 
         private void TB_PASSWORD_KeyDown(object sender, KeyEventArgs e)

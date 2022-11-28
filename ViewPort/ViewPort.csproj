@@ -150,6 +150,7 @@
     <Compile Include="Functions\Def.cs" />
     <Compile Include="Functions\Func.cs" />
     <Compile Include="Functions\LoadingGIF_Func.cs" />
+    <Compile Include="Functions\UseInfomation.cs" />
     <Compile Include="Functions\Util.cs" />
     <Compile Include="Models\ImageInfo.cs" />
     <Compile Include="Models\ImageListInfo.cs" />
@@ -176,6 +177,12 @@
     <Compile Include="Views\Code200View.Designer.cs">
       <DependentUpon>Code200View.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Views\ComentsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ComentsForm.Designer.cs">
+      <DependentUpon>ComentsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\DeleteWaiting.cs">
       <SubType>Form</SubType>
@@ -273,6 +280,12 @@
     <Compile Include="Views\ManagerForm.Designer.cs">
       <DependentUpon>ManagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ProgressBar1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ProgressBar1.Designer.cs">
+      <DependentUpon>ProgressBar1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\RegForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -311,6 +324,9 @@
     <EmbeddedResource Include="Views\Code200View.resx">
       <DependentUpon>Code200View.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ComentsForm.resx">
+      <DependentUpon>ComentsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DeleteWaiting.resx">
       <DependentUpon>DeleteWaiting.cs</DependentUpon>
@@ -369,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ManagerForm.resx">
       <DependentUpon>ManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ProgressBar1.resx">
+      <DependentUpon>ProgressBar1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\RegForm.resx">
       <DependentUpon>RegForm.cs</DependentUpon>

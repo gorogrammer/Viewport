@@ -47,6 +47,7 @@
             this.TB_PASSWORD.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.TB_PASSWORD.Location = new System.Drawing.Point(23, 124);
             this.TB_PASSWORD.Name = "TB_PASSWORD";
+            this.TB_PASSWORD.PasswordChar = '*';
             this.TB_PASSWORD.Size = new System.Drawing.Size(182, 29);
             this.TB_PASSWORD.TabIndex = 1;
             this.TB_PASSWORD.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TB_PASSWORD_KeyDown);
@@ -74,7 +75,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(369, 188);
-            this.ControlBox = false;
             this.Controls.Add(this.BTN_등록);
             this.Controls.Add(this.BTN_LOGIN);
             this.Controls.Add(this.TB_PASSWORD);
