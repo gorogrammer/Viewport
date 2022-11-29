@@ -70,6 +70,8 @@
             this.Update_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.검사중지ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.작업종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.중간종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.완전종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -224,7 +226,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(180, 146);
+            this.label10.Location = new System.Drawing.Point(197, 146);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(47, 12);
             this.label10.TabIndex = 10;
@@ -336,14 +338,20 @@
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.GridColor = System.Drawing.Color.DarkGray;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(322, 229);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
@@ -352,6 +360,8 @@
             // 
             this.dataGridView2.AllowUserToAddRows = false;
             this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.AllowUserToResizeColumns = false;
+            this.dataGridView2.AllowUserToResizeRows = false;
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView2.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -524,15 +534,32 @@
             // 
             // 작업종료ToolStripMenuItem
             // 
+            this.작업종료ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.중간종료ToolStripMenuItem,
+            this.완전종료ToolStripMenuItem});
             this.작업종료ToolStripMenuItem.Name = "작업종료ToolStripMenuItem";
             this.작업종료ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.작업종료ToolStripMenuItem.Text = "작업종료";
-            this.작업종료ToolStripMenuItem.Click += new System.EventHandler(this.작업종료ToolStripMenuItem_Click);
+            // 
+            // 중간종료ToolStripMenuItem
+            // 
+            this.중간종료ToolStripMenuItem.Name = "중간종료ToolStripMenuItem";
+            this.중간종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.중간종료ToolStripMenuItem.Text = "중간종료";
+            this.중간종료ToolStripMenuItem.Click += new System.EventHandler(this.중간종료ToolStripMenuItem_Click);
+            // 
+            // 완전종료ToolStripMenuItem
+            // 
+            this.완전종료ToolStripMenuItem.Name = "완전종료ToolStripMenuItem";
+            this.완전종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.완전종료ToolStripMenuItem.Text = "완전종료";
+            this.완전종료ToolStripMenuItem.Click += new System.EventHandler(this.완전종료ToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
             this.splitContainer1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Location = new System.Drawing.Point(10, 84);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(1);
             this.splitContainer1.Name = "splitContainer1";
@@ -745,7 +772,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(198, 172);
+            this.checkBox1.Location = new System.Drawing.Point(228, 173);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(88, 16);
             this.checkBox1.TabIndex = 35;
@@ -897,7 +924,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(233, 143);
+            this.textBox4.Location = new System.Drawing.Point(250, 143);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(62, 21);
             this.textBox4.TabIndex = 12;
@@ -1019,7 +1046,7 @@
             // 
             this.LotIDProductName.AutoSize = true;
             this.LotIDProductName.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.LotIDProductName.Location = new System.Drawing.Point(668, 29);
+            this.LotIDProductName.Location = new System.Drawing.Point(563, 29);
             this.LotIDProductName.Name = "LotIDProductName";
             this.LotIDProductName.Size = new System.Drawing.Size(0, 16);
             this.LotIDProductName.TabIndex = 5;
@@ -1027,7 +1054,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(1259, 48);
+            this.label13.Location = new System.Drawing.Point(1261, 29);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(0, 12);
             this.label13.TabIndex = 6;
@@ -1169,6 +1196,8 @@
         private System.Windows.Forms.ToolStripMenuItem 검사중지ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteSavePathToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 작업종료ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 중간종료ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 완전종료ToolStripMenuItem;
     }
 }
 

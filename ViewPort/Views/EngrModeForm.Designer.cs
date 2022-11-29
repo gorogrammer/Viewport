@@ -50,6 +50,7 @@
             // 
             this.EngPW.Location = new System.Drawing.Point(12, 33);
             this.EngPW.Name = "EngPW";
+            this.EngPW.PasswordChar = '*';
             this.EngPW.Size = new System.Drawing.Size(254, 21);
             this.EngPW.TabIndex = 1;
             this.EngPW.Text = "Password";

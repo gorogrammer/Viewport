@@ -40,6 +40,11 @@ namespace SDIP.Forms
 
             if (db.DBConnection(TB_ID.Text, TB_PASSWORD.Text))
             {
+                if (db.Authorization == string.Empty)
+                {
+                    MessageBox.Show("관리자에게 승인요청 중 입니다.");
+                    return;
+                }
                 UseInfomation.Name = db.Information;
                 UseInfomation.Authorization = db.Authorization;
                 this.DialogResult = DialogResult.OK;
@@ -47,11 +52,7 @@ namespace SDIP.Forms
             }
             else
             {
-                if(db.Authorization == string.Empty)
-                {
-                    MessageBox.Show("관리자에게 승인요청 중 입니다.");
-                }
-                else
+                
                     MessageBox.Show("로그인실패");
             }
         }

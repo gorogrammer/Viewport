@@ -22,7 +22,7 @@ namespace ViewPort.Views
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterParent;
-            
+            this.Activate();
         }
 
         public LoadingGIF(Form parent)
@@ -32,6 +32,7 @@ namespace ViewPort.Views
             {
                 this.StartPosition = FormStartPosition.Manual;
                 this.Location = new Point(parent.Location.X + parent.Width / 2 - this.Width / 2, parent.Location.Y + parent.Height / 2 - this.Height / 2);
+                this.Activate();
             }
             else
                 this.StartPosition = FormStartPosition.CenterParent;

@@ -85,18 +85,16 @@
             this.StopTime.AutoSize = true;
             this.StopTime.Location = new System.Drawing.Point(3, 5);
             this.StopTime.Name = "StopTime";
-            this.StopTime.Size = new System.Drawing.Size(38, 12);
+            this.StopTime.Size = new System.Drawing.Size(0, 12);
             this.StopTime.TabIndex = 9;
-            this.StopTime.Text = "label4";
             // 
             // NowTime
             // 
             this.NowTime.AutoSize = true;
             this.NowTime.Location = new System.Drawing.Point(3, 5);
             this.NowTime.Name = "NowTime";
-            this.NowTime.Size = new System.Drawing.Size(38, 12);
+            this.NowTime.Size = new System.Drawing.Size(0, 12);
             this.NowTime.TabIndex = 10;
-            this.NowTime.Text = "label4";
             // 
             // panel1
             // 

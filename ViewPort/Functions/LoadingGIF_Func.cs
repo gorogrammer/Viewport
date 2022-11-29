@@ -22,8 +22,12 @@ namespace ViewPort.Functions
         {
             loadthread = new Thread(new ThreadStart(LoadingProcess));
             loadthread.Start();
+            
         }
-
+        public void ActiveForm()
+        {
+            wait.Activate();
+        }
         public void Show(Form parent)
         {
             loadthread = new Thread(new ParameterizedThreadStart(LoadingProcess));
@@ -47,6 +51,8 @@ namespace ViewPort.Functions
         {
             wait = new LoadingGIF();
             wait.ShowDialog();
+            //wait.TopLevel = true;
+            //wait.TopMost = true;
         }
 
         private void LoadingProcess(object parent)
@@ -54,6 +60,8 @@ namespace ViewPort.Functions
             Form parent1 = parent as Form;
             wait = new LoadingGIF(parent1);
             wait.ShowDialog();
+            wait.TopLevel = true;
+            wait.TopMost = true;
         }
     }
 }

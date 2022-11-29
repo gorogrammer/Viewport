@@ -998,8 +998,10 @@ namespace ViewPort.Views
                 dBFunc.DeleteUplaod(Main.delete, Main.LotName);
                 Main.delete_W = 0;
                 Main.UpdateDeleteText();
-                waitform.Close();
+               // waitform.Close();
+                //Main.Activate();               
                 Main.MapTxtChange();
+               // waitform.Close();
                 Main.TopMost = false;
             }
             catch(Exception ex)

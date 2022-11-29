@@ -152,7 +152,7 @@ namespace ViewPort.Views
             Rectangle regSelection = new Rectangle();
             Graphics gPic;
             Pen pen;
-
+            timer1.Interval = 1500;
             pen = new System.Drawing.Pen(System.Drawing.Color.Orange, 10);
             
             
@@ -195,21 +195,17 @@ namespace ViewPort.Views
 
                         gPic = Graphics.FromImage(PictureData.ElementAt(i).Image);
                         gPic.DrawRectangle(pen, regSelection);
-
+                        timer1.Start();
                     }
 
                 }
             }
-            Delay(0);
-            if (Main.Eng_dicinfo.Count > 0)
-            {
-                Set_Image_Eng();
-            }
-            else if (Main.Frame_View_CB.Checked)
-             Frame_Set_Image();
-            else
-            Set_Image();
+            
+
+
+
         }
+        
         private static DateTime Delay(int MS)
         {
             DateTime ThisMoment = DateTime.Now;
@@ -5099,6 +5095,20 @@ namespace ViewPort.Views
         private void PictureBox_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (Main.Eng_dicinfo.Count > 0)
+            {
+                Set_Image_Eng();
+            }
+            else if (Main.Frame_View_CB.Checked)
+                Frame_Set_Image();
+            else
+                Set_Image();
+
+            timer1.Stop();
         }
 
         private void PictureBox_MouseHover(object sender, EventArgs e)

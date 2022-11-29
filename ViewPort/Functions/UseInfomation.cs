@@ -17,6 +17,7 @@ namespace ViewPort.Functions
         public string LotImageCnt { get; set; }
         public string WorkImageCnt { get; set; }
         public string IdleWork { get; set; }
+        public string IsFinallyWorker { get; set; }
 
     }
 }

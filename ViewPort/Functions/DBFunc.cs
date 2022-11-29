@@ -10,7 +10,7 @@ namespace ViewPort.Functions
    public class DBFunc
     {
         MySqlConnection conn;
-        private string ConnectionString =
+        private string ConnectionString_Stemco =
             "server= 116.127.242.207;" +
             "Port=3306;" +
             "uid =root;" +
@@ -18,7 +18,7 @@ namespace ViewPort.Functions
             "convert zero datetime=True;" +
             "CharSet=utf8";
 
-        private string ConnectionString_Stemco =
+        private string ConnectionString =
     "server= 16.100.29.75;" +
     "Port=3306;" +
     "uid = root;" +
@@ -36,6 +36,7 @@ namespace ViewPort.Functions
         private string lotImageCnt = string.Empty;
         private string workImageCnt = string.Empty;
         private string idleWork = string.Empty;
+        private string isfinallyworker = string.Empty;
         public string Information { get => inforamtion; set => inforamtion = value; }
         public string Authorization { get => authorization; set => authorization = value; }
         public string WorkTime { get => workTime; set => workTime = value; }
@@ -46,6 +47,7 @@ namespace ViewPort.Functions
         public string LotImageCnt { get => lotImageCnt; set => lotImageCnt = value; }
         public string WorkImageCnt { get => workImageCnt; set => workImageCnt = value; }
         public string IdleWork { get => idleWork; set => idleWork = value; }
+        public string IsFinallyWorker { get => isfinallyworker; set => isfinallyworker = value; }
         public bool DBConnection(string id, string pw)
         {
             try
@@ -71,7 +73,7 @@ namespace ViewPort.Functions
                             }
                             else
                             {
-                                return false;
+                                return true;
                             }
 
                         }
@@ -204,7 +206,7 @@ namespace ViewPort.Functions
             }
         }
 
-        public bool DBRegister(string Name, string pwd)
+        public bool DBRegister(string num, string pwd,string name)
         {
             try
             {
@@ -215,7 +217,7 @@ namespace ViewPort.Functions
                 {
 
 
-                    string insertQuery = "INSERT INTO carloDB.User(idChar,Authorization,Password) VALUES(" + "'" + Name + "','', '" + pwd + "')";
+                    string insertQuery = "INSERT INTO carloDB.User(idChar,Authorization,Password,Name) VALUES(" + "'" + num + "','', '" + pwd + "','" + name + "')";
                     MySqlCommand command = new MySqlCommand(insertQuery, conn);
 
                     command.ExecuteNonQuery();
@@ -227,34 +229,26 @@ namespace ViewPort.Functions
                 return false;
             }
         }
-
-        public bool DBLogUpLoad(bool End, string LotName, string lotWorker, string endWorker, string endTime, string timeTaken, string workerImageCnt, string lotImageCnt, string workTime, string idleWork)
+        public bool DB_MF_LOT_UpLoad(string LotName,string lotImageCnt,string workImageCnt)
         {
             try
             {
                 conn = new MySqlConnection(ConnectionString_Stemco);
                 conn.Open();
 
-                string CntQuery = "SELECT EXISTS(SELECT * FROM carloDB.MF_LOG WHERE  LotName='" + LotName + "') as cnt;";
+                string CntQuery = "SELECT EXISTS(SELECT * FROM carloDB.MF_LOT WHERE  LotName='" + LotName + "') as cnt;";
                 MySqlCommand command = new MySqlCommand(CntQuery, conn);
                 MySqlDataReader rdr = command.ExecuteReader();
                 if (rdr.Read())
                 {
-                    if (!End)
-                    {
+                    
                         if (rdr["cnt"].ToString() == "0")
                         {
                             rdr.Dispose();
-                            string istQuery = "INSERT INTO carloDB.MF_LOG(LotName,LotWorker,WorkTime,EndWorker,EndTime,TimeTaken,LotImageCnt,WorkImageCnt,IdleWork) VALUES('" +
-                                LotName + "', '" +
-                                lotWorker + "','" +
-                                workTime + "', '" +
-                                endWorker + "', '" +
-                                endTime + "', '" +
-                                timeTaken + "', '" +
+                            string istQuery = "INSERT INTO carloDB.MF_LOT(LotName,LotImageCnt,WorkImageCnt) VALUES('" +
+                                LotName + "', '" +                               
                                 lotImageCnt + "', '" +
-                                workerImageCnt + "', '" +
-                                idleWork + "')";
+                                workImageCnt + "')";                           
                             MySqlCommand istcommand = new MySqlCommand(istQuery, conn);
                             istcommand.ExecuteNonQuery();
                             istcommand.Dispose();
@@ -264,19 +258,73 @@ namespace ViewPort.Functions
                         {
 
                             rdr.Dispose();
-                            string DataQuery = "SELECT * FROM carloDB.MF_LOG WHERE LotName ='" + LotName + "'";
+                            string DataQuery = "SELECT * FROM carloDB.MF_LOT WHERE LotName ='" + LotName + "'";
+                            MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
+                            MySqlDataReader drdr = DataCommand.ExecuteReader();
+                            if (drdr.Read())
+                            {                               
+                                LotImageCnt = drdr["LotImageCnt"].ToString();
+                                WorkImageCnt = drdr["WorkImageCnt"].ToString();
+                                
+                            }
+                        }
+                    }
+                                
+                return true;
+
+            }
+            catch
+            {
+                return false;
+                //System.Windows.Forms.MessageBox.Show(");
+            }
+        }
+        public bool DBLogUpLoad(bool End, string LotName, string lotWorker, string endTime, string timeTaken, string workTime, string idleWork,string isFunallyWorker)
+        {
+            try
+            {
+                conn = new MySqlConnection(ConnectionString_Stemco);
+                conn.Open();
+
+                string CntQuery = "SELECT EXISTS(SELECT * FROM carloDB.MF_LOG WHERE  LotName='" + LotName + "'AND LotWorker ='" +lotWorker +"') as cnt;";
+                MySqlCommand command = new MySqlCommand(CntQuery, conn);
+                MySqlDataReader rdr = command.ExecuteReader();
+                if (rdr.Read())
+                {
+                    if (!End)
+                    {
+                        if (rdr["cnt"].ToString() == "0")
+                        {
+                            rdr.Dispose();
+                            string istQuery = "INSERT INTO carloDB.MF_LOG(LotName,LotWorker,WorkTime,EndTime,TimeTaken,IdleWork,IsFinallyWorker) VALUES('" +
+                                LotName + "', '" +
+                                lotWorker + "','" +
+                                workTime + "', '" +                            
+                                endTime + "', '" +
+                                timeTaken + "', '" +                              
+                                idleWork + "', '" +
+                                isFunallyWorker + "')";
+                            MySqlCommand istcommand = new MySqlCommand(istQuery, conn);
+                            istcommand.ExecuteNonQuery();
+                            istcommand.Dispose();
+                            return true;
+                        }
+                        else
+                        {
+
+                            rdr.Dispose();
+                            string DataQuery = "SELECT * FROM carloDB.MF_LOG WHERE LotWorker ='" + lotWorker + "' AND LotName ='" + LotName + "'";
                             MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
                             MySqlDataReader drdr = DataCommand.ExecuteReader();
                             if (drdr.Read())
                             {
                                 LotWorke = drdr["LotWorker"].ToString();
                                 WorkTime = drdr["WorkTime"].ToString();
-                                EndWorke = drdr["EndWorker"].ToString();
+                                //EndWorke = drdr["EndWorker"].ToString();
                                 EndTime = drdr["EndTime"].ToString();
-                                TimeTaken = drdr["TimeTaken"].ToString();
-                                LotImageCnt = drdr["LotImageCnt"].ToString();
-                                WorkImageCnt = drdr["WorkImageCnt"].ToString();
+                                TimeTaken = drdr["TimeTaken"].ToString();                              
                                 IdleWork = drdr["IdleWork"].ToString();
+                                IsFinallyWorker = drdr["IsFinallyWorker"].ToString();
                             }
                         }
                     }
@@ -299,12 +347,11 @@ namespace ViewPort.Functions
             conn.Open();
 
             string UPDateQuery = @"UPDATE carloDB.MF_LOG SET"
-                       + " EndWorker ='" + user.EndWorker
-                       + "', EndTime ='" + user.EndTime
+                       + " EndTime ='" + user.EndTime
                        + "', TimeTaken ='" + user.TimeTaken
-                       + "', WorkImageCnt ='" + user.WorkImageCnt
                        + "', IdleWork ='" + user.IdleWork
-                       + "' WHERE  LotName ='" + LotName
+                       + "', isFinallyWorker ='" + user.IsFinallyWorker
+                       + "' WHERE  LotName ='" + LotName +"' AND LotWorker ='" + user.Name  
                        + "'";
             MySqlCommand command = new MySqlCommand(UPDateQuery, conn);
             if (command.ExecuteNonQuery() == -1)
@@ -319,7 +366,7 @@ namespace ViewPort.Functions
             conn = new MySqlConnection(ConnectionString_Stemco);
             conn.Open();
 
-            string UPDateQuery = @"UPDATE carloDB.MF_LOG SET"
+            string UPDateQuery = @"UPDATE carloDB.MF_LOT SET"
                         + " WorkImageCnt ='" + delete
                         + "' WHERE  LotName ='" + LotName
                         + "'";

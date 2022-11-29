@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.IO.Compression;
@@ -22,6 +23,7 @@ using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using System.Diagnostics;
+using System.Threading;
 
 namespace ViewPort
 {
@@ -258,28 +260,23 @@ namespace ViewPort
             splitContainer1.Panel2.Controls.Add(open);
             open.Dock = DockStyle.Fill;
             
+            //Font = new Font("Resource/NotoSansKR-Black.otf", 9f);
             DataTable dt = new DataTable();
             dt.Columns.Add(COLUMN_STR.GRID_IMGNAME);
             dt.Columns.Add(COLUMN_STR.GRID_STATE);
 
             dt.PrimaryKey = new DataColumn[] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
-
-
+            LotIDProductName.Font = new Font("Resource/NotoSansKR-Black.otf",12f);
+            label13.Font = new Font("Resource/NotoSansKR-Black.otf", 9f);
             dataGridView1.DataSource = dt;
 
 
-            DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
-            btnColumn.HeaderText = COLUMN_STR.GRID_SELECT;
-            btnColumn.Name = "buttonColumn";
-            btnColumnIdx = dataGridView1.Columns.Add(btnColumn);
             
             dataGridView1.Columns[0].Width = 230;
             dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.Columns[1].Width = 55;
             dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView1.Columns[2].Width = 55;
-            dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-
+           
 
 
 
@@ -1590,6 +1587,7 @@ namespace ViewPort
             int index = 0;
             if (ZipFilePath != "")
             {
+               // Thread thread1 = new Thread(new ThreadStart(ThreadGOGO));
                 ProgressBar1 progressBar = new ProgressBar1();
                 DBFunc db = new DBFunc();
                 //Img_txt_Info_Combine();
@@ -1618,6 +1616,7 @@ namespace ViewPort
                         this.Invoke(new Action(() => progressBar.MaxValue(100))); 
                         curruent_viewtype = 1;
                         //SDIP 코드 211~230 제외
+                        this.Invoke(new Action(() => progressBar.valueChange(10)));
                         foreach (string pair in dicInfo.Keys.ToList())
                         {
                             if (F5_Img_KeyList_Main.Contains(pair))
@@ -1667,6 +1666,7 @@ namespace ViewPort
                         }
                         this.Invoke(new Action(() => progressBar.valueChange(50)));
                         SDIPDeleteCount = deleteCode;
+                        if(dicTxt_info.Count > 0)
                         delete = (dicTxt_info.Count - DicInfo.Count) - SDIPDeleteCount;
                        
                        // this.Invoke(new Action(() => progressBar1.Dispose()));
@@ -1772,9 +1772,10 @@ namespace ViewPort
                     this.Activate();
                     if (MessageBox.Show("작업을 시작하시겠습니까 ?", "Yes or No", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
                     {
-                        string LotImageCnt = (DicInfo.Count + delete).ToString();
-                        string WorkTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
-                        db.DBLogUpLoad(false, LotName, Information.Name, string.Empty, string.Empty, string.Empty, string.Empty, LotImageCnt, WorkTime, string.Empty);
+                        string LotImageCnt = (DicInfo.Count + delete).ToString();                      
+                        string WorkTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        db.DBLogUpLoad(false, LotName, Information.Name, string.Empty, string.Empty, WorkTime,"0",false.ToString());
+                        db.DB_MF_LOT_UpLoad(LotName, LotImageCnt, Delete.ToString());
                         //Information.Name = db.LotWorke;
                         Information.WorkTime = db.WorkTime;
                         Information.EndWorker = db.EndWorke;
@@ -1784,7 +1785,7 @@ namespace ViewPort
                         Information.WorkImageCnt = db.WorkImageCnt;
                         Information.IdleWork = db.IdleWork;
 
-                        if (SDIPDeleteCount == 0 && dicTxt_info.Count == 0)
+                        if (SDIPDeleteCount == 0 && dicTxt_info.Count == 0 && Information.WorkImageCnt != string.Empty)
                         {
                             delete = int.Parse(Information.WorkImageCnt);
                         }
@@ -2292,7 +2293,7 @@ namespace ViewPort
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            if (e.ColumnIndex == 0)
+            if (e.RowIndex != -1)
             {
                 string id = dataGridView1.Rows[e.RowIndex].Cells["이름"].Value.ToString().Substring(0, 12);
 
@@ -3031,8 +3032,9 @@ namespace ViewPort
         {
             try
             {
-                this.Focus();
-                waitform.Show();
+                //this.Focus();
+               // waitform.Show();
+                
                 final_Frame_List.Clear();
 
                 if (open.F12_del_list.Count > 0)
@@ -3231,6 +3233,7 @@ namespace ViewPort
                 }
 
                 this.Activate();
+                waitform.ActiveForm();
                 Func.Map_TXT_Update_inZip(ZipFilePath, Map_TXT_NO_Counting, Map_List_Dic_main, Map_List_Dic_Compare_main, Between);
                 waitform.Close();
                 MessageBox.Show("Map 변경되었습니다.");
@@ -4255,33 +4258,56 @@ namespace ViewPort
             
         }
 
-        private void 작업종료ToolStripMenuItem_Click(object sender, EventArgs e)
+       
+        private void metroProgressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 중간종료ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DBFunc db = new DBFunc();
             string LastTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             DateTime WorkTime = DateTime.Parse(Information.WorkTime);
             TimeSpan Time = DateTime.Parse(LastTime) - WorkTime;
-            
+
             double TimeTaken = Time.TotalSeconds - double.Parse(Information.IdleWork);
             Information.EndWorker = Information.Name;
             Information.EndTime = LastTime;
             Information.TimeTaken = TimeTaken.ToString();
-            Information.WorkImageCnt = delete.ToString();
+            //Information.WorkImageCnt = delete.ToString();
+            Information.IsFinallyWorker = false.ToString();
+            if (db.DBLogUpDate(Information, LotName))
+            {
+               
+               MessageBox.Show("Log 중간 저장 완료");
+                
+            }
+        }
+
+        private void 완전종료ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DBFunc db = new DBFunc();
+            string LastTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime WorkTime = DateTime.Parse(Information.WorkTime);
+            TimeSpan Time = DateTime.Parse(LastTime) - WorkTime;
+
+            double TimeTaken = Time.TotalSeconds - double.Parse(Information.IdleWork);
+            Information.EndWorker = Information.Name;
+            Information.EndTime = LastTime;
+            Information.TimeTaken = TimeTaken.ToString();
+            //Information.WorkImageCnt = delete.ToString();
+            Information.IsFinallyWorker = true.ToString() ;
             if (db.DBLogUpDate(Information, LotName))
             {
                 ComentsForm coments = new ComentsForm();
                 coments.ShowDialog();
-                if(coments.DialogResult == System.Windows.Forms.DialogResult.OK)
+                if (coments.DialogResult == System.Windows.Forms.DialogResult.OK)
                 {
-                    Func.Coment_Insert_Alzip(coments.Coment,zipFilePath);
+                    Func.Coment_Insert_Alzip(coments.Coment, zipFilePath);
                     MessageBox.Show("Log 저장 완료");
                 }
             }
-        }
-
-        private void metroProgressBar1_Click(object sender, EventArgs e)
-        {
-
         }
     }
    

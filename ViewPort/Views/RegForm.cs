@@ -22,7 +22,7 @@ namespace ViewPort.Views
 
         private void RegBT_Click(object sender, EventArgs e)
         {
-           if(db.DBRegister( textBox2.Text, textBox3.Text))
+           if(db.DBRegister( textBox2.Text, textBox3.Text,textBox1.Text))
             {
                 MessageBox.Show("등록완료\n 관리자가 승인 후 로그인 가능합니다.");
 

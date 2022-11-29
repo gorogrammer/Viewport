@@ -48,12 +48,13 @@
             this.Controls.Add(this.progressBar2);
             this.Name = "ProgressBar1";
             this.Text = "ProgressBar1";
+            this.TransparencyKey = System.Drawing.Color.White;
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ProgressBar progressBar2;
+        public System.Windows.Forms.ProgressBar progressBar2;
     }
 }
