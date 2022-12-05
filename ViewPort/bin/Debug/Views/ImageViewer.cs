@@ -417,7 +417,10 @@ namespace ViewPort.Views
                 {
                     try
                     {
-                        waitform.Show();
+                        ProgressBar1 progressBar = new ProgressBar1();
+                        progressBar.Text = "Filtering...";
+                        progressBar.Show();
+                        progressBar.SetProgressBarMaxSafe(DicInfo_Filtered.Count);
                         Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
                         DicInfo_Filtered = new Dictionary<string, ImageInfo>(Main.DicInfo);
                         foreach (string no in DicInfo_Filtered.Keys.ToList())
@@ -430,6 +433,7 @@ namespace ViewPort.Views
                             {
                                 DicInfo_Filtered.Remove(no);
                             }
+                            progressBar.AddProgressBarValueSafe(1);
                         }
 
                         if(DicInfo_Filtered.Count >0)
@@ -437,11 +441,11 @@ namespace ViewPort.Views
                             Filter_NO_1 = 1;
                             Set_View();
                             Main.Print_List();
-                            waitform.Close();
+                            progressBar.ExitProgressBarSafe();
                         }
                         else
                         {
-                            waitform.Close();
+                            progressBar.ExitProgressBarSafe();
                             DicInfo_Filtered = Before_No1_Filter_dicInfo;
                             MessageBox.Show("[SDIP] 양품 판정된 이미지가 없습니다.");
                             Set_View();
@@ -469,6 +473,10 @@ namespace ViewPort.Views
             {
                 try
                 {
+                    ProgressBar1 progressBar = new ProgressBar1();
+                    progressBar.Text = "Loading...";
+                    progressBar.Show();
+                    progressBar.SetProgressBarMaxSafe(dicInfo_Filter.Count);
                     waitform.Show();
                     if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
                     {
@@ -480,12 +488,15 @@ namespace ViewPort.Views
 
 
                         Frame_Set_View();
+                        progressBar.AddProgressBarValueSafe(1);
                     }
+                   
                     else
                     {
                         foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
                         {
                             pair.Value.ReviewDefectName = "선택";
+                            progressBar.AddProgressBarValueSafe(1);
                         }
                         //foreach(string pair in dicInfo_Filter.Keys.ToList())
                         //{
@@ -494,10 +505,11 @@ namespace ViewPort.Views
                         Select_Pic_List = dicInfo_Filter.Keys.ToList();
 
                         Set_Image();
-                    }
 
+                    }
+                    
                     Main.ALL_Changeed_State();
-                    waitform.Close();
+                    progressBar.ExitProgressBarSafe();
                 }
                 catch { }
 
@@ -978,12 +990,16 @@ namespace ViewPort.Views
         {
             if (MessageBox.Show("현재 페이지에서 선택된 이미지를 삭제List로 보냅니다.", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                ProgressBar1 progressBar = new ProgressBar1();
                 Select_Pic_List.Clear();
                 int index = ((Current_PageNum - 1) * (cols * rows));
                 Selected_Picture_Index.Clear();
                 try
                 {
-                    waitform.Show();
+                    
+                    progressBar.Text = "Delete Wait..";
+                    progressBar.Show();
+                    progressBar.SetProgressBarMaxSafe(100);
 
 
                     if (Main.Frame_View_CB.Checked)
@@ -1064,7 +1080,7 @@ namespace ViewPort.Views
                         }
 
                         Get_Delete_IMG();
-
+                        progressBar.tabProgressBarSafe(50);
                         for (int i = 0; i < Select_Pic_List.Count; i++)
                         {
                             if (dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
@@ -1108,20 +1124,20 @@ namespace ViewPort.Views
                             Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
                         }
                             Main.Wait_Del_Print_List();
-                            
-                        
 
+
+                        progressBar.tabProgressBarSafe(50);
                     }
                     Main.delete_W = Main.delete_W + Select_Pic_List.Count;
                     Main.InfoListCount = Main.InfoListCount - Select_Pic_List.Count;
                     Main.UpdateDeleteText();
                     Select_Pic_List.Clear();
-                    waitform.Close();
+                    progressBar.ExitProgressBarSafe();
                     //Eq_cb_need_del.Clear();
                 }
                 catch (Exception ex)
                 {
-                    waitform.Close();
+                    progressBar.ExitProgressBarSafe();
                     MessageBox.Show(ex.ToString());
 
                 }
@@ -1136,10 +1152,14 @@ namespace ViewPort.Views
         {
             if (MessageBox.Show("리스트에서 선택된 모든 이미지를 삭제 List로 보냅니다.", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                ProgressBar1 progressBar = new ProgressBar1();
                 Select_Pic_List.Clear();
                 try
                 {
-                    waitform.Show();
+                   
+                    progressBar.Text = "Delete Wait..";
+                    progressBar.Show();
+                    progressBar.SetProgressBarMaxSafe(100);
 
 
                     if (Main.Frame_View_CB.Checked)
@@ -1222,16 +1242,16 @@ namespace ViewPort.Views
                         Main.Wait_Del_Print_List();
                         Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
 
-
+                        progressBar.tabProgressBarSafe(100);
                     }
 
                     Select_Pic_List.Clear();
-                    waitform.Close();
+                    progressBar.ExitProgressBarSafe();
                     //Eq_cb_need_del.Clear();
                 }
                 catch (Exception ex)
                 {
-                    waitform.Close();
+                    progressBar.ExitProgressBarSafe();
                     MessageBox.Show(ex.ToString());
 
                 }
@@ -1448,6 +1468,7 @@ namespace ViewPort.Views
                 dicInfo_Filter = Main.Exceed_filter;
 
             }
+            
             if (Main.Frame_BT.Checked)
             {
                 Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
@@ -3995,9 +4016,11 @@ namespace ViewPort.Views
 
         public void ViewMode_Del()
         {
+            
             try
             {
-                waitform.Show();
+                
+                
                 Get_Delete_IMG();
 
                 if (Main.Frame_View_CB.Checked)
@@ -4057,12 +4080,12 @@ namespace ViewPort.Views
                 }
 
                 Select_Pic_List.Clear();
-                waitform.Close();
+               
                 //Eq_cb_need_del.Clear();
             }
             catch (Exception ex)
             {
-                waitform.Close();
+                
                 MessageBox.Show(ex.ToString());
 
 
@@ -4673,14 +4696,13 @@ namespace ViewPort.Views
             }
             else
             {
-                if(Main.Eq_CB_dicInfo.Count > 0)
+                if (Main.Frame_Interval_CB.Checked)
                 {
-                    Sorted_dic = new Dictionary<string, ImageInfo>(Main.Filter_CheckEQ_Dic);
                     foreach (string No in Sorted_dic.Keys.ToList())
                     {
                         if (Sorted_dic.ContainsKey(No))
                         {
-                            if (Sorted_dic[No].FrameNo == Frame)
+                            if (Sorted_dic[No].FrameNo >= Frame && Sorted_dic[No].FrameNo <= int.Parse(Main.Frame_E_TB.Text))
                             {
 
                             }
@@ -4696,20 +4718,43 @@ namespace ViewPort.Views
                 }
                 else
                 {
-                    DicInfo_Filtered.Clear();
-                    foreach (string no in Main.DicInfo.Keys.ToList())
+                    if (Main.Eq_CB_dicInfo.Count > 0)
                     {
-                        if (Main.DicInfo[no].FrameNo == Frame)
+                        Sorted_dic = new Dictionary<string, ImageInfo>(Main.Filter_CheckEQ_Dic);
+                        foreach (string No in Sorted_dic.Keys.ToList())
                         {
-                            DicInfo_Filtered.Add(no, Main.DicInfo[no]);
+                            if (Sorted_dic.ContainsKey(No))
+                            {
+                                if (Sorted_dic[No].FrameNo == Frame)
+                                {
+
+                                }
+                                else
+                                {
+                                    Sorted_dic.Remove(No);
+                                }
+
+                            }
                         }
-                        else
+                        Main.Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(Sorted_dic);
+                        DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
+                    }
+                    else
+                    {
+                        DicInfo_Filtered.Clear();
+                        foreach (string no in Main.DicInfo.Keys.ToList())
                         {
-                            //DicInfo_Filtered.Remove(no);
+                            if (Main.DicInfo[no].FrameNo == Frame)
+                            {
+                                DicInfo_Filtered.Add(no, Main.DicInfo[no]);
+                            }
+                            else
+                            {
+                                //DicInfo_Filtered.Remove(no);
+                            }
                         }
                     }
                 }
-                
                 
 
                 Frame_Filter_check = 1;

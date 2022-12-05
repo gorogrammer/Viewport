@@ -8,6 +8,7 @@ namespace ViewPort.Functions
 {
     public class UseInfomation
     {
+        public string DeletePath { get; set; }
         public string Name { get; set; }
         public string EndWorker { get; set; }
         public string Authorization { get; set; }
@@ -19,5 +20,12 @@ namespace ViewPort.Functions
         public string IdleWork { get; set; }
         public string IsFinallyWorker { get; set; }
 
+    }
+    public class DeletePath
+    {
+        public string PathName { get; set; }
+        public string MachineType { get; set; }
+        public Enums.WORKTYPE WorkType { get; set; }
+        public string Path { get; set; }
     }
 }

@@ -23,13 +23,13 @@ namespace ViewPort.Views
             Dl_Data = dl;
             image = imageViewer;
         }
-        public void Dl_LIst_ADD(List<string> list)
+        public void Dl_LIst_ADD(List<string> Dl_Data)
         {
            
             
             //textBox1.Text = string.Empty;
 
-            if (list.Count > 0)
+            if (Dl_Data.Count > 0)
             {
                
 
@@ -40,7 +40,7 @@ namespace ViewPort.Views
                 dt.Columns.Add("Alram내용");
 
 
-                foreach (string dl in list)
+                foreach (string dl in Dl_Data)
                 {
                     string[] dl_Split = dl.Split(',');
                     string[] Code = dl_Split[0].Split('.');

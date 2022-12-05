@@ -62,6 +62,9 @@
     <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v20.1, Version=20.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="Emgu.CV">
       <HintPath>..\..\..\..\..\..\Emgu\emgucv-windows-x64-gpu 2.4.2.1777\bin\Emgu.CV.dll</HintPath>
     </Reference>
@@ -148,6 +151,8 @@
   <ItemGroup>
     <Compile Include="Functions\DBFunc.cs" />
     <Compile Include="Functions\Def.cs" />
+    <Compile Include="Functions\DES.cs" />
+    <Compile Include="Functions\Enums.cs" />
     <Compile Include="Functions\Func.cs" />
     <Compile Include="Functions\LoadingGIF_Func.cs" />
     <Compile Include="Functions\UseInfomation.cs" />
@@ -183,6 +188,12 @@
     </Compile>
     <Compile Include="Views\ComentsForm.Designer.cs">
       <DependentUpon>ComentsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DB_ViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\DB_ViewForm.Designer.cs">
+      <DependentUpon>DB_ViewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\DeleteWaiting.cs">
       <SubType>Form</SubType>
@@ -286,6 +297,12 @@
     <Compile Include="Views\ProgressBar1.Designer.cs">
       <DependentUpon>ProgressBar1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\PropertyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\PropertyForm.Designer.cs">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\RegForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -314,6 +331,7 @@
       <DependentUpon>XYLocationFilter.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Views\AlramForm.resx">
       <DependentUpon>AlramForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -327,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ComentsForm.resx">
       <DependentUpon>ComentsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\DB_ViewForm.resx">
+      <DependentUpon>DB_ViewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DeleteWaiting.resx">
       <DependentUpon>DeleteWaiting.cs</DependentUpon>
@@ -388,6 +409,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ProgressBar1.resx">
       <DependentUpon>ProgressBar1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PropertyForm.resx">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\RegForm.resx">
       <DependentUpon>RegForm.cs</DependentUpon>

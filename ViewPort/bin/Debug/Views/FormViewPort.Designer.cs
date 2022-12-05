@@ -412,29 +412,29 @@
             // zipLoadFileToolStripMenuItem
             // 
             this.zipLoadFileToolStripMenuItem.Name = "zipLoadFileToolStripMenuItem";
-            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
             this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
             // 
             // listFilterToolStripMenuItem
             // 
             this.listFilterToolStripMenuItem.Name = "listFilterToolStripMenuItem";
-            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.listFilterToolStripMenuItem.Text = "List Filter";
             this.listFilterToolStripMenuItem.Click += new System.EventHandler(this.listFilterToolStripMenuItem_Click);
             // 
             // frameListFilerToolStripMenuItem
             // 
             this.frameListFilerToolStripMenuItem.Name = "frameListFilerToolStripMenuItem";
-            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.frameListFilerToolStripMenuItem.Text = "Frame  List Filer";
             this.frameListFilerToolStripMenuItem.Click += new System.EventHandler(this.frameListFilerToolStripMenuItem_Click);
             // 
             // deleteSavePathToolStripMenuItem
             // 
             this.deleteSavePathToolStripMenuItem.Name = "deleteSavePathToolStripMenuItem";
-            this.deleteSavePathToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.deleteSavePathToolStripMenuItem.Text = "Delete Save Path";
+            this.deleteSavePathToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteSavePathToolStripMenuItem.Text = "DB Setting";
             this.deleteSavePathToolStripMenuItem.Click += new System.EventHandler(this.deleteSavePathToolStripMenuItem_Click);
             // 
             // 저장ToolStripMenuItem
@@ -544,14 +544,14 @@
             // 중간종료ToolStripMenuItem
             // 
             this.중간종료ToolStripMenuItem.Name = "중간종료ToolStripMenuItem";
-            this.중간종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.중간종료ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.중간종료ToolStripMenuItem.Text = "중간종료";
             this.중간종료ToolStripMenuItem.Click += new System.EventHandler(this.중간종료ToolStripMenuItem_Click);
             // 
             // 완전종료ToolStripMenuItem
             // 
             this.완전종료ToolStripMenuItem.Name = "완전종료ToolStripMenuItem";
-            this.완전종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.완전종료ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.완전종료ToolStripMenuItem.Text = "완전종료";
             this.완전종료ToolStripMenuItem.Click += new System.EventHandler(this.완전종료ToolStripMenuItem_Click);
             // 
@@ -1054,7 +1054,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(1261, 29);
+            this.label13.Location = new System.Drawing.Point(1168, 33);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(0, 12);
             this.label13.TabIndex = 6;

@@ -54,6 +54,7 @@
             this.EngPW.Size = new System.Drawing.Size(254, 21);
             this.EngPW.TabIndex = 1;
             this.EngPW.Text = "Password";
+            this.EngPW.Click += new System.EventHandler(this.EngPW_Click);
             // 
             // panel1
             // 

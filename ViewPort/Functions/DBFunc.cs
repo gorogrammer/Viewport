@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace ViewPort.Functions
    public class DBFunc
     {
         MySqlConnection conn;
-        private string ConnectionString_Stemco =
+        private string ConnectionString =
             "server= 116.127.242.207;" +
             "Port=3306;" +
             "uid =root;" +
@@ -18,7 +19,7 @@ namespace ViewPort.Functions
             "convert zero datetime=True;" +
             "CharSet=utf8";
 
-        private string ConnectionString =
+        private string ConnectionString_Stemco =
     "server= 16.100.29.75;" +
     "Port=3306;" +
     "uid = root;" +
@@ -37,6 +38,8 @@ namespace ViewPort.Functions
         private string workImageCnt = string.Empty;
         private string idleWork = string.Empty;
         private string isfinallyworker = string.Empty;
+        private string deletePath = string.Empty;
+        public string DeletePath { get => deletePath; set => deletePath = value; }
         public string Information { get => inforamtion; set => inforamtion = value; }
         public string Authorization { get => authorization; set => authorization = value; }
         public string WorkTime { get => workTime; set => workTime = value; }
@@ -205,6 +208,25 @@ namespace ViewPort.Functions
                 return false;
             }
         }
+        public bool LimitSetting(List<string> EngDL)
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+            string DataQuery = "SELECT * FROM carloDB.BadResultLimit";
+            MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
+            MySqlDataReader drdr = DataCommand.ExecuteReader();
+
+            while (drdr.Read())
+            {
+                string ResultString = drdr["ResultString"].ToString();
+                string BadLimit = drdr["BadLimit"].ToString();
+                string Alarm = drdr["Alarm"].ToString();
+                EngDL.Add(ResultString + "," + BadLimit + "," + Alarm);
+                
+            }
+            drdr.Dispose();
+            return true;
+        }
 
         public bool DBRegister(string num, string pwd,string name)
         {
@@ -286,16 +308,14 @@ namespace ViewPort.Functions
                 conn = new MySqlConnection(ConnectionString_Stemco);
                 conn.Open();
 
-                string CntQuery = "SELECT EXISTS(SELECT * FROM carloDB.MF_LOG WHERE  LotName='" + LotName + "'AND LotWorker ='" +lotWorker +"') as cnt;";
-                MySqlCommand command = new MySqlCommand(CntQuery, conn);
-                MySqlDataReader rdr = command.ExecuteReader();
-                if (rdr.Read())
-                {
+               // string CntQuery = "SELECT EXISTS(SELECT * FROM carloDB.MF_LOG WHERE  LotName='" + LotName + "'AND LotWorker ='" +lotWorker +"') as cnt;";
+               // MySqlCommand command = new MySqlCommand(CntQuery, conn);
+               // MySqlDataReader rdr = command.ExecuteReader();
+                
                     if (!End)
                     {
-                        if (rdr["cnt"].ToString() == "0")
-                        {
-                            rdr.Dispose();
+                        
+                           
                             string istQuery = "INSERT INTO carloDB.MF_LOG(LotName,LotWorker,WorkTime,EndTime,TimeTaken,IdleWork,IsFinallyWorker) VALUES('" +
                                 LotName + "', '" +
                                 lotWorker + "','" +
@@ -307,13 +327,9 @@ namespace ViewPort.Functions
                             MySqlCommand istcommand = new MySqlCommand(istQuery, conn);
                             istcommand.ExecuteNonQuery();
                             istcommand.Dispose();
-                            return true;
-                        }
-                        else
-                        {
 
-                            rdr.Dispose();
-                            string DataQuery = "SELECT * FROM carloDB.MF_LOG WHERE LotWorker ='" + lotWorker + "' AND LotName ='" + LotName + "'";
+                                                  
+                            string DataQuery = "SELECT * FROM carloDB.MF_LOG WHERE LotWorker ='" + lotWorker + "' AND LotName ='" + LotName + "' ORDER BY WorkTime DESC LIMIT 1";
                             MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
                             MySqlDataReader drdr = DataCommand.ExecuteReader();
                             if (drdr.Read())
@@ -326,13 +342,13 @@ namespace ViewPort.Functions
                                 IdleWork = drdr["IdleWork"].ToString();
                                 IsFinallyWorker = drdr["IsFinallyWorker"].ToString();
                             }
-                        }
+                    return true;
                     }
                     else if (End)
                     {
 
                     }
-                }
+                
                 return true;
             }
             catch
@@ -343,23 +359,30 @@ namespace ViewPort.Functions
         }
         public bool DBLogUpDate(UseInfomation user, string LotName)
         {
-            conn = new MySqlConnection(ConnectionString_Stemco);
-            conn.Open();
+            try
+            {
+                conn = new MySqlConnection(ConnectionString_Stemco);
+                conn.Open();
 
-            string UPDateQuery = @"UPDATE carloDB.MF_LOG SET"
-                       + " EndTime ='" + user.EndTime
-                       + "', TimeTaken ='" + user.TimeTaken
-                       + "', IdleWork ='" + user.IdleWork
-                       + "', isFinallyWorker ='" + user.IsFinallyWorker
-                       + "' WHERE  LotName ='" + LotName +"' AND LotWorker ='" + user.Name  
-                       + "'";
-            MySqlCommand command = new MySqlCommand(UPDateQuery, conn);
-            if (command.ExecuteNonQuery() == -1)
+                string UPDateQuery = @"UPDATE carloDB.MF_LOG SET"
+                           + " EndTime ='" + user.EndTime
+                           + "', TimeTaken ='" + user.TimeTaken
+                           + "', IdleWork ='" + user.IdleWork
+                           + "', isFinallyWorker ='" + user.IsFinallyWorker
+                           + "' WHERE  LotName ='" + LotName + "' AND LotWorker ='" + user.Name + "' AND WorkTime ='" + user.WorkTime
+                           + "'";
+                MySqlCommand command = new MySqlCommand(UPDateQuery, conn);
+                if (command.ExecuteNonQuery() == -1)
+                {
+                    return false;
+                }
+                command.Dispose();
+                return true;
+            }
+            catch
             {
                 return false;
             }
-            command.Dispose();
-            return true;
         }
         public bool DeleteUplaod(int delete,string LotName)
         {
@@ -378,7 +401,183 @@ namespace ViewPort.Functions
             command.Dispose();
             return true;
         }
+        public bool GetDeletePathData(string Machine)
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();           
+            string DataQuery = "SELECT * FROM carloDB.MF_DeletePath WHERE MachineType = '" + Machine + "'";
+            MySqlCommand istcommand = new MySqlCommand(DataQuery, conn);
+            MySqlDataReader drdr = istcommand.ExecuteReader();
+            if (drdr.Read())
+            {
+                DeletePath=drdr["Path"].ToString();
+            }
+            drdr.Dispose();
 
+            return true;
+        }
+        public bool InsertDeletePath(List<string> data)
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
 
+            string PathName = data[0];
+            string MachineType = data[1];
+            string WorkType = data[2];
+            string Path = data[3];
+
+            string istQuery = "INSERT INTO carloDB.MF_DeletePath(PathName,MachineType,WorkType,Path) VALUES('" +
+                                PathName + "','" +
+                                MachineType + "', '" +
+                                WorkType + "', '" +
+                                Path + "')";
+            MySqlCommand istcommand = new MySqlCommand(istQuery, conn);
+            istcommand.ExecuteNonQuery();
+            istcommand.Dispose();
+
+            return true;
+        }
+        public bool UplaodDeletePath(List<string> data,string before)
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+
+            string PathName = data[0];
+            string MachineType = data[1];
+            int WorkType = (int)Enum.Parse(typeof(Enums.WORKTYPE), data[2]);
+            string Path = data[3];
+
+            string UPDateQuery = @"UPDATE carloDB.MF_DeletePath SET"
+                        + " PathName ='" + PathName
+                        + "', MachineType ='" + MachineType
+                        + "', WorkType ='" + WorkType.ToString()
+                        + "', Path ='" + Path
+                        + "' WHERE  PathName ='" + before
+                        + "'";
+            MySqlCommand command = new MySqlCommand(UPDateQuery, conn);
+            if (command.ExecuteNonQuery() == -1)
+            {
+                return false;
+            }
+            command.Dispose();
+            return true;
+        }
+        public DataTable GetDeletePath()
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("PathName");
+            dt.Columns.Add("MachineType");
+            dt.Columns.Add("WorkType");
+            
+            dt.Columns.Add("Path");
+
+            dt.Columns["WorkType"].DataType = typeof(Enums.WORKTYPE);
+
+            string DataQuery = "SELECT * FROM carloDB.MF_DeletePath";
+            MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
+            MySqlDataReader drdr = DataCommand.ExecuteReader();
+            while (drdr.Read())
+            {
+                string PathName = drdr["PathName"].ToString();
+                string MachineType = drdr["MachineType"].ToString();
+                string work = drdr["WorkType"].ToString();
+                Enums.WORKTYPE WorkType = (Enums.WORKTYPE)Enum.Parse(typeof(Enums.WORKTYPE), drdr["WorkType"].ToString());
+                string Path = drdr["Path"].ToString();                
+                dt.Rows.Add(PathName,MachineType,WorkType,Path);
+            }
+
+                return dt;
+        }
+        public DataTable GetLog()
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("LotName");
+            dt.Columns.Add("LotWorker");
+            dt.Columns.Add("WorkTime");
+            dt.Columns.Add("EndTime");
+            dt.Columns.Add("TimeTaken");
+            dt.Columns.Add("IdleWork");
+            dt.Columns.Add("IsFinallyWorker");
+
+            string DataQuery = "SELECT * FROM carloDB.MF_LOG";
+            MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
+            MySqlDataReader drdr = DataCommand.ExecuteReader();
+            while (drdr.Read())
+            {
+                string LotName = drdr["LotName"].ToString();
+                string LotWorker = drdr["LotWorker"].ToString();
+                string WorkTime = drdr["WorkTime"].ToString();
+                string EndTime = drdr["EndTime"].ToString();
+                string TimeTaken = drdr["TimeTaken"].ToString();
+                string IdleWork = drdr["IdleWork"].ToString();
+                string IsFinallyWorker = drdr["IsFinallyWorker"].ToString();
+
+                dt.Rows.Add(LotName, LotWorker, WorkTime, EndTime, TimeTaken, IdleWork, IsFinallyWorker);
+            }
+
+            return dt;
+        }
+        public DataTable GetLot()
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("LotName");
+            dt.Columns.Add("LotImageCnt");
+            dt.Columns.Add("WorkImageCnt");
+
+            //dt.Columns["WorkType"].DataType = typeof(Enum);
+
+            string DataQuery = "SELECT * FROM carloDB.MF_LOT";
+            MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
+            MySqlDataReader drdr = DataCommand.ExecuteReader();
+            while (drdr.Read())
+            {
+                string LotName = drdr["LotName"].ToString();
+                string LotImageCnt = drdr["LotImageCnt"].ToString();
+                string WorkImageCnt = drdr["WorkImageCnt"].ToString();
+                //string Path = drdr["Path"].ToString();
+
+                dt.Rows.Add(LotName, LotImageCnt, WorkImageCnt);
+            }
+
+            return dt;
+        }
+        public DataTable GetUser()
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("idChar");
+            dt.Columns.Add("Authorization");
+            dt.Columns.Add("Password");
+            dt.Columns.Add("Name");
+
+            dt.Columns["Authorization"].DataType = typeof(Enums.PERMISSION);
+
+            string DataQuery = "SELECT * FROM carloDB.User";
+            MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
+            MySqlDataReader drdr = DataCommand.ExecuteReader();
+            while (drdr.Read())
+            {
+                string idChar = drdr["idChar"].ToString();
+                Enums.PERMISSION Authorization =(Enums.PERMISSION)Enum.Parse(typeof(Enums.PERMISSION),drdr["Authorization"].ToString());
+                string Password = drdr["Password"].ToString();
+                string Name = drdr["Name"].ToString();
+                //string Path = drdr["Path"].ToString();
+
+                dt.Rows.Add(idChar, Authorization, Password, Name);
+            }
+
+            return dt;
+        }
     }
 }

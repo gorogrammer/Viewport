@@ -19,6 +19,7 @@ namespace ViewPort.Views
             InitializeComponent();
             StopTime.Text = DateTime.Now.ToString("yyyy년MM월dd일 hh시mm분ss초");
             timer1.Start();
+            WorkStart_BT.Enabled = false;
         }
         
         private void WorkStart_BT_Click(object sender, EventArgs e)
@@ -34,6 +35,10 @@ namespace ViewPort.Views
         {
             NowTime.Text = DateTime.Now.ToString("yyyy년MM월dd일 hh시mm분ss초");
             StopingTime = StopingTime + 1;
+            if(StopingTime > 10)
+            {
+                WorkStart_BT.Enabled = true;
+            }
         }
 
         private void TactStopForm_FormClosing(object sender, FormClosingEventArgs e)

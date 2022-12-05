@@ -50,6 +50,7 @@ namespace ViewPort.Views
         private Dictionary<string, ImageInfo> Sorted_dic_GRID;
         private string betweenEA;
         private bool XYLoadCheck;
+        private string machineName;
         public Dictionary<string, ImageInfo> Dic_Load { get => dic_Load; set => dic_Load = value; }      
         public Dictionary<string, ImageInfo> F5_code_dicInfo_Loading { get => f5_code_dicInfo_Loading; set => f5_code_dicInfo_Loading = value; }
         public Dictionary<string, ImageInfo> Sdip_200_code_dicInfo { get => sdip_200_code_dicInfo; set => sdip_200_code_dicInfo = value; }
@@ -61,6 +62,7 @@ namespace ViewPort.Views
         public List<string> Overlap_key { get => overlap_key; set => overlap_key = value; }
         public bool Zip_Error { get => zip_Error; set => zip_Error = value; }
         public string[] Final_text { get => final_text; set => final_text = value; }
+        public string MachineName { get => machineName; set => machineName = value; }
         public List<string> Sdip_no_200 { get => sdip_no_200; set => sdip_no_200 = value; }
         public string BetweenEA { get => betweenEA; set => betweenEA = value; }
         public bool xyLoadCheck { get => XYLoadCheck; set => XYLoadCheck = value; }
@@ -115,10 +117,12 @@ namespace ViewPort.Views
             {
                 if (progressBar1.InvokeRequired)
                 {
+                    progressBar1.Invoke(new Action(() => progressBar1.Height = 26));
                     progressBar1.Invoke(new Action(() => progressBar1.Value = Value));
                 }
                 else
                 {
+                    progressBar1.Invoke(new Action(() => progressBar1.Height = 26));
                     progressBar1.Invoke(new Action(() => progressBar1.Value = Value));
                 }
 
@@ -133,11 +137,14 @@ namespace ViewPort.Views
         {
             if (progressBar1.InvokeRequired)
             {
+                progressBar1.Invoke(new Action(() => progressBar1.Height = 26));
                 progressBar1.Invoke(new Action(() => progressBar1.Maximum = value));
+               
             }
             else
             {
                 progressBar1.Maximum = value;
+                progressBar1.Size = new Size(550, 26);
             }
         }
 
@@ -206,8 +213,8 @@ namespace ViewPort.Views
 
             InitializeComponent();
 
-            this.progressBar1.Size = new System.Drawing.Size(550, 26);
-            this.ClientSize = new System.Drawing.Size(550, 26);
+           // this.progressBar1.Size = new System.Drawing.Size(550, 26);
+           // this.ClientSize = new System.Drawing.Size(550, 26);
             DoLoadingThread(path);
         }
 
@@ -696,7 +703,8 @@ namespace ViewPort.Views
                     StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                     string text = SR.ReadToEnd();
                     string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
+                    string[] Machine = items[0].Split(',');
+                    MachineName = Machine[7];
                     for (int i = 1; i < items.Length - 1; i++)
                     {
                         Dl_List.Add(items[i]);
@@ -1044,6 +1052,10 @@ namespace ViewPort.Views
             }
         }
 
+        private void FormLoading_Load(object sender, EventArgs e)
+        {
+            progressBar1.Size = new Size(550, 26);
+        }
     }
 
 }

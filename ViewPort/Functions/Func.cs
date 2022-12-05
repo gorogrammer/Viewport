@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -18,6 +19,7 @@ namespace ViewPort.Functions
         Dictionary<string, ImageInfo> Combine_DicInfo_SDIP200 = new Dictionary<string, ImageInfo>();
         List<string> Exception_Frame = new List<string>();
         List<string> f12_List_del = new List<string>();
+        List<string> WorkerList = new List<string>();
         public static void SearchTXT_inZip(string FilePath, Dictionary<string, txtInfo> dicTxt_info)
         {
             ZipArchive zip;
@@ -49,6 +51,7 @@ namespace ViewPort.Functions
 
         public static void DeleteJPG_inZIP(string FilePath, Dictionary<string, ImageInfo> dicInfo_del)
         {
+            
             List<int> del_frame_List = new List<int>();
             ZipArchive zip, subZip;
             Stream subEntryMS;
@@ -75,6 +78,13 @@ namespace ViewPort.Functions
                 //zip = ZipFile.Open(FilePath, ZipArchiveMode.Update);       // Zip파일(Lot) Load
                 using(zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
                 {
+                   // ProgressBar1 progressBar = new ProgressBar1();
+                   // progressBar.Show();
+                   // progressBar.Focus();
+                    //progressBar.TopLevel = true;
+                   // progressBar.TopMost = true;
+                    //progressBar.SetProgressBarMaxSafe(zip.Entries.Count);
+                    //progressBar.Text = "Delete ZIP IMG...";
                     foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
                     {
 
@@ -114,17 +124,19 @@ namespace ViewPort.Functions
                                 subZip.Dispose();
                             }
 
-                             
 
+                          //  progressBar.AddProgressBarValueSafe(1);
                         }
                         if (dl_no == dicInfo_del.Count)
                         {
+                            //progressBar.SetProgressBarValueSafe(zip.Entries.Count);
+                          //  progressBar.ExitProgressBarSafe();
                             zip = null;
                             return;
                         }
                            
                     }
-
+                    //progre
                     
                 }
 
@@ -185,10 +197,12 @@ namespace ViewPort.Functions
         {
 
             ///////////////////////////
+            ProgressBar1 progressBar = new ProgressBar1();
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
             {
                 ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetMapFromPath(FilePath));
-
+                progressBar.Show();
+                progressBar.Text = "MapTXT Update...";
                 if (ImgEntry == null)
                 {
                     MessageBox.Show(MSG_STR.NONE_MAP_TXT);
@@ -329,7 +343,7 @@ namespace ViewPort.Functions
 
                 ImgEntry.Delete();
                 ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetMapFromPath(FilePath));
-
+                
 
 
                 using (StreamWriter SW = new StreamWriter(readmeEntry.Open()))
@@ -337,14 +351,16 @@ namespace ViewPort.Functions
                     SW.WriteLine(Change_Frame_Count.ToString());
                    
                 }
+                progressBar.tabProgressBarSafe(100);
+                
                 zip.Dispose();
             }
-
+            progressBar.ExitProgressBarSafe();
         }
 
         public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo, Dictionary<string, ImageInfo> SDIP_200_CODE, Dictionary<string, ImageInfo> dicinfo_copy, List<string> f12_del)
         {
-
+            ProgressBar1 progressBar = new ProgressBar1();
             Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
             foreach (string pair in SDIP_200_CODE.Keys.ToList())
             {
@@ -377,6 +393,7 @@ namespace ViewPort.Functions
 
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
             {
+                
                 ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetLotNameFromPath(FilePath));
 
                 if (ImgEntry == null)
@@ -415,14 +432,20 @@ namespace ViewPort.Functions
 
                 using (StreamWriter SW = new StreamWriter(readmeEntry.Open(),Encoding.Default))
                 {
+                    progressBar.SetProgressBarMaxSafe((int)readmeEntry.Length);
+                    progressBar.Text = "IMG TXT Change...";
+                    progressBar.TopMost = true;
+                    progressBar.Show();
                     SW.WriteLine(top);
                     for (int i = 0; i < dicInfo.Count; i++)
                     {
+                        progressBar.AddProgressBarValueSafe(1);
                         SW.WriteLine(dicInfo.Keys.ElementAt(i) + "_" + dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no + ",," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_result + dicInfo[dicInfo.Keys.ElementAt(i)].Change_Code);
+
                     }
                 }
 
-         
+                progressBar.ExitProgressBarSafe();
                 zip.Dispose();
             }
           
@@ -677,23 +700,124 @@ namespace ViewPort.Functions
             }
         public static void Coment_Insert_Alzip(string Coment, string FilePath)
         {
+            
             // List<string> dic_ready = new List<string>();
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
             {
-                ZipArchiveEntry ImgEntry = zip.CreateEntry(Func.GetComentFromPath(FilePath));
-
+                ZipArchiveEntry ImgEntry;
+                List<string> ComentData = new List<string>();
+                       ImgEntry = zip.GetEntry(Func.GetComentFromPath(FilePath));
                 if (ImgEntry == null)
                 {
-                    MessageBox.Show(MSG_STR.NONE_XY_TXT);
+                    ImgEntry = zip.CreateEntry(Func.GetComentFromPath(FilePath));
+                    using (StreamWriter SW = new StreamWriter(ImgEntry.Open()))
+                    {
+                        
+                        SW.WriteLine(Coment);
+
+                    }
+
+                    zip.Dispose();
+
                     return;
                 }
+                using (StreamReader SR = new StreamReader(ImgEntry.Open()))
+                {
+                   
+                    ComentData.AddRange(SR.ReadToEnd().Replace("\r\n", ",").Split(',').ToList());
+                    ComentData.RemoveAt(ComentData.Count - 1);
+                    
+                    if (ComentData.Contains(Coment))
+                    {
+                        return ;
+                    }
+                    ComentData.Add("\r\n");
+                    ComentData.Add(Coment);
 
+                }
+               
+                  
                 using (StreamWriter SW = new StreamWriter(ImgEntry.Open()))
                 {
-                    SW.Write(Coment);
+                    foreach (string Com in ComentData)
+                    {
+                        SW.WriteLine(Com);
+                    };
                 }
 
-                zip.Dispose();
+                 zip.Dispose();
+                    
+               
+            }
+            
+        }
+        public static DataTable Get_Lot_WorkerList(string FilePath)
+        {
+            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+            {
+                ZipArchiveEntry ImgEntry;
+                List<string> ComentData = new List<string>();
+                ImgEntry = zip.GetEntry(Func.GetComentFromPath(FilePath));
+                using (StreamReader SR = new StreamReader(ImgEntry.Open()))
+                {
+
+                    ComentData.AddRange(SR.ReadToEnd().Replace("\r\n", ",").Split(',').ToList());
+                    ComentData.RemoveAt(ComentData.Count - 1);
+
+                   
+                }
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Lot작업자");
+                foreach (string Worker in ComentData)
+                {
+                    DES des = new DES("carlo123");
+                    if (Worker != "")
+                    {
+                        string decrypt = des.result(DesType.Decrypt, Worker);
+                        dt.Rows.Add(decrypt);
+                    }
+                }
+                return dt;
+            }
+        }
+        public static void Delete_Insert_text(List<string> deleteList, string FilePath,string Worker,string LotName)
+        {
+            try
+            {
+                List<string> ReadText = new List<string>();
+                string deleteTxtPath = FilePath + @"\" + LotName + "_" + Worker + ".txt";
+                if (File.Exists(deleteTxtPath))
+                {
+                    using (StreamReader SR = new StreamReader(deleteTxtPath))
+                    {
+                        ReadText.AddRange(SR.ReadToEnd().Replace("\r\n", ",").Split(',').ToList());
+                        ReadText.RemoveAt(ReadText.Count - 1);
+                    }
+
+                    using (StreamWriter SW = new StreamWriter(deleteTxtPath))
+                    {
+                        deleteList.AddRange(ReadText);
+                        foreach (string delete in deleteList)
+                        {
+                            SW.WriteLine(delete);
+                        }
+                    }
+                }
+                else
+                {
+                    using (StreamWriter SW = new StreamWriter(deleteTxtPath))
+                    {
+                        deleteList.AddRange(ReadText);
+                        foreach (string delete in deleteList)
+                        {
+                            SW.WriteLine(delete);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
             }
         }
 

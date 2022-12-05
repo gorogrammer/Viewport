@@ -48,6 +48,7 @@
             this.Controls.Add(this.progressBar2);
             this.Name = "ProgressBar1";
             this.Text = "ProgressBar1";
+            this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.White;
             this.ResumeLayout(false);
 

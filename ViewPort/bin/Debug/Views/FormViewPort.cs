@@ -37,7 +37,7 @@ namespace ViewPort
         public bool EngrMode = false;
         int NoChangeCount;
         ImageViewer open = new ImageViewer();
-        LoadingGIF_Func waitform = new LoadingGIF_Func();
+        public ProgressBar1 waitform = new ProgressBar1();
         EngrModeForm engMode;
         Dictionary<string, ImageInfo> eq_CB_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo = new Dictionary<string, ImageInfo>();
@@ -74,6 +74,7 @@ namespace ViewPort
         int Delete = 0;
         int infoListCount=0;
         int AllList = 0;
+        string machineName;
         List<int> exceed_List = new List<int>();
         int setting = 0;
         string[] dic_ready = null;
@@ -105,7 +106,7 @@ namespace ViewPort
         List<int> f10_Frame_List_Main = new List<int>();
         List<string> Eq_Filter_Select_Key_List = new List<string>();
         List<int> exception_Frame = new List<int>();
-
+        List<string> delete_List_Main = new List<string>();
         List<string> f5_Img_KeyList = new List<string>();
         List<string> accu_wait_Del_Img_List = new List<string>();
         List<string> Wait_Del_Img_List = new List<string>();
@@ -150,6 +151,7 @@ namespace ViewPort
         public UseInfomation Information { get => Worker; set => Worker = value; }
         public string ViewType { get => viewType; set => viewType = value; }
         public string ListFiler { get => listFiler; set => listFiler = value; }
+        public string MachineName { get => machineName; set => machineName = value; }
         public string Between { get => between; set => between = value; }
         public List<Tuple<string, int>> CODE_200_List { get => code_200_List; set => code_200_List = value; }
         public int Setting { get => setting; set => setting = value; }
@@ -194,7 +196,7 @@ namespace ViewPort
         public List<string> F5_Img_KeyList_Main { get => f5_Img_KeyList; set => f5_Img_KeyList = value; }
 
         public List<string> Overlap_key_Main { get => overlap_key_Main; set => overlap_key_Main = value; }
-
+        public List<string> Delete_List_Main { get => delete_List_Main; set => delete_List_Main = value; }
 
         public List<int> mAP_LIST { get => MAP_LIST; set => MAP_LIST = value; }
         public List<int> Contain_200_Frame_Main { get => contain_200_Frame_Main; set => contain_200_Frame_Main = value; }
@@ -231,8 +233,9 @@ namespace ViewPort
 
 
             InitializeComponent();
-
-           // this.Paint += FPaint;
+            
+            this.ResizeRedraw = true;
+            // this.Paint += FPaint;
             dataGridView1.DoubleBuffered(true);
             dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dataGridView2.DoubleBuffered(true);
@@ -266,8 +269,7 @@ namespace ViewPort
             dt.Columns.Add(COLUMN_STR.GRID_STATE);
 
             dt.PrimaryKey = new DataColumn[] { dt.Columns[COLUMN_STR.GRID_IMGNAME] };
-            LotIDProductName.Font = new Font("Resource/NotoSansKR-Black.otf",12f);
-            label13.Font = new Font("Resource/NotoSansKR-Black.otf", 9f);
+            
             dataGridView1.DataSource = dt;
 
 
@@ -1016,7 +1018,7 @@ namespace ViewPort
         {
             try
             {
-                waitform.Show(this);
+                //waitform.Show(this);
                 Eq_CB_dicInfo.Clear();
                 //Camera_NO_Filter_TB.Text = "";
                 textBox4.Text = "";
@@ -1110,7 +1112,7 @@ namespace ViewPort
                 Equipment_DF_CLB.SelectedIndex = Equipment_DF_CLB.Items.IndexOf(Equipment_DF_CLB.CheckedItems[0].ToString());
 
 
-                waitform.Close();
+               // waitform.Close();
             }
             catch { }
 
@@ -1411,7 +1413,7 @@ namespace ViewPort
                         XYMode_Sort();
                     // LotIDProductName.Text = formLoading.LotID + "    " + formLoading.ProductName;
                     DicInfo = formLoading.Dic_Load;
-                    
+                    MachineName = formLoading.MachineName;
                     
                       //  XYMode_Sort();
 
@@ -1772,23 +1774,33 @@ namespace ViewPort
                     this.Activate();
                     if (MessageBox.Show("작업을 시작하시겠습니까 ?", "Yes or No", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
                     {
+                        ProgressBar1 progressbar = new ProgressBar1();
+                        progressbar.Show();
+                        progressbar.SetProgressBarMaxSafe(100);
+                        progressbar.Text = "DB Data Loading..";                
+                        DES des = new DES("carlo123");
                         string LotImageCnt = (DicInfo.Count + delete).ToString();                      
                         string WorkTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         db.DBLogUpLoad(false, LotName, Information.Name, string.Empty, string.Empty, WorkTime,"0",false.ToString());
                         db.DB_MF_LOT_UpLoad(LotName, LotImageCnt, Delete.ToString());
-                        //Information.Name = db.LotWorke;
-                        Information.WorkTime = db.WorkTime;
+                        db.GetDeletePathData(MachineName);
+                        Information.DeletePath = db.DeletePath;
+                        Information.WorkTime = WorkTime;
                         Information.EndWorker = db.EndWorke;
-                        Information.EndTime = db.EndTime;
+                        //if (!db.EndTime.Contains("0001"))
+                         //   Information.EndTime = db.EndTime;
                         Information.TimeTaken = db.TimeTaken;
                         Information.LotImageCnt = db.LotImageCnt;
                         Information.WorkImageCnt = db.WorkImageCnt;
                         Information.IdleWork = db.IdleWork;
-
+                        string encrypt = des.result(DesType.Encrypt, Information.Name);
+                        progressbar.tabProgressBarSafe(50);
+                        Func.Coment_Insert_Alzip(encrypt, zipFilePath);
                         if (SDIPDeleteCount == 0 && dicTxt_info.Count == 0 && Information.WorkImageCnt != string.Empty)
                         {
                             delete = int.Parse(Information.WorkImageCnt);
                         }
+                        progressbar.tabProgressBarSafe(50);                     
                         open.OpenFilterType = "NoneFilter";
                         open.Main = this;
                         open.Set_View();
@@ -1797,6 +1809,7 @@ namespace ViewPort
                         LimitAlarm();
                         UpdateDeleteText();
                         InfoListCount = dicInfo.Count;
+                        progressbar.ExitProgressBarSafe();
                     }
                     else
                     {
@@ -2309,21 +2322,30 @@ namespace ViewPort
         }
         public void Delete_ZipImg()
         {
-
+            ProgressBar1 progressBar = new ProgressBar1();
+            progressBar.SetProgressBarMaxSafe(100 + dicInfo_Waiting_Del.Count);
+            progressBar.Text = "Dicinfo Deleting...";
+            progressBar.TopMost = true;
+            progressBar.Show();
+            progressBar.Activate();
             Func.DeleteJPG_inZIP(zipFilePath, dicInfo_Waiting_Del);
-           // Func.Rewrite_XY_TxtAsync(zipFilePath, dicInfo_Waiting_Del);
+            progressBar.tabProgressBarSafe(100);
+            // Func.Rewrite_XY_TxtAsync(zipFilePath, dicInfo_Waiting_Del);
             foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Waiting_Del)
             {
                 if (DicInfo.ContainsKey(pair.Key))
                     DicInfo.Remove(pair.Key);
+                if (!Delete_List_Main.Contains(pair.Key))
+                    Delete_List_Main.Add(pair.Key);
+                progressBar.AddProgressBarValueSafe(1);
             }
-
+            progressBar.ExitProgressBarSafe();
             delete = delete + dicInfo_Waiting_Del.Count;
             dicInfo_Waiting_Del.Clear();
             ((DataTable)dataGridView2.DataSource).Rows.Clear();
 
             int ci = open.DicInfo_Delete.Count;
-
+            //ProgressBar1.CloseBar(this);
         }
         private void All_Clear()
         {
@@ -2418,8 +2440,12 @@ namespace ViewPort
             }
             else
             {
-                
-                if (Waiting_Del.Count > 0)
+                if(Information.EndTime == null)
+                {
+                    MessageBox.Show("작업 중간종료 또는 완전종료 후 종료해주세요.");
+                    e.Cancel = true;
+                }
+                else if (Waiting_Del.Count > 0)
                 {
                     if (MessageBox.Show("" + Waiting_Del.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
@@ -2988,19 +3014,21 @@ namespace ViewPort
         {
             if (MessageBox.Show(" IMG TXT를 변경하시겠습니까?", "IMG TXT Update", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
+               // ProgressBar1 progressBar = new ProgressBar1();
                 try
                 {
-                    
+
+
                    
-                    waitform.Show();
+                    
                     Func.Write_IMGTXT_inZip(ZipFilePath, DicInfo, Sdip_200_code_dicInfo, DicInfo_Copy, open.F12_del_list);
-                    waitform.Close();
+                    //waitform.Close();
                     MessageBox.Show("변경되었습니다.");
 
                 }
                 catch (Exception ex)
                 {
-                    waitform.Close();
+                   // waitform.Close();
                     MessageBox.Show(ex.ToString());
                 }
 
@@ -3028,15 +3056,32 @@ namespace ViewPort
 
 
         }
+        public bool FormCheck()
+        {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.Name == "ProgressBar1")
+                    return true;
+            }
+            return false;
+
+        }
         public void MapTxtChange() 
         {
+            ProgressBar1 progressBar = new ProgressBar1();
             try
             {
                 //this.Focus();
-               // waitform.Show();
-                
-                final_Frame_List.Clear();
 
+                  
+                //ProgressBar1.ShowBar();
+                
+                progressBar.Text = "Map TXT Change...";
+                progressBar.ShowBar();
+                progressBar.SetProgressBarMaxSafe(100);
+               
+                final_Frame_List.Clear();
+                /*
                 if (open.F12_del_list.Count > 0)
                 {
                     foreach (string pair in open.F12_del_list)
@@ -3050,7 +3095,7 @@ namespace ViewPort
                             dicInfo.Add(pair, DicInfo_Copy[pair]);
                         }
                     }
-                }
+                }*/
 
 
                 foreach (string pair in DicInfo.Keys.ToList())
@@ -3068,8 +3113,9 @@ namespace ViewPort
 
 
                     }
+                    
                 }
-
+                progressBar.tabProgressBarSafe(10);
                 Counting_IMG_inZip(ZipFilePath);
 
 
@@ -3089,9 +3135,9 @@ namespace ViewPort
                             special_frame.Add(pair.Key, Map_List_Dic_main[pair.Key]);
                         }
                     }
-
+                   
                 }
-
+                progressBar.tabProgressBarSafe(10);
 
 
                 foreach (int pair in Map_List_Dic_main.Keys.ToList())
@@ -3108,31 +3154,36 @@ namespace ViewPort
                         }
 
                     }
+                    
                 }
-
+                progressBar.tabProgressBarSafe(10);
                 foreach (int pair in special_frame.Keys.ToList())
                 {
                     if (Exception_Frame.Contains(pair))
                     {
                         Exception_Frame.Remove(pair);
                     }
+                    //progressBar.tabProgressBarSafe(10);
                 }
-
+                progressBar.tabProgressBarSafe(10);
                 foreach (int pair in Map_List_Dic_main.Keys.ToList())
                 {
                     if (Exception_Frame.Contains(pair))
                     {
                         Map_List_Dic_main.Remove(pair);
                     }
+                   // progressBar.tabProgressBarSafe(10);
                 }
+                progressBar.tabProgressBarSafe(10);
                 foreach (int pair in Map_List_Dic_Compare_main.Keys.ToList())
                 {
                     if (Exception_Frame.Contains(pair))
                     {
                         Map_List_Dic_Compare_main.Remove(pair);
                     }
+                  //  progressBar.tabProgressBarSafe(10);
                 }
-
+                progressBar.tabProgressBarSafe(10);
 
 
 
@@ -3147,8 +3198,10 @@ namespace ViewPort
                         Map_List_Dic_main.Add(pair, 88);
                         Map_List_Dic_Compare_main.Add(pair, 31);
                     }
+                    //progressBar.tabProgressBarSafe(10);
 
                 }
+                progressBar.tabProgressBarSafe(10);
                 List<int> chec = new List<int>();
                 int last = Map_List_Dic_main.Count;
                 int last_frame = Map_List_Dic_main.ElementAt(last - 1).Key;
@@ -3176,9 +3229,9 @@ namespace ViewPort
                         }
 
                     }
-
+                 //   progressBar.tabProgressBarSafe(10);
                 }
-
+                progressBar.tabProgressBarSafe(10);
                 last = Map_List_Dic_Compare_main.Count;
                 last_frame = Map_List_Dic_Compare_main.ElementAt(last - 1).Key;
 
@@ -3205,9 +3258,9 @@ namespace ViewPort
                             Map_List_Dic_Compare_main.Remove(frame_del);
                         }
                     }
-
+                    
                 }
-
+                progressBar.tabProgressBarSafe(10);
 
                 Sorted_Map_dic = Map_List_Dic_main.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
                 Map_List_Dic_main = new Dictionary<int, int>(Sorted_Map_dic);
@@ -3229,18 +3282,19 @@ namespace ViewPort
                     {
                         Map_TXT_NO_Counting[Map_List_Dic_main[pair]] = Map_TXT_NO_Counting[Map_List_Dic_main[pair]] + 1;
                     }
-
+                    
                 }
-
-                this.Activate();
-                waitform.ActiveForm();
+                progressBar.tabProgressBarSafe(10);
+                progressBar.ExitProgressBarSafe();
+               // this.Activate();
+                //waitform.ActiveForm();
                 Func.Map_TXT_Update_inZip(ZipFilePath, Map_TXT_NO_Counting, Map_List_Dic_main, Map_List_Dic_Compare_main, Between);
-                waitform.Close();
+                //ProgressBar1.CloseBar(this);
                 MessageBox.Show("Map 변경되었습니다.");
             }
             catch (Exception ex)
             {
-                waitform.Close();
+                progressBar.ExitProgressBarSafe();
                 MessageBox.Show(ex.ToString());
             }
 
@@ -3935,9 +3989,16 @@ namespace ViewPort
                 }
                 else
                 {
+                    if (Frame_S_TB.Text == "" && Camera_NO_Filter_TB.Text == "" && textBox4.Text == "")
+                    {
+                        open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(dicInfo);
+                        open.Set_View();
+                        return;
+                    }
                     List<int> filter_List = new List<int>();
-                    Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(CheckEQ_Dic);
+                    
                     Dictionary<string, ImageInfo> before_dic = new Dictionary<string, ImageInfo>(open.DicInfo_Filtered);
+                    Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(before_dic);
                     State_Filter = 1;
                     //EQ 필터체크
                     if (Frame_S_TB.Text != "")
@@ -3968,8 +4029,12 @@ namespace ViewPort
 
                             }
                         }
-
-                        if (filter_List.Contains(int.Parse(Frame_S_TB.Text)))
+                        if (Frame_Interval_CB.Checked)
+                        {
+                            open.Frame_Filter(int.Parse(Frame_S_TB.Text));
+                            open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(Filter_CheckEQ_Dic);
+                        }
+                        else if (filter_List.Contains(int.Parse(Frame_S_TB.Text)))
                         {
                             open.Frame_Filter(int.Parse(Frame_S_TB.Text));
                             open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(Filter_CheckEQ_Dic);
@@ -3984,6 +4049,7 @@ namespace ViewPort
                             open.Set_View();
                             Print_List();
                             State_Filter = 0;
+
                             
                         }
 
@@ -4101,13 +4167,14 @@ namespace ViewPort
                     }
                     else
                     {
-                        open.DicInfo_Filtered = Filter_CheckEQ_Dic;
-                        open.Set_View();
-                        Print_List();
+                      //  open.DicInfo_Filtered = before_dic;
+                      //  open.Set_View();
+                      //  Print_List();
                     }
                     State_Filter = 0;
 
                 }
+                
                 open.Set_Image();
                 Print_List();
                 open.OpenFilterType = "NoneFilter"; 
@@ -4121,7 +4188,7 @@ namespace ViewPort
         {
             //notifyIcon1.BalloonTipTitle = "Monimize to Tray App";
             //notifyIcon1.BalloonTipText = "You have successfully minimized you form";
-
+            //MessageBox.Show(this.Width.ToString(),this.Height.ToString());
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -4255,7 +4322,13 @@ namespace ViewPort
 
         private void deleteSavePathToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            EngrModeForm engrMode = new EngrModeForm(this, open);
+            engrMode.FilePath = zipFilePath;
+            engrMode.EngModeCheck = FORM_STR.DBForm;
+            engrMode.ShowDialog();
+            //DB_ViewForm dB_ViewForm = new DB_ViewForm(ZipFilePath);
+            //.FilePath = ZipFilePath;
+            //dB_ViewForm.ShowDialog();
         }
 
        
@@ -4277,6 +4350,7 @@ namespace ViewPort
             Information.TimeTaken = TimeTaken.ToString();
             //Information.WorkImageCnt = delete.ToString();
             Information.IsFinallyWorker = false.ToString();
+            Func.Delete_Insert_text(Delete_List_Main, Information.DeletePath,Information.Name,LotName);
             if (db.DBLogUpDate(Information, LotName))
             {
                
@@ -4300,10 +4374,12 @@ namespace ViewPort
             Information.IsFinallyWorker = true.ToString() ;
             if (db.DBLogUpDate(Information, LotName))
             {
+                var des = new DES("carlo123");
                 ComentsForm coments = new ComentsForm();
                 coments.ShowDialog();
                 if (coments.DialogResult == System.Windows.Forms.DialogResult.OK)
                 {
+                    //string encrypt = des.result(DesType.Encrypt, coments.Coment);
                     Func.Coment_Insert_Alzip(coments.Coment, zipFilePath);
                     MessageBox.Show("Log 저장 완료");
                 }

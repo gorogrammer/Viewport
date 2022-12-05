@@ -25,6 +25,7 @@ namespace ViewPortChecker
             Init();
             Thread ManualAlgorithmThread = new Thread(new ParameterizedThreadStart(CheckerDefaultThread));
             ManualAlgorithmThread.Start(4);
+            CenterToScreen();
         }
 
         void Init()

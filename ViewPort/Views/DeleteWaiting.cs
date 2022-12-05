@@ -22,7 +22,7 @@ namespace ViewPort.Views
         FormViewPort Main;
             
         ImageViewer open = new ImageViewer();
-        LoadingGIF_Func waitform = new LoadingGIF_Func();
+        ProgressBar1 waitform = new ProgressBar1();
         int Frame_Filter_check = 0;
         int Camera_Filter_check = 0;
         int EQ_Filter_check = 0;
@@ -980,11 +980,13 @@ namespace ViewPort.Views
                 {
                     if (MessageBox.Show("" + Waiting_Del_DLView.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        waitform.Show();
+                        
+                        
+                        
                         Main.Delete_ZipImg();
-                        Main.TopMost = true;
+                        //Main.TopMost = true;
+                        // this.Close();
                         Dispose(true);
-
                     }
                     else
                     {
@@ -998,10 +1000,11 @@ namespace ViewPort.Views
                 dBFunc.DeleteUplaod(Main.delete, Main.LotName);
                 Main.delete_W = 0;
                 Main.UpdateDeleteText();
-                waitform.Close();
-                //Main.Activate();               
+                //waitform.Close();
+                //Main.Activate();
+               // ProgressBar1.CloseBar(Main);
                 Main.MapTxtChange();
-               // waitform.Close();
+                
                 Main.TopMost = false;
             }
             catch(Exception ex)

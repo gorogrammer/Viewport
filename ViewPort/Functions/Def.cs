@@ -62,5 +62,7 @@ namespace ViewPort.Functions
     {
         public const string DLForm = "DL";
         public const string ViewPort = "VP";
+        public const string DBForm = "DB";
     }
+   
 }
