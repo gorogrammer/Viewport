@@ -1020,8 +1020,8 @@ namespace ViewPort
             {
                 //waitform.Show(this);
                 Eq_CB_dicInfo.Clear();
-                //Camera_NO_Filter_TB.Text = "";
-                textBox4.Text = "";
+                //Camera_NO_Filter_TB.Text = "";                
+                comboBox1.SelectedItem = "";
                 Frame_S_TB.Text = "";
                 checkBox1.Checked = false;
                 ImageSize_CB.Items.Clear();
@@ -1073,15 +1073,15 @@ namespace ViewPort
 
                 }
 
-                if (textBox4.Text != "")
+                if (comboBox1.SelectedItem != "")
                 {
-                    if (textBox4.Text == "양품" || textBox4.Text == "선택")
+                    if (comboBox1.SelectedItem == "양품" || comboBox1.SelectedItem == "선택")
                     {
 
 
                         foreach (string pair in eq_CB_dicInfo.Keys.ToList())
                         {
-                            if (eq_CB_dicInfo[pair].ReviewDefectName == textBox4.Text)
+                            if (eq_CB_dicInfo[pair].ReviewDefectName == comboBox1.SelectedItem)
                             {
 
                             }
@@ -1096,7 +1096,7 @@ namespace ViewPort
                     }
                     else
                     {
-                        textBox4.Text = string.Empty;
+                        comboBox1.SelectedItem = "";
                         MessageBox.Show("양품 or 선택으로 입력.");
                         State_Filter = 0;
                       
@@ -2363,7 +2363,7 @@ namespace ViewPort
            // XY_BT.Checked = true;
             Frame_BT.Checked = false;
             Eq_filter = 0;
-            textBox4.Text = "";
+            comboBox1.SelectedItem = "";
             EQ_Search_TB.Text = "";
             Frame_S_TB.Text = "";
             Frame_E_TB.Text = "";
@@ -2440,22 +2440,42 @@ namespace ViewPort
             }
             else
             {
-                if(Information.EndTime == null)
+                if (zipFilePath != null)
                 {
-                    MessageBox.Show("작업 중간종료 또는 완전종료 후 종료해주세요.");
-                    e.Cancel = true;
-                }
-                else if (Waiting_Del.Count > 0)
-                {
-                    if (MessageBox.Show("" + Waiting_Del.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    if (Information.EndTime == null)
                     {
-                        Delete_ZipImg();
-                        //notifyIcon1.Visible = false;
-                        Dispose(true);
+                        MessageBox.Show("작업 중간종료 또는 완전종료 후 종료해주세요.");
+                        e.Cancel = true;
                     }
-                    else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    else if (Waiting_Del.Count > 0)
                     {
-                        
+                        if (MessageBox.Show("" + Waiting_Del.Count + "개의 이미지를 삭제하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            Delete_ZipImg();
+                            //notifyIcon1.Visible = false;
+                            Dispose(true);
+                        }
+                        else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                        {
+
+                            //notifyIcon1.Visible = false;
+                            Dispose(true);
+
+                        }
+                        else
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+
+
+                    }
+                }
+                else
+                {
+                    if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    {
+
                         //notifyIcon1.Visible = false;
                         Dispose(true);
 
@@ -2465,22 +2485,8 @@ namespace ViewPort
                         e.Cancel = true;
                         return;
                     }
-
-
                 }
-
-                else if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-                {
-                    
-                    //notifyIcon1.Visible = false;
-                    Dispose(true);
-                    
-                }
-                else
-                {
-                    e.Cancel = true;
-                    return;
-                }
+                
 
             }
             
@@ -2585,8 +2591,8 @@ namespace ViewPort
         private void Frame_View_CB_CheckedChanged(object sender, EventArgs e)
         {
             Camera_NO_Filter_TB.Text = "";
-            textBox4.Text = "";
-
+            comboBox1.SelectedItem = "";
+            comboBox1.SelectedIndex = 0;
             if (Frame_View_CB.Checked && Exceed_CB.Checked)
             {
                 if (!open.Frame_Set_View())
@@ -2901,9 +2907,10 @@ namespace ViewPort
 
         private void Print_Image_BT_Click(object sender, EventArgs e)
         {
+
             switch (ViewType)
             {
-                case "SetView":
+                case "SetView":                    
                     open.Set_View();
                     break;
 
@@ -3077,7 +3084,7 @@ namespace ViewPort
                 //ProgressBar1.ShowBar();
                 
                 progressBar.Text = "Map TXT Change...";
-                progressBar.ShowBar();
+                progressBar.Show();
                 progressBar.SetProgressBarMaxSafe(100);
                
                 final_Frame_List.Clear();
@@ -3576,8 +3583,8 @@ namespace ViewPort
             if (e.KeyCode == Keys.Enter)
             {
                 Camera_NO_Filter_TB.Text = "";
-                textBox4.Text = "";
-
+                comboBox1.SelectedItem = "";
+                comboBox1.SelectedIndex = 0;
                 if (int.Parse(Frame_S_Page_TB.Text) <= int.Parse(Frame_E_Page_TB.Text) && int.Parse(Frame_S_Page_TB.Text) > 0)
                 {
                     open.No_Frmae_Filter(int.Parse(Frame_S_Page_TB.Text));
@@ -3947,15 +3954,15 @@ namespace ViewPort
 
                     }
 
-                    if (textBox4.Text != "")
+                    if (comboBox1.SelectedItem != "")
                     {
-                        if (textBox4.Text == "양품" || textBox4.Text == "선택")
+                        if (comboBox1.SelectedItem == "양품" || comboBox1.SelectedItem == "선택")
                         {
 
 
                             foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
                             {
-                                if (Filter_CheckEQ_Dic[pair].ReviewDefectName == textBox4.Text)
+                                if (Filter_CheckEQ_Dic[pair].ReviewDefectName == comboBox1.SelectedItem)
                                 {
 
                                 }
@@ -3970,7 +3977,7 @@ namespace ViewPort
                         }
                         else
                         {
-                            textBox4.Text = string.Empty;
+                            comboBox1.SelectedItem = "";
                             MessageBox.Show("양품 or 선택으로 입력.");
                             
                             Filter_CheckEQ_Dic = before_dic;
@@ -3989,7 +3996,7 @@ namespace ViewPort
                 }
                 else
                 {
-                    if (Frame_S_TB.Text == "" && Camera_NO_Filter_TB.Text == "" && textBox4.Text == "")
+                    if (Frame_S_TB.Text == "" && Camera_NO_Filter_TB.Text == "" && comboBox1.SelectedItem == "")
                     {
                         open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(dicInfo);
                         open.Set_View();
@@ -4110,16 +4117,16 @@ namespace ViewPort
 
                     }
 
-                    if (textBox4.Text != "")
+                    if (comboBox1.SelectedItem != "")
                     {
                         List<string> state_Filter = new List<string>();
-                        if (textBox4.Text == "양품" || textBox4.Text == "선택")
+                        if (comboBox1.SelectedItem == "양품" || comboBox1.SelectedItem == "선택")
                         {
 
                           
                             foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
                             {
-                                if (Filter_CheckEQ_Dic[pair].ReviewDefectName == textBox4.Text)
+                                if (Filter_CheckEQ_Dic[pair].ReviewDefectName == comboBox1.SelectedItem)
                                 {
                                     state_Filter.Add(pair);
                                 }
@@ -4134,7 +4141,7 @@ namespace ViewPort
                         }
                         else
                         {
-                            textBox4.Text = string.Empty;
+                            comboBox1.SelectedItem = "";
                             MessageBox.Show("양품 or 선택으로 입력.");
                             State_Filter = 0;
                             Filter_CheckEQ_Dic = before_dic;
@@ -4349,7 +4356,7 @@ namespace ViewPort
             Information.EndTime = LastTime;
             Information.TimeTaken = TimeTaken.ToString();
             //Information.WorkImageCnt = delete.ToString();
-            Information.IsFinallyWorker = false.ToString();
+            Information.IsFinallyWorker = "0";
             Func.Delete_Insert_text(Delete_List_Main, Information.DeletePath,Information.Name,LotName);
             if (db.DBLogUpDate(Information, LotName))
             {
@@ -4384,6 +4391,16 @@ namespace ViewPort
                     MessageBox.Show("Log 저장 완료");
                 }
             }
+        }
+
+        private void splitContainer9_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
    

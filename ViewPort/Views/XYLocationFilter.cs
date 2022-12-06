@@ -53,8 +53,11 @@ namespace ViewPort.Views
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("좌표 Filter를 진행 하시겠습니까?", "좌표 FIlter", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("좌표 Filter값을 설정 하시겠습니까?", "좌표 FIlter", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                Open.Main.OLD_XY_X.Text = XY_Location[XY_Location.ElementAt(0).Key].X_Location;
+                Open.Main.OLD_XY_Y.Text = XY_Location[XY_Location.ElementAt(0).Key].X_Location;
+                Open.Main.M_TB.Text = XY_Location[XY_Location.ElementAt(0).Key].Master_NO;
                 Open.Befroe_X = int.Parse(Xfilter_TB.Text);
                 Open.Before_Y = int.Parse(YFilter_TB.Text);
                 foreach (string id in DicInfo_XY_filter.Keys.ToList())

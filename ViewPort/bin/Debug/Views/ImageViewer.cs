@@ -861,7 +861,7 @@ namespace ViewPort.Views
                     }
                     else
                     {
-                        Dictionary<string, ImageInfo> eq_filter_dic = new Dictionary<string, ImageInfo>(Main.Get_selected_item_inEQ());
+                        Dictionary<string, ImageInfo> eq_filter_dic = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
                     
                         xyFilter.DicInfo_XY_filter = new Dictionary<string,ImageInfo>(eq_filter_dic);
                     }
@@ -2905,7 +2905,7 @@ namespace ViewPort.Views
 
             }
 
-
+            
             //PictureData.ElementAt(Current_Index).Update();
             change_Glass();
             this.Focus();
@@ -5159,6 +5159,13 @@ namespace ViewPort.Views
         private void PictureBox_MouseHover(object sender, EventArgs e)
         {
             Main.Activate();
+            /*
+            Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
+            Dictionary<string, ImageInfo> xy_Location = new Dictionary<string, ImageInfo>();
+            xy_Location.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
+            Main.OLD_XY_X.Text = xy_Location[xy_Location.ElementAt(0).Key].X_Location;
+            Main.OLD_XY_Y.Text = xy_Location[xy_Location.ElementAt(0).Key].Y_Location;
+            Main.M_TB.Text = xy_Location[xy_Location.ElementAt(0).Key].Master_NO;*/
         }
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)

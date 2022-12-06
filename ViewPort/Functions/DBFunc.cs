@@ -11,7 +11,7 @@ namespace ViewPort.Functions
    public class DBFunc
     {
         MySqlConnection conn;
-        private string ConnectionString =
+        private string ConnectionString_Stemco =
             "server= 116.127.242.207;" +
             "Port=3306;" +
             "uid =root;" +
@@ -19,7 +19,7 @@ namespace ViewPort.Functions
             "convert zero datetime=True;" +
             "CharSet=utf8";
 
-        private string ConnectionString_Stemco =
+        private string ConnectionString =
     "server= 16.100.29.75;" +
     "Port=3306;" +
     "uid = root;" +
@@ -72,26 +72,31 @@ namespace ViewPort.Functions
                             if (Authorization != string.Empty)
                             {
                                 Information = id;
+                                rdr.Dispose();
                                 return true;
                             }
                             else
                             {
+                                rdr.Dispose();
                                 return true;
                             }
 
                         }
                         else
                         {
+                            rdr.Dispose();
                             return false;
                         }
 
-
+                        
                     }
                 }
+                
                 return false;
             }
             catch
             {
+
                 return false;
             }
         }
@@ -243,7 +248,9 @@ namespace ViewPort.Functions
                     MySqlCommand command = new MySqlCommand(insertQuery, conn);
 
                     command.ExecuteNonQuery();
+                    command.Dispose();
                 }
+                
                 return true;
             }
             catch
@@ -289,6 +296,7 @@ namespace ViewPort.Functions
                                 WorkImageCnt = drdr["WorkImageCnt"].ToString();
                                 
                             }
+                        drdr.Dispose();
                         }
                     }
                                 
@@ -342,6 +350,7 @@ namespace ViewPort.Functions
                                 IdleWork = drdr["IdleWork"].ToString();
                                 IsFinallyWorker = drdr["IsFinallyWorker"].ToString();
                             }
+                    drdr.Dispose();
                     return true;
                     }
                     else if (End)
@@ -488,6 +497,7 @@ namespace ViewPort.Functions
                 string Path = drdr["Path"].ToString();                
                 dt.Rows.Add(PathName,MachineType,WorkType,Path);
             }
+             drdr.Dispose();
 
                 return dt;
         }
@@ -520,7 +530,7 @@ namespace ViewPort.Functions
 
                 dt.Rows.Add(LotName, LotWorker, WorkTime, EndTime, TimeTaken, IdleWork, IsFinallyWorker);
             }
-
+            drdr.Dispose();
             return dt;
         }
         public DataTable GetLot()
@@ -547,7 +557,7 @@ namespace ViewPort.Functions
 
                 dt.Rows.Add(LotName, LotImageCnt, WorkImageCnt);
             }
-
+            drdr.Dispose();
             return dt;
         }
         public DataTable GetUser()
@@ -576,7 +586,7 @@ namespace ViewPort.Functions
 
                 dt.Rows.Add(idChar, Authorization, Password, Name);
             }
-
+            drdr.Dispose();
             return dt;
         }
     }
