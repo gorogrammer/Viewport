@@ -8,7 +8,7 @@ namespace ViewPort.Functions
 {
     public class Enums
     {
-        public enum WORKTYPE
+        public  enum WORKTYPE
         {
             기본,
             미검,
@@ -27,6 +27,16 @@ namespace ViewPort.Functions
             MachineType,
             WorkType,
             Path
+        }
+        public enum FILTERTYPE
+        {
+            NULL,
+            XY,
+            Frame,
+            Camera,
+            State,
+            EQ
+            
         }
     }
 }

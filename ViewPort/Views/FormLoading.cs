@@ -227,7 +227,7 @@ namespace ViewPort.Views
 
         public void DoLoadingThread(string path)
         {
-            
+            this.Opacity = 1;
             Thread LoadThread = new Thread(new ParameterizedThreadStart(Loading));
             LoadThread.Start(path);
         }
@@ -401,16 +401,16 @@ namespace ViewPort.Views
                 if(File_ID == "B00005090009")
                 { }
                 
-                if (main.checkBox1.Checked)
-                {
-                    ImgInfo = new Bitmap(subEntry.Open());
-                    ImageSize = ImgInfo.Size.Width + "*" + ImgInfo.Size.Height;
-                    ImgInfo.Dispose();
-                    if (ImageSizeList.FindIndex(c => c.Equals(ImageSize)) == -1)
-                        ImageSizeList.Add(ImageSize);
-                }
-                else
-                    ImageSize = "-";
+               // if (main.checkBox1.Checked)
+               // {
+                //    ImgInfo = new Bitmap(subEntry.Open());
+                //    ImageSize = ImgInfo.Size.Width + "*" + ImgInfo.Size.Height;
+                //    ImgInfo.Dispose();
+               //     if (ImageSizeList.FindIndex(c => c.Equals(ImageSize)) == -1)
+               //         ImageSizeList.Add(ImageSize);
+              //  }
+               // else
+                  ImageSize = "-";
 
                 if (All_LotID_List.FindIndex(s => s.Equals(LotName)) == -1)
                     All_LotID_List.Add(LotName);

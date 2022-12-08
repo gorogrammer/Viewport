@@ -52,12 +52,12 @@ namespace ViewPort.Views
         int before_Y = 0;
 
 
-        int Filter_NO_1 = 0;
-        int Filter_F9 = 0;
-        int Filter_F10 = 0;
-        int Filter_F5 = 0;
-        int Filter_F = 0;
-        int viewMode_PSW_Check = 0;
+        public int Filter_NO_1 = 0;
+        public int Filter_F9 = 0;
+        public int Filter_F10 = 0;
+        public int Filter_F5 = 0;
+        public int Filter_F = 0;
+        public int viewMode_PSW_Check = 0;
         int shift_del = 0;
         int only_del = 0;
         Image expand_img = null;
@@ -113,7 +113,7 @@ namespace ViewPort.Views
         public int ViewMode_PSW_Check { get => viewMode_PSW_Check; set => viewMode_PSW_Check = value; }
 
         public int Shift_del { get => shift_del; set => shift_del = value; }
-        public Dictionary<string, ImageInfo> sorted_dic { get => Sorted_dic; set => sorted_dic = value; }
+        public Dictionary<string, ImageInfo> sorted_dic { get => Sorted_dic; set => Sorted_dic = value; }
 
         public int Only_del { get => only_del; set => only_del = value; }
         public string OpenViewType { get => openViewType; set => openViewType = value; }
@@ -260,7 +260,14 @@ namespace ViewPort.Views
                     //this.Refresh();
                 }
             }
-
+            else if(e.KeyCode == Keys.Enter)
+            {
+                if (Main.ZipFilePath != null)
+                {
+                    if (Main.ZipFilePath != "")
+                        Main.Filter_Check();
+                }
+            }
             //else if (e.Alt)
             //{
             //    e.Handled = true;
@@ -768,17 +775,24 @@ namespace ViewPort.Views
             {
                 if (MessageBox.Show("[SDIP] 강제불량 처리 대상(Limit 미초과)인 Frame에 대한 이미지를 필터링합니다.\r (단, 강제불량 처리된 해당 이미지는 미표시)", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+
                     Dictionary<string, ImageInfo> Before_Dic = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
                     Dictionary<string, ImageInfo> F9_Dic = new Dictionary<string, ImageInfo>(Main.F9_Find_in_Dicinfo());
                     DicInfo_Filtered = F9_Dic;
+                    Main.Filter_CheckEQ_Dic = F9_Dic;
                     if (Main.F9_code_dicInfo.Count > 0)
                     {
                         Filter_F9 = 1;
+                        Main.FI_RE_B.Enabled = true;
+                        Main.Equipment_DF_CLB.SelectedValueChanged -= Main.Equipment_DF_CLB_ItemCheck;
+                        Main.EQ_Data_Update(DicInfo_Filtered);
                         Set_View();
+                        Main.Equipment_DF_CLB.SelectedValueChanged += Main.Equipment_DF_CLB_ItemCheck;
                         Main.Print_List();
                         Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
-
+                       
                     }
+
                     else
                     {
                         MessageBox.Show("Limit 아래 부품이 없습니다.");
@@ -802,14 +816,19 @@ namespace ViewPort.Views
                     Dictionary<string, ImageInfo> Before_Dic = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
                     Dictionary<string, ImageInfo> F10_Dic = new Dictionary<string, ImageInfo>(Main.F10_Find_in_Dicinfo());
                     DicInfo_Filtered = Main.F10_Find_in_Dicinfo();
+                    Main.Filter_CheckEQ_Dic = F10_Dic;
                     if (Main.F10_code_dicInfo.Count > 0)
                     {
                        
                         Filter_F10 = 1;
+                        Main.FI_RE_B.Enabled = true;
+                        Main.Equipment_DF_CLB.SelectedValueChanged -= Main.Equipment_DF_CLB_ItemCheck;
+                        Main.EQ_Data_Update(DicInfo_Filtered);
                         Set_View();
+                        Main.Equipment_DF_CLB.SelectedValueChanged += Main.Equipment_DF_CLB_ItemCheck;
                         Main.Print_List();
                         Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
-
+                        Main.FI_RE_B.Enabled = true;
                     }
                     else
                     {
@@ -843,34 +862,46 @@ namespace ViewPort.Views
 
             else if (e.KeyCode == Keys.F)
             {
-                Filter_F = 1;
+                //Filter_F = 1;
+                Main.OLD_XY_X.Text = Main.MouseXY_FT_X.Text;
+                Main.OLD_XY_Y.Text = Main.MouseXY_FT_Y.Text;
 
+                /*
                 XYLocationFilter xyFilter = new XYLocationFilter(this,Befroe_X,Before_Y);
                 Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
-                xyFilter.XY_Location.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
+                if (expand_ImgInfo.Count > 0)
+                {
+                    
+                    xyFilter.XY_Location.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
 
-                if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
-                {
-                    xyFilter.DicInfo_XY_filter = new Dictionary<string, ImageInfo>(frame_dicInfo_Filter);
-                }
-                else
-                {
-                    if(Main.Sdip_200_code_dicInfo.ContainsKey(DicInfo_Filtered.ElementAt(0).Key))
+                    if (Main.ViewType == "FrameSetView" || Main.ViewType == "DLFrameSetView")
                     {
-                        xyFilter.DicInfo_XY_filter = new Dictionary<string, ImageInfo>(Main.Sdip_200_code_dicInfo);
+                        xyFilter.DicInfo_XY_filter = new Dictionary<string, ImageInfo>(frame_dicInfo_Filter);
                     }
                     else
                     {
-                        Dictionary<string, ImageInfo> eq_filter_dic = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
-                    
-                        xyFilter.DicInfo_XY_filter = new Dictionary<string,ImageInfo>(eq_filter_dic);
+                        if (Main.Sdip_200_code_dicInfo.ContainsKey(DicInfo_Filtered.ElementAt(0).Key))
+                        {
+                            xyFilter.DicInfo_XY_filter = new Dictionary<string, ImageInfo>(Main.Sdip_200_code_dicInfo);
+                        }
+                        else
+                        {
+                            Dictionary<string, ImageInfo> eq_filter_dic = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
+
+                            xyFilter.DicInfo_XY_filter = new Dictionary<string, ImageInfo>(eq_filter_dic);
+                        }
+
                     }
-                    
+
+                    xyFilter.Set_XY_TB();
+                    xyFilter.ShowDialog();
+                   
+            }
+            else
+                {
+                    MessageBox.Show("Image XY Error");
                 }
-
-                xyFilter.Set_XY_TB();
-                xyFilter.ShowDialog();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-
+                 */
             }
 
             else if (e.KeyCode == Keys.F5)
@@ -885,7 +916,7 @@ namespace ViewPort.Views
                         Set_View();
                         Main.Print_List();
                         Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
-
+                        Main.FI_RE_B.Enabled = true;
                     }
                     else
                         MessageBox.Show("이미지가 없습니다.");
@@ -1458,7 +1489,7 @@ namespace ViewPort.Views
             this.Controls.Clear();
             PictureData.Clear();
 
-            if (!Main.Exceed_CB.Checked && Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F != 1 && Main.List_filter != 1 && Main.State_Filter != 1 && Frame_Filter_check!=1 && Main.ImageSize_Filter_NO !=1)
+            if (!Main.Exceed_CB.Checked && Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F != 1 && Main.List_filter != 1 && Main.State_Filter != 1 && Frame_Filter_check!=1 && Main.ImageSize_Filter_NO !=1 && Main.filterMode == Enums.FILTERTYPE.NULL)
             {
                 dicInfo_Filter = Main.DicInfo;
 
@@ -2313,7 +2344,7 @@ namespace ViewPort.Views
                         }
                         else
                         {
-                            MessageBox.Show("이미지를 다시 선택해주세요.");
+                            //MessageBox.Show("이미지를 다시 선택해주세요.");
 
                         }
                     }
@@ -2331,7 +2362,7 @@ namespace ViewPort.Views
                         }
                         else
                         {
-                            MessageBox.Show("이미지를 다시 선택해주세요.");
+                           // MessageBox.Show("이미지를 다시 선택해주세요.");
                         }
                     }
                 }
@@ -2705,98 +2736,100 @@ namespace ViewPort.Views
                 ZipArchiveEntry sortzip;
                 if (Main.Frame_BT.Checked)
                 {
-
-                    foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
+                    if (Print_Frame.Count > 0)
                     {
-                        Open_ZipName = entry.Name.Split('.')[0];
-                        if (Open_ZipName[0].Equals('R'))
-                            Open_ZipName = Open_ZipName.Substring(1, Open_ZipName.Length - 1);
-
-                        if (Print_Frame.Count >= PF_index && Open_ZipName.Equals(Print_Frame.ElementAt(PF_index)) && entry.Name.ToUpper().IndexOf(".ZIP") != -1)
+                        foreach (ZipArchiveEntry entry in zip.Entries.OrderBy(x => x.Name))
                         {
-                            MemoryStream subEntryMS = new MemoryStream();           // 2중 압축파일을 MemoryStream으로 읽는다.
-                            entry.Open().CopyTo(subEntryMS);
+                            Open_ZipName = entry.Name.Split('.')[0];
+                            if (Open_ZipName[0].Equals('R'))
+                                Open_ZipName = Open_ZipName.Substring(1, Open_ZipName.Length - 1);
 
-                            ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
-
-
-                            var sub =
-                                                from ent in subZip.Entries
-                                                orderby ent.Name
-                                                select ent;
-
-
-                            foreach (ZipArchiveEntry subEntry in sub)       // 2중 압축파일 내에 있는 파일을 탐색
+                            if (Print_Frame.Count >= PF_index && Open_ZipName.Equals(Print_Frame.ElementAt(PF_index)) && entry.Name.ToUpper().IndexOf(".ZIP") != -1)
                             {
-                                //if (dicInfo_Filter.ContainsKey(subEntry.Name.Substring(0, 12)))
-                                //{
+                                MemoryStream subEntryMS = new MemoryStream();           // 2중 압축파일을 MemoryStream으로 읽는다.
+                                entry.Open().CopyTo(subEntryMS);
 
-                                //}
+                                ZipArchive subZip = new ZipArchive(subEntryMS);         // MemoryStream으로 읽은 파일(2중 압축파일) 각각을 ZipArchive로 읽는다.
 
 
-                                if (Current_Index >= EachPage_ImageNum)
-                                    break;
-                                //if (subEntry.Name.Equals(dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
-                                if (subEntry.Name.Contains(list[S_ImageIndex + Current_Index]))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                                var sub =
+                                                    from ent in subZip.Entries
+                                                    orderby ent.Name
+                                                    select ent;
+
+
+                                foreach (ZipArchiveEntry subEntry in sub)       // 2중 압축파일 내에 있는 파일을 탐색
                                 {
-                                    tmp_Img = new Bitmap(subEntry.Open());
+                                    //if (dicInfo_Filter.ContainsKey(subEntry.Name.Substring(0, 12)))
+                                    //{
 
-                                    switch (Main.Rotate_CLB.SelectedIndex)
+                                    //}
+
+
+                                    if (Current_Index >= EachPage_ImageNum)
+                                        break;
+                                    //if (subEntry.Name.Equals(dicInfo_Filter[dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index)].Imagename + ".jpg"))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
+                                    if (subEntry.Name.Contains(list[S_ImageIndex + Current_Index]))  // jpg 파일이 있을 경우 ( <= 각 이미지 파일에 대한 처리는 여기서... )
                                     {
-                                        case 0:
-                                            {
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                tmp_Img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                                                break;
-                                            }
-                                        case 2:
-                                            {
-                                                tmp_Img.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                                                break;
-                                            }
-                                        case 3:
-                                            {
-                                                tmp_Img.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                                                break;
-                                            }
-                                        default:
-                                            {
-                                                MessageBox.Show("이미지 회전 오류");
-                                                return;
-                                            }
+                                        tmp_Img = new Bitmap(subEntry.Open());
+
+                                        switch (Main.Rotate_CLB.SelectedIndex)
+                                        {
+                                            case 0:
+                                                {
+                                                    break;
+                                                }
+                                            case 1:
+                                                {
+                                                    tmp_Img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                                                    break;
+                                                }
+                                            case 2:
+                                                {
+                                                    tmp_Img.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                                                    break;
+                                                }
+                                            case 3:
+                                                {
+                                                    tmp_Img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                                                    break;
+                                                }
+                                            default:
+                                                {
+                                                    MessageBox.Show("이미지 회전 오류");
+                                                    return;
+                                                }
+                                        }
+
+                                        PictureData.ElementAt(Current_Index).Image = tmp_Img;
+                                        //PictureData.ElementAt(Current_Index).Update();
+                                        //PictureData.ElementAt(Current_Index).Name = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
+                                        PictureData.ElementAt(Current_Index).Name = list[S_ImageIndex + Current_Index];
+
+                                        Current_Index++;
                                     }
 
-                                    PictureData.ElementAt(Current_Index).Image = tmp_Img;
-                                    //PictureData.ElementAt(Current_Index).Update();
-                                    //PictureData.ElementAt(Current_Index).Name = dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index);
-                                    PictureData.ElementAt(Current_Index).Name = list[S_ImageIndex + Current_Index];
-
-                                    Current_Index++;
+                                    if (Current_Index >= EachPage_ImageNum)
+                                        break;
+                                    //if (!dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index).Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
+                                    //{
+                                    //    PF_index++;
+                                    //    break;
+                                    //}
+                                    if (!list[S_ImageIndex + Current_Index].Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
+                                    {
+                                        PF_index++;
+                                        break;
+                                    }
                                 }
 
-                                if (Current_Index >= EachPage_ImageNum)
-                                    break;
-                                //if (!dicInfo_Filter.Keys.ElementAt(S_ImageIndex + Current_Index).Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
-                                //{
-                                //    PF_index++;
-                                //    break;
-                                //}
-                                if (!list[S_ImageIndex + Current_Index].Substring(1, 5).Equals(Print_Frame.ElementAt(PF_index)))
-                                {
-                                    PF_index++;
-                                    break;
-                                }
+                                subZip.Dispose();
                             }
 
-                            subZip.Dispose();
+                            if (Current_Index >= EachPage_ImageNum || Print_Frame.Count <= PF_index)
+                                break;
+
                         }
-
-                        if (Current_Index >= EachPage_ImageNum || Print_Frame.Count <= PF_index)
-                            break;
-
                     }
                 }
                 else
@@ -5159,13 +5192,16 @@ namespace ViewPort.Views
         private void PictureBox_MouseHover(object sender, EventArgs e)
         {
             Main.Activate();
-            /*
+            
             Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
             Dictionary<string, ImageInfo> xy_Location = new Dictionary<string, ImageInfo>();
-            xy_Location.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
-            Main.OLD_XY_X.Text = xy_Location[xy_Location.ElementAt(0).Key].X_Location;
-            Main.OLD_XY_Y.Text = xy_Location[xy_Location.ElementAt(0).Key].Y_Location;
-            Main.M_TB.Text = xy_Location[xy_Location.ElementAt(0).Key].Master_NO;*/
+            if (expand_ImgInfo.Count > 0)
+            {
+                xy_Location.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
+                Main.MouseXY_FT_X.Text = xy_Location[xy_Location.ElementAt(0).Key].X_Location;
+                Main.MouseXY_FT_Y.Text = xy_Location[xy_Location.ElementAt(0).Key].Y_Location;
+                Main.M_TB.Text = xy_Location[xy_Location.ElementAt(0).Key].Master_NO;
+            }
         }
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)

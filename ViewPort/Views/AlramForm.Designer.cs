@@ -43,6 +43,7 @@
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
             this.richTextBox1.Size = new System.Drawing.Size(384, 270);
             this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.TabStop = false;
             this.richTextBox1.Text = "";
             // 
             // AlramForm

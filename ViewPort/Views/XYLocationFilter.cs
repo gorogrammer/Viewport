@@ -58,6 +58,8 @@ namespace ViewPort.Views
                 Open.Main.OLD_XY_X.Text = XY_Location[XY_Location.ElementAt(0).Key].X_Location;
                 Open.Main.OLD_XY_Y.Text = XY_Location[XY_Location.ElementAt(0).Key].X_Location;
                 Open.Main.M_TB.Text = XY_Location[XY_Location.ElementAt(0).Key].Master_NO;
+                Open.Main.XY_FT_X.Text = Xfilter_TB.Text;
+                Open.Main.textBox1.Text = YFilter_TB.Text;
                 Open.Befroe_X = int.Parse(Xfilter_TB.Text);
                 Open.Before_Y = int.Parse(YFilter_TB.Text);
                 foreach (string id in DicInfo_XY_filter.Keys.ToList())
@@ -72,7 +74,8 @@ namespace ViewPort.Views
                 Master_TB.Text = string.Empty;
                 X_TB.Text = string.Empty;
                 Y_TB.Text = string.Empty;
-
+                Open.Main.FI_RE_B.Enabled = true;
+                Open.Main.filterMode = Functions.Enums.FILTERTYPE.XY;
                 this.Close();
                 Open.XY_Filter_Set(DicInfo_XY_filter);
                 

@@ -24,6 +24,7 @@ namespace ViewPort.Views
             
             ImageViewer = image;
             ImageViewer.Manager = this;
+            ImageViewer.Main.button1_Click(null, null);
             this.Focus();
         }
 
