@@ -2465,6 +2465,7 @@ namespace ViewPort.Views
 
         public void Set_PictureBox()
         {
+            //시발
             int pre_cols, pre_rows;
             PictureBox temp_PB;
             Label temp_LB;
