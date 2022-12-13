@@ -20,3 +20,8 @@ ViewPortChecker/obj/Release
 *.htm
 *.sqlite
 *.config
+ViewPort/obj/Debug/ViewPort.exe
+*.config
+*.exe
+ViewPortChecker/bin/Debug/VPChecker.exe
+ViewPortChecker/obj/Debug/VPChecker.exe
