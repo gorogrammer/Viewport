@@ -28,6 +28,7 @@ ViewPortChecker/obj/Release
 ViewPort/Viewport/obj/Debug/Viewport.exe
 ViewPort/Viewport/obj/Release/Viewport.exe
 ViewPortChecker/bin/Debug/VPChecker.exe
-ViewPortChecker/obj/Debug/VPChecker.exe
 ViewPortChecker/bin/Release/VPChecker.exe
+ViewPortChecker/obj/Debug/VPChecker.exe
 ViewPortChecker/obj/Release/VPChecker.exe
+ViewPort/obj/Debug/ViewPort.exe

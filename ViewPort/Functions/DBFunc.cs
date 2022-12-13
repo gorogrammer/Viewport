@@ -53,6 +53,7 @@ namespace ViewPort.Functions
         public string IsFinallyWorker { get => isfinallyworker; set => isfinallyworker = value; }
         public bool DBConnection(string id, string pw)
         {
+            //ㅇㅇㅇㅇ
             try
             {
                 conn = new MySqlConnection(ConnectionString_Stemco);

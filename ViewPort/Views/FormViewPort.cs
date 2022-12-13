@@ -2616,7 +2616,7 @@ namespace ViewPort
             
             deleteWaiting.ShowDialog();
 
-
+            //시
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
