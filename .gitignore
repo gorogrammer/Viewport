@@ -3,12 +3,12 @@
 ################################################################################
 
 DLLs/
-ViewPort/bin/Debug/
-ViewPort/Viewport/bin/Debug/
-ViewPort/Viewport/bin/Release/
-ViewPort/Viewport/obj/Debug/
-ViewPort/Viewport/obj/Release/
-ViewPort/bin/Release/
+ViewPort/bin/Debug/*
+ViewPort/Viewport/bin/Debug/*
+ViewPort/Viewport/bin/Release/*
+ViewPort/Viewport/obj/Debug/*
+ViewPort/Viewport/obj/Release/*
+ViewPort/bin/Release/*
 ViewPort/.vs/ViewPort/v16/
 ViewPort/.vs/ViewPort/v16/Server/sqlite3/db.lock
 ViewPortChecker/bin/Debug
