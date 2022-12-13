@@ -7,9 +7,16 @@ ViewPort/bin/Debug/
 ViewPort/bin/Release/
 ViewPort/.vs/ViewPort/v16/
 /ViewPort/.vs/ViewPort/v16/Server/sqlite3/db.lock
+ViewPortChecker/bin/Debug
+ViewPortChecker/bin/Release
+ViewPortChecker/obj/Debug
+ViewPortChecker/obj/Release
 *.cache
 *.xml
 *.pdb
 *.txt
 *.cache
 *.suo
+*.htm
+*.sqlite
+*.config
