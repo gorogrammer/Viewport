@@ -12,10 +12,6 @@ using ViewPort.Models;
 using ViewPort.Functions;
 using System.IO.Compression;
 using System.IO;
-using Emgu.CV;
-using Emgu.CV.UI;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
 using System.Diagnostics;
 
 namespace ViewPort.Views
@@ -2637,7 +2633,7 @@ namespace ViewPort.Views
         {
             int pre_cols, pre_rows;
             PictureBox temp_PB;
-          //  ImageBox temp_IB;
+           //mageBox temp_IB;
             Label temp_LB;
             Refresh();
 

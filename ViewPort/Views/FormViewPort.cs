@@ -19,9 +19,6 @@ using ViewPortNetwork;
 using MetroFramework.Forms;
 using System.Reflection;
 using CredentialManagement;
-using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
 using System.Diagnostics;
 using System.Threading;
 
@@ -2765,7 +2762,7 @@ namespace ViewPort
             
             deleteWaiting.ShowDialog();
 
-
+            //시
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
