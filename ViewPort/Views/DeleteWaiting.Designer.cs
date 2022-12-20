@@ -106,9 +106,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(892, 59);
+            this.button2.Location = new System.Drawing.Point(348, 29);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(95, 23);
+            this.button2.Size = new System.Drawing.Size(70, 23);
             this.button2.TabIndex = 47;
             this.button2.Text = "출력";
             this.button2.UseVisualStyleBackColor = true;
@@ -216,9 +216,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(348, 31);
+            this.button1.Location = new System.Drawing.Point(891, 59);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(95, 23);
             this.button1.TabIndex = 36;
             this.button1.Text = "전체";
             this.button1.UseVisualStyleBackColor = true;
@@ -240,7 +240,6 @@
             this.Camera_NO_Filter_TB.Name = "Camera_NO_Filter_TB";
             this.Camera_NO_Filter_TB.Size = new System.Drawing.Size(54, 21);
             this.Camera_NO_Filter_TB.TabIndex = 35;
-            this.Camera_NO_Filter_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Camera_NO_Filter_TB_KeyDown);
             // 
             // label5
             // 
@@ -258,12 +257,11 @@
             this.Frame_S_TB.Name = "Frame_S_TB";
             this.Frame_S_TB.Size = new System.Drawing.Size(38, 21);
             this.Frame_S_TB.TabIndex = 32;
-            this.Frame_S_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frame_S_TB_KeyDown);
             // 
             // Print_Image_EQ
             // 
             this.Print_Image_EQ.AutoSize = true;
-            this.Print_Image_EQ.Location = new System.Drawing.Point(440, 12);
+            this.Print_Image_EQ.Location = new System.Drawing.Point(449, 12);
             this.Print_Image_EQ.Name = "Print_Image_EQ";
             this.Print_Image_EQ.Size = new System.Drawing.Size(80, 16);
             this.Print_Image_EQ.TabIndex = 31;
@@ -274,7 +272,7 @@
             // Print_Image_Name
             // 
             this.Print_Image_Name.AutoSize = true;
-            this.Print_Image_Name.Location = new System.Drawing.Point(440, 38);
+            this.Print_Image_Name.Location = new System.Drawing.Point(449, 38);
             this.Print_Image_Name.Name = "Print_Image_Name";
             this.Print_Image_Name.Size = new System.Drawing.Size(97, 16);
             this.Print_Image_Name.TabIndex = 24;
@@ -297,7 +295,7 @@
             this.Del_img_list.Location = new System.Drawing.Point(288, 5);
             this.Del_img_list.Name = "Del_img_list";
             this.Del_img_list.ReadOnly = true;
-            this.Del_img_list.Size = new System.Drawing.Size(100, 21);
+            this.Del_img_list.Size = new System.Drawing.Size(130, 21);
             this.Del_img_list.TabIndex = 22;
             // 
             // Delete_Img_In_ZIp

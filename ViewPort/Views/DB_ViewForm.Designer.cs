@@ -28,229 +28,252 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DB_ViewForm));
+            this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
+            this.Add = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.RegBT = new DevExpress.XtraBars.BarButtonItem();
+            this.DataSerach_BT = new DevExpress.XtraBars.BarButtonItem();
+            this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.DeletePath = new System.Windows.Forms.TabPage();
-            this.gridControl2 = new DevExpress.XtraGrid.GridControl();
-            this.gridView5 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.MF_LOG = new System.Windows.Forms.TabPage();
-            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
-            this.gridView4 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.MF_LOT = new System.Windows.Forms.TabPage();
+            this.accordionControl1 = new DevExpress.XtraBars.Navigation.AccordionControl();
+            this.Menu = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.LogMenu = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.LotMenu = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.UserMenu = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.DeletePathMenU = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.Zip = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.accordionControlElement1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.KPI = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.accordionControlElement2 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.accordionControlElement3 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.LotGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.MF_User = new System.Windows.Forms.TabPage();
-            this.UserGrid = new DevExpress.XtraGrid.GridControl();
-            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.LotWorker = new System.Windows.Forms.TabPage();
-            this.gridControl3 = new DevExpress.XtraGrid.GridControl();
-            this.gridView6 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
-            this.splitContainerControl1.SuspendLayout();
+            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ZipLoad_BT = new DevExpress.XtraBars.BarButtonItem();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.DeletePath.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView5)).BeginInit();
-            this.MF_LOG.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView4)).BeginInit();
-            this.MF_LOT.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.LotGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
-            this.MF_User.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UserGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.accordionControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LotGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
-            this.LotWorker.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView6)).BeginInit();
             this.SuspendLayout();
             // 
-            // splitContainerControl1
+            // ribbon
             // 
-            this.splitContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerControl1.Location = new System.Drawing.Point(20, 60);
-            this.splitContainerControl1.Name = "splitContainerControl1";
-            this.splitContainerControl1.Panel1.Controls.Add(this.splitContainer1);
-            this.splitContainerControl1.Panel1.Text = "Panel1";
-            this.splitContainerControl1.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainerControl1.Panel2.Controls.Add(this.simpleButton1);
-            this.splitContainerControl1.Panel2.Text = "Panel2";
-            this.splitContainerControl1.Size = new System.Drawing.Size(842, 448);
-            this.splitContainerControl1.SplitterPosition = 631;
-            this.splitContainerControl1.TabIndex = 0;
+            this.ribbon.ExpandCollapseItem.Id = 0;
+            this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.ribbon.ExpandCollapseItem,
+            this.ribbon.SearchEditItem,
+            this.Add,
+            this.barButtonItem1,
+            this.RegBT,
+            this.DataSerach_BT,
+            this.ZipLoad_BT});
+            this.ribbon.Location = new System.Drawing.Point(0, 0);
+            this.ribbon.MaxItemId = 7;
+            this.ribbon.Name = "ribbon";
+            this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
+            this.ribbonPage1});
+            this.ribbon.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.OfficeUniversal;
+            this.ribbon.Size = new System.Drawing.Size(1147, 90);
+            this.ribbon.StatusBar = this.ribbonStatusBar;
+            // 
+            // Add
+            // 
+            this.Add.Caption = "추가";
+            this.Add.Hint = "DB 데이터 추가";
+            this.Add.Id = 1;
+            this.Add.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("Add.ImageOptions.Image")));
+            this.Add.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("Add.ImageOptions.LargeImage")));
+            this.Add.Name = "Add";
+            this.Add.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.button5_Click);
+            // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "Save";
+            this.barButtonItem1.Id = 2;
+            this.barButtonItem1.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem1.ImageOptions.Image")));
+            this.barButtonItem1.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem1.ImageOptions.LargeImage")));
+            this.barButtonItem1.Name = "barButtonItem1";
+            this.barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick_1);
+            // 
+            // RegBT
+            // 
+            this.RegBT.Caption = "가입승인요청목록";
+            this.RegBT.Hint = "권한부여기능";
+            this.RegBT.Id = 4;
+            this.RegBT.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("RegBT.ImageOptions.Image")));
+            this.RegBT.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("RegBT.ImageOptions.LargeImage")));
+            this.RegBT.Name = "RegBT";
+            this.RegBT.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.RegBT_ItemClick);
+            // 
+            // DataSerach_BT
+            // 
+            this.DataSerach_BT.Caption = "데이터조회";
+            this.DataSerach_BT.Id = 5;
+            this.DataSerach_BT.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("DataSerach_BT.ImageOptions.Image")));
+            this.DataSerach_BT.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("DataSerach_BT.ImageOptions.LargeImage")));
+            this.DataSerach_BT.Name = "DataSerach_BT";
+            this.DataSerach_BT.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.DataSerach_BT_ItemClick);
+            // 
+            // ribbonPage1
+            // 
+            this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.ribbonPageGroup1,
+            this.ribbonPageGroup2,
+            this.ribbonPageGroup3,
+            this.ribbonPageGroup4});
+            this.ribbonPage1.Name = "ribbonPage1";
+            this.ribbonPage1.Text = "Edit";
+            // 
+            // ribbonPageGroup1
+            // 
+            this.ribbonPageGroup1.ItemLinks.Add(this.Add);
+            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
+            // 
+            // ribbonPageGroup2
+            // 
+            this.ribbonPageGroup2.ItemLinks.Add(this.RegBT);
+            this.ribbonPageGroup2.Name = "ribbonPageGroup2";
+            this.ribbonPageGroup2.Text = "ribbonPageGroup2";
+            // 
+            // ribbonPageGroup3
+            // 
+            this.ribbonPageGroup3.ItemLinks.Add(this.DataSerach_BT);
+            this.ribbonPageGroup3.Name = "ribbonPageGroup3";
+            this.ribbonPageGroup3.Text = "ribbonPageGroup3";
+            // 
+            // ribbonStatusBar
+            // 
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 759);
+            this.ribbonStatusBar.Name = "ribbonStatusBar";
+            this.ribbonStatusBar.Ribbon = this.ribbon;
+            this.ribbonStatusBar.Size = new System.Drawing.Size(1147, 24);
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 90);
             this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            this.splitContainer1.Panel1.Controls.Add(this.accordionControl1);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(631, 448);
-            this.splitContainer1.SplitterDistance = 418;
-            this.splitContainer1.TabIndex = 0;
+            this.splitContainer1.Size = new System.Drawing.Size(1147, 669);
+            this.splitContainer1.SplitterDistance = 167;
+            this.splitContainer1.TabIndex = 2;
             // 
-            // tabControl1
+            // accordionControl1
             // 
-            this.tabControl1.Controls.Add(this.DeletePath);
-            this.tabControl1.Controls.Add(this.MF_LOG);
-            this.tabControl1.Controls.Add(this.MF_LOT);
-            this.tabControl1.Controls.Add(this.MF_User);
-            this.tabControl1.Controls.Add(this.LotWorker);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(631, 418);
-            this.tabControl1.TabIndex = 0;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.accordionControl1.AllowItemSelection = true;
+            this.accordionControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.accordionControl1.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
+            this.Menu,
+            this.KPI});
+            this.accordionControl1.Location = new System.Drawing.Point(0, 0);
+            this.accordionControl1.Name = "accordionControl1";
+            this.accordionControl1.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Hidden;
+            this.accordionControl1.Size = new System.Drawing.Size(167, 669);
+            this.accordionControl1.TabIndex = 0;
+            this.accordionControl1.Text = "accordionControl1";
+            this.accordionControl1.SelectedElementChanged += new DevExpress.XtraBars.Navigation.SelectedElementChangedEventHandler(this.accordionControl1_SelectedElementChanged);
             // 
-            // DeletePath
+            // Menu
             // 
-            this.DeletePath.Controls.Add(this.gridControl2);
-            this.DeletePath.Location = new System.Drawing.Point(4, 23);
-            this.DeletePath.Name = "DeletePath";
-            this.DeletePath.Padding = new System.Windows.Forms.Padding(3);
-            this.DeletePath.Size = new System.Drawing.Size(623, 391);
-            this.DeletePath.TabIndex = 0;
-            this.DeletePath.Text = "DeletePath";
-            this.DeletePath.UseVisualStyleBackColor = true;
+            this.Menu.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
+            this.LogMenu,
+            this.LotMenu,
+            this.UserMenu,
+            this.DeletePathMenU,
+            this.Zip});
+            this.Menu.Expanded = true;
+            this.Menu.Name = "Menu";
+            this.Menu.Text = "Grid Menu";
             // 
-            // gridControl2
+            // LogMenu
             // 
-            this.gridControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl2.Location = new System.Drawing.Point(3, 3);
-            this.gridControl2.MainView = this.gridView5;
-            this.gridControl2.Name = "gridControl2";
-            this.gridControl2.Size = new System.Drawing.Size(617, 385);
-            this.gridControl2.TabIndex = 0;
-            this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView5});
+            this.LogMenu.Name = "LogMenu";
+            this.LogMenu.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.LogMenu.Text = "LOG";
             // 
-            // gridView5
+            // LotMenu
             // 
-            this.gridView5.GridControl = this.gridControl2;
-            this.gridView5.Name = "gridView5";
-            this.gridView5.OptionsBehavior.Editable = false;
-            this.gridView5.OptionsBehavior.ReadOnly = true;
-            this.gridView5.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView5_RowClick);
+            this.LotMenu.Name = "LotMenu";
+            this.LotMenu.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.LotMenu.Text = "LOT";
             // 
-            // MF_LOG
+            // UserMenu
             // 
-            this.MF_LOG.Controls.Add(this.gridControl1);
-            this.MF_LOG.Location = new System.Drawing.Point(4, 23);
-            this.MF_LOG.Name = "MF_LOG";
-            this.MF_LOG.Padding = new System.Windows.Forms.Padding(3);
-            this.MF_LOG.Size = new System.Drawing.Size(623, 391);
-            this.MF_LOG.TabIndex = 1;
-            this.MF_LOG.Text = "LOG";
-            this.MF_LOG.UseVisualStyleBackColor = true;
+            this.UserMenu.Name = "UserMenu";
+            this.UserMenu.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.UserMenu.Text = "User";
             // 
-            // gridControl1
+            // DeletePathMenU
             // 
-            this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl1.Location = new System.Drawing.Point(3, 3);
-            this.gridControl1.MainView = this.gridView4;
-            this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(617, 385);
-            this.gridControl1.TabIndex = 0;
-            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView4});
+            this.DeletePathMenU.Name = "DeletePathMenU";
+            this.DeletePathMenU.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.DeletePathMenU.Text = "DeletePath";
             // 
-            // gridView4
+            // Zip
             // 
-            this.gridView4.GridControl = this.gridControl1;
-            this.gridView4.Name = "gridView4";
-            this.gridView4.OptionsBehavior.Editable = false;
-            this.gridView4.OptionsBehavior.ReadOnly = true;
-            this.gridView4.OptionsView.ColumnAutoWidth = false;
+            this.Zip.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
+            this.accordionControlElement1});
+            this.Zip.Expanded = true;
+            this.Zip.Name = "Zip";
+            this.Zip.Text = "Zip";
+            this.Zip.Click += new System.EventHandler(this.Zip_Click);
             // 
-            // MF_LOT
+            // accordionControlElement1
             // 
-            this.MF_LOT.Controls.Add(this.LotGrid);
-            this.MF_LOT.Location = new System.Drawing.Point(4, 23);
-            this.MF_LOT.Name = "MF_LOT";
-            this.MF_LOT.Size = new System.Drawing.Size(623, 391);
-            this.MF_LOT.TabIndex = 2;
-            this.MF_LOT.Text = "LOT";
-            this.MF_LOT.UseVisualStyleBackColor = true;
+            this.accordionControlElement1.Name = "accordionControlElement1";
+            this.accordionControlElement1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement1.Text = "LotWorker";
             // 
-            // LotGrid
+            // KPI
             // 
-            this.LotGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LotGrid.Location = new System.Drawing.Point(0, 0);
-            this.LotGrid.MainView = this.gridView3;
-            this.LotGrid.Name = "LotGrid";
-            this.LotGrid.Size = new System.Drawing.Size(623, 391);
-            this.LotGrid.TabIndex = 0;
-            this.LotGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView3});
+            this.KPI.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
+            this.accordionControlElement2,
+            this.accordionControlElement3});
+            this.KPI.Expanded = true;
+            this.KPI.Name = "KPI";
+            this.KPI.Text = "Chart";
+            this.KPI.Click += new System.EventHandler(this.KPI_Click);
             // 
-            // gridView3
+            // accordionControlElement2
             // 
-            this.gridView3.GridControl = this.LotGrid;
-            this.gridView3.Name = "gridView3";
-            this.gridView3.OptionsBehavior.Editable = false;
-            this.gridView3.OptionsBehavior.ReadOnly = true;
+            this.accordionControlElement2.Name = "accordionControlElement2";
+            this.accordionControlElement2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement2.Text = "C_Lot";
+            this.accordionControlElement2.Click += new System.EventHandler(this.accordionControlElement2_Click);
             // 
-            // MF_User
+            // accordionControlElement3
             // 
-            this.MF_User.Controls.Add(this.UserGrid);
-            this.MF_User.Location = new System.Drawing.Point(4, 23);
-            this.MF_User.Name = "MF_User";
-            this.MF_User.Size = new System.Drawing.Size(623, 391);
-            this.MF_User.TabIndex = 3;
-            this.MF_User.Text = "User";
-            this.MF_User.UseVisualStyleBackColor = true;
-            // 
-            // UserGrid
-            // 
-            this.UserGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.UserGrid.Location = new System.Drawing.Point(0, 0);
-            this.UserGrid.MainView = this.gridView2;
-            this.UserGrid.Name = "UserGrid";
-            this.UserGrid.Size = new System.Drawing.Size(623, 391);
-            this.UserGrid.TabIndex = 0;
-            this.UserGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView2});
-            // 
-            // gridView2
-            // 
-            this.gridView2.GridControl = this.UserGrid;
-            this.gridView2.Name = "gridView2";
-            this.gridView2.OptionsBehavior.Editable = false;
-            this.gridView2.OptionsBehavior.ReadOnly = true;
+            this.accordionControlElement3.Name = "accordionControlElement3";
+            this.accordionControlElement3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement3.Text = "UserLog";
             // 
             // splitContainer2
             // 
@@ -260,35 +283,34 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.button5);
+            this.splitContainer2.Panel1.Controls.Add(this.LotGrid);
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.button4);
-            this.splitContainer2.Size = new System.Drawing.Size(631, 26);
-            this.splitContainer2.SplitterDistance = 318;
+            this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
+            this.splitContainer2.Size = new System.Drawing.Size(976, 669);
+            this.splitContainer2.SplitterDistance = 686;
             this.splitContainer2.TabIndex = 0;
             // 
-            // button5
+            // LotGrid
             // 
-            this.button5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button5.Location = new System.Drawing.Point(0, 0);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(318, 26);
-            this.button5.TabIndex = 2;
-            this.button5.Text = "추가";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.LotGrid.AllowRestoreSelectionAndFocusedRow = DevExpress.Utils.DefaultBoolean.True;
+            this.LotGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LotGrid.Location = new System.Drawing.Point(0, 0);
+            this.LotGrid.MainView = this.gridView3;
+            this.LotGrid.MenuManager = this.ribbon;
+            this.LotGrid.Name = "LotGrid";
+            this.LotGrid.Size = new System.Drawing.Size(686, 669);
+            this.LotGrid.TabIndex = 0;
+            this.LotGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView3});
             // 
-            // button4
+            // gridView3
             // 
-            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button4.Location = new System.Drawing.Point(0, 0);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(309, 26);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "삭제";
-            this.button4.UseVisualStyleBackColor = true;
+            this.gridView3.GridControl = this.LotGrid;
+            this.gridView3.Name = "gridView3";
+            this.gridView3.OptionsBehavior.Editable = false;
+            this.gridView3.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView3_RowClick);
             // 
             // splitContainer3
             // 
@@ -303,163 +325,112 @@
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.button2);
-            this.splitContainer3.Panel2.Controls.Add(this.button3);
-            this.splitContainer3.Size = new System.Drawing.Size(201, 448);
-            this.splitContainer3.SplitterDistance = 417;
-            this.splitContainer3.TabIndex = 2;
+            this.splitContainer3.Panel2.Controls.Add(this.simpleButton1);
+            this.splitContainer3.Size = new System.Drawing.Size(286, 669);
+            this.splitContainer3.SplitterDistance = 639;
+            this.splitContainer3.TabIndex = 1;
             // 
             // propertyGrid1
             // 
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(201, 417);
+            this.propertyGrid1.Size = new System.Drawing.Size(286, 639);
             this.propertyGrid1.TabIndex = 0;
-            // 
-            // button2
-            // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(0, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(201, 27);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "저장";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button3.Location = new System.Drawing.Point(0, 0);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(201, 27);
-            this.button3.TabIndex = 0;
-            this.button3.Text = "저장";
-            this.button3.UseVisualStyleBackColor = true;
             // 
             // simpleButton1
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(0, 456);
+            this.simpleButton1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.simpleButton1.Location = new System.Drawing.Point(0, 0);
             this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(212, 23);
-            this.simpleButton1.TabIndex = 1;
+            this.simpleButton1.Size = new System.Drawing.Size(286, 26);
+            this.simpleButton1.TabIndex = 0;
             this.simpleButton1.Text = "저장";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
-            // gridView1
+            // ribbonPageGroup4
             // 
-            this.gridView1.Name = "gridView1";
+            this.ribbonPageGroup4.ItemLinks.Add(this.ZipLoad_BT);
+            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
             // 
-            // button1
+            // ZipLoad_BT
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(321, 26);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "추가";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // LotWorker
-            // 
-            this.LotWorker.Controls.Add(this.gridControl3);
-            this.LotWorker.Location = new System.Drawing.Point(4, 23);
-            this.LotWorker.Name = "LotWorker";
-            this.LotWorker.Size = new System.Drawing.Size(623, 391);
-            this.LotWorker.TabIndex = 4;
-            this.LotWorker.Text = "LotWorkers";
-            this.LotWorker.UseVisualStyleBackColor = true;
-            // 
-            // gridControl3
-            // 
-            this.gridControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl3.Location = new System.Drawing.Point(0, 0);
-            this.gridControl3.MainView = this.gridView6;
-            this.gridControl3.Name = "gridControl3";
-            this.gridControl3.Size = new System.Drawing.Size(623, 391);
-            this.gridControl3.TabIndex = 0;
-            this.gridControl3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView6});
-            // 
-            // gridView6
-            // 
-            this.gridView6.GridControl = this.gridControl3;
-            this.gridView6.Name = "gridView6";
+            this.ZipLoad_BT.Caption = "ZipLoad";
+            this.ZipLoad_BT.Id = 6;
+            this.ZipLoad_BT.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem2.ImageOptions.Image")));
+            this.ZipLoad_BT.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem2.ImageOptions.LargeImage")));
+            this.ZipLoad_BT.Name = "ZipLoad_BT";
+            this.ZipLoad_BT.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ZipLoad_BT_ItemClick);
             // 
             // DB_ViewForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AllowFormGlass = DevExpress.Utils.DefaultBoolean.True;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 528);
-            this.Controls.Add(this.splitContainerControl1);
+            this.ClientSize = new System.Drawing.Size(1147, 783);
+            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.ribbonStatusBar);
+            this.Controls.Add(this.ribbon);
+            this.IconOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("DB_ViewForm.IconOptions.LargeImage")));
             this.Name = "DB_ViewForm";
+            this.Ribbon = this.ribbon;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StatusBar = this.ribbonStatusBar;
+            this.Text = "DB_ViewForm";
             this.TopMost = true;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DB_ViewForm_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).EndInit();
-            this.splitContainerControl1.ResumeLayout(false);
+            this.MouseHover += new System.EventHandler(this.DB_ViewForm_MouseHover);
+            ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.DeletePath.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView5)).EndInit();
-            this.MF_LOG.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView4)).EndInit();
-            this.MF_LOT.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.LotGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
-            this.MF_User.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.UserGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.accordionControl1)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.LotGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
-            this.LotWorker.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView6)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private DevExpress.XtraEditors.SplitContainerControl splitContainerControl1;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage DeletePath;
-        private System.Windows.Forms.TabPage MF_LOG;
-        private System.Windows.Forms.TabPage MF_LOT;
-        private System.Windows.Forms.TabPage MF_User;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
+        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
+        private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
-        private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView4;
+        private DevExpress.XtraBars.Navigation.AccordionControl accordionControl1;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement Menu;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement LogMenu;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement LotMenu;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement UserMenu;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement Zip;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement DeletePathMenU;
+        private System.Windows.Forms.SplitContainer splitContainer2;
         private DevExpress.XtraGrid.GridControl LotGrid;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView3;
-        private DevExpress.XtraGrid.GridControl UserGrid;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
-        private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button1;
-        private DevExpress.XtraGrid.GridControl gridControl2;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView5;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TabPage LotWorker;
-        private DevExpress.XtraGrid.GridControl gridControl3;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView6;
+        private DevExpress.XtraBars.BarButtonItem Add;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
+        private DevExpress.XtraBars.BarButtonItem RegBT;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement1;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement KPI;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement2;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement3;
+        private DevExpress.XtraBars.BarButtonItem DataSerach_BT;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
+        private DevExpress.XtraBars.BarButtonItem ZipLoad_BT;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
     }
 }

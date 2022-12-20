@@ -12,10 +12,10 @@ namespace ViewPort.Models
         string Lot_ID, Review_DefectName, SDIP_Result;
         string Equipment_DefectName, Image_name, xLocation, yLocation;
         string imageSize;
-        int Frame_No, Camera_No;
+        int Frame_No, Camera_No,sortXY;
         string changeCode;
         string master_No;
-
+        
 
         public ImageInfo(string LotID, string ImageName, int CamNo, int FrameNo, string Equipment_DF, string sdip_no, string sdip_result, string Review_DF, string DeleteNo, string XLocation, string YLocation, string imageSize, string Change_Code, string Master_no)
         {
@@ -36,7 +36,7 @@ namespace ViewPort.Models
             ImageSize = imageSize;
             changeCode = Change_Code;
             master_No = Master_no;
-
+            SortedXY = 0;
         }
         
         public string LotID { get { return Lot_ID; } set { Lot_ID = value; } }
@@ -51,6 +51,8 @@ namespace ViewPort.Models
         public string sdip_result { get { return SDIP_Result; } set { SDIP_Result = value; } }
         public int FrameNo { get { return Frame_No; } set { Frame_No = value; } }
         public int CameraNo { get { return Camera_No; } set { Camera_No = value; } }
+
+        public int SortedXY { get { return sortXY; } set { sortXY = value; } }
 
         public string DeleteCheck { get { return Delete_Check; } set { Delete_Check = value; } }
 

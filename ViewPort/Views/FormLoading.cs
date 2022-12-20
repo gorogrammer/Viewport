@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ViewPort.Models;
 using ViewPort.Functions;
+using System.Reflection;
 
 namespace ViewPort.Views
 {
@@ -703,8 +704,7 @@ namespace ViewPort.Views
                     StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                     string text = SR.ReadToEnd();
                     string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                    string[] Machine = items[0].Split(',');
-                    MachineName = Machine[7];
+                                   
                     for (int i = 1; i < items.Length - 1; i++)
                     {
                         Dl_List.Add(items[i]);
@@ -840,6 +840,7 @@ namespace ViewPort.Views
 
                     char[] df = { '@' };
                     Final_text = text.Split(df);
+                    
                     string[] items = text.Split(' ', '!');
                     var items_List = items.ToList();
                     int index = items_List.IndexOf("");
@@ -898,6 +899,9 @@ namespace ViewPort.Views
 
 
                     }
+                    string MachineData = Final_text[1].Split(' ').ElementAt(Final_text[1].Split(' ').Count() -1).Substring(0,7);
+                    MachineName=Func.GetMachineName(MachineData);
+
                     if (Map_List_Compare[Map_List_Compare.Count - 1].Contains("E@"))
                     {
                         string change = Map_List_Compare[Map_List_Compare.Count - 1].Replace("E@", "");

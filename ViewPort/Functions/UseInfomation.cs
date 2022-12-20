@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,11 @@ namespace ViewPort.Functions
         public string PathName { get; set; }
         public string MachineType { get; set; }
         public Enums.WORKTYPE WorkType { get; set; }
+        [EditorAttribute(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))]   
         public string Path { get; set; }
+    }
+    public class User
+    {
+        public Enums.PERMISSION Authorization { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace ViewPort.Functions
    public class DBFunc
     {
         MySqlConnection conn;
-        private string ConnectionString_Stemco =
+        private string ConnectionString =
             "server= 116.127.242.207;" +
             "Port=3306;" +
             "uid =root;" +
@@ -19,7 +19,7 @@ namespace ViewPort.Functions
             "convert zero datetime=True;" +
             "CharSet=utf8";
 
-        private string ConnectionString =
+        private string ConnectionString_Stemco =
     "server= 16.100.29.75;" +
     "Port=3306;" +
     "uid = root;" +
@@ -69,7 +69,7 @@ namespace ViewPort.Functions
                         if (rdr["Password"].ToString() == pw)
                         {
                             Authorization = rdr["Authorization"].ToString();
-                            if (Authorization != string.Empty)
+                            if (Authorization != Enums.PERMISSION.None.ToString())
                             {
                                 Information = id;
                                 rdr.Dispose();
@@ -244,7 +244,7 @@ namespace ViewPort.Functions
                 {
 
 
-                    string insertQuery = "INSERT INTO carloDB.User(idChar,Authorization,Password,Name) VALUES(" + "'" + num + "','', '" + pwd + "','" + name + "')";
+                    string insertQuery = "INSERT INTO carloDB.User(idChar,Authorization,Password,Name) VALUES(" + "'" + num + "','" + Enums.PERMISSION.None.ToString() + "', '" + pwd + "','" + name + "')";
                     MySqlCommand command = new MySqlCommand(insertQuery, conn);
 
                     command.ExecuteNonQuery();
@@ -419,7 +419,7 @@ namespace ViewPort.Functions
             MySqlDataReader drdr = istcommand.ExecuteReader();
             if (drdr.Read())
             {
-                DeletePath=drdr["Path"].ToString();
+                DeletePath=drdr["Path"].ToString().Replace("/",@"\");
             }
             drdr.Dispose();
 
@@ -454,7 +454,7 @@ namespace ViewPort.Functions
             string PathName = data[0];
             string MachineType = data[1];
             int WorkType = (int)Enum.Parse(typeof(Enums.WORKTYPE), data[2]);
-            string Path = data[3];
+            string Path = data[3].Replace(@"\", "/");
 
             string UPDateQuery = @"UPDATE carloDB.MF_DeletePath SET"
                         + " PathName ='" + PathName
@@ -471,19 +471,41 @@ namespace ViewPort.Functions
             command.Dispose();
             return true;
         }
+        public bool UplaodUser(string data, string Name)
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+
+            string Authorization = data;
+            //string MachineType = data[1];
+            //int WorkType = (int)Enum.Parse(typeof(Enums.WORKTYPE), data[2]);
+            //string Path = data[3];
+
+            string UPDateQuery = @"UPDATE carloDB.User SET"
+                        + " Authorization ='" + Authorization
+                        + "' WHERE  idChar ='" + Name
+                        + "'";
+            MySqlCommand command = new MySqlCommand(UPDateQuery, conn);
+            if (command.ExecuteNonQuery() == -1)
+            {
+                return false;
+            }
+            command.Dispose();
+            return true;
+        }
         public DataTable GetDeletePath()
         {
             conn = new MySqlConnection(ConnectionString_Stemco);
             conn.Open();
             DataTable dt = new DataTable();
 
-            dt.Columns.Add("PathName");
-            dt.Columns.Add("MachineType");
-            dt.Columns.Add("WorkType");
+            dt.Columns.Add("경로이름");
+            dt.Columns.Add("설비종류");
+            dt.Columns.Add("작업종류");
             
-            dt.Columns.Add("Path");
+            dt.Columns.Add("경로");
 
-            dt.Columns["WorkType"].DataType = typeof(Enums.WORKTYPE);
+            dt.Columns["작업종류"].DataType = typeof(Enums.WORKTYPE);
 
             string DataQuery = "SELECT * FROM carloDB.MF_DeletePath";
             MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
@@ -507,13 +529,13 @@ namespace ViewPort.Functions
             conn.Open();
             DataTable dt = new DataTable();
 
-            dt.Columns.Add("LotName");
-            dt.Columns.Add("LotWorker");
-            dt.Columns.Add("WorkTime");
-            dt.Columns.Add("EndTime");
-            dt.Columns.Add("TimeTaken");
-            dt.Columns.Add("IdleWork");
-            dt.Columns.Add("IsFinallyWorker");
+            dt.Columns.Add("Lot명");
+            dt.Columns.Add("작업자");
+            dt.Columns.Add("작업시작시간");
+            dt.Columns.Add("작업종료시간");
+            dt.Columns.Add("작업시간(초)");
+            dt.Columns.Add("유휴시간(초)");
+            dt.Columns.Add("검사완료여부");
 
             string DataQuery = "SELECT * FROM carloDB.MF_LOG";
             MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
@@ -539,9 +561,9 @@ namespace ViewPort.Functions
             conn.Open();
             DataTable dt = new DataTable();
 
-            dt.Columns.Add("LotName");
-            dt.Columns.Add("LotImageCnt");
-            dt.Columns.Add("WorkImageCnt");
+            dt.Columns.Add("Lot명");
+            dt.Columns.Add("Lot이미지 수");
+            dt.Columns.Add("처리한 이미지 수");
 
             //dt.Columns["WorkType"].DataType = typeof(Enum);
 
@@ -566,28 +588,67 @@ namespace ViewPort.Functions
             conn.Open();
             DataTable dt = new DataTable();
 
-            dt.Columns.Add("idChar");
-            dt.Columns.Add("Authorization");
-            dt.Columns.Add("Password");
-            dt.Columns.Add("Name");
+            dt.Columns.Add("사원번호");
+            dt.Columns.Add("권한");
+            //dt.Columns.Add("Password");
+            dt.Columns.Add("이름");
 
-            dt.Columns["Authorization"].DataType = typeof(Enums.PERMISSION);
+            dt.Columns["권한"].DataType = typeof(Enums.PERMISSION);
 
-            string DataQuery = "SELECT * FROM carloDB.User";
+            string DataQuery = "SELECT * FROM carloDB.User WHERE Authorization != '" + Enums.PERMISSION.None.ToString() + "'";
             MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
             MySqlDataReader drdr = DataCommand.ExecuteReader();
             while (drdr.Read())
             {
                 string idChar = drdr["idChar"].ToString();
                 Enums.PERMISSION Authorization =(Enums.PERMISSION)Enum.Parse(typeof(Enums.PERMISSION),drdr["Authorization"].ToString());
-                string Password = drdr["Password"].ToString();
+                //string Password = drdr["Password"].ToString();
                 string Name = drdr["Name"].ToString();
                 //string Path = drdr["Path"].ToString();
 
-                dt.Rows.Add(idChar, Authorization, Password, Name);
+                dt.Rows.Add(idChar, Authorization, Name);
             }
             drdr.Dispose();
             return dt;
         }
+        public DataTable GetRegUser()
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("사원번호");
+            dt.Columns.Add("권한");        
+            dt.Columns.Add("이름");
+
+            dt.Columns["권한"].DataType = typeof(Enums.PERMISSION);
+
+            string DataQuery = "SELECT * FROM carloDB.User WHERE Authorization ='" + Enums.PERMISSION.None.ToString() + "'";
+            MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);
+            MySqlDataReader drdr = DataCommand.ExecuteReader();
+            while (drdr.Read())
+            {
+                string idChar = drdr["idChar"].ToString();
+                Enums.PERMISSION Authorization = (Enums.PERMISSION)Enum.Parse(typeof(Enums.PERMISSION), drdr["Authorization"].ToString());             
+                string Name = drdr["Name"].ToString();
+                //string Path = drdr["Path"].ToString();
+
+                dt.Rows.Add(idChar, Authorization, Name);
+            }
+            drdr.Dispose();
+            return dt;
+        }
+        public int GetNoneUser()
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+            int index = 0;
+            string DataQuery = "SELECT COUNT(*) FROM carloDB.User WHERE Authorization ='" + Enums.PERMISSION.None.ToString() + "'";
+            MySqlCommand DataCommand = new MySqlCommand(DataQuery, conn);           
+            index = Convert.ToInt32(DataCommand.ExecuteScalar());
+            DataCommand.Dispose();
+            return index;
+        }
+
     }
 }

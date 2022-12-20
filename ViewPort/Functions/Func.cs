@@ -203,6 +203,7 @@ namespace ViewPort.Functions
                 ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetMapFromPath(FilePath));
                 progressBar.Show();
                 progressBar.Text = "MapTXT Update...";
+                progressBar.SetProgressBarMaxSafe(100);
                 if (ImgEntry == null)
                 {
                     MessageBox.Show(MSG_STR.NONE_MAP_TXT);
@@ -698,8 +699,15 @@ namespace ViewPort.Functions
             Main.Waiting_Del = Waiting_Del;
             Main.Load_saveFile();
             }
-        public static void Coment_Insert_Alzip(string Coment, string FilePath)
+        public static void Worker_Insert_Alzip(string Coment, string FilePath)
         {
+            Random random = new Random();
+            string FakeSTR = string.Empty;
+            string OldData = string.Empty;
+            for(int i=0; i< 10; i++)
+            {
+                FakeSTR = FakeSTR + random.Next(100).ToString();
+            }
             
             // List<string> dic_ready = new List<string>();
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
@@ -712,9 +720,8 @@ namespace ViewPort.Functions
                     ImgEntry = zip.CreateEntry(Func.GetComentFromPath(FilePath));
                     using (StreamWriter SW = new StreamWriter(ImgEntry.Open()))
                     {
-                        
-                        SW.WriteLine(Coment);
-
+                        FakeSTR = FakeSTR + "," + Coment;
+                        SW.WriteLine(FakeSTR);
                     }
 
                     zip.Dispose();
@@ -723,26 +730,27 @@ namespace ViewPort.Functions
                 }
                 using (StreamReader SR = new StreamReader(ImgEntry.Open()))
                 {
-                   
-                    ComentData.AddRange(SR.ReadToEnd().Replace("\r\n", ",").Split(',').ToList());
-                    ComentData.RemoveAt(ComentData.Count - 1);
+
                     
-                    if (ComentData.Contains(Coment))
+                    //ComentData.RemoveAt(ComentData.Count - 1);
+                    OldData = SR.ReadToEnd();
+                    if (OldData.Contains(Coment))
                     {
                         return ;
                     }
-                    ComentData.Add("\r\n");
-                    ComentData.Add(Coment);
+                    // ComentData.Add("\r\n");
 
+                   
                 }
                
                   
                 using (StreamWriter SW = new StreamWriter(ImgEntry.Open()))
                 {
-                    foreach (string Com in ComentData)
-                    {
-                        SW.WriteLine(Com);
-                    };
+                    FakeSTR = FakeSTR + "," + Coment;
+                    SW.Write(OldData);
+                    SW.WriteLine(FakeSTR);
+                    
+                    
                 }
 
                  zip.Dispose();
@@ -750,6 +758,40 @@ namespace ViewPort.Functions
                
             }
             
+        }
+        public static void Coment_Insert_Alzip(string Coment, string FilePath)
+        {
+
+            // List<string> dic_ready = new List<string>();
+            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
+            {
+                ZipArchiveEntry ImgEntry;
+                string OldData = string.Empty;
+                List<string> b = new List<string>();
+                ImgEntry = zip.GetEntry(Func.GetComentFromPath(FilePath));
+                using (StreamReader SR = new StreamReader(ImgEntry.Open()))
+                {
+
+                    OldData= SR.ReadToEnd();
+                    //ComentData.RemoveAt(ComentData.Count - 1);
+
+                }
+
+
+                using (StreamWriter SW = new StreamWriter(ImgEntry.Open()))
+                {
+                    
+                    SW.Write(OldData);
+                    SW.WriteLine("@");                   
+                    SW.WriteLine(Coment);
+                    
+                }
+
+                zip.Dispose();
+
+
+            }
+
         }
         public static DataTable Get_Lot_WorkerList(string FilePath)
         {
@@ -761,8 +803,8 @@ namespace ViewPort.Functions
                 using (StreamReader SR = new StreamReader(ImgEntry.Open()))
                 {
 
-                    ComentData.AddRange(SR.ReadToEnd().Replace("\r\n", ",").Split(',').ToList());
-                    ComentData.RemoveAt(ComentData.Count - 1);
+                    ComentData.AddRange(SR.ReadToEnd().Split('@')[0].Replace("\r\n", ",").Split(',').ToList());
+                    //ComentData.RemoveAt(ComentData.Count - 1);
 
                    
                 }
@@ -785,7 +827,8 @@ namespace ViewPort.Functions
             try
             {
                 List<string> ReadText = new List<string>();
-                string deleteTxtPath = FilePath + @"\" + LotName + "_" + Worker + ".txt";
+                string reFilePath = FilePath.Replace("/", @"\");
+                string deleteTxtPath = reFilePath + @"\" + LotName + "_" + Worker + ".txt";
                 if (File.Exists(deleteTxtPath))
                 {
                     using (StreamReader SR = new StreamReader(deleteTxtPath))
@@ -818,6 +861,238 @@ namespace ViewPort.Functions
             catch
             {
 
+            }
+        }
+        public static string GetMachineName(string MachineData)
+        {
+            if(MachineData == MachineInfo.EAOI_2M_01)
+            {
+                return MachineInfo.EAOI_2M_01_STR;
+            }
+            else if(MachineData == MachineInfo.EAOI_2M_02)
+            {
+                return MachineInfo.EAOI_2M_02_STR;
+            }
+            else if (MachineData == MachineInfo.EAOI_2M_04)
+            {
+                return MachineInfo.EAOI_2M_04_STR;
+            }
+            else if (MachineData == MachineInfo.EAOI_2M_05)
+            {
+                return MachineInfo.EAOI_2M_05_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_01)
+            {
+                return MachineInfo.FVI_1M_01_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_02)
+            {
+                return MachineInfo.FVI_1M_02_STR;
+            }
+            else if(MachineData == MachineInfo.FVI_1M_03)
+            {
+                return MachineInfo.FVI_1M_03_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_04)
+            {
+                return MachineInfo.FVI_1M_04_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_05)
+            {
+                return MachineInfo.FVI_1M_05_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_06)
+            {
+                return MachineInfo.FVI_1M_06_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_07)
+            {
+                return MachineInfo.FVI_1M_07_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_08)
+            {
+                return MachineInfo.FVI_1M_08_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_09)
+            {
+                return MachineInfo.FVI_1M_09_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_10)
+            {
+                return MachineInfo.FVI_1M_10_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_11)
+            {
+                return MachineInfo.FVI_1M_11_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_12)
+            {
+                return MachineInfo.FVI_1M_12_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_13)
+            {
+                return MachineInfo.FVI_1M_13_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_14)
+            {
+                return MachineInfo.FVI_1M_14_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_15)
+            {
+                return MachineInfo.FVI_1M_15_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_16)
+            {
+                return MachineInfo.FVI_1M_16_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_17)
+            {
+                return MachineInfo.FVI_1M_17_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_18)
+            {
+                return MachineInfo.FVI_1M_18_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_19)
+            {
+                return MachineInfo.FVI_1M_19_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_20)
+            {
+                return MachineInfo.FVI_1M_20_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_21)
+            {
+                return MachineInfo.FVI_1M_21_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_22)
+            {
+                return MachineInfo.FVI_1M_22_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_23)
+            {
+                return MachineInfo.FVI_1M_23_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_24)
+            {
+                return MachineInfo.FVI_1M_24_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_25)
+            {
+                return MachineInfo.FVI_1M_25_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_30)
+            {
+                return MachineInfo.FVI_1M_30_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_33)
+            {
+                return MachineInfo.FVI_1M_33_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_35)
+            {
+                return MachineInfo.FVI_1M_35_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_1M_36)
+            {
+                return MachineInfo.FVI_1M_36_STR;
+
+            }
+            else if (MachineData == MachineInfo.FVI_2M_37)
+            {
+                return MachineInfo.FVI_2M_37_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_2M_38)
+            {
+                return MachineInfo.FVI_2M_38_STR;
+            }
+            else if (MachineData == MachineInfo.FVI_2M_39)
+            {
+                return MachineInfo.FVI_2M_39_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_01)
+            {
+                return MachineInfo.SOI_1M_01_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_02)
+            {
+                return MachineInfo.SOI_1M_02_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_03)
+            {
+                return MachineInfo.SOI_1M_03_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_04)
+            {
+                return MachineInfo.SOI_1M_04_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_05)
+            {
+                return MachineInfo.SOI_1M_05_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_06)
+            {
+                return MachineInfo.SOI_1M_06_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_07)
+            {
+                return MachineInfo.SOI_1M_07_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_08)
+            {
+                return MachineInfo.SOI_1M_08_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_09)
+            {
+                return MachineInfo.SOI_1M_09_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_10)
+            {
+                return MachineInfo.SOI_1M_10_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_11)
+            {
+                return MachineInfo.SOI_1M_11_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_1M_12)
+            {
+                return MachineInfo.SOI_1M_12_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_2M_01)
+            {
+                return MachineInfo.SOI_2M_01_STR;
+            }
+            else if (MachineData == MachineInfo.SOI_2M_02)
+            {
+                return MachineInfo.SOI_2M_02_STR;
+            }
+            else if (MachineData == MachineInfo.TOI_1M_01_A)
+            {
+                return MachineInfo.TOI_1M_01_A_STR;
+            }
+            else if (MachineData == MachineInfo.TOI_1M_01_B)
+            {
+                return MachineInfo.TOI_1M_01_B_STR;
+            }
+            else if (MachineData == MachineInfo.TOI_1M_02_A)
+            {
+                return MachineInfo.TOI_1M_02_A_STR;
+            }
+            else if (MachineData == MachineInfo.TOI_1M_02_B)
+            {
+                return MachineInfo.TOI_1M_02_B_STR;
+            }
+            else if (MachineData == MachineInfo.TOI_1M_03_A)
+            {
+                return MachineInfo.TOI_1M_03_A_STR;
+            }
+            else if (MachineData == MachineInfo.TOI_1M_03_B)
+            {
+                return MachineInfo.TOI_1M_03_B_STR;
+            }
+            else
+            {
+                return string.Empty;
             }
         }
 

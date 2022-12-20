@@ -25,6 +25,8 @@ namespace ViewPort.Views
             ImageViewer = image;
             ImageViewer.Manager = this;
             ImageViewer.Main.button1_Click(null, null);
+            ImageViewer.Main.EngrMode = true;
+            ImageViewer.Main.FI_RE_B.Enabled = true;
             this.Focus();
         }
 
@@ -315,9 +317,9 @@ namespace ViewPort.Views
 
         private void ManagerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ImageViewer.Main.EngrMode = false;
-            ImageViewer.Set_EngData(EQ_STR.DEFAULT, "12","7", "120", "120");
-            ImageViewer.Main.Eng_dicinfo.Clear();
+            //ImageViewer.Main.EngrMode = false;
+            //ImageViewer.Set_EngData(EQ_STR.DEFAULT, "12","7", "120", "120");
+           // ImageViewer.Main.Eng_dicinfo.Clear();
         }
     }
 }

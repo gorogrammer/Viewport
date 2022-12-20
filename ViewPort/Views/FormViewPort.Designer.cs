@@ -54,6 +54,7 @@
             this.listFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.frameListFilerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSavePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.좌표기준설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.중간저장ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.저장불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,16 +122,16 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.Manual_Mode_RB = new System.Windows.Forms.RadioButton();
             this.View_Mode_RB = new System.Windows.Forms.RadioButton();
-            this.EQ_Search_TB = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.EQ_Search_TB = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.iMGTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mAPTXTUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionNo = new MetroFramework.Controls.MetroLabel();
             this.LotIDProductName = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
@@ -257,6 +258,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label10.Location = new System.Drawing.Point(4, 234);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(78, 12);
@@ -393,7 +395,8 @@
             this.zipLoadFileToolStripMenuItem,
             this.listFilterToolStripMenuItem,
             this.frameListFilerToolStripMenuItem,
-            this.deleteSavePathToolStripMenuItem});
+            this.deleteSavePathToolStripMenuItem,
+            this.좌표기준설정ToolStripMenuItem});
             this.파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
             this.파일ToolStripMenuItem.ShowShortcutKeys = false;
             this.파일ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
@@ -402,30 +405,37 @@
             // zipLoadFileToolStripMenuItem
             // 
             this.zipLoadFileToolStripMenuItem.Name = "zipLoadFileToolStripMenuItem";
-            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zipLoadFileToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.zipLoadFileToolStripMenuItem.Text = "Zip Load File";
             this.zipLoadFileToolStripMenuItem.Click += new System.EventHandler(this.zipLoadFileToolStripMenuItem_Click);
             // 
             // listFilterToolStripMenuItem
             // 
             this.listFilterToolStripMenuItem.Name = "listFilterToolStripMenuItem";
-            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.listFilterToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.listFilterToolStripMenuItem.Text = "List Filter";
             this.listFilterToolStripMenuItem.Click += new System.EventHandler(this.listFilterToolStripMenuItem_Click);
             // 
             // frameListFilerToolStripMenuItem
             // 
             this.frameListFilerToolStripMenuItem.Name = "frameListFilerToolStripMenuItem";
-            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.frameListFilerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.frameListFilerToolStripMenuItem.Text = "Frame  List Filer";
             this.frameListFilerToolStripMenuItem.Click += new System.EventHandler(this.frameListFilerToolStripMenuItem_Click);
             // 
             // deleteSavePathToolStripMenuItem
             // 
             this.deleteSavePathToolStripMenuItem.Name = "deleteSavePathToolStripMenuItem";
-            this.deleteSavePathToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteSavePathToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.deleteSavePathToolStripMenuItem.Text = "DB Setting";
             this.deleteSavePathToolStripMenuItem.Click += new System.EventHandler(this.deleteSavePathToolStripMenuItem_Click);
+            // 
+            // 좌표기준설정ToolStripMenuItem
+            // 
+            this.좌표기준설정ToolStripMenuItem.Name = "좌표기준설정ToolStripMenuItem";
+            this.좌표기준설정ToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.좌표기준설정ToolStripMenuItem.Text = "좌표기준 설정";
+            this.좌표기준설정ToolStripMenuItem.Click += new System.EventHandler(this.좌표기준설정ToolStripMenuItem_Click);
             // 
             // 저장ToolStripMenuItem
             // 
@@ -526,14 +536,14 @@
             // 중간종료ToolStripMenuItem
             // 
             this.중간종료ToolStripMenuItem.Name = "중간종료ToolStripMenuItem";
-            this.중간종료ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.중간종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.중간종료ToolStripMenuItem.Text = "중간종료";
             this.중간종료ToolStripMenuItem.Click += new System.EventHandler(this.중간종료ToolStripMenuItem_Click);
             // 
             // 완전종료ToolStripMenuItem
             // 
             this.완전종료ToolStripMenuItem.Name = "완전종료ToolStripMenuItem";
-            this.완전종료ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.완전종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.완전종료ToolStripMenuItem.Text = "완전종료";
             this.완전종료ToolStripMenuItem.Click += new System.EventHandler(this.완전종료ToolStripMenuItem_Click);
             // 
@@ -600,7 +610,7 @@
             this.splitContainer3.Panel2.Controls.Add(this.panel5);
             this.splitContainer3.Panel2MinSize = 10;
             this.splitContainer3.Size = new System.Drawing.Size(330, 614);
-            this.splitContainer3.SplitterDistance = 588;
+            this.splitContainer3.SplitterDistance = 585;
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -621,8 +631,8 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
-            this.splitContainer5.Size = new System.Drawing.Size(330, 588);
-            this.splitContainer5.SplitterDistance = 453;
+            this.splitContainer5.Size = new System.Drawing.Size(330, 585);
+            this.splitContainer5.SplitterDistance = 450;
             this.splitContainer5.TabIndex = 0;
             // 
             // splitContainer7
@@ -639,8 +649,8 @@
             // splitContainer7.Panel2
             // 
             this.splitContainer7.Panel2.Controls.Add(this.splitContainer9);
-            this.splitContainer7.Size = new System.Drawing.Size(330, 453);
-            this.splitContainer7.SplitterDistance = 390;
+            this.splitContainer7.Size = new System.Drawing.Size(330, 450);
+            this.splitContainer7.SplitterDistance = 387;
             this.splitContainer7.TabIndex = 0;
             // 
             // splitContainer8
@@ -658,7 +668,7 @@
             // splitContainer8.Panel2
             // 
             this.splitContainer8.Panel2.Controls.Add(this.panel4);
-            this.splitContainer8.Size = new System.Drawing.Size(330, 390);
+            this.splitContainer8.Size = new System.Drawing.Size(330, 387);
             this.splitContainer8.SplitterDistance = 211;
             this.splitContainer8.TabIndex = 999;
             // 
@@ -711,7 +721,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(211, 390);
+            this.panel3.Size = new System.Drawing.Size(211, 387);
             this.panel3.TabIndex = 0;
             // 
             // MouseXY_FT_Y
@@ -887,6 +897,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(95, 20);
             this.comboBox1.TabIndex = 16;
+            this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
             // Height_TB
             // 
@@ -1021,7 +1032,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(115, 390);
+            this.panel4.Size = new System.Drawing.Size(115, 387);
             this.panel4.TabIndex = 0;
             // 
             // FI_RE_B
@@ -1196,24 +1207,18 @@
             this.View_Mode_RB.UseVisualStyleBackColor = true;
             this.View_Mode_RB.Click += new System.EventHandler(this.View_Mode_RB_Click);
             // 
-            // EQ_Search_TB
+            // panel5
             // 
-            this.EQ_Search_TB.Location = new System.Drawing.Point(94, 2);
-            this.EQ_Search_TB.Name = "EQ_Search_TB";
-            this.EQ_Search_TB.Size = new System.Drawing.Size(95, 21);
-            this.EQ_Search_TB.TabIndex = 37;
-            this.EQ_Search_TB.TextChanged += new System.EventHandler(this.EQ_Search_TB_TextChanged);
-            this.EQ_Search_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EQ_Search_TB_KeyDown);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(195, 2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(45, 21);
-            this.button4.TabIndex = 39;
-            this.button4.Text = "전체";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.panel5.Controls.Add(this.Select_Empty_BTN);
+            this.panel5.Controls.Add(this.label12);
+            this.panel5.Controls.Add(this.button4);
+            this.panel5.Controls.Add(this.EQ_Search_TB);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(0, 0);
+            this.panel5.MinimumSize = new System.Drawing.Size(330, 25);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(330, 28);
+            this.panel5.TabIndex = 0;
             // 
             // label12
             // 
@@ -1225,6 +1230,25 @@
             this.label12.Text = "■ 설비 검색";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label12.Click += new System.EventHandler(this.label12_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(195, 2);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(45, 21);
+            this.button4.TabIndex = 39;
+            this.button4.Text = "전체";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // EQ_Search_TB
+            // 
+            this.EQ_Search_TB.Location = new System.Drawing.Point(94, 2);
+            this.EQ_Search_TB.Name = "EQ_Search_TB";
+            this.EQ_Search_TB.Size = new System.Drawing.Size(95, 21);
+            this.EQ_Search_TB.TabIndex = 37;
+            this.EQ_Search_TB.TextChanged += new System.EventHandler(this.EQ_Search_TB_TextChanged);
+            this.EQ_Search_TB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EQ_Search_TB_KeyDown);
             // 
             // contextMenuStrip1
             // 
@@ -1265,19 +1289,6 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(0, 12);
             this.label13.TabIndex = 6;
-            // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.Select_Empty_BTN);
-            this.panel5.Controls.Add(this.label12);
-            this.panel5.Controls.Add(this.button4);
-            this.panel5.Controls.Add(this.EQ_Search_TB);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(0, 0);
-            this.panel5.MinimumSize = new System.Drawing.Size(330, 25);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(330, 25);
-            this.panel5.TabIndex = 0;
             // 
             // FormViewPort
             // 
@@ -1372,7 +1383,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 파일ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zipLoadFileToolStripMenuItem;
-        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer5;
@@ -1456,6 +1466,8 @@
         public System.Windows.Forms.TextBox MouseXY_FT_X;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Panel panel5;
+        public System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ToolStripMenuItem 좌표기준설정ToolStripMenuItem;
     }
 }
 

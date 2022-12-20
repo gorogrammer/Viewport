@@ -99,20 +99,20 @@ namespace ViewPort.Views
                 {
                     if (Main.EngrMode)
                     {
-                        Main.EngrMode = false;
+                       // Main.EngrMode = false;
                         EngState.Text = "OFF";
                         if (dL_Eng_Form != null)
                             dL_Eng_Form.Close();
                     }
                     else if (!Main.EngrMode)
                     {
-                        Main.EngrMode = true;
+                        //Main.EngrMode = true;
                         EngState.Text = "ON";
                         _ViewForm = new DB_ViewForm(ImageViewer,FilePath);                       
                        // List<string> dl = new List<string>();
                         //DBFunc dB = new DBFunc();
                         //dB.LimitSetting(dl);
-                        _ViewForm.ShowDialog();
+                        _ViewForm.Show();
                         this.Close();
                     }
                 }

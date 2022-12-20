@@ -16,6 +16,7 @@ namespace ViewPort.Functions
         }
         public enum PERMISSION
         {
+            None,
             admin,
             advanced,
             user

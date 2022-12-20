@@ -40,13 +40,13 @@ namespace SDIP.Forms
 
             if (db.DBConnection(TB_ID.Text, TB_PASSWORD.Text))
             {
-                if (db.Authorization == string.Empty)
+                UseInfomation.Authorization = db.Authorization;
+                if (db.Authorization == Enums.PERMISSION.None.ToString())
                 {
                     MessageBox.Show("관리자에게 승인요청 중 입니다.");
                     return;
                 }
                 UseInfomation.Name = db.Information;
-                UseInfomation.Authorization = db.Authorization;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

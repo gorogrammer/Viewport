@@ -41,6 +41,7 @@ namespace ViewPort
         EngrModeForm engMode;
         Dictionary<string, bool> EQ_RealData_DL = new Dictionary<string, bool>();
         Dictionary<string, bool> EQ_RealData_FT = new Dictionary<string, bool>();
+        Dictionary<string, bool> EQ_RealData_EG = new Dictionary<string, bool>();
         Dictionary<string, ImageInfo> eq_CB_dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> dicInfo_Copy = new Dictionary<string, ImageInfo>();
@@ -76,6 +77,7 @@ namespace ViewPort
         int Delete = 0;
         int infoListCount=0;
         int AllList = 0;
+        int px = 50;
         string machineName;
         List<int> exceed_List = new List<int>();
         int setting = 0;
@@ -102,6 +104,7 @@ namespace ViewPort
         List<string> All_VerifyDF_List = new List<string>();
         List<Tuple<string, int>> All_Equipment_DF_List = new List<Tuple<string, int>>();
         List<Tuple<string, int>> All_Equipment_FI_List = new List<Tuple<string, int>>();
+        List<Tuple<string, int>> All_Equipment_EG_List = new List<Tuple<string, int>>();
         List<Tuple<string, int>> All_Equipment_DF_List_DEL = new List<Tuple<string, int>>();
         List<Tuple<string, int>> code_200_List = new List<Tuple<string, int>>();
         List<int> MAP_LIST = new List<int>();
@@ -135,6 +138,7 @@ namespace ViewPort
         Dictionary<string, ImageInfo> checkEQ_Dic = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
+        Dictionary<string, ImageInfo> Sorted_dic_Eng = new Dictionary<string, ImageInfo>();
         Dictionary<string, ImageInfo> Sorted_dic_GRID = new Dictionary<string, ImageInfo>();
         Dictionary<int, int> Sorted_Map_dic = new Dictionary<int, int>();
         private int _load_State;
@@ -160,6 +164,7 @@ namespace ViewPort
         public string Between { get => between; set => between = value; }
         public List<Tuple<string, int>> CODE_200_List { get => code_200_List; set => code_200_List = value; }
         public int Setting { get => setting; set => setting = value; }
+        public int Px { get => px; set => px = value; }
         public int State_Filter { get => state_filter; set => state_filter = value; }
         public int ImageSize_Filter_NO { get => imageSize_Filter; set => imageSize_Filter = value; }
     
@@ -337,7 +342,14 @@ namespace ViewPort
         {
             Rotate_Option = Option;
         }
-
+        public void Eng_EQ_Setting()
+        {
+            open.Sorted_dic_Eng = new Dictionary<string, ImageInfo>(Eng_dicinfo);
+            Equipment_DF_CLB.SelectedValueChanged -= Equipment_DF_CLB_ItemCheck;
+            //FI_RE_B.Enabled = false;
+            EQ_Data_Update_eng(Eng_dicinfo);
+            Equipment_DF_CLB.SelectedValueChanged += Equipment_DF_CLB_ItemCheck;
+        }
         public void Print_List()
         {
             DataTable dt = (DataTable)dataGridView1.DataSource;
@@ -514,15 +526,27 @@ namespace ViewPort
             else if (XY_BT.Checked)
             {
                 Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                int maxX = return_dicInfo.Max(x => Int32.Parse(x.Value.X_Location)) / Px;
 
-                var sort = Return_dicInfo.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
-
-                if (SortXY_DIC_Load.Count == 0)
+                foreach (KeyValuePair<string, ImageInfo> pair in return_dicInfo)
                 {
-                    foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
-                    {
-                        SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
-                    }
+
+                    int x = Int32.Parse(pair.Value.X_Location) / Px;
+                    int y = Int32.Parse(pair.Value.Y_Location) / Px;
+
+                    int SortedXY = x * (maxX * 10) + y;
+
+                    pair.Value.SortedXY = SortedXY;
+
+
+                }
+                var keyValues = return_dicInfo.OrderBy(x => x.Value.SortedXY);
+                foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                {
+
+                    SortXY_DIC_Load.Add(pair.Key, pair.Value);
+
+
                 }
                 Return_dicInfo = SortXY_DIC_Load;
             }           
@@ -543,8 +567,11 @@ namespace ViewPort
             {
                 open.Set_Image();
             }
-               
-
+            Equipment_DF_CLB.SelectedValueChanged -= Equipment_DF_CLB_ItemCheck;
+            FI_RE_B.Enabled = false;
+            EQ_Data_Update(open.DicInfo_Filtered);
+            Equipment_DF_CLB.SelectedValueChanged += Equipment_DF_CLB_ItemCheck;
+            
 
 
             selected_Pic.Clear();
@@ -1031,95 +1058,108 @@ namespace ViewPort
                 //checkBox1.Checked = false;
                 //ImageSize_CB.Items.Clear();
                 //ImageSize_CB.Text = "";
-                if (FI_RE_B.Enabled)
+                if (EngrMode)
+                {
+                    Initial_Filter_Equipment_DF_EngList();
+                }
+                else if (FI_RE_B.Enabled)
                 {
                     Initial_Filter_Equipment_DF_FilterList();
                 }
+                
                 else
                 {
                     Initial_Equipment_DL_FilterList();
                 }
                
                     Exceed_CB.CheckState = CheckState.Unchecked;
-                    /*
-                    if (Frame_View_CB.Checked)
+                /*
+                if (Frame_View_CB.Checked)
+                {
+                    Frame_View_CB.Checked = false;
+                    Frame_S_Page_TB.Text = "";
+                    Frame_E_Page_TB.Text = "";
+                }
+
+                if(Frame_Interval_CB.Checked)
+                {
+                    Frame_E_TB.Enabled = true;
+                    Frame_E_TB.ReadOnly = true;
+                    Frame_E_TB.Text = "";
+                    Frame_Interval_CB.CheckState = CheckState.Unchecked;
+
+                }
+                //eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
+
+                if (Waiting_Del.Count > 0)
+                {
+                    foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
+                        eq_CB_dicInfo.Remove(kvp.Key);
+
+                }
+                /*
+                if (Camera_NO_Filter_TB.Text != "")
+                {
+                    string[] Split_String = null;
+                    Split_String = Camera_NO_Filter_TB.Text.Split(',');
+
+
+                    foreach (string No in eq_CB_dicInfo.Keys.ToList())
                     {
-                        Frame_View_CB.Checked = false;
-                        Frame_S_Page_TB.Text = "";
-                        Frame_E_Page_TB.Text = "";
-                    }
-
-                    if(Frame_Interval_CB.Checked)
-                    {
-                        Frame_E_TB.Enabled = true;
-                        Frame_E_TB.ReadOnly = true;
-                        Frame_E_TB.Text = "";
-                        Frame_Interval_CB.CheckState = CheckState.Unchecked;
-
-                    }
-                    //eq_CB_dicInfo = new Dictionary<string, ImageInfo>(dicInfo);
-
-                    if (Waiting_Del.Count > 0)
-                    {
-                        foreach (KeyValuePair<string, ImageInfo> kvp in Waiting_Del)
-                            eq_CB_dicInfo.Remove(kvp.Key);
-
-                    }
-                    /*
-                    if (Camera_NO_Filter_TB.Text != "")
-                    {
-                        string[] Split_String = null;
-                        Split_String = Camera_NO_Filter_TB.Text.Split(',');
-
-
-                        foreach (string No in eq_CB_dicInfo.Keys.ToList())
+                        if (open.DicInfo_Filtered.ContainsKey(No))
                         {
-                            if (open.DicInfo_Filtered.ContainsKey(No))
+                            if (Split_String.Contains(open.DicInfo_Filtered[No].CameraNo.ToString()))
                             {
-                                if (Split_String.Contains(open.DicInfo_Filtered[No].CameraNo.ToString()))
-                                {
-                                    continue;
-                                }
-                                else
-                                    open.DicInfo_Filtered.Remove(No);
+                                continue;
                             }
-
+                            else
+                                open.DicInfo_Filtered.Remove(No);
                         }
 
                     }
 
-                    if (comboBox1.SelectedItem != "")
+                }
+
+                if (comboBox1.SelectedItem != "")
+                {
+                    if (comboBox1.SelectedItem == "양품" || comboBox1.SelectedItem == "선택")
                     {
-                        if (comboBox1.SelectedItem == "양품" || comboBox1.SelectedItem == "선택")
+
+
+                        foreach (string pair in eq_CB_dicInfo.Keys.ToList())
                         {
-
-
-                            foreach (string pair in eq_CB_dicInfo.Keys.ToList())
+                            if (open.DicInfo_Filtered[pair].ReviewDefectName == comboBox1.SelectedItem)
                             {
-                                if (open.DicInfo_Filtered[pair].ReviewDefectName == comboBox1.SelectedItem)
-                                {
 
-                                }
-                                else
-                                {
-                                    open.DicInfo_Filtered.Remove(pair);
-                                }
                             }
-
-
-
+                            else
+                            {
+                                open.DicInfo_Filtered.Remove(pair);
+                            }
                         }
-                        else
-                        {
-                            comboBox1.SelectedItem = "";
-                            MessageBox.Show("양품 or 선택으로 입력.");
-                            State_Filter = 0;
 
-                        }
+
+
                     }
-                    */
-                    Sorted_dic = eq_CB_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);           
+                    else
+                    {
+                        comboBox1.SelectedItem = "";
+                        MessageBox.Show("양품 or 선택으로 입력.");
+                        State_Filter = 0;
+
+                    }
+                }
+                */
+                if (EngrMode)
+                {
+                    Sorted_dic = eq_CB_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    Eng_dicinfo = eq_CB_dicInfo;
+                }
+                else
+                {
+                    Sorted_dic = eq_CB_dicInfo.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
                     open.DicInfo_Filtered = Sorted_dic;
+                }
                     //Eq_Filter_after_Print_List();
                     open.Main = this;
                    // open.Eq_CB_Set_View();
@@ -1223,10 +1263,63 @@ namespace ViewPort
 
 
         }
+        private void Initial_Filter_Equipment_DF_EngList()
+        {
+            try
+            {
+                for (int i = 0; i < EQ_RealData_EG.Count; i++)
+                {
+                    if (EQ_RealData_EG[EQ_RealData_EG.Keys.ElementAt(i)] == true)
+                    {
+                        foreach (KeyValuePair<string, ImageInfo> pair in open.Sorted_dic_Eng)
+                        {
+
+                            if (pair.Value.EquipmentDefectName == EQ_RealData_EG.Keys.ElementAt(i))
+                            {
+                                if (Eq_CB_dicInfo.ContainsKey(pair.Key) == false)
+                                    Eq_CB_dicInfo.Add(pair.Key, pair.Value);
+                            }
+
+                        }
+                    }
+
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Test");
+            }
+
+
+        }
 
         private void Equipment_DF_CLB_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (FI_RE_B.Enabled) 
+            if (EngrMode)
+            {
+                for (int i = 0; i < EQ_RealData_EG.Count; i++)
+                {
+                    for (int j = 0; j < Equipment_DF_CLB.Items.Count; j++)
+                    {
+                        if (Equipment_DF_CLB.Items[j].ToString().Split('-').Length > 2)
+                        {
+                            if (EQ_RealData_EG.Keys.ElementAt(i) == Equipment_DF_CLB.Items[j].ToString().Split('-')[0] + "-" + Equipment_DF_CLB.Items[j].ToString().Split('-')[1])
+                            {
+                                EQ_RealData_EG[EQ_RealData_EG.Keys.ElementAt(i)] = Equipment_DF_CLB.GetItemChecked(j);
+                            }
+                        }
+                        else
+                        {
+                            if (EQ_RealData_EG.Keys.ElementAt(i) == Equipment_DF_CLB.Items[j].ToString().Split('-')[0])
+                            {
+                                EQ_RealData_EG[EQ_RealData_EG.Keys.ElementAt(i)] = Equipment_DF_CLB.GetItemChecked(j);
+                            }
+                        }
+
+                    }
+                }
+            }
+            else if (FI_RE_B.Enabled) 
             {
                 for (int i = 0; i < EQ_RealData_FT.Count; i++)
                 {
@@ -1371,7 +1464,10 @@ namespace ViewPort
 
             Equipment_DF_CLB_SelectedValueChanged(null, null);
             _filterAct_bt_Click();
-            open.Set_View();
+            if (EngrMode)
+                open.Eng_Set_View();
+            else
+                open.Set_View();
         }
 
         public void ZipLoadFile_Viewmode()
@@ -1631,18 +1727,38 @@ namespace ViewPort
 
 
         }
-        public void XYMode_Sort()
+        public void XYMode_Sort(int pxi)
         {
             if (XY_BT.Checked)
             {
+                int px = pxi * 10;
+                int X = px;
+                int Y = px;
+                int MaxCheckY = 0;
+                int MaxCheckX = 0;
+                int SortedXY = 0;
                 Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                int maxX = DicInfo.Max(x => Int32.Parse(x.Value.X_Location)) /Px;
                 
-                var sort = dicInfo.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
-
-
-                foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
+                foreach (KeyValuePair<string, ImageInfo> pair in DicInfo)
                 {
-                    SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
+
+                    int x = Int32.Parse(pair.Value.X_Location) / Px;
+                    int y = Int32.Parse(pair.Value.Y_Location) / Px;
+
+                    SortedXY = x * (maxX * 10 )+ y;
+
+                    pair.Value.SortedXY = SortedXY;
+
+                    
+                }
+                var keyValues = DicInfo.OrderBy(x => x.Value.SortedXY);
+                foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                {
+
+                    SortXY_DIC_Load.Add(pair.Key, pair.Value);
+
+
                 }
                 dicInfo = SortXY_DIC_Load;
             }
@@ -1746,8 +1862,38 @@ namespace ViewPort
             }
 
             Select_All_BTN_Click(null, null);
-            Equipment_DF_CLB_SelectedValueChanged(null, null);
+           // Equipment_DF_CLB_SelectedValueChanged(null, null);
         }
+        public void EQ_Data_Update_eng(Dictionary<string, ImageInfo> dic)
+        {
+            int sum = 0;
+            All_Equipment_EG_List.Clear();
+            foreach (ImageInfo imageInfo in dic.Values)
+            {
+                int x = 1;
+                int index = 0;
+                if (All_Equipment_EG_List.FindIndex(s => s.Item1.Equals(imageInfo.EquipmentDefectName)) == -1)
+                    All_Equipment_EG_List.Add(new Tuple<string, int>(imageInfo.EquipmentDefectName, x));
+                else
+                {
+                    index = All_Equipment_EG_List.FindIndex(s => s.Item1.Equals(imageInfo.EquipmentDefectName));
+                    x = All_Equipment_EG_List[index].Item2;
+                    All_Equipment_EG_List[index] = new Tuple<string, int>(imageInfo.EquipmentDefectName, ++x);
+
+                }
+
+            }
+            Equipment_DF_CLB.Items.Clear();
+            for (int i = 0; i < All_Equipment_EG_List.Count; i++)
+            {
+                Equipment_DF_CLB.Items.Add(All_Equipment_EG_List.ElementAt(i).Item1 + "-" + All_Equipment_EG_List.ElementAt(i).Item2);
+                sum = sum + All_Equipment_EG_List.ElementAt(i).Item2;
+            }
+
+            Select_All_BTN_Click(null, null);
+            //Equipment_DF_CLB_SelectedValueChanged(null, null);
+        }
+
         public void zipLoadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -1958,52 +2104,43 @@ namespace ViewPort
 
                         }
                         this.Activate();
-                        if (MessageBox.Show("작업을 시작하시겠습니까 ?", "Yes or No", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+                        ProgressBar1 progressbar = new ProgressBar1();
+                        progressbar.Show();
+                        progressbar.SetProgressBarMaxSafe(100);
+                        progressbar.Text = "DB Data Loading..";
+                        DES des = new DES("carlo123");
+                        string LotImageCnt = (DicInfo.Count + delete).ToString();
+                        string WorkTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        db.DBLogUpLoad(false, LotName, Information.Name, string.Empty, string.Empty, WorkTime, "0", false.ToString());
+                        db.DB_MF_LOT_UpLoad(LotName, LotImageCnt, Delete.ToString());
+                        db.GetDeletePathData(MachineName);
+                        Information.DeletePath = db.DeletePath;
+                        Information.WorkTime = WorkTime;
+                        Information.EndWorker = db.EndWorke;
+                        //if (!db.EndTime.Contains("0001"))
+                        //   Information.EndTime = db.EndTime;
+                        Information.TimeTaken = db.TimeTaken;
+                        Information.LotImageCnt = db.LotImageCnt;
+                        Information.WorkImageCnt = db.WorkImageCnt;
+                        Information.IdleWork = db.IdleWork;
+                        string encrypt = des.result(DesType.Encrypt, Information.Name);
+                        progressbar.tabProgressBarSafe(50);
+                        Func.Worker_Insert_Alzip(encrypt, zipFilePath);
+                        if (SDIPDeleteCount == 0 && dicTxt_info.Count == 0 && Information.WorkImageCnt != string.Empty)
                         {
-                            ProgressBar1 progressbar = new ProgressBar1();
-                            progressbar.Show();
-                            progressbar.SetProgressBarMaxSafe(100);
-                            progressbar.Text = "DB Data Loading..";
-                            DES des = new DES("carlo123");
-                            string LotImageCnt = (DicInfo.Count + delete).ToString();
-                            string WorkTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            db.DBLogUpLoad(false, LotName, Information.Name, string.Empty, string.Empty, WorkTime, "0", false.ToString());
-                            db.DB_MF_LOT_UpLoad(LotName, LotImageCnt, Delete.ToString());
-                            db.GetDeletePathData(MachineName);
-                            Information.DeletePath = db.DeletePath;
-                            Information.WorkTime = WorkTime;
-                            Information.EndWorker = db.EndWorke;
-                            //if (!db.EndTime.Contains("0001"))
-                            //   Information.EndTime = db.EndTime;
-                            Information.TimeTaken = db.TimeTaken;
-                            Information.LotImageCnt = db.LotImageCnt;
-                            Information.WorkImageCnt = db.WorkImageCnt;
-                            Information.IdleWork = db.IdleWork;
-                            string encrypt = des.result(DesType.Encrypt, Information.Name);
-                            progressbar.tabProgressBarSafe(50);
-                            Func.Coment_Insert_Alzip(encrypt, zipFilePath);
-                            if (SDIPDeleteCount == 0 && dicTxt_info.Count == 0 && Information.WorkImageCnt != string.Empty)
-                            {
-                                delete = int.Parse(Information.WorkImageCnt);
-                            }
-                            progressbar.tabProgressBarSafe(50);
-                            open.OpenFilterType = "NoneFilter";
-                            open.Main = this;
-                            open.Set_View();
-                            Print_List();
-                            Setting = 1;
-                            open.Setting = Setting;
-                            progressbar.ExitProgressBarSafe();
-                            LimitAlarm();
-                            UpdateDeleteText();
-                            InfoListCount = dicInfo.Count;
-
+                            delete = int.Parse(Information.WorkImageCnt);
                         }
-                        else
-                        {
-                            All_Clear();
-                            return;
-                        }
+                        progressbar.tabProgressBarSafe(50);
+                        open.OpenFilterType = "NoneFilter";
+                        open.Main = this;
+                        open.Set_View();
+                        Print_List();
+                        Setting = 1;
+                        open.Setting = Setting;
+                        progressbar.ExitProgressBarSafe();
+                        LimitAlarm();
+                        UpdateDeleteText();
+                        InfoListCount = dicInfo.Count;
 
                     }
 
@@ -2025,6 +2162,7 @@ namespace ViewPort
         {
             EQ_RealData_DL.Clear();
             EQ_RealData_FT.Clear();
+            EQ_RealData_EG.Clear();
             foreach (int index in Equipment_DF_CLB.CheckedIndices)
             {
 
@@ -2032,6 +2170,8 @@ namespace ViewPort
                     {
                         EQ_RealData_DL.Add(Equipment_DF_CLB.Items[index].ToString().Split('-')[0] + "-" + Equipment_DF_CLB.Items[index].ToString().Split('-')[1],true);
                         EQ_RealData_FT.Add(Equipment_DF_CLB.Items[index].ToString().Split('-')[0] + "-" + Equipment_DF_CLB.Items[index].ToString().Split('-')[1], true);
+                        EQ_RealData_EG.Add(Equipment_DF_CLB.Items[index].ToString().Split('-')[0] + "-" + Equipment_DF_CLB.Items[index].ToString().Split('-')[1], true);
+
                     }
                     else
                     {
@@ -2039,6 +2179,8 @@ namespace ViewPort
                         EQ_RealData_DL.Add(Equipment_DF_CLB.Items[index].ToString().Split('-')[0],true);
                         if(!EQ_RealData_FT.ContainsKey(Equipment_DF_CLB.Items[index].ToString().Split('-')[0]))
                         EQ_RealData_FT.Add(Equipment_DF_CLB.Items[index].ToString().Split('-')[0], true);
+                        if (!EQ_RealData_EG.ContainsKey(Equipment_DF_CLB.Items[index].ToString().Split('-')[0]))
+                        EQ_RealData_EG.Add(Equipment_DF_CLB.Items[index].ToString().Split('-')[0], true);
                     }  
                 
 
@@ -2576,16 +2718,20 @@ namespace ViewPort
             if (Frame_View_CB.Checked)
                 open.Frame_Cheked_State_DF();
             else
-                open.Cheked_State_DF();
+                open.Cheked_State_DF(); 
         }
 
         private void Print_Image_Name_CheckedChanged(object sender, EventArgs e)
         {
-
-            if (Frame_View_CB.Checked)
-                open.Frame_Cheked_State_DF();
+            if (!EngrMode)
+            {
+                if (Frame_View_CB.Checked)
+                    open.Frame_Cheked_State_DF();
+                else
+                    open.Cheked_State_DF();
+            }
             else
-                open.Cheked_State_DF();
+                open.EngMode_change_Glass();
 
 
         }
@@ -2697,9 +2843,15 @@ namespace ViewPort
             open.Filter_F = 0;
             open.OpenFilterType = "NoneFilter";
             label5.ForeColor = Color.Black;
+            label5.Font = new Font("굴림", 9, FontStyle.Regular);
             label6.ForeColor = Color.Black;
+            label6.Font = new Font("굴림", 9, FontStyle.Regular);
             label10.ForeColor = Color.Black;
+            label10.Font = new Font("굴림", 9, FontStyle.Regular);
             label16.ForeColor = Color.Black;
+            label16.Font = new Font("굴림", 9, FontStyle.Regular);
+            label14.ForeColor = Color.Black;
+            label14.Font = new Font("굴림", 9, FontStyle.Regular);
             comboBox1.SelectedItem = "";
             EQ_Search_TB.Text = "";
             Frame_S_TB.Text = "";
@@ -2812,18 +2964,11 @@ namespace ViewPort
                 }
                 else
                 {
-                    if (MessageBox.Show("프로그램을 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-                    {
-
+                    
                         //notifyIcon1.Visible = false;
                         Dispose(true);
 
-                    }
-                    else
-                    {
-                        e.Cancel = true;
-                        return;
-                    }
+                    
                 }
                 
 
@@ -3012,7 +3157,22 @@ namespace ViewPort
             string txt = EQ_Search_TB.Text;
             txt = txt.ToUpper();
             Equipment_DF_CLB.Items.Clear();
-            if (FI_RE_B.Enabled)
+            if (EngrMode)
+            {
+                for (int i = 0; i < All_Equipment_EG_List.Count; i++)
+                {
+
+                    if (All_Equipment_EG_List[i].Item1.Contains(txt))
+                    {
+                        Equipment_DF_CLB.Items.Add(All_Equipment_EG_List.ElementAt(i).Item1 + "-" + All_Equipment_EG_List.ElementAt(i).Item2);
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            else if (FI_RE_B.Enabled)
             {
                 for (int i = 0; i < All_Equipment_FI_List.Count; i++)
                 {
@@ -3046,7 +3206,11 @@ namespace ViewPort
         {
             Eq_filter = 0;
             EQ_Search_TB.Text = null;
-            if (FI_RE_B.Enabled)
+            if (EngrMode)
+            {
+                EQ_Data_Update_eng(open.Sorted_dic_Eng);
+            }
+            else if (FI_RE_B.Enabled)
                 EQ_Data_Update(Filter_CheckEQ_Dic);
 
             else
@@ -3062,7 +3226,10 @@ namespace ViewPort
                 Equipment_DF_CLB_SelectedValueChanged(null, null);
             }
             _filterAct_bt_Click();
-            open.Set_View();
+            if (EngrMode)
+                open.Eng_Set_View();
+            else
+                open.Set_View();
         }
 
         private void 번코드변경ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3721,11 +3888,13 @@ namespace ViewPort
                 else
                     open.EngMode_change_Glass();
             else
-                
-            if (!EngrMode)
-                open.Cheked_State_DF();
-            else
-                open.EngMode_change_Glass();
+            {
+
+                if (!EngrMode)
+                    open.Cheked_State_DF();
+                else
+                    open.EngMode_change_Glass();
+            }
         }
 
         private void Exceed_CB_CheckedChanged(object sender, EventArgs e)
@@ -4374,200 +4543,169 @@ namespace ViewPort
                         Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(before_dic);
                         State_Filter = 1;
                         //EQ 필터체크
-                        if (XY_FT_X.Text != "" && textBox1.Text != "" && filterMode != Enums.FILTERTYPE.XY && OLD_XY_X.Text != "" && OLD_XY_Y.Text != "")
+                        if (XY_FT_X.Text != "" && textBox1.Text != "" && OLD_XY_X.Text != "" && OLD_XY_Y.Text != "")
                         {
-                            filterMode = Enums.FILTERTYPE.XY;
-                            open.OpenFilterType = "Filter";
-                            open.Befroe_X = int.Parse(XY_FT_X.Text);
-                            open.Before_Y = int.Parse(textBox1.Text);
-                            if (Sdip_200_code_dicInfo.ContainsKey(before_dic.ElementAt(0).Key))
+                            if (filterMode != Enums.FILTERTYPE.XY)
                             {
-                                Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(Sdip_200_code_dicInfo);
+                                filterMode = Enums.FILTERTYPE.XY;
+                                open.OpenFilterType = "Filter";
+                                open.Befroe_X = int.Parse(XY_FT_X.Text);
+                                open.Before_Y = int.Parse(textBox1.Text);
+                                if (Sdip_200_code_dicInfo.ContainsKey(before_dic.ElementAt(0).Key))
+                                {
+                                    Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(Sdip_200_code_dicInfo);
+                                }
+                                foreach (string id in Filter_CheckEQ_Dic.Keys.ToList())
+                                {
+                                    if (int.Parse(M_TB.Text) == int.Parse(Filter_CheckEQ_Dic[id].Master_NO)
+                                        && int.Parse(OLD_XY_X.Text) - int.Parse(XY_FT_X.Text) <= int.Parse(Filter_CheckEQ_Dic[id].X_Location) && int.Parse(Filter_CheckEQ_Dic[id].X_Location) <= int.Parse(OLD_XY_X.Text) + int.Parse(XY_FT_X.Text)
+                                        && int.Parse(OLD_XY_Y.Text) - int.Parse(textBox1.Text) <= int.Parse(Filter_CheckEQ_Dic[id].Y_Location) && int.Parse(Filter_CheckEQ_Dic[id].Y_Location) <= int.Parse(OLD_XY_Y.Text) + int.Parse(textBox1.Text))
+                                        continue;
+                                    else
+                                        Filter_CheckEQ_Dic.Remove(id);
+                                }
+                                label14.ForeColor = Color.LightGreen;
+                                label14.Font = new Font("굴림", 9, FontStyle.Bold);
+                                label16.ForeColor = Color.LightGreen;
+                                label16.Font = new Font("굴림", 9, FontStyle.Bold);
                             }
-                            foreach (string id in Filter_CheckEQ_Dic.Keys.ToList())
-                            {
-                                if (int.Parse(M_TB.Text) == int.Parse(Filter_CheckEQ_Dic[id].Master_NO)
-                                    && int.Parse(OLD_XY_X.Text) - int.Parse(XY_FT_X.Text) <= int.Parse(Filter_CheckEQ_Dic[id].X_Location) && int.Parse(Filter_CheckEQ_Dic[id].X_Location) <= int.Parse(OLD_XY_X.Text) + int.Parse(XY_FT_X.Text)
-                                    && int.Parse(OLD_XY_Y.Text) - int.Parse(textBox1.Text) <= int.Parse(Filter_CheckEQ_Dic[id].Y_Location) && int.Parse(Filter_CheckEQ_Dic[id].Y_Location) <= int.Parse(OLD_XY_Y.Text) + int.Parse(textBox1.Text))
-                                    continue;
-                                else
-                                    Filter_CheckEQ_Dic.Remove(id);
-                            }
-                            label16.ForeColor = Color.LightGreen;
                         }
                         else
                         {
+                            label14.Font = new Font("굴림", 9, FontStyle.Regular);
+                            label16.Font = new Font("굴림", 9, FontStyle.Regular);
+                            label14.ForeColor = Color.Black;
                             label16.ForeColor = Color.Black;
                         }
-                        if (Frame_S_TB.Text != "" && filterMode != Enums.FILTERTYPE.Frame)
+                        if (Frame_S_TB.Text != "")
                         {
-                            int Num;
-
-                            if (!int.TryParse(Frame_S_TB.Text, out Num))
+                            if (filterMode != Enums.FILTERTYPE.Frame)
                             {
-                                MessageBox.Show("입력을 숫자로 부탁드립니다.");
-                                Frame_S_TB.Text = "";
-                                // open.DicInfo_Filtered = before_dic;
-                                // open.Set_View();
-                                // State_Filter = 0;
-                                // Print_List();
 
-                                return;
-                            }
-                            filterMode = Enums.FILTERTYPE.Frame;
-                            open.OpenFilterType = "Filter";
-                            foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
-                            {
-                                if (filter_List.Contains(Filter_CheckEQ_Dic[pair].FrameNo))
+                                int Num;
+
+                                if (!int.TryParse(Frame_S_TB.Text, out Num))
                                 {
+                                    MessageBox.Show("입력을 숫자로 부탁드립니다.");
+                                    Frame_S_TB.Text = "";
+                                    // open.DicInfo_Filtered = before_dic;
+                                    // open.Set_View();
+                                    // State_Filter = 0;
+                                    // Print_List();
 
+                                    return;
+                                }
+                                filterMode = Enums.FILTERTYPE.Frame;
+                                open.OpenFilterType = "Filter";
+                                foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
+                                {
+                                    if (filter_List.Contains(Filter_CheckEQ_Dic[pair].FrameNo))
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        filter_List.Add(Filter_CheckEQ_Dic[pair].FrameNo);
+
+                                    }
+                                }
+                                label5.ForeColor = Color.LightGreen;
+                                label5.Font = new Font("굴림", 9, FontStyle.Bold);
+                                if (Frame_Interval_CB.Checked)
+                                {
+                                    open.sorted_dic = new Dictionary<string, ImageInfo>(Filter_CheckEQ_Dic);
+                                    open.Frame_Filter(int.Parse(Frame_S_TB.Text));
+                                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(Filter_CheckEQ_Dic);
+                                }
+                                else if (filter_List.Contains(int.Parse(Frame_S_TB.Text)))
+                                {
+                                    open.Frame_Filter(int.Parse(Frame_S_TB.Text));
+                                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(Filter_CheckEQ_Dic);
                                 }
                                 else
                                 {
-                                    filter_List.Add(Filter_CheckEQ_Dic[pair].FrameNo);
+
+                                    MessageBox.Show("해당 프레임은 존재하지 않습니다.");
+                                    Frame_S_TB.Text = Frame_E_TB.Text;
+                                    // open.DicInfo_Filtered = before_dic;
+                                    open.OpenFilterType = "Filter";
+                                    //  open.Set_View();
+                                    //  Print_List();
+                                    State_Filter = 0;
+                                    label5.ForeColor = Color.Black;
+                                    label5.Font = new Font("굴림", 9, FontStyle.Regular);
 
                                 }
-                            }
-                            label5.ForeColor = Color.LightGreen;
-                            if (Frame_Interval_CB.Checked)
-                            {
-                                open.sorted_dic = new Dictionary<string, ImageInfo>(Filter_CheckEQ_Dic);
-                                open.Frame_Filter(int.Parse(Frame_S_TB.Text));
-                                open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(Filter_CheckEQ_Dic);
-                            }
-                            else if (filter_List.Contains(int.Parse(Frame_S_TB.Text)))
-                            {
-                                open.Frame_Filter(int.Parse(Frame_S_TB.Text));
-                                open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(Filter_CheckEQ_Dic);
-                            }
-                            else
-                            {
-
-                                MessageBox.Show("해당 프레임은 존재하지 않습니다.");
-                                Frame_S_TB.Text = Frame_E_TB.Text;
-                                // open.DicInfo_Filtered = before_dic;
-                                open.OpenFilterType = "Filter";
-                                //  open.Set_View();
-                                //  Print_List();
-                                State_Filter = 0;
-                                label5.ForeColor = Color.Black;
-
                             }
                             //  Filter_CheckEQ_Dic.Clear();
                         }
                         else
                         {
                             label5.ForeColor = Color.Black;
+                            label5.Font = new Font("굴림", 9, FontStyle.Regular);
                         }
-                        if (Camera_NO_Filter_TB.Text != "" && filterMode != Enums.FILTERTYPE.Camera)
+                        if (Camera_NO_Filter_TB.Text != "")
                         {
-                            string[] Split_String = null;
-                            Split_String = Camera_NO_Filter_TB.Text.Split(',');
-                            List<string> Camera_Filter = new List<string>();
-                            foreach (string No in Filter_CheckEQ_Dic.Keys.ToList())
+                            if (filterMode != Enums.FILTERTYPE.Camera)
                             {
-                                if (Filter_CheckEQ_Dic.ContainsKey(No))
+                                string[] Split_String = null;
+                                Split_String = Camera_NO_Filter_TB.Text.Split(',');
+                                List<string> Camera_Filter = new List<string>();
+                                foreach (string No in Filter_CheckEQ_Dic.Keys.ToList())
                                 {
-                                    if (Split_String.Contains(Filter_CheckEQ_Dic[No].CameraNo.ToString()))
+                                    if (Filter_CheckEQ_Dic.ContainsKey(No))
                                     {
-                                        Camera_Filter.Add(No);
-                                    }
-                                    else
-                                    {
+                                        if (Split_String.Contains(Filter_CheckEQ_Dic[No].CameraNo.ToString()))
+                                        {
+                                            Camera_Filter.Add(No);
+                                        }
+                                        else
+                                        {
+
+                                        }
 
                                     }
+                                }
+
+
+
+
+                                if (Camera_Filter.Count == 0)
+                                {
+                                    //  Filter_CheckEQ_Dic = before_dic;
+                                    MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                                    State_Filter = 0;
+                                    Camera_NO_Filter_TB.Text = "";
+                                    label6.ForeColor = Color.Black;
+                                    label6.Font = new Font("굴림", 9, FontStyle.Regular);
+                                }
+
+                                else if (Camera_Filter.Count > 0)
+                                {
+                                    open.OpenFilterType = "Filter";
+                                    filterMode = Enums.FILTERTYPE.Camera;
+                                    Dictionary<string, ImageInfo> data = new Dictionary<string, ImageInfo>();
+
+
+                                    foreach (string No in Camera_Filter)
+                                    {
+                                        data.Add(No, Filter_CheckEQ_Dic[No]);
+                                    }
+                                    Filter_CheckEQ_Dic = data;
+                                    open.DicInfo_Filtered = Filter_CheckEQ_Dic;
 
                                 }
+                                label6.ForeColor = Color.LightGreen;
+                                label6.Font = new Font("굴림", 7, FontStyle.Bold);
                             }
-
-
-
-
-                            if (Camera_Filter.Count == 0)
-                            {
-                                //  Filter_CheckEQ_Dic = before_dic;
-                                MessageBox.Show("해당 카메라 이미지가 없습니다.");
-                                State_Filter = 0;
-                                Camera_NO_Filter_TB.Text = "";
-                                label6.ForeColor = Color.Black;
-                            }
-
-                            else if (Camera_Filter.Count > 0)
-                            {
-                                open.OpenFilterType = "Filter";
-                                filterMode = Enums.FILTERTYPE.Camera;
-                                Dictionary<string, ImageInfo> data = new Dictionary<string, ImageInfo>();
-
-
-                                foreach (string No in Camera_Filter)
-                                {
-                                    data.Add(No, Filter_CheckEQ_Dic[No]);
-                                }
-                                Filter_CheckEQ_Dic = data;
-                                open.DicInfo_Filtered = Filter_CheckEQ_Dic;
-
-                            }
-                            label6.ForeColor = Color.LightGreen;
                         }
                         else
                         {
                             label6.ForeColor = Color.Black;
+                            label6.Font = new Font("굴림", 9, FontStyle.Regular);
                         }
 
-                        if ((string)comboBox1.SelectedItem != "" && filterMode != Enums.FILTERTYPE.State)
-                        {
-                            List<string> state_Filter = new List<string>();
-                            if ((string)comboBox1.SelectedItem == "양품" || (string)comboBox1.SelectedItem == "선택")
-                            {
 
-
-                                foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
-                                {
-                                    if (Filter_CheckEQ_Dic[pair].ReviewDefectName == (string)comboBox1.SelectedItem)
-                                    {
-                                        state_Filter.Add(pair);
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                }
-
-
-
-                            }
-                            else
-                            {
-                                comboBox1.SelectedItem = "";
-                                //MessageBox.Show("양품 or 선택으로 입력.");
-                                State_Filter = 0;
-                                //Filter_CheckEQ_Dic = before_dic;
-                            }
-                            filterMode = Enums.FILTERTYPE.State;
-                            open.OpenFilterType = "Filter";
-                            if (state_Filter.Count > 0)
-                            {
-                                Dictionary<string, ImageInfo> data = new Dictionary<string, ImageInfo>();
-
-
-                                foreach (string No in state_Filter)
-                                {
-                                    data.Add(No, Filter_CheckEQ_Dic[No]);
-                                }
-                                Filter_CheckEQ_Dic = data;
-                                label10.ForeColor = Color.LightGreen;
-                            }
-                            else
-                            {
-                                MessageBox.Show("양품 또는 선택된 이미지가 없습니다.");
-                                label10.ForeColor = Color.Black;
-                            }
-                        }
-                        else
-                        {
-                            label10.ForeColor = Color.Black;
-
-                        }
 
 
                         /// 뷰
@@ -4641,13 +4779,28 @@ namespace ViewPort
                 if (FI_RE_B.Enabled)
                 {
                     Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                    int maxX = Filter_CheckEQ_Dic.Max(x => Int32.Parse(x.Value.X_Location)) / Px;
 
-                    var sort = Filter_CheckEQ_Dic.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
+                    foreach (KeyValuePair<string, ImageInfo> pair in Filter_CheckEQ_Dic)
 
-
-                    foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
                     {
-                        SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
+
+                        int x = Int32.Parse(pair.Value.X_Location) / Px;
+                        int y = Int32.Parse(pair.Value.Y_Location) / Px;
+
+                        int SortedXY = x * (maxX * 10) + y;
+
+                        pair.Value.SortedXY = SortedXY;
+
+
+                    }
+                    var keyValues = Filter_CheckEQ_Dic.OrderBy(x => x.Value.SortedXY);
+                    foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                    {
+
+                        SortXY_DIC_Load.Add(pair.Key, pair.Value);
+
+
                     }
                     open.DicInfo_Filtered = SortXY_DIC_Load;
                     open.Set_Image();
@@ -4658,8 +4811,8 @@ namespace ViewPort
                     if (zipFilePath == null)
                         return;
 
-                    XYMode_Sort();
-                    Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                    XYMode_Sort(Px);
+                   /* Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
 
                     var sort = DicInfo.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
 
@@ -4667,8 +4820,8 @@ namespace ViewPort
                     foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
                     {
                         SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
-                    }
-                    open.DicInfo_Filtered = SortXY_DIC_Load;
+                    }*/
+                    open.DicInfo_Filtered = dicInfo;
                     open.Set_Image();
                     Print_List();
                 }
@@ -4679,13 +4832,28 @@ namespace ViewPort
 
                     //XYMode_Sort();
                     Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                    int maxX = Eng_dicinfo.Max(x => Int32.Parse(x.Value.X_Location)) / Px;
 
-                    var sort = Eng_dicinfo.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
+                    foreach (KeyValuePair<string, ImageInfo> pair in Eng_dicinfo)
 
-
-                    foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
                     {
-                        SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
+
+                        int x = Int32.Parse(pair.Value.X_Location) / Px;
+                        int y = Int32.Parse(pair.Value.Y_Location) / Px;
+
+                        int SortedXY = x * (maxX * 10) + y;
+
+                        pair.Value.SortedXY = SortedXY;
+
+
+                    }
+                    var keyValues = Eng_dicinfo.OrderBy(x => x.Value.SortedXY);
+                    foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                    {
+
+                        SortXY_DIC_Load.Add(pair.Key, pair.Value);
+
+
                     }
                     Eng_dicinfo = SortXY_DIC_Load;
                     open.Set_Image_Eng();
@@ -4766,28 +4934,36 @@ namespace ViewPort
         private void 중간종료ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DBFunc db = new DBFunc();
+            ProgressBar1 progressBar1 = new ProgressBar1();
+            progressBar1.Show();
+            progressBar1.Text = "DB Save Update...";
+            progressBar1.SetProgressBarMaxSafe(100);
             string LastTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             DateTime WorkTime = DateTime.Parse(Information.WorkTime);
             TimeSpan Time = DateTime.Parse(LastTime) - WorkTime;
-
             double TimeTaken = Time.TotalSeconds - double.Parse(Information.IdleWork);
             Information.EndWorker = Information.Name;
             Information.EndTime = LastTime;
             Information.TimeTaken = TimeTaken.ToString();
             //Information.WorkImageCnt = delete.ToString();
             Information.IsFinallyWorker = "0";
+            progressBar1.tabProgressBarSafe(50);
             Func.Delete_Insert_text(Delete_List_Main, Information.DeletePath,Information.Name,LotName);
+            progressBar1.tabProgressBarSafe(50);
+            progressBar1.ExitProgressBarSafe();
             if (db.DBLogUpDate(Information, LotName))
             {
                
                MessageBox.Show("Log 중간 저장 완료");
                 
             }
+            
         }
 
         private void 완전종료ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DBFunc db = new DBFunc();
+            
             string LastTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             DateTime WorkTime = DateTime.Parse(Information.WorkTime);
             TimeSpan Time = DateTime.Parse(LastTime) - WorkTime;
@@ -4798,6 +4974,7 @@ namespace ViewPort
             Information.TimeTaken = TimeTaken.ToString();
             //Information.WorkImageCnt = delete.ToString();
             Information.IsFinallyWorker = true.ToString() ;
+           
             if (db.DBLogUpDate(Information, LotName))
             {
                 var des = new DES("carlo123");
@@ -4805,10 +4982,18 @@ namespace ViewPort
                 coments.ShowDialog();
                 if (coments.DialogResult == System.Windows.Forms.DialogResult.OK)
                 {
+                    ProgressBar1 progressBar1 = new ProgressBar1();
+                    progressBar1.Show();
+                    progressBar1.Text = "DB Save Update...";
+                    progressBar1.SetProgressBarMaxSafe(100);
                     //string encrypt = des.result(DesType.Encrypt, coments.Coment);
                     Func.Coment_Insert_Alzip(coments.Coment, zipFilePath);
-                    MessageBox.Show("Log 저장 완료");
+
+                    progressBar1.tabProgressBarSafe(100);
+                    progressBar1.ExitProgressBarSafe();
                 }
+                
+                MessageBox.Show("Log 최종 저장완료");
             }
         }
 
@@ -4824,6 +5009,7 @@ namespace ViewPort
 
         public void button1_Click(object sender, EventArgs e)
         {
+            EngrMode = false;
             filterMode = Enums.FILTERTYPE.NULL;
             OLD_XY_X.Text = "";
             OLD_XY_Y.Text = "";
@@ -4840,9 +5026,15 @@ namespace ViewPort
             open.Filter_F = 0;
             open.OpenFilterType = "NoneFilter";
             label5.ForeColor = Color.Black;
+            label5.Font = new Font("굴림", 9, FontStyle.Regular);
             label6.ForeColor = Color.Black;
+            label6.Font = new Font("굴림", 9, FontStyle.Regular);
             label10.ForeColor = Color.Black;
+            label10.Font = new Font("굴림", 9, FontStyle.Regular);
             label16.ForeColor = Color.Black;
+            label16.Font = new Font("굴림", 9, FontStyle.Regular);
+            label14.ForeColor = Color.Black;
+            label14.Font = new Font("굴림", 9, FontStyle.Regular);
             Initial_Equipment_DF_List();
             Equipment_DF_CLB.Items.Clear();
 
@@ -4869,6 +5061,9 @@ namespace ViewPort
               Equipment_DF_CLB_SelectedValueChanged(null, null);
            
                 _filterAct_bt_Click();
+            if (EngrMode)
+                open.Eng_Set_View();
+            else
                 open.Set_View();
 
         }
@@ -4889,6 +5084,101 @@ namespace ViewPort
         {
 
         }
+
+        private void 좌표기준설정ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            XYPXForm xYPX = new XYPXForm();
+            xYPX.ShowDialog();
+            if(xYPX.DialogResult == System.Windows.Forms.DialogResult.OK) 
+                Px = xYPX.XYPX; 
+        }
+
+        private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            //Set_EQ_Dic();
+            
+            if ((string)comboBox1.SelectedItem != "")
+            {
+                if(Filter_CheckEQ_Dic.Count <= 0)
+                {
+                    Filter_CheckEQ_Dic = open.DicInfo_Filtered;
+                }
+                Dictionary<string, ImageInfo> data = new Dictionary<string, ImageInfo>();
+                List<string> state_Filter = new List<string>();
+                if ((string)comboBox1.SelectedItem == "양품" || (string)comboBox1.SelectedItem == "선택")
+                {
+
+
+                    foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
+                    {
+                        if (Filter_CheckEQ_Dic[pair].ReviewDefectName == (string)comboBox1.SelectedItem)
+                        {
+                            state_Filter.Add(pair);
+                        }
+                        else
+                        {
+
+                        }
+                    }
+
+
+
+                }
+                else
+                {
+                    comboBox1.SelectedItem = "";
+                    //MessageBox.Show("양품 or 선택으로 입력.");
+                    State_Filter = 0;
+                    //Filter_CheckEQ_Dic = before_dic;
+                }
+                filterMode = Enums.FILTERTYPE.State;
+                open.OpenFilterType = "Filter";
+                if (state_Filter.Count > 0)
+                {
+                    
+
+
+                    foreach (string No in state_Filter)
+                    {
+                        data.Add(No, Filter_CheckEQ_Dic[No]);
+                    }
+                   
+                    label10.ForeColor = Color.LightGreen;
+                    label10.Font = new Font("굴림", 7, FontStyle.Bold);
+                }
+                else
+                {
+                    MessageBox.Show("양품 또는 선택된 이미지가 없습니다.");
+                    label10.ForeColor = Color.Black;
+                    label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                    data = Filter_CheckEQ_Dic;
+                }
+                
+                Equipment_DF_CLB.SelectedValueChanged -= Equipment_DF_CLB_ItemCheck;
+                FI_RE_B.Enabled = true;
+                EQ_Data_Update(data);
+                Equipment_DF_CLB.SelectedValueChanged += Equipment_DF_CLB_ItemCheck;
+                State_Filter = 0;
+                open.DicInfo_Filtered = data;
+                open.Set_View();
+                Print_List();
+            }
+            else
+            {
+                label10.ForeColor = Color.Black;
+                label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                Equipment_DF_CLB.SelectedValueChanged -= Equipment_DF_CLB_ItemCheck;
+                FI_RE_B.Enabled = false;
+                EQ_Data_Update(Filter_CheckEQ_Dic);
+                Equipment_DF_CLB.SelectedValueChanged += Equipment_DF_CLB_ItemCheck;
+                State_Filter = 0;
+                open.DicInfo_Filtered = Filter_CheckEQ_Dic;
+                open.Set_View();
+                Print_List();
+            }
+            
+        }
+        
     }
    
 

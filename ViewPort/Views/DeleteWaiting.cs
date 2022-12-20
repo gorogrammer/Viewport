@@ -30,6 +30,7 @@ namespace ViewPort.Views
         List<PictureBox> Picture_Glass = new List<PictureBox>();
         List<string> Wait_del_List = new List<string>();
         Label[] DefectState, ImageNameLB, ImageNameEQ;
+       // List<Label> DefectStates, ImageNameLBs, ImageNameEQs;
         List<int> Selected_Picture_Index = new List<int>();
         PictureBox Draged_PB;
         List<string> Select_Pic = new List<string>();
@@ -961,13 +962,15 @@ namespace ViewPort.Views
             Set_EQ();
             Select_Pic.Clear();
             Main.selected_Pic = dicInfo_Delete_Sel.Keys.ToList();
-
-
+           
             Main.delete_W = Main.delete_W - Main.selected_Pic.Count;
             Main.InfoListCount = Main.InfoListCount + Main.selected_Pic.Count; 
             Main.UpdateDeleteText();
             Main.Dl_Wait_Del_Print_List();
+           
             Main.Return_Img_Print();
+            Main.filterMode = Enums.FILTERTYPE.NULL;
+
             dicInfo_Delete_Sel.Clear();
         }
 
@@ -1129,71 +1132,38 @@ namespace ViewPort.Views
 
         private void Frame_S_TB_KeyDown(object sender, KeyEventArgs e)
         {
-            int Num;
-            List<int> Frame_filter_List = new List<int>();
-            
-            if (e.KeyCode == Keys.Enter)
-            {
-                if (Frame_S_TB.Text == "")
-                {
-                    framesort_dic = new Dictionary<string, ImageInfo>(Main_Dic);
-                    Set_View_Del();
-                  
-                    return;
 
-                }
-                else if (!int.TryParse(Frame_S_TB.Text, out Num))
-                {
-                    MessageBox.Show("입력을 숫자로 부탁드립니다.");
-                    Frame_S_TB.Text = "";
-                    return;
-                }
-                Set_Frame_Filter();
-
-                if (Frame_List_Img.Contains(int.Parse(Frame_S_TB.Text)))
-                {
-                    Frame_Filter(int.Parse(Frame_S_TB.Text));
-                }
-                else
-                {
-
-                    MessageBox.Show("해당 프레임은 존재하지 않습니다.");
-                    Frame_S_TB.Text = "";
-                }
-
-            }
-            Frame_List_Img.Clear();
         }
         public void Frame_Filter(int Frame)
         {
-            framesort_dic.Clear();
-            foreach (string no in Main_Dic.Keys.ToList())
+            //framesort_dic.Clear();
+            foreach (string no in framesort_dic.Keys.ToList())
             {
-                if (Main_Dic[no].FrameNo == Frame)
+                if (framesort_dic[no].FrameNo == Frame)
                 {
-                    framesort_dic.Add(no, Main_Dic[no]);
+                   // framesort_dic.Add(no, Main_Dic[no]);
                 }
                 else
                 {
-                    //DicInfo_Filtered.Remove(no);
+                    framesort_dic.Remove(no);
                 }
             }
             Frame_Filter_check = 1;
-            Set_View_Del();
+            //Set_View_Del();
             
         }
         public void Set_Frame_Filter()
         {
             Frame_List_Img.Clear();
-            foreach (string pair in Main_Dic.Keys.ToList())
+            foreach (string pair in framesort_dic.Keys.ToList())
             {
-                if (Frame_List_Img.Contains(Main_Dic[pair].FrameNo))
+                if (Frame_List_Img.Contains(framesort_dic[pair].FrameNo))
                 {
 
                 }
                 else
                 {
-                    Frame_List_Img.Add(Main_Dic[pair].FrameNo);
+                    Frame_List_Img.Add(framesort_dic[pair].FrameNo);
 
                 }
             }
@@ -1206,62 +1176,13 @@ namespace ViewPort.Views
             Camera_NO_Filter_TB.Text = "";
             Frame_Filter_check = 0;
             Camera_Filter_check = 0;
+            framesort_dic.Clear();
             Set_View_Del();
         }
 
         private void Camera_NO_Filter_TB_KeyDown(object sender, KeyEventArgs e)
         {
-            int Num;
 
-            framesort_dic.Clear();
-            if (e.KeyCode == Keys.Enter)
-            {
-                string[] Split_String = null;
-                Split_String = Camera_NO_Filter_TB.Text.Split(',');
-
-                if (Camera_NO_Filter_TB.Text == "")
-                {
-                    
-                    Set_View_Del();
-                   
-                    Camera_NO_Filter_TB.Text = "";
-                    return;
-
-                }
-               
-
-
-                if (int.Parse(Split_String[0]) > 0)
-                {
-                    Camera_Filter_check = 1;
-
-                        foreach (string No in Main_Dic.Keys.ToList())
-                        {
-                            if (Main_Dic.ContainsKey(No))
-                            {
-                                if (Split_String.Contains(Main_Dic[No].CameraNo.ToString()))
-                                {
-                                framesort_dic.Add(No, Main_Dic[No]);
-                                }
-
-                            }
-                        }
-
-                        if (framesort_dic.Count == 0)
-                        {
-                            dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(Main_Dic);
-                            MessageBox.Show("해당 카메라 이미지가 없습니다.");
-                            Camera_NO_Filter_TB.Text = string.Empty;
-                        }
-                        Set_View_Del();
-                       
-                        framesort_dic.Clear();
-                   
-
-                    
-                }
-            
-            }
         }
 
         private void Select_All_BTN_Click(object sender, EventArgs e)
@@ -1339,8 +1260,94 @@ namespace ViewPort.Views
 
         private void button2_Click(object sender, EventArgs e)
         {
+            List<string> Frame_filter_List = new List<string>();
+            int Num;
+            if (Frame_S_TB.Text == "" && Camera_NO_Filter_TB.Text == "")
+            {
+                framesort_dic = new Dictionary<string, ImageInfo>(Main_Dic);
+            }
+            else
+            {
+                if(framesort_dic.Count ==0)
+                framesort_dic = new Dictionary<string, ImageInfo>(Main_Dic);
+
+                Frame_Filter_check = 1;
+                if (Frame_S_TB.Text == "")
+                {
+
+                }
+                else if (!int.TryParse(Frame_S_TB.Text, out Num))
+                {
+                    MessageBox.Show("입력을 숫자로 부탁드립니다.");
+                    Frame_S_TB.Text = "";
+
+                }
+                else
+                {
+                    Set_Frame_Filter();
+
+                    if (Frame_List_Img.Contains(int.Parse(Frame_S_TB.Text)))
+                    {
+                        Frame_Filter(int.Parse(Frame_S_TB.Text));
+                    }
+                    else
+                    {
+
+                        MessageBox.Show("해당 프레임은 존재하지 않습니다.");
+                        Frame_S_TB.Text = "";
+                    }
+                }
+
+
+                Frame_List_Img.Clear();
+
+
+                string[] Split_String = null;
+                Split_String = Camera_NO_Filter_TB.Text.Split(',');
+
+                if (Camera_NO_Filter_TB.Text == "")
+                {
+                    Camera_NO_Filter_TB.Text = "";
+                }
+
+
+
+                else if (int.Parse(Split_String[0]) > 0)
+                {
+                    Camera_Filter_check = 1;
+
+                    foreach (string No in framesort_dic.Keys.ToList())
+                    {
+                        if (framesort_dic.ContainsKey(No))
+                        {
+                            if (!Split_String.Contains(framesort_dic[No].CameraNo.ToString()))
+                            {
+                                Frame_filter_List.Add(No);
+                            }
+
+                        }
+                    }
+
+                    if (Frame_filter_List.Count == 0)
+                    {                     
+                        //MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                        //Camera_NO_Filter_TB.Text = string.Empty;
+                    }
+                    else
+                    {
+                        foreach(string no in Frame_filter_List)
+                        {
+                            framesort_dic.Remove(no);
+                        }
+                    }
+
+
+                  
+                }
+            }          
             Set_View_Del();
             Set_EQ();
+            
         }
 
         private void DeleteWaiting_MouseHover(object sender, EventArgs e)

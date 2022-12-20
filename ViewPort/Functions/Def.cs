@@ -207,5 +207,21 @@ namespace ViewPort.Functions
         public const string ViewPort = "VP";
         public const string DBForm = "DB";
     }
-   
+    public class ACCMENU_STR
+    {
+        #region DB Menu
+        public const string LOT = "LOT";
+        public const string LOG = "LOG";
+        public const string USER = "User";
+        public const string DELETEPATH = "DeletePath";
+        #endregion
+        #region ZipMenu
+        public const string LotWorker = "LotWorker";
+        #endregion
+        #region Graph
+        public const string C_Lot = "C_Lot";
+        public const string UserLog = "UserLog";
+        #endregion
+    }
+
 }
