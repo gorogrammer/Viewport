@@ -108,17 +108,17 @@ namespace ViewPort.Views
             splitContainer1.Panel2.Controls.Clear();
             PictureData.Clear();
 
-            if (Frame_Filter_check == 1)
+            if (EQ_Filter_check == 1)
+            {
+                //dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
+            }
+            else if (Frame_Filter_check == 1)
             {
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
             }
             else if (Camera_Filter_check ==1 )
             {
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
-            }
-            else if(EQ_Filter_check==1)
-            {
-                //dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
             }
             else
             {
@@ -426,6 +426,7 @@ namespace ViewPort.Views
             this.KeyPreview = true;
             if (e.Control)
             {
+                Main.InputKey += 1;
                 if (S_Page_TB.Text == "" || int.Parse(S_Page_TB.Text) <= 1)
                 {
                     MessageBox.Show("첫 페이지 입니다.");
@@ -448,6 +449,7 @@ namespace ViewPort.Views
 
             else if (e.Alt)
             {
+                Main.InputKey += 1;
                 e.Handled = true;
                 if (S_Page_TB.Text == "" || int.Parse(S_Page_TB.Text) >= int.Parse(E_Page_TB.Text))
                 {
@@ -581,17 +583,17 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
-            if (Frame_Filter_check == 1)
+            if (EQ_Filter_check == 1)
+            {
+
+            }
+            else if (Frame_Filter_check == 1)
             {
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
             }
             else if (Camera_Filter_check == 1)
             {
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
-            }
-            else if (EQ_Filter_check == 1)
-            {
-
             }
             else
             {
@@ -1228,7 +1230,7 @@ namespace ViewPort.Views
 
             for (int i = 0; i < Selected_Equipment_DF_List.Count; i++)
             {
-                foreach (KeyValuePair<string, ImageInfo> pair in Main_Dic)
+                foreach (KeyValuePair<string, ImageInfo> pair in framesort_dic)
                 {
 
                     if (pair.Value.EquipmentDefectName == Selected_Equipment_DF_List[i])

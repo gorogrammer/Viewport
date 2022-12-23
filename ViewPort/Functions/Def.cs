@@ -217,6 +217,7 @@ namespace ViewPort.Functions
         #endregion
         #region ZipMenu
         public const string LotWorker = "LotWorker";
+        public const string Coments = "Coments";
         #endregion
         #region Graph
         public const string C_Lot = "C_Lot";

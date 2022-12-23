@@ -34,10 +34,12 @@
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.RegBT = new DevExpress.XtraBars.BarButtonItem();
             this.DataSerach_BT = new DevExpress.XtraBars.BarButtonItem();
+            this.ZipLoad_BT = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.accordionControl1 = new DevExpress.XtraBars.Navigation.AccordionControl();
@@ -57,8 +59,7 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ZipLoad_BT = new DevExpress.XtraBars.BarButtonItem();
+            this.accordionControlElement4 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -135,6 +136,15 @@
             this.DataSerach_BT.Name = "DataSerach_BT";
             this.DataSerach_BT.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.DataSerach_BT_ItemClick);
             // 
+            // ZipLoad_BT
+            // 
+            this.ZipLoad_BT.Caption = "ZipLoad";
+            this.ZipLoad_BT.Id = 6;
+            this.ZipLoad_BT.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("ZipLoad_BT.ImageOptions.Image")));
+            this.ZipLoad_BT.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("ZipLoad_BT.ImageOptions.LargeImage")));
+            this.ZipLoad_BT.Name = "ZipLoad_BT";
+            this.ZipLoad_BT.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ZipLoad_BT_ItemClick);
+            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -161,6 +171,11 @@
             this.ribbonPageGroup3.ItemLinks.Add(this.DataSerach_BT);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.Text = "ribbonPageGroup3";
+            // 
+            // ribbonPageGroup4
+            // 
+            this.ribbonPageGroup4.ItemLinks.Add(this.ZipLoad_BT);
+            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
             // 
             // ribbonStatusBar
             // 
@@ -240,7 +255,8 @@
             // Zip
             // 
             this.Zip.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.accordionControlElement1});
+            this.accordionControlElement1,
+            this.accordionControlElement4});
             this.Zip.Expanded = true;
             this.Zip.Name = "Zip";
             this.Zip.Text = "Zip";
@@ -348,19 +364,11 @@
             this.simpleButton1.Text = "저장";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
-            // ribbonPageGroup4
+            // accordionControlElement4
             // 
-            this.ribbonPageGroup4.ItemLinks.Add(this.ZipLoad_BT);
-            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
-            // 
-            // ZipLoad_BT
-            // 
-            this.ZipLoad_BT.Caption = "ZipLoad";
-            this.ZipLoad_BT.Id = 6;
-            this.ZipLoad_BT.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem2.ImageOptions.Image")));
-            this.ZipLoad_BT.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem2.ImageOptions.LargeImage")));
-            this.ZipLoad_BT.Name = "ZipLoad_BT";
-            this.ZipLoad_BT.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ZipLoad_BT_ItemClick);
+            this.accordionControlElement4.Name = "accordionControlElement4";
+            this.accordionControlElement4.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement4.Text = "Coments";
             // 
             // DB_ViewForm
             // 
@@ -432,5 +440,6 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.BarButtonItem ZipLoad_BT;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
+        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement4;
     }
 }

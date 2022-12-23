@@ -32,6 +32,7 @@ namespace ViewPort
 
         bool Zip_Error = false;
         public bool EngrMode = false;
+        
         int NoChangeCount;
         ImageViewer open = new ImageViewer();
         public ProgressBar1 waitform = new ProgressBar1();
@@ -76,6 +77,8 @@ namespace ViewPort
         int AllList = 0;
         int px = 50;
         string machineName;
+        int inputKey = 0;
+        Point oldMouseXY = new Point();
         List<int> exceed_List = new List<int>();
         int setting = 0;
         string[] dic_ready = null;
@@ -142,11 +145,12 @@ namespace ViewPort
         private string dirPath;
         private string zipFilePath;
         private string ref_DirPath;
+        System.Threading.Timer IdleTimer;
         FormLoading formLoading_1 = new FormLoading();
-
+        delegate void TimerEventFiredDelegate();
         #region EngrModeDataList
 
-        
+
         #endregion
         public Dictionary<string, ImageInfo> DicInfo
         {
@@ -154,6 +158,7 @@ namespace ViewPort
             set { dicInfo = value; }
         } 
         public int SDIPDeleteCount { get => NoChangeCount; set => NoChangeCount = value; }
+        public int InputKey { get => inputKey; set => inputKey = value; }
         public UseInfomation Information { get => Worker; set => Worker = value; }
         public string ViewType { get => viewType; set => viewType = value; }
         public string ListFiler { get => listFiler; set => listFiler = value; }
@@ -329,7 +334,7 @@ namespace ViewPort
 
 
         }
-
+        
         public int GetRotation_Option()
         {
             return Rotate_Option;
@@ -1852,6 +1857,7 @@ namespace ViewPort
                 
             }
             Equipment_DF_CLB.Items.Clear();
+            All_Equipment_FI_List.Sort((a, b) => b.Item2.CompareTo(a.Item2));
             for (int i = 0; i < All_Equipment_FI_List.Count; i++)
             {
                 Equipment_DF_CLB.Items.Add(All_Equipment_FI_List.ElementAt(i).Item1 + "-" + All_Equipment_FI_List.ElementAt(i).Item2);
@@ -1881,6 +1887,7 @@ namespace ViewPort
 
             }
             Equipment_DF_CLB.Items.Clear();
+            All_Equipment_EG_List.Sort((a, b) => b.Item2.CompareTo(a.Item2));
             for (int i = 0; i < All_Equipment_EG_List.Count; i++)
             {
                 Equipment_DF_CLB.Items.Add(All_Equipment_EG_List.ElementAt(i).Item1 + "-" + All_Equipment_EG_List.ElementAt(i).Item2);
@@ -2138,7 +2145,9 @@ namespace ViewPort
                         LimitAlarm();
                         UpdateDeleteText();
                         InfoListCount = dicInfo.Count;
-
+                        IdleTimer = new System.Threading.Timer(CallBack);
+                        IdleTimer.Change(10000, 10000);
+                        oldMouseXY=this.PointToClient(Cursor.Position);
                     }
 
 
@@ -2154,6 +2163,27 @@ namespace ViewPort
 
             }
 
+        }
+        void CallBack(Object state)
+        {
+            BeginInvoke(new TimerEventFiredDelegate(Work));
+        }
+        void Work()
+        {
+            Point point = this.PointToClient(Cursor.Position);
+            if(point == oldMouseXY && InputKey ==0 && EngrMode==false)
+            {
+                IdleTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+                TactStopForm tactStopForm = new TactStopForm();
+                tactStopForm.ShowDialog();
+                if (tactStopForm.DialogResult == System.Windows.Forms.DialogResult.OK)
+                {
+                    Information.IdleWork = (Int32.Parse(Information.IdleWork) + tactStopForm.StopingTime).ToString();
+                    IdleTimer.Change(10000, 10000);
+                }
+            }
+            InputKey = 0;
+            oldMouseXY = point;
         }
         public void Update_EQ_Data()
         {
@@ -3436,6 +3466,11 @@ namespace ViewPort
 
         private void Print_Image_BT_Click(object sender, EventArgs e)
         {
+            Width_TB.Enabled = true;
+            Height_TB.Enabled = true;
+            Rows_TB.Enabled = true;
+            Cols_TB.Enabled = true;
+            Fixed_CB.Enabled = true;
             /*
             switch (ViewType)
             {
@@ -3921,7 +3956,7 @@ namespace ViewPort
 
                 foreach (int pair in exceed_Count.Keys.ToList())
                 {
-                    if (exceed_Count[pair] >= int.Parse(Exceed_No))
+                    if (exceed_Count[pair] > int.Parse(Exceed_No))
                     {
                         continue;
                     }
@@ -4114,10 +4149,11 @@ namespace ViewPort
 
             if (e.KeyCode == Keys.Enter)
             {
+                int num = 0;
                 Camera_NO_Filter_TB.Text = "";
                 comboBox1.SelectedItem = "";
                 comboBox1.SelectedIndex = 0;
-                if (int.Parse(Frame_S_Page_TB.Text) <= int.Parse(Frame_E_Page_TB.Text) && int.Parse(Frame_S_Page_TB.Text) > 0)
+                if (int.TryParse(Frame_S_Page_TB.Text,out num))
                 {
                     open.No_Frmae_Filter(int.Parse(Frame_S_Page_TB.Text));
                 }
@@ -4491,13 +4527,13 @@ namespace ViewPort
 
                         if ((string)comboBox1.SelectedItem != "")
                         {
-                            if (comboBox1.SelectedItem == "양품" || comboBox1.SelectedItem == "선택")
+                            if ((string)comboBox1.SelectedItem == "양품" || (string)comboBox1.SelectedItem == "선택")
                             {
 
 
                                 foreach (string pair in Filter_CheckEQ_Dic.Keys.ToList())
                                 {
-                                    if (Filter_CheckEQ_Dic[pair].ReviewDefectName == comboBox1.SelectedItem)
+                                    if (Filter_CheckEQ_Dic[pair].ReviewDefectName == (string)comboBox1.SelectedItem)
                                     {
 
                                     }
@@ -4746,7 +4782,7 @@ namespace ViewPort
         
         }
 
-        private void engrModeToolStripMenuItem_Click(object sender, EventArgs e)
+        public void engrModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ZipFilePath == "")
             {
@@ -4808,17 +4844,37 @@ namespace ViewPort
                     if (zipFilePath == null)
                         return;
 
-                    XYMode_Sort(Px);
-                   /* Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                    int px = Px * 10;
+                    int X = px;
+                    int Y = px;
+                    int MaxCheckY = 0;
+                    int MaxCheckX = 0;
+                    int SortedXY = 0;
+                    Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                    int maxX = DicInfo.Max(x => Int32.Parse(x.Value.X_Location)) / Px;
 
-                    var sort = DicInfo.OrderBy(x => Int32.Parse(x.Value.Y_Location)).ThenBy(x => Int32.Parse(x.Value.X_Location));
-
-
-                    foreach (KeyValuePair<string, ImageInfo> keyValuePairs in sort)
+                    foreach (KeyValuePair<string, ImageInfo> pair in DicInfo)
                     {
-                        SortXY_DIC_Load.Add(keyValuePairs.Key, keyValuePairs.Value);
-                    }*/
-                    open.DicInfo_Filtered = dicInfo;
+
+                        int x = Int32.Parse(pair.Value.X_Location) / Px;
+                        int y = Int32.Parse(pair.Value.Y_Location) / Px;
+
+                        SortedXY = x * (maxX * 10) + y;
+
+                        pair.Value.SortedXY = SortedXY;
+
+
+                    }
+                    var keyValues = DicInfo.OrderBy(x => x.Value.SortedXY);
+                    foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                    {
+
+                        SortXY_DIC_Load.Add(pair.Key, pair.Value);
+
+
+                    }
+                    dicInfo = SortXY_DIC_Load;
+                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(SortXY_DIC_Load);
                     open.Set_Image();
                     Print_List();
                 }
@@ -4861,7 +4917,7 @@ namespace ViewPort
 
         private void Frame_BT_CheckedChanged(object sender, EventArgs e)
         {
-
+           
            
 
         }
@@ -4911,7 +4967,7 @@ namespace ViewPort
             }
         }
 
-        private void deleteSavePathToolStripMenuItem_Click(object sender, EventArgs e)
+        public void deleteSavePathToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EngrModeForm engrMode = new EngrModeForm(this, open);
             engrMode.FilePath = zipFilePath;
@@ -4957,7 +5013,7 @@ namespace ViewPort
             
         }
 
-        private void 완전종료ToolStripMenuItem_Click(object sender, EventArgs e)
+        public void 완전종료ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DBFunc db = new DBFunc();
             
@@ -5007,6 +5063,11 @@ namespace ViewPort
         public void button1_Click(object sender, EventArgs e)
         {
             EngrMode = false;
+            Width_TB.Enabled = true;
+            Height_TB.Enabled = true;
+            Rows_TB.Enabled = true;
+            Cols_TB.Enabled = true;
+            Fixed_CB.Enabled = true;
             filterMode = Enums.FILTERTYPE.NULL;
             OLD_XY_X.Text = "";
             OLD_XY_Y.Text = "";
@@ -5148,6 +5209,9 @@ namespace ViewPort
                     MessageBox.Show("양품 또는 선택된 이미지가 없습니다.");
                     label10.ForeColor = Color.Black;
                     label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                    comboBox1.SelectedValueChanged -= comboBox1_SelectedValueChanged;
+                    comboBox1.SelectedItem = "";
+                    comboBox1.SelectedValueChanged += comboBox1_SelectedValueChanged;
                     data = Filter_CheckEQ_Dic;
                 }
                 

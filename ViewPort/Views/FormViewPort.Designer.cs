@@ -65,7 +65,6 @@
             this.mAPTXTUpdateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.engrModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Update_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.검사중지ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.작업종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.중간종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.완전종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -381,7 +380,6 @@
             this.저장ToolStripMenuItem,
             this.코드변경ToolStripMenuItem,
             this.Update_ToolStripMenuItem,
-            this.검사중지ToolStripMenuItem,
             this.작업종료ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(10, 60);
             this.menuStrip1.Name = "menuStrip1";
@@ -516,13 +514,6 @@
             this.Update_ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.Update_ToolStripMenuItem.Text = "업데이트";
             this.Update_ToolStripMenuItem.Click += new System.EventHandler(this.Update_ToolStripMenuItem_Click);
-            // 
-            // 검사중지ToolStripMenuItem
-            // 
-            this.검사중지ToolStripMenuItem.Name = "검사중지ToolStripMenuItem";
-            this.검사중지ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
-            this.검사중지ToolStripMenuItem.Text = "검사중지";
-            this.검사중지ToolStripMenuItem.Click += new System.EventHandler(this.검사중지ToolStripMenuItem_Click);
             // 
             // 작업종료ToolStripMenuItem
             // 
@@ -1100,6 +1091,7 @@
             this.Frame_View_CB.TabIndex = 30;
             this.Frame_View_CB.Text = "Frame 別";
             this.Frame_View_CB.UseVisualStyleBackColor = true;
+            this.Frame_View_CB.Visible = false;
             this.Frame_View_CB.CheckedChanged += new System.EventHandler(this.Frame_View_CB_CheckedChanged);
             // 
             // button2
@@ -1404,10 +1396,8 @@
         private System.Windows.Forms.ToolStripMenuItem 저장ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 중간저장ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 저장불러오기ToolStripMenuItem;
-        private System.Windows.Forms.CheckBox Fixed_CB;
         public System.Windows.Forms.TextBox Exceed_TB;
         private System.Windows.Forms.Label label11;
-        public System.Windows.Forms.CheckBox Frame_View_CB;
         public System.Windows.Forms.RadioButton Manual_Mode_RB;
         public System.Windows.Forms.RadioButton View_Mode_RB;
         private System.Windows.Forms.Button button4;
@@ -1435,7 +1425,6 @@
         public System.Windows.Forms.RadioButton Frame_BT;
         public System.Windows.Forms.RadioButton XY_BT;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.ToolStripMenuItem 검사중지ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteSavePathToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 작업종료ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 중간종료ToolStripMenuItem;
@@ -1468,6 +1457,8 @@
         private System.Windows.Forms.Panel panel5;
         public System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ToolStripMenuItem 좌표기준설정ToolStripMenuItem;
+        public System.Windows.Forms.CheckBox Frame_View_CB;
+        public System.Windows.Forms.CheckBox Fixed_CB;
     }
 }
 

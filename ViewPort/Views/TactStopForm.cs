@@ -35,7 +35,7 @@ namespace ViewPort.Views
         {
             NowTime.Text = DateTime.Now.ToString("yyyy년MM월dd일 hh시mm분ss초");
             StopingTime = StopingTime + 1;
-            if(StopingTime > 10)
+            if(StopingTime >= 1)
             {
                 WorkStart_BT.Enabled = true;
             }

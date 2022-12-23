@@ -19,12 +19,12 @@ namespace ViewPort.Views
         DBFunc dBFunc = new DBFunc();
         ImageViewer Image;
         DataTable LOG, LOT, DeletePath, User,Worker;
-        public string beforData;
-        public string FilePath;
+        string beforData= string.Empty;
+        string FilePath= string.Empty;
+        string ComentLog=string.Empty;
         int NoneUser = 0;
         ChartControl chartControl = new ChartControl();
-        bool isMove = false;
-        Point fPt;
+        
         public DB_ViewForm(ImageViewer image, string filePath)
         {
             Image = image;
@@ -153,6 +153,10 @@ namespace ViewPort.Views
 
         private void button5_Click(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            if(accordionControl1.SelectedElement == null)
+            {
+                return;
+            }
             if (accordionControl1.SelectedElement.Text == "DeletePath")
             {
                 DeletePath deletePath = new DeletePath();
@@ -257,13 +261,14 @@ namespace ViewPort.Views
             gridView3.Columns.Clear();
             switch (e.Element.Text)
             {
-                case ACCMENU_STR.USER: LotGrid.DataSource = User;             break;
-                case ACCMENU_STR.LOG: LotGrid.DataSource = LOG;               break;
-                case ACCMENU_STR.LOT: LotGrid.DataSource = LOT;               break;
-                case ACCMENU_STR.DELETEPATH: LotGrid.DataSource = DeletePath; break;
-                case ACCMENU_STR.C_Lot: CreateLotGraph();                     break;
-                case ACCMENU_STR.UserLog: CreateUserLog();                    break;
-                case ACCMENU_STR.LotWorker: LotGrid.DataSource = Worker;      break;
+                case ACCMENU_STR.USER:          LotGrid.DataSource = User;              break;
+                case ACCMENU_STR.LOG:           LotGrid.DataSource = LOG;               break;
+                case ACCMENU_STR.LOT:           LotGrid.DataSource = LOT;               break;
+                case ACCMENU_STR.DELETEPATH:    LotGrid.DataSource = DeletePath;        break;
+                case ACCMENU_STR.C_Lot:         CreateLotGraph();                       break;
+                case ACCMENU_STR.UserLog:       CreateUserLog();                        break;
+                case ACCMENU_STR.LotWorker:     ZipLoad_WorkerCheck();                  break;
+                case ACCMENU_STR.Coments:       ZipLoad_Coment();                       break;
 
 
 
@@ -296,16 +301,16 @@ namespace ViewPort.Views
         private void ZipLoad_BT_ItemClick(object sender, ItemClickEventArgs e)
         {
             string path = Util.OpenFileDlg(ZIP_STR.EXETENSION);
-            if (path != null)
+            if (path != "")
             {
-                Worker = Func.Get_Lot_WorkerList(path);
-
-                MessageBox.Show("ZipLoad완료");
+                Worker = Func.Get_Lot_WorkerList(path,out ComentLog);             
+                if(Worker!=null)
+                    MessageBox.Show("ZipLoad완료");
             }
-            else
-                MessageBox.Show("Zip파일을 확인해주세요");
+            
+                
         }
-        
+
         private void CreateLotGraph()
         {
             splitContainer2.Visible = false;
@@ -368,8 +373,12 @@ namespace ViewPort.Views
             chartControl.Dock = DockStyle.Fill;
             LOG = dBFunc.GetLog();
             List<string> LotData = new List<string>();
-            List<string> IdleData = new List<string>();
+            Dictionary<string, int> LOGData = new Dictionary<string, int>();
             Dictionary<string, int> valuePairs = new Dictionary<string, int>();
+            foreach(DataRow row in LOT.Rows)
+            {
+                LOGData.Add(row.ItemArray[0].ToString(),int.Parse(row.ItemArray[2].ToString()));
+            }
             foreach(DataRow row in LOG.Rows)
             {
                 LotData.Add(row.ItemArray[0].ToString() + "," + row.ItemArray[1].ToString() + "");
@@ -380,13 +389,15 @@ namespace ViewPort.Views
             {
                 string[] value=str.Split(',');
 
+                
                 if (!valuePairs.ContainsKey(value[1]))
                 {
-                    valuePairs.Add(value[1], 1);
+                    valuePairs.Add(value[1], LOGData[value[0]]);
                 }
                 else
                 {
-                    valuePairs[value[1]] = valuePairs[value[1]] + 1;
+                    
+                    valuePairs[value[1]] = valuePairs[value[1]] + LOGData[value[0]];
                 }
             }
 
@@ -407,6 +418,23 @@ namespace ViewPort.Views
             ((XYDiagram)chartControl.Diagram).EnableAxisYZooming = true;
             ((XYDiagram)chartControl.Diagram).EnableAxisXScrolling = true;
             ((XYDiagram)chartControl.Diagram).EnableAxisYScrolling = true;
+        }
+        private void ZipLoad_WorkerCheck()
+        {
+            if (Worker == null)
+                MessageBox.Show("Zip파일을 Load 해주세요.");
+            else
+                LotGrid.DataSource = Worker;
+        }
+        private void ZipLoad_Coment()
+        {
+            DataTable DT = new DataTable();
+
+            DT.Columns.Add("내용");
+
+            DT.Rows.Add(ComentLog);
+
+            LotGrid.DataSource = DT;
         }
     }
 }

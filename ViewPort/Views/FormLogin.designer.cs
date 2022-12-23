@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogin));
             this.TB_ID = new System.Windows.Forms.TextBox();
             this.TB_PASSWORD = new System.Windows.Forms.TextBox();
             this.BTN_LOGIN = new MetroFramework.Controls.MetroTile();
@@ -79,6 +80,7 @@
             this.Controls.Add(this.BTN_LOGIN);
             this.Controls.Add(this.TB_PASSWORD);
             this.Controls.Add(this.TB_ID);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

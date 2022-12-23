@@ -793,33 +793,59 @@ namespace ViewPort.Functions
             }
 
         }
-        public static DataTable Get_Lot_WorkerList(string FilePath)
+        public static DataTable Get_Lot_WorkerList(string FilePath,out string coment)
         {
-            using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
+            try
             {
-                ZipArchiveEntry ImgEntry;
-                List<string> ComentData = new List<string>();
-                ImgEntry = zip.GetEntry(Func.GetComentFromPath(FilePath));
-                using (StreamReader SR = new StreamReader(ImgEntry.Open()))
+                string Coment = string.Empty;
+                using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Read))
                 {
-
-                    ComentData.AddRange(SR.ReadToEnd().Split('@')[0].Replace("\r\n", ",").Split(',').ToList());
-                    //ComentData.RemoveAt(ComentData.Count - 1);
-
-                   
-                }
-                DataTable dt = new DataTable();
-                dt.Columns.Add("Lot작업자");
-                foreach (string Worker in ComentData)
-                {
-                    DES des = new DES("carlo123");
-                    if (Worker != "")
+                    ZipArchiveEntry ImgEntry;
+                    List<string> ComentData = new List<string>();                    
+                    ImgEntry = zip.GetEntry(Func.GetComentFromPath(FilePath));
+                    using (StreamReader SR = new StreamReader(ImgEntry.Open()))
                     {
-                        string decrypt = des.result(DesType.Decrypt, Worker);
-                        dt.Rows.Add(decrypt);
+                        string[] ComentTxt = SR.ReadToEnd().Split('@');
+                        string[] data = ComentTxt[0].Replace("\r\n", ",").Split(',');
+                        Coment = ComentTxt[1].Trim();
+                        for (int i = 0; i < data.Length; i++)
+                        {
+                            if (data[i].Equals("")) { }
+                            else
+                            {
+                                if (i % 2 == 0)
+                                {
+
+                                }
+                                else
+                                {
+                                    ComentData.Add(data[i]);
+                                }
+                            }
+                        }
+                        coment = Coment;
+                        SR.Dispose();
                     }
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("Lot작업자");
+                    foreach (string Worker in ComentData)
+                    {
+
+                        DES des = new DES("carlo123");
+                        if (Worker != "")
+                        {
+                            string decrypt = des.result(DesType.Decrypt, Worker);
+                            dt.Rows.Add(decrypt);
+                        }
+                    }
+                    return dt;
                 }
-                return dt;
+            }
+            catch
+            {
+                coment = string.Empty;
+                MessageBox.Show("Zip파일을 확인해주세요!");
+                return null;              
             }
         }
         public static void Delete_Insert_text(List<string> deleteList, string FilePath,string Worker,string LotName)

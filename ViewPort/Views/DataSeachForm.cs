@@ -25,6 +25,12 @@ namespace ViewPort.Views
 
         private void simpleButton1_Click(object sender, EventArgs e) //조회
         {
+            chartControl1.Series.Clear();
+            chartControl2.Series.Clear();
+            chartControl3.Series.Clear();
+            chartControl4.Series.Clear();
+            chartControl5.Series.Clear();
+            chartControl6.Series.Clear();
             UserList.Clear();
             SearchData = new DataTable();
             SearchData.Columns.Add("사원번호");
@@ -53,8 +59,8 @@ namespace ViewPort.Views
                 bool Finally = Convert.ToBoolean(int.Parse(row.ItemArray[6].ToString()));
                 string Worker = row.ItemArray[1].ToString();
                 int Idle = int.Parse(row.ItemArray[5].ToString());
-               // int Speed = double.Parse(row.ItemArray[4].ToString());
-                DateTime finalTime = Convert.ToDateTime(row.ItemArray[3]);
+                // int Speed = double.Parse(row.ItemArray[4].ToString());
+                DateTime finalTime = Convert.ToDateTime(row.ItemArray[3].ToString());
                 if (Finally && StartTime < finalTime && EndTime > finalTime)
                 {
                     if (!overlap[Worker].Contains(Lot))
