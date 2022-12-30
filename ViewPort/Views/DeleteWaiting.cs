@@ -958,8 +958,9 @@ namespace ViewPort.Views
 
                 }
             }
+           // if(Main.EngrMode)
+            //    MessageBox.Show("EngrMode에서 복구 시 초기화됩니다.");
 
-            
             Set_View_Del();          
             Set_EQ();
             Select_Pic.Clear();
@@ -969,7 +970,8 @@ namespace ViewPort.Views
             Main.InfoListCount = Main.InfoListCount + Main.selected_Pic.Count; 
             Main.UpdateDeleteText();
             Main.Dl_Wait_Del_Print_List();
-           
+            //Main.EngrMode = false;
+            //Main.FI_RE_B.Enabled = false;
             Main.Return_Img_Print();
             Main.filterMode = Enums.FILTERTYPE.NULL;
 

@@ -53,7 +53,7 @@ namespace ViewPort.Views
                 string name = dataRow.Cells[0].Value.ToString();
                 dBFunc.UplaodUser(Enums.PERMISSION.user.ToString(), name);
             }
-            dataGridView1.Rows.Clear();
+            ((DataTable)dataGridView1.DataSource).Rows.Clear();
         }
 
         private void metroButton3_Click(object sender, EventArgs e) //삭제

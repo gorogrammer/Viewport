@@ -12,7 +12,7 @@ namespace ViewPort.Functions
     {
         MySqlConnection conn;
         private string ConnectionString =
-            "server= 116.127.242.207;" +
+            "server= 116.127.242.110;" +
             "Port=3306;" +
             "uid =root;" +
             "pwd=zkfmffh0125!;" +
@@ -532,7 +532,7 @@ namespace ViewPort.Functions
             dt.Columns.Add("Lot명");
             dt.Columns.Add("작업자");
             dt.Columns.Add("작업시작시간");
-            dt.Columns.Add("작업종료시간");
+            dt.Columns.Add("작업종료시간");        
             dt.Columns.Add("작업시간(초)");
             dt.Columns.Add("유휴시간(초)");
             dt.Columns.Add("검사완료여부");
@@ -544,8 +544,10 @@ namespace ViewPort.Functions
             {
                 string LotName = drdr["LotName"].ToString();
                 string LotWorker = drdr["LotWorker"].ToString();
-                string WorkTime = drdr["WorkTime"].ToString();
-                string EndTime = drdr["EndTime"].ToString();
+                //DateTime worktime = Convert.ToDateTime(drdr["WorkTime"]);
+              //  DateTime endtime = DateTime.ParseExact(drdr["EndTime"].ToString(), "yyyy-MM-dd HH:mm:ss", null);
+                string WorkTime = Convert.ToDateTime(drdr["WorkTime"]).ToString("yyyy-MM-dd HH:mm:ss");                                                  
+                string EndTime = Convert.ToDateTime(drdr["EndTime"]).ToString("yyyy-MM-dd HH:mm:ss");
                 string TimeTaken = drdr["TimeTaken"].ToString();
                 string IdleWork = drdr["IdleWork"].ToString();
                 string IsFinallyWorker = drdr["IsFinallyWorker"].ToString();

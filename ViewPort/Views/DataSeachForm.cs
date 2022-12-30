@@ -25,88 +25,104 @@ namespace ViewPort.Views
 
         private void simpleButton1_Click(object sender, EventArgs e) //조회
         {
-            chartControl1.Series.Clear();
-            chartControl2.Series.Clear();
-            chartControl3.Series.Clear();
-            chartControl4.Series.Clear();
-            chartControl5.Series.Clear();
-            chartControl6.Series.Clear();
-            UserList.Clear();
-            SearchData = new DataTable();
-            SearchData.Columns.Add("사원번호");
-            SearchData.Columns.Add("Lot처리량");
-            SearchData.Columns.Add("근무일수");
-            SearchData.Columns.Add("유휴시간");
-            SearchData.Columns.Add("장당처리속도(h)");
-            SearchData.Columns.Add("양품처리 이미지 수");
-            SearchData.Columns.Add("View 이미지 수");
-
-            DateTime StartTime = S_DateTime.Value.AddHours(8);
-            DateTime EndTime = E_DateTime.Value.AddHours(8);
-            Dictionary<string, List<string>> overlap = new Dictionary<string, List<string>>();
-            Dictionary<string, List<string>> Days = new Dictionary<string, List<string>>();
-            foreach (DataRow row in User.Rows)
+            try
             {
-                UserList.Add(row.ItemArray[0].ToString(),new UserInfo(0,0,0,0,0,0));
-                overlap.Add(row.ItemArray[0].ToString(), new List<string>());
-                Days.Add(row.ItemArray[0].ToString(), new List<string>());
-            }
+                chartControl1.Series.Clear();
+                chartControl2.Series.Clear();
+                chartControl3.Series.Clear();
+                chartControl4.Series.Clear();
+                chartControl5.Series.Clear();
+                chartControl6.Series.Clear();
+                UserList.Clear();
+                SearchData = new DataTable();
+                SearchData.Columns.Add("사원번호");
+                SearchData.Columns.Add("Lot처리량");
+                SearchData.Columns.Add("근무일수");
+                SearchData.Columns.Add("유휴시간");
+                SearchData.Columns.Add("장당처리속도(h)");
+                SearchData.Columns.Add("양품처리 이미지 수");
+                SearchData.Columns.Add("View 이미지 수");
 
-
-            foreach(DataRow row in LOG.Rows)
-            {
-                string Lot = row.ItemArray[0].ToString();
-                bool Finally = Convert.ToBoolean(int.Parse(row.ItemArray[6].ToString()));
-                string Worker = row.ItemArray[1].ToString();
-                int Idle = int.Parse(row.ItemArray[5].ToString());
-                // int Speed = double.Parse(row.ItemArray[4].ToString());
-                DateTime finalTime = Convert.ToDateTime(row.ItemArray[3].ToString());
-                if (Finally && StartTime < finalTime && EndTime > finalTime)
+                DateTime StartTime = S_DateTime.Value.AddHours(8);
+                DateTime EndTime = E_DateTime.Value.AddHours(8);
+                Dictionary<string, List<string>> overlap = new Dictionary<string, List<string>>();
+                Dictionary<string, List<string>> Days = new Dictionary<string, List<string>>();
+                foreach (DataRow row in User.Rows)
                 {
-                    if (!overlap[Worker].Contains(Lot))
-                    {
-                        UserList[Worker].SuLot = UserList[Worker].SuLot + 1;
-                        UserList[Worker].IdleTime = UserList[Worker].IdleTime + Idle;
-                        if (!Days[Worker].Contains(finalTime.Date.ToString("MM/dd")))
-                            Days[Worker].Add(finalTime.Date.ToString("MM/dd"));
-                        overlap[Worker].Add(Lot);
-                    }
+                    UserList.Add(row.ItemArray[0].ToString(), new UserInfo(0, 0, 0, 0, 0, 0));
+                    overlap.Add(row.ItemArray[0].ToString(), new List<string>());
+                    Days.Add(row.ItemArray[0].ToString(), new List<string>());
                 }
-               
-
-                
 
 
-            }
-            foreach (string Worker in UserList.Keys)
-            {
-                foreach(DataRow row in LOT.Rows)
+                foreach (DataRow row in LOG.Rows)
                 {
-
-                    if (overlap[Worker].Contains(row.ItemArray[0].ToString()))
+                    string Lot = row.ItemArray[0].ToString();
+                    bool Finally = Convert.ToBoolean(int.Parse(row.ItemArray[6].ToString()));
+                    string Worker = row.ItemArray[1].ToString();
+                    int Idle = int.Parse(row.ItemArray[5].ToString());
+                    // int Speed = double.Parse(row.ItemArray[4].ToString());
+                    DateTime finalTime = new DateTime();
+                    if (DateTime.TryParse(row.ItemArray[3].ToString(), out finalTime))
                     {
-                       int LotImageCnt = int.Parse(row.ItemArray[1].ToString());
-                       int WorkImageCnt = int.Parse(row.ItemArray[2].ToString());
-
-                        UserList[Worker].ViewImage = UserList[Worker].ViewImage + LotImageCnt;
-                        UserList[Worker].PassImage = UserList[Worker].PassImage + (LotImageCnt - WorkImageCnt);
-
-
-
+                        // finalTime = DateTime.TryParse(row.ItemArray[3].ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error");
+                        return;
+                    }
+                    if (Finally && StartTime < finalTime && EndTime > finalTime)
+                    {
+                        if (!overlap[Worker].Contains(Lot))
+                        {
+                            UserList[Worker].SuLot = UserList[Worker].SuLot + 1;
+                            UserList[Worker].IdleTime = UserList[Worker].IdleTime + Idle;
+                            if (!Days[Worker].Contains(finalTime.Date.ToString("MM/dd")))
+                                Days[Worker].Add(finalTime.Date.ToString("MM/dd"));
+                            overlap[Worker].Add(Lot);
+                        }
                     }
 
+
+
+
+
                 }
-                UserList[Worker].WorkTime = Days[Worker].Count;
-                if(UserList[Worker].WorkTime !=0)
-                    UserList[Worker].ImageSpeed = UserList[Worker].ViewImage / (UserList[Worker].WorkTime * 8);
+                foreach (string Worker in UserList.Keys)
+                {
+                    foreach (DataRow row in LOT.Rows)
+                    {
+
+                        if (overlap[Worker].Contains(row.ItemArray[0].ToString()))
+                        {
+                            int LotImageCnt = int.Parse(row.ItemArray[1].ToString());
+                            int WorkImageCnt = int.Parse(row.ItemArray[2].ToString());
+
+                            UserList[Worker].ViewImage = UserList[Worker].ViewImage + LotImageCnt;
+                            UserList[Worker].PassImage = UserList[Worker].PassImage + (LotImageCnt - WorkImageCnt);
 
 
-                SearchData.Rows.Add(Worker, UserList[Worker].SuLot, UserList[Worker].WorkTime, UserList[Worker].IdleTime, UserList[Worker].ImageSpeed, UserList[Worker].PassImage, UserList[Worker].ViewImage);
+
+                        }
+
+                    }
+                    UserList[Worker].WorkTime = Days[Worker].Count;
+                    if (UserList[Worker].WorkTime != 0)
+                        UserList[Worker].ImageSpeed = UserList[Worker].ViewImage / (UserList[Worker].WorkTime * 8);
+
+
+                    SearchData.Rows.Add(Worker, UserList[Worker].SuLot, UserList[Worker].WorkTime, UserList[Worker].IdleTime, UserList[Worker].ImageSpeed, UserList[Worker].PassImage, UserList[Worker].ViewImage);
+                }
+
+
+                dataGridView1.DataSource = SearchData;
+                GraphData();
             }
-
-
-            dataGridView1.DataSource = SearchData;
-            GraphData();
+            catch
+            {
+                MessageBox.Show("Data Error");
+            }
         }
 
 

@@ -260,6 +260,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\ImageViewer_Engr.cs">
+      <SubType>UserControl</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Views\ImageViewer_KeyEvent.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Views\ImageViewer.cs">
       <SubType>UserControl</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -332,14 +340,6 @@
     </Compile>
     <Compile Include="Views\ViewModePassword.Designer.cs">
       <DependentUpon>ViewModePassword.cs</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Views\XYLocationFilter.cs">
-      <SubType>Form</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Views\XYLocationFilter.Designer.cs">
-      <DependentUpon>XYLocationFilter.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Views\XYPXForm.cs">
@@ -447,10 +447,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ViewModePassword.resx">
       <DependentUpon>ViewModePassword.cs</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\XYLocationFilter.resx">
-      <DependentUpon>XYLocationFilter.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\XYPXForm.resx">

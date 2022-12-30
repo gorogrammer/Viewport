@@ -888,6 +888,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(95, 20);
             this.comboBox1.TabIndex = 16;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
             // Height_TB
@@ -1025,6 +1026,7 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(115, 387);
             this.panel4.TabIndex = 0;
+            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // FI_RE_B
             // 
@@ -1033,7 +1035,7 @@
             this.FI_RE_B.Name = "FI_RE_B";
             this.FI_RE_B.Size = new System.Drawing.Size(92, 29);
             this.FI_RE_B.TabIndex = 25;
-            this.FI_RE_B.Text = "필터 초기화";
+            this.FI_RE_B.Text = "초기화";
             this.FI_RE_B.UseVisualStyleBackColor = true;
             this.FI_RE_B.Click += new System.EventHandler(this.button1_Click);
             // 

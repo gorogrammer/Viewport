@@ -313,51 +313,59 @@ namespace ViewPort.Views
 
         private void CreateLotGraph()
         {
-            splitContainer2.Visible = false;
-            chartControl.Series.Clear();
-            chartControl.Titles.Clear();
-            chartControl.Parent = splitContainer1.Panel2;
-            chartControl.Dock = DockStyle.Fill;
-            LOT = dBFunc.GetLot();
-            Series LotChart_1 = new Series("양품", ViewType.FullStackedBar);
-            Series LotChart_2 = new Series("삭제", ViewType.FullStackedBar);
-            LotChart_1.ArgumentScaleType = ScaleType.Auto;
-            LotChart_1.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
-
-            LotChart_2.ArgumentScaleType = ScaleType.Auto;
-            LotChart_2.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
-            ((FullStackedBarSeriesView)LotChart_1.View).Color = Color.Gold;
-            ((FullStackedBarSeriesView)LotChart_2.View).Color = Color.Red;
-            ((FullStackedBarSeriesView)LotChart_1.View).Transparency = 50;
-            ((FullStackedBarSeriesView)LotChart_2.View).Transparency = 50;
-            foreach (DataRow data in LOT.Rows)
+            try
             {
-                string LotName = Convert.ToString(data.ItemArray[0]);
-                int DataValue = Convert.ToInt32(data.ItemArray[1]);
-                int DataValue_D = Convert.ToInt32(data.ItemArray[2]);
-                LotChart_1.Points.Add(new SeriesPoint(LotName, DataValue));
-                LotChart_2.Points.Add(new SeriesPoint(LotName, DataValue_D));
+                splitContainer2.Visible = false;
+                chartControl.Series.Clear();
+                chartControl.Titles.Clear();
+                chartControl.Parent = splitContainer1.Panel2;
+                chartControl.Dock = DockStyle.Fill;
+                LOT = dBFunc.GetLot();
+                Series LotChart_1 = new Series("양품", ViewType.FullStackedBar);
+                Series LotChart_2 = new Series("삭제", ViewType.FullStackedBar);
+                LotChart_1.ArgumentScaleType = ScaleType.Auto;
+                LotChart_1.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
+
+                LotChart_2.ArgumentScaleType = ScaleType.Auto;
+                LotChart_2.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
+                ((FullStackedBarSeriesView)LotChart_1.View).Color = Color.Gold;
+                ((FullStackedBarSeriesView)LotChart_2.View).Color = Color.Red;
+                ((FullStackedBarSeriesView)LotChart_1.View).Transparency = 50;
+                ((FullStackedBarSeriesView)LotChart_2.View).Transparency = 50;
+                foreach (DataRow data in LOT.Rows)
+                {
+                    string LotName = Convert.ToString(data.ItemArray[0]);
+                    int DataValue = Convert.ToInt32(data.ItemArray[1]);
+                    int DataValue_D = Convert.ToInt32(data.ItemArray[2]);
+                    LotChart_1.Points.Add(new SeriesPoint(LotName, DataValue));
+                    LotChart_2.Points.Add(new SeriesPoint(LotName, DataValue_D));
+                }
+                //chartControl. += HotTrackEventHandler;
+                //  for(int i =0; i< LotChart_1.Points.Count; i++)
+                //  {
+                //      LotChart_1.Points[i].Color = Color.Yellow;
+                //      LotChart_2.Points[i].Color = Color.Red;
+
+                //  }
+
+                chartControl.Series.AddRange(new Series[] { LotChart_1, LotChart_2 });
+
+
+                ((XYDiagram)chartControl.Diagram).EnableAxisXZooming = true;
+                ((XYDiagram)chartControl.Diagram).EnableAxisYZooming = true;
+                ((XYDiagram)chartControl.Diagram).EnableAxisXScrolling = true;
+                ((XYDiagram)chartControl.Diagram).EnableAxisYScrolling = true;
+
+                chartControl.Titles.Add(new ChartTitle());
+
+                chartControl.Titles[0].Text = "Lot 상태 비율";
             }
-            //chartControl. += HotTrackEventHandler;
-          //  for(int i =0; i< LotChart_1.Points.Count; i++)
-          //  {
-          //      LotChart_1.Points[i].Color = Color.Yellow;
-          //      LotChart_2.Points[i].Color = Color.Red;
-
-            //  }
-
-            chartControl.Series.AddRange(new Series[] { LotChart_1, LotChart_2 });
-
-
-            ((XYDiagram)chartControl.Diagram).EnableAxisXZooming = true;
-            ((XYDiagram)chartControl.Diagram).EnableAxisYZooming = true;
-            ((XYDiagram)chartControl.Diagram).EnableAxisXScrolling = true;
-            ((XYDiagram)chartControl.Diagram).EnableAxisYScrolling = true;
-
-            chartControl.Titles.Add(new ChartTitle());
-
-            chartControl.Titles[0].Text = "Lot 상태 비율";
+            catch
+            {
+                MessageBox.Show("Data Error");
+            }
         }
+
         public void HotTrackEventHandler(object sender, HotTrackEventArgs e)
         {
             MessageBox.Show(e.Object.GetType().Name);
@@ -366,58 +374,66 @@ namespace ViewPort.Views
 
         private void CreateUserLog()
         {
-            splitContainer2.Visible = false;
-            chartControl.Series.Clear();
-            chartControl.Titles.Clear();
-            chartControl.Parent = splitContainer1.Panel2;
-            chartControl.Dock = DockStyle.Fill;
-            LOG = dBFunc.GetLog();
-            List<string> LotData = new List<string>();
-            Dictionary<string, int> LOGData = new Dictionary<string, int>();
-            Dictionary<string, int> valuePairs = new Dictionary<string, int>();
-            foreach(DataRow row in LOT.Rows)
+            try
             {
-                LOGData.Add(row.ItemArray[0].ToString(),int.Parse(row.ItemArray[2].ToString()));
-            }
-            foreach(DataRow row in LOG.Rows)
-            {
-                LotData.Add(row.ItemArray[0].ToString() + "," + row.ItemArray[1].ToString() + "");
-                
-            }
-            LotData = LotData.Distinct().ToList();
-            foreach(string str in LotData)
-            {
-                string[] value=str.Split(',');
-
-                
-                if (!valuePairs.ContainsKey(value[1]))
+                splitContainer2.Visible = false;
+                chartControl.Series.Clear();
+                chartControl.Titles.Clear();
+                chartControl.Parent = splitContainer1.Panel2;
+                chartControl.Dock = DockStyle.Fill;
+                LOG = dBFunc.GetLog();
+                List<string> LotData = new List<string>();
+                Dictionary<string, int> LOGData = new Dictionary<string, int>();
+                Dictionary<string, int> valuePairs = new Dictionary<string, int>();
+                foreach (DataRow row in LOT.Rows)
                 {
-                    valuePairs.Add(value[1], LOGData[value[0]]);
+                    if (!LOGData.ContainsKey(row.ItemArray[0].ToString()))
+                        LOGData.Add(row.ItemArray[0].ToString(), int.Parse(row.ItemArray[2].ToString()));
                 }
-                else
+                foreach (DataRow row in LOG.Rows)
                 {
-                    
-                    valuePairs[value[1]] = valuePairs[value[1]] + LOGData[value[0]];
-                }
-            }
+                    LotData.Add(row.ItemArray[0].ToString() + "," + row.ItemArray[1].ToString() + "");
 
-            Series LotChart_1 = new Series("작업 수", ViewType.Bar);
-            LotChart_1.ArgumentScaleType = ScaleType.Qualitative;
-            LotChart_1.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
-            ((BarSeriesView)LotChart_1.View).ColorEach = true ;
-            foreach (KeyValuePair<string,int> keyValuePair in valuePairs)
-            {
-                LotChart_1.Points.Add(new SeriesPoint(keyValuePair.Key, keyValuePair.Value));
-                
+                }
+                LotData = LotData.Distinct().ToList();
+                foreach (string str in LotData)
+                {
+                    string[] value = str.Split(',');
+
+
+                    if (!valuePairs.ContainsKey(value[1]))
+                    {
+                        valuePairs.Add(value[1], LOGData[value[0]]);
+                    }
+                    else
+                    {
+
+                        valuePairs[value[1]] = valuePairs[value[1]] + LOGData[value[0]];
+                    }
+                }
+
+                Series LotChart_1 = new Series("작업 수", ViewType.Bar);
+                LotChart_1.ArgumentScaleType = ScaleType.Qualitative;
+                LotChart_1.LabelsVisibility = DevExpress.Utils.DefaultBoolean.True;
+                ((BarSeriesView)LotChart_1.View).ColorEach = true;
+                foreach (KeyValuePair<string, int> keyValuePair in valuePairs)
+                {
+                    LotChart_1.Points.Add(new SeriesPoint(keyValuePair.Key, keyValuePair.Value));
+
+                }
+                LotChart_1.SeriesPointsSorting = SortingMode.Ascending;
+                LotChart_1.LegendTextPattern = "{A}";
+                chartControl.Series.Add(LotChart_1);
+
+                ((XYDiagram)chartControl.Diagram).EnableAxisXZooming = true;
+                ((XYDiagram)chartControl.Diagram).EnableAxisYZooming = true;
+                ((XYDiagram)chartControl.Diagram).EnableAxisXScrolling = true;
+                ((XYDiagram)chartControl.Diagram).EnableAxisYScrolling = true;
             }
-            LotChart_1.SeriesPointsSorting = SortingMode.Ascending;
-            LotChart_1.LegendTextPattern = "{A}";
-            chartControl.Series.Add(LotChart_1);
-            
-            ((XYDiagram)chartControl.Diagram).EnableAxisXZooming = true;
-            ((XYDiagram)chartControl.Diagram).EnableAxisYZooming = true;
-            ((XYDiagram)chartControl.Diagram).EnableAxisXScrolling = true;
-            ((XYDiagram)chartControl.Diagram).EnableAxisYScrolling = true;
+            catch
+            {
+                MessageBox.Show("Data Error");
+            }
         }
         private void ZipLoad_WorkerCheck()
         {
@@ -428,13 +444,25 @@ namespace ViewPort.Views
         }
         private void ZipLoad_Coment()
         {
-            DataTable DT = new DataTable();
+            try
+            {
+                if (ComentLog == string.Empty)
+                {
+                    MessageBox.Show("Zip파일을 Load 해주세요.");
+                    return;
+                }
+                DataTable DT = new DataTable();
 
-            DT.Columns.Add("내용");
+                DT.Columns.Add("내용");
 
-            DT.Rows.Add(ComentLog);
+                DT.Rows.Add(ComentLog);
 
-            LotGrid.DataSource = DT;
+                LotGrid.DataSource = DT;
+            }
+            catch
+            {
+
+            }
         }
     }
 }

@@ -24,9 +24,11 @@ namespace ViewPort.Views
             
             ImageViewer = image;
             ImageViewer.Manager = this;
-            ImageViewer.Main.button1_Click(null, null);
+            NormalCheck_CheckedChanged(null,null);
             ImageViewer.Main.EngrMode = true;
             ImageViewer.Main.FI_RE_B.Enabled = true;
+            //ImageViewer.Main.Frame_BT.Checked = true;
+            //ImageViewer.Main.XY_BT.Enabled = false;
             this.Focus();
         }
 
