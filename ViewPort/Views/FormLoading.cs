@@ -294,7 +294,7 @@ namespace ViewPort.Views
                   
                     if (entry.Name.ToUpper().IndexOf(".ZIP") != -1 )
                     {
-                        if (!main.View_Mode_RB.Checked &&!Ignore_map_List.Contains(int.Parse(entry.Name.Substring(0, 5)).ToString()))
+                        if (!Ignore_map_List.Contains(int.Parse(entry.Name.Substring(0, 5)).ToString()))
                             Frame_List.Add(int.Parse(entry.Name.Substring(0, 5)));
                         else
                             Frame_List.Add(int.Parse(entry.Name.Substring(0, 5)));
@@ -420,10 +420,7 @@ namespace ViewPort.Views
                 int index = 0;
                 //if(main.)
 
-                if(FrameNo==18)
-                {
-
-                }
+              /*
                 if(main.View_Mode_RB.Checked)
                 {
                     if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Equipment_Name)) == -1)
@@ -438,10 +435,9 @@ namespace ViewPort.Views
 
 
                     Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "0", "양품", "O", "0", "0", ImageSize, "", "0"));
-                }
+                }*/
                
-                else
-                {
+                
                     if (Map_List.Count > 0)
                     {
                         if (Frame_List.Contains(FrameNo))
@@ -482,7 +478,7 @@ namespace ViewPort.Views
                         Dic_Load.Add(File_ID, new ImageInfo(LotName, FileName, CameraNo, FrameNo, Equipment_Name, "0", "0", "양품", "O", "0", "0", ImageSize, "", "0"));
                     }
 
-                }
+               
 
 
             }
@@ -549,10 +545,10 @@ namespace ViewPort.Views
                     {
                         F5_dic_Load.Add(dic_ready[0].Substring(0, 12));
                     }
-                    else if (int.Parse(dic_ready[8]) == 215)
-                    {
-                        F5_dic_Load.Add(dic_ready[0].Substring(0, 12));
-                    }
+                    //else if (int.Parse(dic_ready[8]) == 215)
+                    //{
+                    //    F5_dic_Load.Add(dic_ready[0].Substring(0, 12));
+                    //}
 
                     if (Dl_Apply_List.Contains(dic_ready[8]))
                     {

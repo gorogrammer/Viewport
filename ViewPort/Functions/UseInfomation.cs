@@ -20,7 +20,7 @@ namespace ViewPort.Functions
         public string WorkImageCnt { get; set; }
         public string IdleWork { get; set; }
         public string IsFinallyWorker { get; set; }
-
+        public bool OffLineMode { get; set; }
     }
     public class DeletePath
     {

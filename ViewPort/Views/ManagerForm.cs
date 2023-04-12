@@ -21,7 +21,7 @@ namespace ViewPort.Views
         public ManagerForm(ImageViewer image)
         {
             InitializeComponent();
-            
+            InitializeLabel();
             ImageViewer = image;
             ImageViewer.Manager = this;
             NormalCheck_CheckedChanged(null,null);
@@ -31,7 +31,18 @@ namespace ViewPort.Views
             //ImageViewer.Main.XY_BT.Enabled = false;
             this.Focus();
         }
-
+        private void InitializeLabel()
+        {
+            DBFunc dB = new DBFunc();
+            dB.GetViewModeSetting(EQ_STR.DEFAULT, textBox18, textBox17, textBox1, textBox2);
+            dB.GetViewModeSetting(EQ_STR.SHORT, textBox20, textBox19, textBox4, textBox3);
+            dB.GetViewModeSetting(EQ_STR.SPIN, textBox22, textBox21, textBox6, textBox5);
+            dB.GetViewModeSetting(EQ_STR.OPEN, textBox24, textBox23, textBox8, textBox7);
+            dB.GetViewModeSetting(EQ_STR.MB, textBox26, textBox25, textBox10, textBox9);
+            dB.GetViewModeSetting(EQ_STR.TOP, textBox28, textBox27, textBox12, textBox11);
+            dB.GetViewModeSetting(EQ_STR.DISCOLORATION, textBox30, textBox29, textBox14, textBox13);
+            dB.GetViewModeSetting(EQ_STR.SR, textBox32, textBox31, textBox16, textBox15);
+        }
         private void NormalCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (NormalCheck.Checked)
@@ -310,7 +321,7 @@ namespace ViewPort.Views
             }
             else if (SRCheck.Checked)
             {
-                Data = EQ_STR.DISCOLORATION + "," + textBox32.Text + "," + textBox31.Text + "," + textBox16.Text + "," + textBox15.Text;
+                Data = EQ_STR.SR + "," + textBox32.Text + "," + textBox31.Text + "," + textBox16.Text + "," + textBox15.Text;
 
                 return Data;
             }
@@ -324,6 +335,17 @@ namespace ViewPort.Views
             ImageViewer.Main.Rows_TB.Enabled = false;
             ImageViewer.Main.Cols_TB.Enabled = false;
             ImageViewer.Main.Fixed_CB.Enabled = false;
+
+            DBFunc dB = new DBFunc();
+            dB.SetViewModeSetting(EQ_STR.DEFAULT, textBox18, textBox17, textBox1, textBox2);
+            dB.SetViewModeSetting(EQ_STR.SHORT, textBox20, textBox19, textBox4, textBox3);
+            dB.SetViewModeSetting(EQ_STR.SPIN, textBox22, textBox21, textBox6, textBox5);
+            dB.SetViewModeSetting(EQ_STR.OPEN, textBox24, textBox23, textBox8, textBox7);
+            dB.SetViewModeSetting(EQ_STR.MB, textBox26, textBox25, textBox10, textBox9);
+            dB.SetViewModeSetting(EQ_STR.TOP, textBox28, textBox27, textBox12, textBox11);
+            dB.SetViewModeSetting(EQ_STR.DISCOLORATION, textBox30, textBox29, textBox14, textBox13);
+            dB.SetViewModeSetting(EQ_STR.SR, textBox32, textBox31, textBox16, textBox15);
         }
+        
     }
 }

@@ -49,7 +49,7 @@
             this.UserMenu = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.DeletePathMenU = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.Zip = new DevExpress.XtraBars.Navigation.AccordionControlElement();
-            this.accordionControlElement1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.accordionControlElement5 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.KPI = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.accordionControlElement2 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.accordionControlElement3 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
@@ -60,7 +60,10 @@
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.accordionControlElement4 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
-            this.accordionControlElement5 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.label2 = new System.Windows.Forms.Label();
+            this.E_DateTime = new System.Windows.Forms.DateTimePicker();
+            this.S_DateTime = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -256,18 +259,17 @@
             // Zip
             // 
             this.Zip.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.accordionControlElement1,
             this.accordionControlElement5});
             this.Zip.Expanded = true;
             this.Zip.Name = "Zip";
             this.Zip.Text = "Zip";
             this.Zip.Click += new System.EventHandler(this.Zip_Click);
             // 
-            // accordionControlElement1
+            // accordionControlElement5
             // 
-            this.accordionControlElement1.Name = "accordionControlElement1";
-            this.accordionControlElement1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.accordionControlElement1.Text = "LotWorker";
+            this.accordionControlElement5.Name = "accordionControlElement5";
+            this.accordionControlElement5.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
+            this.accordionControlElement5.Text = "Coments";
             // 
             // KPI
             // 
@@ -321,12 +323,14 @@
             this.LotGrid.TabIndex = 0;
             this.LotGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView3});
+            this.LotGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LotGrid_KeyDown);
             // 
             // gridView3
             // 
             this.gridView3.GridControl = this.LotGrid;
             this.gridView3.Name = "gridView3";
             this.gridView3.OptionsBehavior.Editable = false;
+            this.gridView3.OptionsSelection.MultiSelect = true;
             this.gridView3.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView3_RowClick);
             // 
             // splitContainer3
@@ -371,11 +375,43 @@
             this.accordionControlElement4.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
             this.accordionControlElement4.Text = "Coments";
             // 
-            // accordionControlElement5
+            // simpleButton2
             // 
-            this.accordionControlElement5.Name = "accordionControlElement5";
-            this.accordionControlElement5.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item;
-            this.accordionControlElement5.Text = "Coments";
+            this.simpleButton2.Appearance.Font = new System.Drawing.Font("Tahoma", 11F);
+            this.simpleButton2.Appearance.Options.UseFont = true;
+            this.simpleButton2.Location = new System.Drawing.Point(1060, 61);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(87, 23);
+            this.simpleButton2.TabIndex = 9;
+            this.simpleButton2.Text = "조회";
+            this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(832, 67);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(16, 14);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "~";
+            // 
+            // E_DateTime
+            // 
+            this.E_DateTime.Location = new System.Drawing.Point(854, 62);
+            this.E_DateTime.Name = "E_DateTime";
+            this.E_DateTime.Size = new System.Drawing.Size(200, 22);
+            this.E_DateTime.TabIndex = 6;
+            this.E_DateTime.Value = new System.DateTime(2022, 12, 16, 14, 4, 37, 0);
+            // 
+            // S_DateTime
+            // 
+            this.S_DateTime.Location = new System.Drawing.Point(626, 62);
+            this.S_DateTime.Name = "S_DateTime";
+            this.S_DateTime.Size = new System.Drawing.Size(200, 22);
+            this.S_DateTime.TabIndex = 5;
+            this.S_DateTime.Value = new System.DateTime(2022, 12, 15, 0, 0, 0, 0);
             // 
             // DB_ViewForm
             // 
@@ -383,8 +419,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1147, 783);
+            this.Controls.Add(this.simpleButton2);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.ribbonStatusBar);
+            this.Controls.Add(this.S_DateTime);
+            this.Controls.Add(this.E_DateTime);
             this.Controls.Add(this.ribbon);
             this.IconOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("DB_ViewForm.IconOptions.LargeImage")));
             this.Name = "DB_ViewForm";
@@ -439,7 +479,6 @@
         private DevExpress.XtraEditors.SimpleButton simpleButton1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraBars.BarButtonItem RegBT;
-        private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement1;
         private DevExpress.XtraBars.Navigation.AccordionControlElement KPI;
         private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement2;
         private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement3;
@@ -449,5 +488,9 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
         private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement5;
         private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement4;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DateTimePicker E_DateTime;
+        private System.Windows.Forms.DateTimePicker S_DateTime;
     }
 }

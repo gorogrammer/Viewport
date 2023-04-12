@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 namespace ViewPort.Functions
 {
@@ -11,15 +12,14 @@ namespace ViewPort.Functions
    public class DBFunc
     {
         MySqlConnection conn;
-        private string ConnectionString =
+        private string ConnectionString_Stemco =
             "server= 116.127.242.110;" +
             "Port=3306;" +
             "uid =root;" +
             "pwd=zkfmffh0125!;" +
             "convert zero datetime=True;" +
             "CharSet=utf8";
-
-        private string ConnectionString_Stemco =
+        private string ConnectionString =
     "server= 16.100.29.75;" +
     "Port=3306;" +
     "uid = root;" +
@@ -410,6 +410,47 @@ namespace ViewPort.Functions
             command.Dispose();
             return true;
         }
+        public void GetViewModeSetting(string name ,TextBox cols, TextBox rows, TextBox width, TextBox height)
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+
+            
+
+            string DataQuery = "SELECT * FROM carloDB.MF_ViewMode WHERE Name ='" + name + "'";
+            MySqlCommand istcommand = new MySqlCommand(DataQuery, conn);
+            MySqlDataReader drdr = istcommand.ExecuteReader();
+            if (drdr.Read())
+            {
+                cols.Text = drdr["Cols"].ToString();
+                rows.Text = drdr["Rows"].ToString();
+                width.Text = drdr["Width"].ToString();
+                height.Text = drdr["Height"].ToString();
+            }
+            drdr.Dispose();
+        }
+        public void SetViewModeSetting(string name, TextBox cols, TextBox rows, TextBox width, TextBox height)
+        {
+            conn = new MySqlConnection(ConnectionString_Stemco);
+            conn.Open();
+
+
+
+            string UPDateQuery = @"UPDATE carloDB.MF_ViewMode SET"
+                       + " Cols ='" + cols.Text
+                       + "', Rows ='" + rows.Text
+                       + "', Width ='" + width.Text
+                       + "', Height ='" + height.Text
+                       + "' WHERE  Name ='" + name
+                       + "'";
+            MySqlCommand command = new MySqlCommand(UPDateQuery, conn);
+            if (command.ExecuteNonQuery() == -1)
+            {
+                MessageBox.Show("Sever Error");
+            }
+            command.Dispose();
+            
+        }
         public bool GetDeletePathData(string Machine)
         {
             conn = new MySqlConnection(ConnectionString_Stemco);
@@ -433,7 +474,7 @@ namespace ViewPort.Functions
             string PathName = data[0];
             string MachineType = data[1];
             string WorkType = data[2];
-            string Path = data[3];
+            string Path = data[3].Replace(@"\", "/");
 
             string istQuery = "INSERT INTO carloDB.MF_DeletePath(PathName,MachineType,WorkType,Path) VALUES('" +
                                 PathName + "','" +
@@ -455,12 +496,26 @@ namespace ViewPort.Functions
             string MachineType = data[1];
             int WorkType = (int)Enum.Parse(typeof(Enums.WORKTYPE), data[2]);
             string Path = data[3].Replace(@"\", "/");
-
+            string[] Folder = Path.Split('/');
+            string RealPath = string.Empty;
+            for(int i=0; i<Folder.Count(); i++)
+            {
+                if (i == Folder.Count() - 2)
+                {
+                    RealPath += Folder[i] + "/";
+                }
+                else if (i == Folder.Count() - 1)
+                    RealPath += Folder[i];
+                else
+                {
+                   
+                }
+            }
             string UPDateQuery = @"UPDATE carloDB.MF_DeletePath SET"
                         + " PathName ='" + PathName
                         + "', MachineType ='" + MachineType
                         + "', WorkType ='" + WorkType.ToString()
-                        + "', Path ='" + Path
+                        + "', Path ='" + RealPath
                         + "' WHERE  PathName ='" + before
                         + "'";
             MySqlCommand command = new MySqlCommand(UPDateQuery, conn);
@@ -523,7 +578,7 @@ namespace ViewPort.Functions
 
                 return dt;
         }
-        public DataTable GetLog()
+        public DataTable GetLog(DateTime S_Time, DateTime E_Time)
         {
             conn = new MySqlConnection(ConnectionString_Stemco);
             conn.Open();
@@ -552,21 +607,24 @@ namespace ViewPort.Functions
                 string IdleWork = drdr["IdleWork"].ToString();
                 string IsFinallyWorker = drdr["IsFinallyWorker"].ToString();
 
+                if(S_Time <= Convert.ToDateTime(EndTime) && E_Time >= Convert.ToDateTime(EndTime))
                 dt.Rows.Add(LotName, LotWorker, WorkTime, EndTime, TimeTaken, IdleWork, IsFinallyWorker);
             }
             drdr.Dispose();
             return dt;
         }
-        public DataTable GetLot()
+        public DataTable GetLot(DataTable Log, DateTime S_Time, DateTime E_Time)
         {
             conn = new MySqlConnection(ConnectionString_Stemco);
             conn.Open();
             DataTable dt = new DataTable();
+            
+            
 
             dt.Columns.Add("Lot명");
             dt.Columns.Add("Lot이미지 수");
             dt.Columns.Add("처리한 이미지 수");
-
+            dt.Columns.Add("작업완료시간");
             //dt.Columns["WorkType"].DataType = typeof(Enum);
 
             string DataQuery = "SELECT * FROM carloDB.MF_LOT";
@@ -574,12 +632,20 @@ namespace ViewPort.Functions
             MySqlDataReader drdr = DataCommand.ExecuteReader();
             while (drdr.Read())
             {
+                string EndTime = string.Empty;
                 string LotName = drdr["LotName"].ToString();
                 string LotImageCnt = drdr["LotImageCnt"].ToString();
                 string WorkImageCnt = drdr["WorkImageCnt"].ToString();
                 //string Path = drdr["Path"].ToString();
+                DataRow[] dataRows = Log.Select("Lot명 ='" + LotName+"'", "작업종료시간 ASC");
+                if (dataRows.Length > 0)
+                    EndTime = dataRows[0].ItemArray[3].ToString();
+                else
+                    EndTime = default(DateTime).ToString("yyyy-MM-dd HH:mm:ss");
 
-                dt.Rows.Add(LotName, LotImageCnt, WorkImageCnt);
+
+                if (S_Time <= Convert.ToDateTime(EndTime) && E_Time >= Convert.ToDateTime(EndTime))
+                    dt.Rows.Add(LotName, LotImageCnt, WorkImageCnt,EndTime);
             }
             drdr.Dispose();
             return dt;

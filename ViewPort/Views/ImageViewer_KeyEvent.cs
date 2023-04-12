@@ -24,6 +24,7 @@ namespace ViewPort.Views
             this.Focus();
             if (Main != null)
             {
+
                 if (e.Control)
                 {
                     Main.InputKey += 1;
@@ -34,31 +35,13 @@ namespace ViewPort.Views
                     }
                     else
                     {
-                        Application.DoEvents();
+                        //Application.DoEvents();
                         Last_Picture_Selected_Index = -1;
                         Current_PageNum = int.Parse(Main.S_Page_TB.Text) - 1;
                         Main.S_Page_TB.Text = Current_PageNum.ToString();
 
-                        if (!Main.EngrMode)
-                        {
-                            if (Main.Frame_View_CB.Checked)
-                                Frame_Set_Image();
-                            else
-                                Set_Image();
-                        }
-                        else if (Main.EngrMode)
-                        {
-
-                            if (Main.Frame_View_CB.Checked)
-                                Frame_Set_Image();
-                            else if (Main.EngrMode && !normalCheck)
-                                Set_Image_Eng();
-                            else
-                                Set_Image();
-
-                        }
-
-                        //this.Refresh();
+                        Set_Image();
+                       
                     }
                 }
                 else if (e.KeyCode == Keys.Enter)
@@ -97,51 +80,244 @@ namespace ViewPort.Views
 
                 else if (e.Shift && e.KeyCode == Keys.Delete)
                 {
-                    shift_del = 1;
-                    if (Main.View_Mode_RB.Checked == true)
+                    if (MessageBox.Show("리스트에서 선택된 모든 이미지를 삭제 List로 보냅니다.", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        if (ViewMode_PSW_Check == 0)
+                        shift_del = 1;
+                        if (Main.View_Mode_RB.Checked == true)
                         {
-                            ViewModePassword psw = new ViewModePassword(this);
-                            psw.ShowDialog();
-
+                            MessageBox.Show("View Mode에서는 삭제가 불가능합니다. Manual Mode로 Load 바랍니다.","경고");
+                            return;
                         }
+                        if (OpenViewType == "Code_200_SetView")
+                        {
+                            MessageBox.Show("코드변경 후 삭제가능.", "경고");
+                            return;
+                        }
+
+
+                        if (OpenFilterType == "Filter")
+                        {
+                            dicInfo_Filter = new Dictionary<string, ImageInfo>(Main.Filter_CheckEQ_Dic);
+                            Key_shift_del();
+                            if(Main.Filter_CheckEQ_Dic.Count !=0)
+                            {
+                                if (Main.XY_BT.Checked)
+                                    Main.XY_BT_CheckedChanged(null, null);
+                                else
+                                    Main.Frame_BT_Click(null, null);
+                                if ((string)Main.comboBox1.SelectedItem == "양품" || (string)Main.comboBox1.SelectedItem == "선택")
+                                {
+
+
+                                    foreach (string pair in Main.Filter_CheckEQ_Dic.Keys.ToList())
+                                    {
+                                        if (Main.Filter_CheckEQ_Dic[pair].ReviewDefectName == (string)Main.comboBox1.SelectedItem)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            Main.Filter_CheckEQ_Dic.Remove(pair);
+                                        }
+                                    }
+
+
+
+                                }
+                            }
+                            int PageNum = 1;
+                            Main.S_Page_TB.Text = PageNum.ToString();
+                            Current_PageNum = PageNum;
+                            Set_Image();
+                           
+                        }
+
                         else
                         {
                             Key_shift_del();
-                        }
-                    }
-                    else
-                    {
-                        Key_shift_del();
-                    }
+                            Current_PageNum = 1;
+                            Main.S_Page_TB.Text = Current_PageNum.ToString();
+                         
+                            if ((string)Main.comboBox1.SelectedItem == "양품" || (string)Main.comboBox1.SelectedItem == "선택")
+                            {
 
-                    shift_del = 0;
+
+                                foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                                {
+                                    if (DicInfo_Filtered[pair].ReviewDefectName == (string)Main.comboBox1.SelectedItem)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        DicInfo_Filtered.Remove(pair);
+                                    }
+                                }
+
+
+
+                            }
+                            if (DicInfo_Filtered.Count == 0)
+                            {
+                                Filter_NO_1 = 0;
+                                Main.comboBox1.SelectedValueChanged -= Main.comboBox1_SelectedValueChanged;
+                                Main.comboBox1.SelectedItem = "";
+                                Main.comboBox1.SelectedValueChanged += Main.comboBox1_SelectedValueChanged;
+                                Main.button4_Click(null, null);
+                                shift_del = 0;
+                                Main.label10.ForeColor = Color.Black;
+                                Main.label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                                int Total_PageNum2 = ((DicInfo_Filtered.Count - 1) / (cols * rows)) + 1;
+                                Main.E_Page_TB.Text = Total_PageNum2.ToString();
+                                Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+
+                                return;
+                            }
+                            int PageNum = 1;
+                            Main.S_Page_TB.Text = PageNum.ToString();
+                            Current_PageNum = PageNum;
+                            Set_Image();
+                        }
+
+                        if (OpenFilterType == "Filter")
+                        {
+                            int Total_PageNum2 = ((Main.Filter_CheckEQ_Dic.Count - 1) / (cols * rows)) + 1;
+                            Main.E_Page_TB.Text = Total_PageNum2.ToString();
+                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", Main.Filter_CheckEQ_Dic.Count);
+                        }
+                        else
+                        {
+                            int Total_PageNum2 = ((DicInfo_Filtered.Count - 1) / (cols * rows)) + 1;
+                            Main.E_Page_TB.Text = Total_PageNum2.ToString();
+                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+                        }
+
+                        // if (DicInfo_Filtered.Count == 0)
+                        // {
+                        //     Main.button1_Click(null, null);
+                        // }
+                        shift_del = 0;
+                    }
+                    else { }
                 }
 
                 else if (e.KeyCode == Keys.Delete)
                 {
                     Main.InputKey += 1;
-                    if (Main.View_Mode_RB.Checked == true)
+                    if (MessageBox.Show("현재 페이지에서 선택된 이미지를 삭제List로 보냅니다.", "알림", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        if (ViewMode_PSW_Check == 0)
+                        if(Main.View_Mode_RB.Checked == true)
                         {
-                            ViewModePassword psw = new ViewModePassword(this);
-                            psw.ShowDialog();
+                            MessageBox.Show("View Mode에서는 삭제가 불가능합니다. Manual Mode로 Load 바랍니다.", "알림");
+                            return;
+                        }
+                        if (OpenViewType == "Code_200_SetView")
+                        {
+                            MessageBox.Show("코드변경 후 삭제가능.","알림");
+                            return;
+                        }
+
+                        shift_del = 1;
+                        if (OpenFilterType == "Filter")
+                        {
+                            dicInfo_Filter = new Dictionary<string, ImageInfo>(Main.Filter_CheckEQ_Dic);
+                            Key_only_del();
+                            if (Main.Filter_CheckEQ_Dic.Count != 0)
+                            {
+                                if (Main.XY_BT.Checked)
+                                    Main.XY_BT_CheckedChanged(null, null);
+                                else
+                                    Main.Frame_BT_Click(null, null);
+                                if ((string)Main.comboBox1.SelectedItem == "양품" || (string)Main.comboBox1.SelectedItem == "선택")
+                                {
+
+
+                                    foreach (string pair in Main.Filter_CheckEQ_Dic.Keys.ToList())
+                                    {
+                                        if (Main.Filter_CheckEQ_Dic[pair].ReviewDefectName == (string)Main.comboBox1.SelectedItem)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            Main.Filter_CheckEQ_Dic.Remove(pair);
+                                        }
+                                    }
+
+
+
+                                }
+                            }
+                            int PageNum = 1;
+                            Main.S_Page_TB.Text = PageNum.ToString();
+                            Current_PageNum = PageNum;
+                            Set_Image();
 
                         }
+
                         else
                         {
                             Key_only_del();
+                            Current_PageNum = 1;
+                            Main.S_Page_TB.Text = Current_PageNum.ToString();
+                            
+                            if ((string)Main.comboBox1.SelectedItem == "양품" || (string)Main.comboBox1.SelectedItem == "선택")
+                            {
 
+
+                                foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                                {
+                                    if (DicInfo_Filtered[pair].ReviewDefectName == (string)Main.comboBox1.SelectedItem)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        DicInfo_Filtered.Remove(pair);
+                                    }
+                                }
+                                if (DicInfo_Filtered.Count == 0)
+                                {
+                                    Filter_NO_1 = 0;
+                                    Main.comboBox1.SelectedValueChanged -= Main.comboBox1_SelectedValueChanged;
+                                    Main.comboBox1.SelectedItem = "";
+                                    Main.comboBox1.SelectedValueChanged += Main.comboBox1_SelectedValueChanged;
+                                    Main.button4_Click(null, null);
+                                    Main.label10.ForeColor = Color.Black;
+                                    Main.label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                                    shift_del = 0;
+                                    int Total_PageNum2 = ((DicInfo_Filtered.Count - 1) / (cols * rows)) + 1;
+                                    Main.E_Page_TB.Text = Total_PageNum2.ToString();
+                                    Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+                                    return;
+                                }
+
+
+                            }
+
+                            Set_Image();
                         }
-                    }
-                    else
-                    {
-                        Key_only_del();
 
-                    }
+                        if (OpenFilterType == "Filter")
+                        {
+                            int Total_PageNum2 = ((Main.Filter_CheckEQ_Dic.Count - 1) / (cols * rows)) + 1;
+                            Main.E_Page_TB.Text = Total_PageNum2.ToString();
+                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", Main.Filter_CheckEQ_Dic.Count);
+                        }
+                        else
+                        {
+                            int Total_PageNum2 = ((DicInfo_Filtered.Count - 1) / (cols * rows)) + 1;
+                            Main.E_Page_TB.Text = Total_PageNum2.ToString();
+                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+                        }
 
+                        // if (DicInfo_Filtered.Count == 0)
+                        // {
+                        //     Main.button1_Click(null, null);
+                        // }
+                        shift_del = 0;
+                    }
+                    else { }
                 }
 
                 else if (e.KeyCode == Keys.Z)
@@ -223,6 +399,12 @@ namespace ViewPort.Views
 
 
                 }
+                
+
+                else if (e.Shift &&e.KeyCode == Keys.C)
+                {
+                    CopyToClipboard();
+                }
 
                 else if (e.KeyCode == Keys.F11)
                 {
@@ -231,12 +413,31 @@ namespace ViewPort.Views
                     {
                         try
                         {
-                            ProgressBar1 progressBar = new ProgressBar1();
-                            progressBar.Text = "Filtering...";
-                            progressBar.Show();
-                            progressBar.SetProgressBarMaxSafe(DicInfo_Filtered.Count);
+                            Main.OLD_XY_X.Text = "";
+                            Main.OLD_XY_Y.Text = "";
+                            //XY_FT_X.Text = "1";
+                            //textBox1.Text = "1";
+                            Main.Frame_E_TB.Text = "";
+                            Main.Frame_S_TB.Text = "";
+                            Main.Camera_NO_Filter_TB.Text = "";
+                            //comboBox1.SelectedIndex = 0;
+                            Main.label5.ForeColor = Color.Black;
+                            Main.label5.Font = new Font("굴림", 9, FontStyle.Regular);
+                            Main.label6.ForeColor = Color.Black;
+                            Main.label6.Font = new Font("굴림", 9, FontStyle.Regular);
+                            //label10.ForeColor = Color.Black;
+                            //label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                            Main.label16.ForeColor = Color.Black;
+                            Main.label16.Font = new Font("굴림", 9, FontStyle.Regular);
+                            Main.label14.ForeColor = Color.Black;
+                            Main.label14.Font = new Font("굴림", 9, FontStyle.Regular);
+                            //ProgressBar1 progressBar = new ProgressBar1();
+                            //progressBar.Text = "Filtering...";
+                            //progressBar.Show();
+                            //progressBar.SetProgressBarMaxSafe(DicInfo_Filtered.Count);
                             Before_No1_Filter_dicInfo = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
                             DicInfo_Filtered = new Dictionary<string, ImageInfo>(Main.DicInfo);
+                            Main.filterMode = Enums.FILTERTYPE.EQ;
                             foreach (string no in DicInfo_Filtered.Keys.ToList())
                             {
                                 if (DicInfo_Filtered[no].sdip_no == "1")
@@ -247,7 +448,7 @@ namespace ViewPort.Views
                                 {
                                     DicInfo_Filtered.Remove(no);
                                 }
-                                progressBar.AddProgressBarValueSafe(1);
+                                //progressBar.AddProgressBarValueSafe(1);
                             }
 
                             if (DicInfo_Filtered.Count > 0)
@@ -255,11 +456,11 @@ namespace ViewPort.Views
                                 Filter_NO_1 = 1;
                                 Set_View();
                                 Main.Print_List();
-                                progressBar.ExitProgressBarSafe();
+                                //progressBar.ExitProgressBarSafe();
                             }
                             else
                             {
-                                progressBar.ExitProgressBarSafe();
+                               // progressBar.ExitProgressBarSafe();
                                 DicInfo_Filtered = Before_No1_Filter_dicInfo;
                                 MessageBox.Show("[SDIP] 양품 판정된 이미지가 없습니다.");
                                 Set_View();
@@ -319,6 +520,22 @@ namespace ViewPort.Views
                             Select_Pic_List = dicInfo_Filter.Keys.ToList();
 
                             Set_Image_Eng();
+                        }
+                        else if(openFilterType == "Filter")
+                        {
+                            progressBar.SetProgressBarMaxSafe(Main.Filter_CheckEQ_Dic.Count);
+                            foreach (KeyValuePair<string, ImageInfo> pair in Main.Filter_CheckEQ_Dic)
+                            {
+                                pair.Value.ReviewDefectName = "선택";
+                                progressBar.AddProgressBarValueSafe(1);
+                            }
+                            //foreach(string pair in dicInfo_Filter.Keys.ToList())
+                            //{
+                            //    dicInfo_Filter[pair].ReviewDefectName = "선택";
+                            //}
+                            Select_Pic_List = Main.Filter_CheckEQ_Dic.Keys.ToList();
+
+                            Set_Image();
                         }
                         else
                         {
@@ -393,6 +610,24 @@ namespace ViewPort.Views
 
                             Set_Image_Eng();
                         }
+                        else if (OpenFilterType =="Filter")
+                        {
+                            for (int i = 0; i < (cols * rows); i++)
+                            {
+                                if ((index + i) >= Main.Filter_CheckEQ_Dic.Count)
+                                    break;
+                                Selected_Picture_Index.Add(index + i);
+                            }
+
+                            for (int p = 0; p < Selected_Picture_Index.Count; p++)
+                            {
+                                Main.Filter_CheckEQ_Dic[Main.Filter_CheckEQ_Dic.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName = "선택";
+                                Select_Pic_List.Add(dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
+                                Change_state_List.Add(dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key);
+                            }
+
+                            Set_Image();
+                        }
                         else
                         {
                             for (int i = 0; i < (cols * rows); i++)
@@ -414,8 +649,8 @@ namespace ViewPort.Views
                     }
 
 
-                    
 
+                    Main.Changeed_State();
 
                 }
                 else if (e.KeyCode == Keys.S)
@@ -566,10 +801,19 @@ namespace ViewPort.Views
                             pair.Value.ReviewDefectName = "양품";
                         }
                     }
-                    
-                    foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
+                    else if(OpenFilterType == "Filter")
                     {
-                        pair.Value.ReviewDefectName = "양품";
+                        foreach (KeyValuePair<string, ImageInfo> pair in Main.Filter_CheckEQ_Dic)
+                        {
+                            pair.Value.ReviewDefectName = "양품";
+                        }
+                    }
+                    else
+                    {
+                        foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
+                        {
+                            pair.Value.ReviewDefectName = "양품";
+                        }
                     }
 
 
@@ -627,6 +871,18 @@ namespace ViewPort.Views
                                 Main.Eng_dicinfo[Main.Eng_dicinfo.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName = "양품";
                                 Change_state_List.Add(Main.Eng_dicinfo.ElementAt(Selected_Picture_Index[p]).Key);
                             }
+                            else if(openFilterType == "Filter")
+                            {
+                                if (Main.Filter_CheckEQ_Dic.Count <= Selected_Picture_Index[p])
+                                {
+
+                                }
+                                else
+                                {
+                                    Main.Filter_CheckEQ_Dic[Main.Filter_CheckEQ_Dic.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName = "양품";
+                                    Change_state_List.Add(Main.Filter_CheckEQ_Dic.ElementAt(Selected_Picture_Index[p]).Key);
+                                }
+                            }
                             else
                             {
                                 dicInfo_Filter[dicInfo_Filter.ElementAt(Selected_Picture_Index[p]).Key].ReviewDefectName = "양품";
@@ -670,18 +926,63 @@ namespace ViewPort.Views
                         Dictionary<string, ImageInfo> Before_Dic = new Dictionary<string, ImageInfo>(DicInfo_Filtered);
                         Dictionary<string, ImageInfo> F9_Dic = new Dictionary<string, ImageInfo>(Main.F9_Find_in_Dicinfo());
                         DicInfo_Filtered = F9_Dic;
-                        Main.Filter_CheckEQ_Dic = F9_Dic;
+                        Main.OLD_XY_X.Text = "";
+                        Main.OLD_XY_Y.Text = "";
+                        //XY_FT_X.Text = "1";
+                        //textBox1.Text = "1";
+                        Main.Frame_E_TB.Text = "";
+                        Main.Frame_S_TB.Text = "";
+                        Main.Camera_NO_Filter_TB.Text = "";
+                        //comboBox1.SelectedIndex = 0;
+                        Main.label5.ForeColor = Color.Black;
+                        Main.label5.Font = new Font("굴림", 9, FontStyle.Regular);
+                        Main.label6.ForeColor = Color.Black;
+                        Main.label6.Font = new Font("굴림", 9, FontStyle.Regular);
+                        //label10.ForeColor = Color.Black;
+                        //label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                        Main.label16.ForeColor = Color.Black;
+                        Main.label16.Font = new Font("굴림", 9, FontStyle.Regular);
+                        Main.label14.ForeColor = Color.Black;
+                        Main.label14.Font = new Font("굴림", 9, FontStyle.Regular);
+                        Main.filterMode = Enums.FILTERTYPE.EQ;
+                        //Main.Filter_CheckEQ_Dic = Main.DicInfo;
+                        //Main.Filter_CheckEQ_Dic = F9_Dic;
                         if (Main.F9_code_dicInfo.Count > 0)
                         {
                             Filter_F9 = 1;
-                            Main.FI_RE_B.Enabled = true;
-                            Main.Equipment_DF_CLB.SelectedValueChanged -= Main.Equipment_DF_CLB_ItemCheck;
-                            Main.EQ_Data_Update(DicInfo_Filtered);
-                            Set_View();
-                            Main.Equipment_DF_CLB.SelectedValueChanged += Main.Equipment_DF_CLB_ItemCheck;
+                            
+                            //Main.FI_RE_B.Enabled = true;
+                            //  Main.Equipment_DF_CLB.SelectedValueChanged -= Main.Equipment_DF_CLB_ItemCheck;
+                            //  Main.EQ_Data_Update(DicInfo_Filtered);
+                            //Main.comboBox1_SelectedValueChanged(null, null);
+                            if ((string)Main.comboBox1.SelectedItem != "")
+                            {
+                                if ((string)Main.comboBox1.SelectedItem == "양품" || (string)Main.comboBox1.SelectedItem == "선택")
+                                {
+
+
+                                    foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                                    {
+                                        if (DicInfo_Filtered[pair].ReviewDefectName == (string)Main.comboBox1.SelectedItem)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            DicInfo_Filtered.Remove(pair);
+                                        }
+                                    }
+
+
+
+                                }
+                            }
+                                
+                                Set_View();
+                          //  Main.Equipment_DF_CLB.SelectedValueChanged += Main.Equipment_DF_CLB_ItemCheck;
                             Main.Print_List();
                             Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
-
+                            Filter_F9 = 0;
                         }
 
                         else
@@ -708,15 +1009,34 @@ namespace ViewPort.Views
                         Dictionary<string, ImageInfo> F10_Dic = new Dictionary<string, ImageInfo>(Main.F10_Find_in_Dicinfo());
                         DicInfo_Filtered = Main.F10_Find_in_Dicinfo();
                         Main.Filter_CheckEQ_Dic = F10_Dic;
+                        Main.OLD_XY_X.Text = "";
+                        Main.OLD_XY_Y.Text = "";
+                        //XY_FT_X.Text = "1";
+                        //textBox1.Text = "1";
+                        Main.Frame_E_TB.Text = "";
+                        Main.Frame_S_TB.Text = "";
+                        Main.Camera_NO_Filter_TB.Text = "";
+                        //comboBox1.SelectedIndex = 0;
+                        Main.label5.ForeColor = Color.Black;
+                        Main.label5.Font = new Font("굴림", 9, FontStyle.Regular);
+                        Main.label6.ForeColor = Color.Black;
+                        Main.label6.Font = new Font("굴림", 9, FontStyle.Regular);
+                        //label10.ForeColor = Color.Black;
+                        //label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                        Main.label16.ForeColor = Color.Black;
+                        Main.label16.Font = new Font("굴림", 9, FontStyle.Regular);
+                        Main.label14.ForeColor = Color.Black;
+                        Main.label14.Font = new Font("굴림", 9, FontStyle.Regular);
+                        Main.filterMode = Enums.FILTERTYPE.EQ;
                         if (Main.F10_code_dicInfo.Count > 0)
                         {
 
                             Filter_F10 = 1;
                             Main.FI_RE_B.Enabled = true;
-                            Main.Equipment_DF_CLB.SelectedValueChanged -= Main.Equipment_DF_CLB_ItemCheck;
-                            Main.EQ_Data_Update(DicInfo_Filtered);
+                           // Main.Equipment_DF_CLB.SelectedValueChanged -= Main.Equipment_DF_CLB_ItemCheck;
+                           // Main.EQ_Data_Update(DicInfo_Filtered);
                             Set_View();
-                            Main.Equipment_DF_CLB.SelectedValueChanged += Main.Equipment_DF_CLB_ItemCheck;
+                          //  Main.Equipment_DF_CLB.SelectedValueChanged += Main.Equipment_DF_CLB_ItemCheck;
                             Main.Print_List();
                             Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
                             Main.FI_RE_B.Enabled = true;
@@ -738,11 +1058,13 @@ namespace ViewPort.Views
 
                 else if (e.KeyCode == Keys.R)
                 {
-
+                    
                     //A_Mouse_XY = this.PointToClient(new Point(MousePosition.X, MousePosition.Y));
                     Main.InputKey += 1;
                     ExpandImage expand = new ExpandImage(this);
                     Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
+                    if (expand_ImgInfo.Count ==0)
+                        return;
                     expand.Expand_ImgInfo.Add(expand_ImgInfo.Keys.ElementAt(0), expand_ImgInfo[expand_ImgInfo.Keys.ElementAt(0)]);
                     expand.Set_Expand_Img(expand_img);
 
@@ -757,7 +1079,7 @@ namespace ViewPort.Views
                     Main.InputKey += 1;
                     Main.OLD_XY_X.Text = Main.MouseXY_FT_X.Text;
                     Main.OLD_XY_Y.Text = Main.MouseXY_FT_Y.Text;
-
+                    Main.XY_FT_X.Focus();
                     /*
                     XYLocationFilter xyFilter = new XYLocationFilter(this,Befroe_X,Before_Y);
                     Expand_Find_Contain_PB(A_Mouse_XY, A_Mouse_XY);
@@ -804,7 +1126,25 @@ namespace ViewPort.Views
                         if (Main.F5_code_dicInfo.Count > 0)
                         {
                             DicInfo_Filtered = Main.F5_code_dicInfo;
-
+                            Main.filterMode = Enums.FILTERTYPE.EQ;
+                            Main.OLD_XY_X.Text = "";
+                            Main.OLD_XY_Y.Text = "";
+                            //XY_FT_X.Text = "1";
+                            //textBox1.Text = "1";
+                            Main.Frame_E_TB.Text = "";
+                            Main.Frame_S_TB.Text = "";
+                            Main.Camera_NO_Filter_TB.Text = "";
+                            //comboBox1.SelectedIndex = 0;
+                            Main.label5.ForeColor = Color.Black;
+                            Main.label5.Font = new Font("굴림", 9, FontStyle.Regular);
+                            Main.label6.ForeColor = Color.Black;
+                            Main.label6.Font = new Font("굴림", 9, FontStyle.Regular);
+                            //label10.ForeColor = Color.Black;
+                            //label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                            Main.label16.ForeColor = Color.Black;
+                            Main.label16.Font = new Font("굴림", 9, FontStyle.Regular);
+                            Main.label14.ForeColor = Color.Black;
+                            Main.label14.Font = new Font("굴림", 9, FontStyle.Regular);
                             Filter_F5 = 1;
                             Set_View();
                             Main.Print_List();
@@ -824,7 +1164,7 @@ namespace ViewPort.Views
                 }
 
 
-                else if (e.KeyCode == Keys.F1)
+                else if (e.KeyCode == Keys.F12)
                 {
                     Main.InputKey += 1;
                     //Get_Delete_IMG();
@@ -855,6 +1195,7 @@ namespace ViewPort.Views
                                 }
 
                             }
+                            
                             Main.Dl_PrintList();
                             DL_Frame_Set_View();
 
@@ -865,9 +1206,40 @@ namespace ViewPort.Views
                         }
                         else
                         {
-                            foreach (string pair in dicInfo_Filter.Keys.ToList())
+                            if (OpenFilterType == "Filter")
                             {
-                                if (dicInfo_Filter[pair].ReviewDefectName == "선택")
+                                Main.Filter_CheckEQ_Dic.Clear();
+                                OpenFilterType = "NoneFilter";
+                                Main.OLD_XY_X.Text = "";
+                                Main.OLD_XY_Y.Text = "";
+                                Main.XY_FT_X.Text = "1";
+                                Main.textBox1.Text = "1";
+                                Main.Frame_E_TB.Text = "";
+                                Main.Frame_S_TB.Text = "";
+                                Main.Camera_NO_Filter_TB.Text = "";
+                                //comboBox1.SelectedIndex = 0;
+                                Filter_NO_1 = 0;
+                                Filter_F9 = 0;
+                                Filter_F10 = 0;
+                                Filter_F5 = 0;
+                                Filter_F = 0;
+                                Current_PageNum = 1;
+                                Main.S_Page_TB.Text = Current_PageNum.ToString();
+                                OpenFilterType = "NoneFilter";
+                                Main.label5.ForeColor = Color.Black;
+                                Main.label5.Font = new Font("굴림", 9, FontStyle.Regular);
+                                Main.label6.ForeColor = Color.Black;
+                                Main.label6.Font = new Font("굴림", 9, FontStyle.Regular);
+                                //   Main.label10.ForeColor = Color.Black;
+                                //  Main.label10.Font = new Font("굴림", 9, FontStyle.Regular);
+                                Main.label16.ForeColor = Color.Black;
+                                Main.label16.Font = new Font("굴림", 9, FontStyle.Regular);
+                                Main.label14.ForeColor = Color.Black;
+                                Main.label14.Font = new Font("굴림", 9, FontStyle.Regular);                           
+                            }
+                            foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                            {
+                                if (DicInfo_Filtered[pair].ReviewDefectName == "선택")
                                 {
                                     Select_Pic_List.Add(pair);
                                 }
@@ -878,24 +1250,57 @@ namespace ViewPort.Views
                             }
                             for (int i = 0; i < Select_Pic_List.Count; i++)
                             {
-                                if (dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
+                                if (DicInfo_Filtered.ContainsKey(Select_Pic_List[i]))
                                 {
                                     f12_del_list.Add(Select_Pic_List[i]);
-                                    dicInfo_Filter.Remove(Select_Pic_List[i]);
+                                    DicInfo_Filtered.Remove(Select_Pic_List[i]);
                                 }
 
                             }
-
+                            Main.EQ_Data_Updaten(Main.DicInfo);
                             Main.Dl_PrintList();
-                            Del_Set_View();
+                            if ((string)Main.comboBox1.SelectedItem == "양품" || (string)Main.comboBox1.SelectedItem == "선택")
+                            {
+
+
+                                foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                                {
+                                    if (DicInfo_Filtered[pair].ReviewDefectName == (string)Main.comboBox1.SelectedItem)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        DicInfo_Filtered.Remove(pair);
+                                    }
+                                }
 
 
 
-                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+                            }
+                            if (DicInfo_Filtered.Count == 0)
+                            {
+                               // Main.EQ_Data_Updaten(Main.DicInfo);
+                                Filter_NO_1 = 0;
+                                Main.Select_All_BTN_Click(null,null);
+                                shift_del = 0;
+
+                                int Total_PageNum3 = ((DicInfo_Filtered.Count - 1) / (cols * rows)) + 1;
+                                Main.E_Page_TB.Text = Total_PageNum3.ToString();
+                                Main.List_Count_TB.Text = String.Format("{0:#,##0}", dicInfo_Filter.Count);
+                                Main.EQ_Data_Updaten(Main.DicInfo);
+                                return;
+                            }
+                            Set_Image();
+                            Main.Print_List();
+
+                            int Total_PageNum2 = ((DicInfo_Filtered.Count - 1) / (cols * rows)) + 1;
+                            Main.E_Page_TB.Text = Total_PageNum2.ToString();
+                            Main.List_Count_TB.Text = String.Format("{0:#,##0}", DicInfo_Filtered.Count);
 
                             Eq_cb_need_del = new List<string>(Select_Pic_List);
                         }
-
+                        Main.EQ_Data_Updaten(Main.DicInfo);
                         Select_Pic_List.Clear();
                     }
                     else
@@ -919,6 +1324,8 @@ namespace ViewPort.Views
                 Main.InputKey += 1;
                 if (e.KeyCode == Keys.Menu)
                 {
+                  //  Stopwatch stopwatch = new Stopwatch();
+                  //  stopwatch.Start();
                     e.Handled = true;
                     Main.InputKey += 1;
                     if (Main.S_Page_TB.Text == "" || int.Parse(Main.S_Page_TB.Text) >= int.Parse(Main.E_Page_TB.Text))
@@ -933,26 +1340,10 @@ namespace ViewPort.Views
                         Current_PageNum = int.Parse(Main.S_Page_TB.Text) + 1;
                         Main.S_Page_TB.Text = Current_PageNum.ToString();
 
-                        //Set_PictureBox();
-                        if (!Main.EngrMode)
-                        {
-                            if (Main.Frame_View_CB.Checked)
-                                Frame_Set_Image();
-                            else
-                                Set_Image();
-                        }
-                        else if (Main.EngrMode)
-                        {
 
-                            if (Main.Frame_View_CB.Checked)
-                                Frame_Set_Image();
-                            else if (Main.EngrMode && !normalCheck)
-                                Set_Image_Eng();
-                            else
-                                Set_Image();
-
-                        }
-
+                        Set_Image();
+                        
+                       // MessageBox.Show(stopwatch.ElapsedMilliseconds.ToString());
                     }
 
                 }

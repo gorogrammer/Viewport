@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button2 = new System.Windows.Forms.Button();
             this.Cols_TB = new System.Windows.Forms.TextBox();
@@ -54,6 +55,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.S_Page_TB = new System.Windows.Forms.TextBox();
             this.E_Page_TB = new System.Windows.Forms.TextBox();
+            this.xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -345,6 +347,10 @@
             this.E_Page_TB.Size = new System.Drawing.Size(38, 21);
             this.E_Page_TB.TabIndex = 11;
             // 
+            // xtraOpenFileDialog1
+            // 
+            this.xtraOpenFileDialog1.FileName = "xtraOpenFileDialog1";
+            // 
             // DeleteWaiting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -355,6 +361,7 @@
             this.Name = "DeleteWaiting";
             this.Text = "삭제대기 이미지";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DeleteWaiting_FormClosing);
+            this.Shown += new System.EventHandler(this.DeleteWaiting_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DeleteWaiting_KeyDown);
             this.MouseHover += new System.EventHandler(this.DeleteWaiting_MouseHover);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DeleteWaiting_MouseMove);
@@ -394,5 +401,6 @@
         public System.Windows.Forms.TextBox Cols_TB;
         public System.Windows.Forms.TextBox Rows_TB;
         private System.Windows.Forms.Button button2;
+        private DevExpress.XtraEditors.XtraOpenFileDialog xtraOpenFileDialog1;
     }
 }

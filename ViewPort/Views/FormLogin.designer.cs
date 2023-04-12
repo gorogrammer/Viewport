@@ -33,6 +33,7 @@
             this.TB_PASSWORD = new System.Windows.Forms.TextBox();
             this.BTN_LOGIN = new MetroFramework.Controls.MetroTile();
             this.BTN_등록 = new MetroFramework.Controls.MetroTile();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // TB_ID
@@ -71,11 +72,25 @@
             this.BTN_등록.Text = "등록";
             this.BTN_등록.Click += new System.EventHandler(this.BTN_등록_Click);
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.White;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(263, 159);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(86, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "OFFMode";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(369, 188);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.BTN_등록);
             this.Controls.Add(this.BTN_LOGIN);
             this.Controls.Add(this.TB_PASSWORD);
@@ -99,5 +114,6 @@
         private System.Windows.Forms.TextBox TB_PASSWORD;
         private MetroFramework.Controls.MetroTile BTN_LOGIN;
         private MetroFramework.Controls.MetroTile BTN_등록;
+        public System.Windows.Forms.Button button1;
     }
 }

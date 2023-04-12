@@ -197,13 +197,9 @@ namespace ViewPort.Functions
         {
 
             ///////////////////////////
-            ProgressBar1 progressBar = new ProgressBar1();
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
             {
-                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetMapFromPath(FilePath));
-                progressBar.Show();
-                progressBar.Text = "MapTXT Update...";
-                progressBar.SetProgressBarMaxSafe(100);
+                ZipArchiveEntry ImgEntry = zip.GetEntry(Func.GetMapFromPath(FilePath));             
                 if (ImgEntry == null)
                 {
                     MessageBox.Show(MSG_STR.NONE_MAP_TXT);
@@ -351,27 +347,24 @@ namespace ViewPort.Functions
                 {
                     SW.WriteLine(Change_Frame_Count.ToString());
                    
-                }
-                progressBar.tabProgressBarSafe(100);
-                
+                }              
                 zip.Dispose();
             }
-            progressBar.ExitProgressBarSafe();
         }
 
         public static void Write_IMGTXT_inZip(string FilePath, Dictionary<string, ImageInfo> dicInfo, Dictionary<string, ImageInfo> SDIP_200_CODE, Dictionary<string, ImageInfo> dicinfo_copy, List<string> f12_del)
         {
             ProgressBar1 progressBar = new ProgressBar1();
-            Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>();
+            Dictionary<string, ImageInfo> Sorted_dic = new Dictionary<string, ImageInfo>(dicInfo);
             foreach (string pair in SDIP_200_CODE.Keys.ToList())
             {
-                if(dicInfo.ContainsKey(pair))
+                if(Sorted_dic.ContainsKey(pair))
                 {
 
                 }
                 else
                 {
-                    dicInfo.Add(pair, SDIP_200_CODE[pair]);
+                    Sorted_dic.Add(pair, SDIP_200_CODE[pair]);
                 }
             }
 
@@ -379,13 +372,13 @@ namespace ViewPort.Functions
             {
                 foreach (string pair in f12_del)
                 {
-                    if (dicInfo.ContainsKey(pair))
+                    if (Sorted_dic.ContainsKey(pair))
                     {
 
                     }
                     else
                     {
-                        dicInfo.Add(pair, dicinfo_copy[pair]);
+                        Sorted_dic.Add(pair, dicinfo_copy[pair]);
                     }
                 }
             }
@@ -433,15 +426,15 @@ namespace ViewPort.Functions
 
                 using (StreamWriter SW = new StreamWriter(readmeEntry.Open(),Encoding.Default))
                 {
-                    progressBar.SetProgressBarMaxSafe((int)readmeEntry.Length);
+                    progressBar.SetProgressBarMaxSafe((int)Sorted_dic.Count);
                     progressBar.Text = "IMG TXT Change...";
                     progressBar.TopMost = true;
                     progressBar.Show();
                     SW.WriteLine(top);
-                    for (int i = 0; i < dicInfo.Count; i++)
+                    for (int i = 0; i < Sorted_dic.Count; i++)
                     {
                         progressBar.AddProgressBarValueSafe(1);
-                        SW.WriteLine(dicInfo.Keys.ElementAt(i) + "_" + dicInfo[dicInfo.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_no + ",," + dicInfo[dicInfo.Keys.ElementAt(i)].sdip_result + dicInfo[dicInfo.Keys.ElementAt(i)].Change_Code);
+                        SW.WriteLine(Sorted_dic.Keys.ElementAt(i) + "_" + Sorted_dic[Sorted_dic.Keys.ElementAt(i)].EquipmentDefectName + ",1,0,,,,,," + Sorted_dic[Sorted_dic.Keys.ElementAt(i)].sdip_no + ",," + Sorted_dic[Sorted_dic.Keys.ElementAt(i)].sdip_result + Sorted_dic[Sorted_dic.Keys.ElementAt(i)].Change_Code);
 
                     }
                 }
@@ -695,7 +688,7 @@ namespace ViewPort.Functions
          
 
             }
-
+            Main.delete_W += Waiting_Del.Count;
             Main.Waiting_Del = Waiting_Del;
             Main.Load_saveFile();
             }
@@ -761,6 +754,9 @@ namespace ViewPort.Functions
         }
         public static void Coment_Insert_Alzip(string Coment, string FilePath)
         {
+            if (string.IsNullOrEmpty(Coment))
+                return;
+
 
             // List<string> dic_ready = new List<string>();
             using (ZipArchive zip = ZipFile.Open(FilePath, ZipArchiveMode.Update))
@@ -768,21 +764,10 @@ namespace ViewPort.Functions
                 ZipArchiveEntry ImgEntry;
                 string OldData = string.Empty;
                 List<string> b = new List<string>();
-                ImgEntry = zip.GetEntry(Func.GetComentFromPath(FilePath));
-                using (StreamReader SR = new StreamReader(ImgEntry.Open()))
-                {
-
-                    OldData= SR.ReadToEnd();
-                    //ComentData.RemoveAt(ComentData.Count - 1);
-
-                }
-
-
+                ImgEntry = zip.CreateEntry(Func.GetComentFromPath(FilePath));
                 using (StreamWriter SW = new StreamWriter(ImgEntry.Open()))
                 {
-                    
-                    SW.Write(OldData);
-                    SW.WriteLine("@");                   
+                                                      
                     SW.WriteLine(Coment);
                     
                 }
@@ -805,39 +790,10 @@ namespace ViewPort.Functions
                     ImgEntry = zip.GetEntry(Func.GetComentFromPath(FilePath));
                     using (StreamReader SR = new StreamReader(ImgEntry.Open()))
                     {
-                        string[] ComentTxt = SR.ReadToEnd().Split('@');
-                        string[] data = ComentTxt[0].Replace("\r\n", ",").Split(',');
-                        Coment = ComentTxt[1].Trim();
-                        for (int i = 0; i < data.Length; i++)
-                        {
-                            if (data[i].Equals("")) { }
-                            else
-                            {
-                                if (i % 2 == 0)
-                                {
-
-                                }
-                                else
-                                {
-                                    ComentData.Add(data[i]);
-                                }
-                            }
-                        }
-                        coment = Coment;
-                        SR.Dispose();
+                        coment = SR.ReadToEnd();
                     }
                     DataTable dt = new DataTable();
-                    dt.Columns.Add("Lot작업자");
-                    foreach (string Worker in ComentData)
-                    {
-
-                        DES des = new DES("carlo123");
-                        if (Worker != "")
-                        {
-                            string decrypt = des.result(DesType.Decrypt, Worker);
-                            dt.Rows.Add(decrypt);
-                        }
-                    }
+                    dt.Columns.Add("Lot작업자");                  
                     return dt;
                 }
             }
@@ -852,9 +808,31 @@ namespace ViewPort.Functions
         {
             try
             {
+                Directory.SetCurrentDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
                 List<string> ReadText = new List<string>();
                 string reFilePath = FilePath.Replace("/", @"\");
-                string deleteTxtPath = reFilePath + @"\" + LotName + "_" + Worker + ".txt";
+                string CurrentPath = Directory.GetCurrentDirectory();
+                string deleteTxtPath = Path.GetFullPath(reFilePath) + @"\" + LotName + "_" + Worker + ".txt";
+                try
+                {
+                    while (true)
+                    {
+                        if (Directory.Exists(CurrentPath + @"\" + reFilePath))
+                        {
+                            deleteTxtPath = CurrentPath + @"\" + reFilePath + @"\" + LotName + "_" + Worker + ".txt";
+                            break;
+                        }
+                        else
+                            CurrentPath = Directory.GetParent(CurrentPath).ToString();
+                    }
+                }
+                catch
+                {
+                    deleteTxtPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    
+                }
+
+
                 if (File.Exists(deleteTxtPath))
                 {
                     using (StreamReader SR = new StreamReader(deleteTxtPath))
@@ -876,13 +854,15 @@ namespace ViewPort.Functions
                 {
                     using (StreamWriter SW = new StreamWriter(deleteTxtPath))
                     {
-                        deleteList.AddRange(ReadText);
+                       // deleteList.AddRange(ReadText);
                         foreach (string delete in deleteList)
                         {
                             SW.WriteLine(delete);
                         }
                     }
                 }
+
+                
             }
             catch
             {

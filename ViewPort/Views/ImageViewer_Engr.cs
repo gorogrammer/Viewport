@@ -27,7 +27,7 @@ namespace ViewPort.Views
 
 
                 Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
-                int maxX = DicInfo_Filtered.Max(x => Int32.Parse(x.Value.X_Location)) / Main.Px;
+                int maxY = DicInfo_Filtered.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
 
                 foreach (KeyValuePair<string, ImageInfo> pair in DicInfo_Filtered)
 
@@ -36,7 +36,7 @@ namespace ViewPort.Views
                     int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
                     int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
 
-                    int SortedXY = x * (maxX * 10) + y;
+                    int SortedXY = y * (maxY * 10) + x;
 
                     pair.Value.SortedXY = SortedXY;
 
@@ -97,14 +97,14 @@ namespace ViewPort.Views
                 else
                 {
                     Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
-                    int maxX = Main.Eng_dicinfo.Max(x => Int32.Parse(x.Value.X_Location)) / Main.Px;
+                    int maxY = Main.Eng_dicinfo.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
                     foreach (KeyValuePair<string, ImageInfo> pair in Main.Eng_dicinfo)
                     {
 
                         int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
                         int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
 
-                        int SortedXY = x * (maxX * 10) + y;
+                        int SortedXY = y * (maxY * 10) + x;
 
                         pair.Value.SortedXY = SortedXY;
 
@@ -145,14 +145,14 @@ namespace ViewPort.Views
                 else
                 {
                     Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>(Main.DicInfo);
-                    int maxX = SortXY_DIC_Load.Max(x => Int32.Parse(x.Value.X_Location)) / Main.Px;
+                    int maxY = SortXY_DIC_Load.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
                     foreach (KeyValuePair<string, ImageInfo> pair in SortXY_DIC_Load)
                     {
 
                         int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
                         int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
 
-                        int SortedXY = x * (maxX * 10) + y;
+                        int SortedXY = y * (maxY * 10) + x;
 
                         pair.Value.SortedXY = SortedXY;
 
@@ -209,14 +209,14 @@ namespace ViewPort.Views
             else
             {
                 Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
-                int maxX = Main.Eng_dicinfo.Max(x => Int32.Parse(x.Value.X_Location)) / Main.Px;
+                int maxY = Main.Eng_dicinfo.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
                 foreach (KeyValuePair<string, ImageInfo> pair in Main.Eng_dicinfo)
                 {
 
                     int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
                     int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
 
-                    int SortedXY = x * (maxX * 10) + y;
+                    int SortedXY = y * (maxY * 10) + x;
 
                     pair.Value.SortedXY = SortedXY;
 
@@ -259,37 +259,40 @@ namespace ViewPort.Views
                 Main.Eng_dicinfo.Remove(number);
             }
 
-            if (Main.Frame_BT.Checked)
+            if (Main.Eng_dicinfo.Count > 0)
             {
-
-                Data = Main.Eng_dicinfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-                Main.Eng_dicinfo = Data;
-            }
-            else
-            {
-                Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
-                int maxX = Main.Eng_dicinfo.Max(x => Int32.Parse(x.Value.X_Location)) / Main.Px;
-                foreach (KeyValuePair<string, ImageInfo> pair in Main.Eng_dicinfo)
+                if (Main.Frame_BT.Checked)
                 {
 
-                    int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
-                    int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
-
-                    int SortedXY = x * (maxX * 10) + y;
-
-                    pair.Value.SortedXY = SortedXY;
-
-
+                    Data = Main.Eng_dicinfo.OrderBy(s => s.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    Main.Eng_dicinfo = Data;
                 }
-                var keyValues = Main.Eng_dicinfo.OrderBy(x => x.Value.SortedXY);
-                foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                else
                 {
+                    Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                    int maxY = Main.Eng_dicinfo.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
+                    foreach (KeyValuePair<string, ImageInfo> pair in Main.Eng_dicinfo)
+                    {
 
-                    SortXY_DIC_Load.Add(pair.Key, pair.Value);
+                        int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
+                        int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
+
+                        int SortedXY = y * (maxY * 10) + x;
+
+                        pair.Value.SortedXY = SortedXY;
 
 
+                    }
+                    var keyValues = Main.Eng_dicinfo.OrderBy(x => x.Value.SortedXY);
+                    foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                    {
+
+                        SortXY_DIC_Load.Add(pair.Key, pair.Value);
+
+
+                    }
+                    Main.Eng_dicinfo = SortXY_DIC_Load;
                 }
-                Main.Eng_dicinfo = SortXY_DIC_Load;
             }
             if (check == 2)
             {

@@ -12,6 +12,7 @@ using ViewPort.Functions;
 using DevExpress.XtraGrid;
 using DevExpress.XtraCharts;
 
+
 namespace ViewPort.Views
 {
     public partial class DB_ViewForm : DevExpress.XtraBars.Ribbon.RibbonForm
@@ -29,6 +30,8 @@ namespace ViewPort.Views
         {
             Image = image;
             InitializeComponent();
+            S_DateTime.Value = DateTime.Now.AddDays(-30);
+            E_DateTime.Value = DateTime.Now;
             accordionControl1.SelectedElement = accordionControl1.Elements[0];
             FilePath = filePath;
             GetData();
@@ -38,6 +41,7 @@ namespace ViewPort.Views
             else { }
             chartControl.MouseClick += ChartControl_MouseClick;
             chartControl.RuntimeHitTesting = true;
+           
             //  gridView1.BestFitColumns();
 
         }
@@ -93,8 +97,8 @@ namespace ViewPort.Views
         {
 
             DeletePath = dBFunc.GetDeletePath();
-            LOG = dBFunc.GetLog();
-            LOT = dBFunc.GetLot();
+            LOG = dBFunc.GetLog(S_DateTime.Value, E_DateTime.Value);
+            LOT = dBFunc.GetLot(LOG, S_DateTime.Value, E_DateTime.Value);
             User = dBFunc.GetUser();
             // gridControl3.DataSource = Func.Get_Lot_WorkerList(FilePath);
             gridView3.BestFitColumns();
@@ -212,6 +216,9 @@ namespace ViewPort.Views
 
         private void simpleButton1_Click(object sender, EventArgs e)
         {
+            if (propertyGrid1.SelectedObject == null)
+                return;
+
             DBFunc dB = new DBFunc();
             object obj = propertyGrid1.SelectedObject;
             List<string> Column = new List<string>();
@@ -236,8 +243,8 @@ namespace ViewPort.Views
         private void DataSerach_BT_ItemClick(object sender, ItemClickEventArgs e)
         {
             DataSeachForm dataSeachForm = new DataSeachForm();
-            dataSeachForm.LOT = dBFunc.GetLot();
-            dataSeachForm.LOG = dBFunc.GetLog();
+            dataSeachForm.LOT = dBFunc.GetLot(LOG, S_DateTime.Value, E_DateTime.Value);
+            dataSeachForm.LOG = dBFunc.GetLog(S_DateTime.Value,E_DateTime.Value);
             dataSeachForm.User = dBFunc.GetUser();
             dataSeachForm.ShowDialog();
         }
@@ -259,7 +266,7 @@ namespace ViewPort.Views
             propertyGrid1.SelectedObject = null;
             splitContainer2.Visible = true;
             gridView3.Columns.Clear();
-            switch (e.Element.Text)
+            switch (accordionControl1.SelectedElement.Text)
             {
                 case ACCMENU_STR.USER:          LotGrid.DataSource = User;              break;
                 case ACCMENU_STR.LOG:           LotGrid.DataSource = LOG;               break;
@@ -267,7 +274,6 @@ namespace ViewPort.Views
                 case ACCMENU_STR.DELETEPATH:    LotGrid.DataSource = DeletePath;        break;
                 case ACCMENU_STR.C_Lot:         CreateLotGraph();                       break;
                 case ACCMENU_STR.UserLog:       CreateUserLog();                        break;
-                case ACCMENU_STR.LotWorker:     ZipLoad_WorkerCheck();                  break;
                 case ACCMENU_STR.Coments:       ZipLoad_Coment();                       break;
 
 
@@ -320,7 +326,7 @@ namespace ViewPort.Views
                 chartControl.Titles.Clear();
                 chartControl.Parent = splitContainer1.Panel2;
                 chartControl.Dock = DockStyle.Fill;
-                LOT = dBFunc.GetLot();
+                LOT = dBFunc.GetLot(LOG, S_DateTime.Value, E_DateTime.Value);
                 Series LotChart_1 = new Series("양품", ViewType.FullStackedBar);
                 Series LotChart_2 = new Series("삭제", ViewType.FullStackedBar);
                 LotChart_1.ArgumentScaleType = ScaleType.Auto;
@@ -366,6 +372,20 @@ namespace ViewPort.Views
             }
         }
 
+        private void LotGrid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+                gridView3.SelectAll();
+            
+
+        }
+
+        private void simpleButton2_Click(object sender, EventArgs e)
+        {
+            GetData();
+            accordionControl1_SelectedElementChanged(null, null);
+        }
+
         public void HotTrackEventHandler(object sender, HotTrackEventArgs e)
         {
             MessageBox.Show(e.Object.GetType().Name);
@@ -381,7 +401,7 @@ namespace ViewPort.Views
                 chartControl.Titles.Clear();
                 chartControl.Parent = splitContainer1.Panel2;
                 chartControl.Dock = DockStyle.Fill;
-                LOG = dBFunc.GetLog();
+                LOG = dBFunc.GetLog(S_DateTime.Value, E_DateTime.Value);
                 List<string> LotData = new List<string>();
                 Dictionary<string, int> LOGData = new Dictionary<string, int>();
                 Dictionary<string, int> valuePairs = new Dictionary<string, int>();

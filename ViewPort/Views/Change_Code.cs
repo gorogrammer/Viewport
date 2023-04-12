@@ -110,7 +110,7 @@ namespace ViewPort.Views
             //        }
             //    }
             //}
-            MessageBox.Show("코드가 변경되었습니다.");
+            
         
         }
 
@@ -135,7 +135,7 @@ namespace ViewPort.Views
 
             if (MessageBox.Show(" SDIP 코드를 " + Code_Change_TB.Text+"로 변경하시겠습니까?", "코드 변경",MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-
+                this.DialogResult = DialogResult.OK;
                 Change_Sdip();
                 this.Close();
             }
@@ -163,6 +163,7 @@ namespace ViewPort.Views
 
                 if (MessageBox.Show(" SDIP 코드를 " + Code_Change_TB.Text + "로 변경하시겠습니까?", "코드 변경", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    this.DialogResult = DialogResult.OK;
                     Change_Sdip();
                     this.Close();
                 }

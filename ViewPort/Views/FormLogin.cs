@@ -47,6 +47,7 @@ namespace SDIP.Forms
                     return;
                 }
                 UseInfomation.Name = db.Information;
+                UseInfomation.OffLineMode = false;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -73,6 +74,15 @@ namespace SDIP.Forms
             ViewPort.Views.RegForm regForm = new ViewPort.Views.RegForm();
 
             regForm.ShowDialog();
+        }
+
+        
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            UseInfomation.OffLineMode = true;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

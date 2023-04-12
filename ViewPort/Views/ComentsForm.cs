@@ -28,12 +28,7 @@ namespace ViewPort.Views
 
         private void ComentsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(richTextBox1.Text == "")
-            {
-                e.Cancel = true;
-                MessageBox.Show("코멘트를 작성해주세요.");
-                
-            }
+            
         }
     }
 }

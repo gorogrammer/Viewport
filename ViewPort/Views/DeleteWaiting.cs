@@ -12,6 +12,7 @@ using ViewPort.Functions;
 using System.IO.Compression;
 using System.IO;
 using MetroFramework.Forms;
+using DevExpress.XtraSplashScreen;
 
 namespace ViewPort.Views
 {
@@ -70,7 +71,7 @@ namespace ViewPort.Views
             //Del_img_list.Select();
 
             Main = parent;
-           
+            
         }
         public void Set_EQ()
         {
@@ -78,7 +79,7 @@ namespace ViewPort.Views
             Equipment_DF_CLB.Items.Clear();
             int x = 1;
             int index = 0;
-            foreach (string pair in Waiting_Img.Keys.ToList())
+            foreach (string pair in Main_Dic.Keys.ToList())
             {
                 if (All_Equipment_DF_List.FindIndex(s => s.Item1.Equals(Main_Dic[pair].EquipmentDefectName)) == -1)
                     All_Equipment_DF_List.Add(new Tuple<string, int>(Main_Dic[pair].EquipmentDefectName, 1));
@@ -120,6 +121,7 @@ namespace ViewPort.Views
             {
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
             }
+
             else
             {
                 dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(Main_Dic);
@@ -583,22 +585,7 @@ namespace ViewPort.Views
             int PF_index = 0, Current_Index = 0;
             EachPage_ImageNum = cols * rows;
 
-            if (EQ_Filter_check == 1)
-            {
-
-            }
-            else if (Frame_Filter_check == 1)
-            {
-                dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
-            }
-            else if (Camera_Filter_check == 1)
-            {
-                dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(framesort_dic);
-            }
-            else
-            {
-                dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(Main_Dic);
-            }
+            
             //Sorted_dic = dicInfo_Filter_Del.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
             //dicInfo_Filter_Del = new Dictionary<string, ImageInfo>(Sorted_dic);
 
@@ -973,6 +960,7 @@ namespace ViewPort.Views
             //Main.EngrMode = false;
             //Main.FI_RE_B.Enabled = false;
             Main.Return_Img_Print();
+            Main.button1_Click(null, null);
             Main.filterMode = Enums.FILTERTYPE.NULL;
 
             dicInfo_Delete_Sel.Clear();
@@ -1009,9 +997,11 @@ namespace ViewPort.Views
                 Main.UpdateDeleteText();
                 //waitform.Close();
                 //Main.Activate();
-               // ProgressBar1.CloseBar(Main);
+                // ProgressBar1.CloseBar(Main);
+                SplashScreenManager.ShowForm(typeof(WaitFormSplash));
                 Main.MapTxtChange();
-                
+                SplashScreenManager.CloseForm();
+                MessageBox.Show("Map 변경되었습니다.");
                 Main.TopMost = false;
             }
             catch(Exception ex)
@@ -1262,7 +1252,7 @@ namespace ViewPort.Views
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        public void button2_Click(object sender, EventArgs e)
         {
             List<string> Frame_filter_List = new List<string>();
             int Num;
@@ -1348,9 +1338,10 @@ namespace ViewPort.Views
 
                   
                 }
-            }          
-            Set_View_Del();
+            }
             Set_EQ();
+            Set_View_Del();
+            
             
         }
 
@@ -1362,6 +1353,11 @@ namespace ViewPort.Views
         private void DeleteWaiting_MouseMove(object sender, MouseEventArgs e)
         {
            // this.Activate();
+        }
+
+        private void DeleteWaiting_Shown(object sender, EventArgs e)
+        {
+            button2_Click(null, null);
         }
 
         private void Print_Image_EQ_CheckedChanged(object sender, EventArgs e)
