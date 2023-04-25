@@ -41,7 +41,7 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox1.Size = new System.Drawing.Size(384, 270);
+            this.richTextBox1.Size = new System.Drawing.Size(448, 291);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.TabStop = false;
             this.richTextBox1.Text = "";
@@ -50,7 +50,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 350);
+            this.ClientSize = new System.Drawing.Size(488, 371);
             this.Controls.Add(this.richTextBox1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Name = "AlramForm";

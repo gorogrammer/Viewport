@@ -226,17 +226,12 @@ namespace ViewPort.Views
         {
             Main.InputKey += 1;
             
-                ProgressBar1 progressBar = new ProgressBar1();
+              
                 Select_Pic_List.Clear();
                 int index = ((Current_PageNum - 1) * (cols * rows));
                 Selected_Picture_Index.Clear();
                 try
                 {
-                    
-                    progressBar.Text = "Delete Wait..";
-                    progressBar.Show();
-                    progressBar.SetProgressBarMaxSafe(100);
-
 
                     if (Main.Frame_View_CB.Checked)
                     {
@@ -356,7 +351,6 @@ namespace ViewPort.Views
                     }
 
                     Get_Delete_IMG();
-                        progressBar.tabProgressBarSafe(50);
                         for (int i = 0; i < Select_Pic_List.Count; i++)
                         {
                         if (OpenFilterType == "Filter" && Main.Filter_CheckEQ_Dic.ContainsKey(Select_Pic_List[i]))
@@ -411,19 +405,19 @@ namespace ViewPort.Views
                             Main.Wait_Del_Print_List();
 
 
-                        progressBar.tabProgressBarSafe(50);
+                       
                     }
                    // Main.filterMode = Enums.FILTERTYPE.NULL;
                     Main.delete_W = Main.Waiting_Del.Count;
                     Main.InfoListCount = Main.InfoListCount - Select_Pic_List.Count;
                     Main.UpdateDeleteText();
                     Select_Pic_List.Clear();
-                    progressBar.ExitProgressBarSafe();
+                   
                     //Eq_cb_need_del.Clear();
                 }
                 catch (Exception ex)
                 {
-                    progressBar.ExitProgressBarSafe();
+                 
                     MessageBox.Show(ex.ToString());
 
                 }
@@ -434,14 +428,12 @@ namespace ViewPort.Views
         {
             Main.InputKey += 1;
            
-                ProgressBar1 progressBar = new ProgressBar1();
+               
                 Select_Pic_List.Clear();
                 try
                 {
                    
-                    progressBar.Text = "Delete Wait..";
-                    progressBar.Show();
-                    progressBar.SetProgressBarMaxSafe(100);
+                    
 
 
                     if (Main.Frame_View_CB.Checked)
@@ -488,61 +480,35 @@ namespace ViewPort.Views
                     {
                         if (Main.EngrMode)
                         {
-                            foreach (string pair in Main.Eng_dicinfo.Keys.ToList())
-                            {
-                                if (Main.Eng_dicinfo[pair].ReviewDefectName == "선택")
-                                {
-                                    Select_Pic_List.Add(pair);
-                                }
-                                else
-                                {
 
-                                }
-                            }
+                        var dic = Main.Eng_dicinfo.Where(kvp => kvp.Value.ReviewDefectName == "선택").ToDictionary(pair => pair.Key, pair => pair.Value);
+                        Select_Pic_List = dic.Keys.ToList();
                         }
                         else
                         {
-                            foreach (string pair in dicInfo_Filter.Keys.ToList())
-                            {
-                                if (dicInfo_Filter[pair].ReviewDefectName == "선택")
-                                {
-                                    Select_Pic_List.Add(pair);
-                                }
-                                else
-                                {
-
-                                }
-                            }
+                            var dic= dicInfo_Filter.Where(kvp => kvp.Value.ReviewDefectName == "선택").ToDictionary(pair => pair.Key, pair => pair.Value);
+                            Select_Pic_List = dic.Keys.ToList();
+                            
                         }
                         Get_Delete_IMG();
 
-                        for (int i = 0; i < Select_Pic_List.Count; i++)
+                    for (int i = 0; i < Select_Pic_List.Count; i++)
+                    {
+                        try
                         {
-                            if (dicInfo_Filter.ContainsKey(Select_Pic_List[i]))
-                            {
-                                dicInfo_Filter.Remove(Select_Pic_List[i]);
-                            }
+                            dicInfo_Filter.Remove(Select_Pic_List[i]);
                             if (Main.EngrMode)
                             {
-                                if (Main.Eng_dicinfo.ContainsKey(Select_Pic_List[i]))
-                                {
-                                    Main.Eng_dicinfo.Remove(Select_Pic_List[i]);
-                                    sorted_dic_Eng.Remove(Select_Pic_List[i]);
-                                }
+                                Main.Eng_dicinfo.Remove(Select_Pic_List[i]);
+                                sorted_dic_Eng.Remove(Select_Pic_List[i]);
                             }
-
                         }
+                        catch { continue;  }
 
-                        //if (Filter_NO_1 == 1)
-                        //{
-                        //    Main.No1_Dl_PrintList();
-                        //    Filter_NO_1 = 0;
-                        //}
-                        //else
-                        Main.Dl_PrintList();
+                    }
 
-
-                        Eq_cb_need_del = new List<string>(Select_Pic);
+                    Main.Dl_PrintList();
+                    Eq_cb_need_del = new List<string>(Select_Pic);
                         if (Main.Eng_dicinfo.Count > 1)
                         {
                             Eng_Set_View();
@@ -571,16 +537,13 @@ namespace ViewPort.Views
                         Main.Wait_Del_Print_List();
                        
 
-                        progressBar.tabProgressBarSafe(100);
+                       
                     }
-
-                    Select_Pic_List.Clear();
-                    progressBar.ExitProgressBarSafe();
+                    Select_Pic_List.Clear();                  
                     //Eq_cb_need_del.Clear();
                 }
                 catch (Exception ex)
-                {
-                    progressBar.ExitProgressBarSafe();
+                {              
                     MessageBox.Show(ex.ToString());
 
                 }
@@ -735,78 +698,39 @@ namespace ViewPort.Views
         }
         public void Set_View()
         {
-
-            if (Main == null)
+            try
             {
-               // MessageBox.Show("Load된 Image가 없습니다.");
-
-                return;
-            }
-            Main.ViewType = "SetView";
-            OpenViewType = "SetView";
-
-            if (Main.Fixed_CB.Checked == true)
-            {
-                Main.Height_TB.Text = Main.Width_TB.Text;
-            }
-            this.Controls.Clear();
-            PictureData.Clear();
-
-            if (!Main.Exceed_CB.Checked && Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F != 1 && Main.List_filter != 1 && Main.State_Filter != 1 && Frame_Filter_check!=1 && Main.ImageSize_Filter_NO !=1 && OpenFilterType == "NoneFilter" && Main.Filter_CheckEQ_Dic.Count ==0)
-            {
-                dicInfo_Filter = Main.DicInfo;
-
-            }
-            else if (Main.Exceed_CB.Checked)
-            {
-                dicInfo_Filter = Main.Exceed_filter;
-
-            }
-            if (dicInfo_Filter.Count != 0 && OpenFilterType == "NoneFilter")
-            {
-                if (Main.Frame_BT.Checked)
+                if (Main == null)
                 {
-                    Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                    // MessageBox.Show("Load된 Image가 없습니다.");
 
-                    DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
+                    return;
                 }
-                else if (Main.XY_BT.Checked)
+                Main.ViewType = "SetView";
+                OpenViewType = "SetView";
+
+                if (Main.Fixed_CB.Checked == true)
                 {
-
-                    Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
-                    int maxY = dicInfo_Filter.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
-
-                    foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
-
-                    {
-
-                        int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
-                        int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
-
-                        int SortedXY = y * (maxY * 10) + x;
-
-                        pair.Value.SortedXY = SortedXY;
-
-
-                    }
-                    var keyValues = dicInfo_Filter.OrderBy(x => x.Value.SortedXY);
-                    foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
-                    {
-
-                        SortXY_DIC_Load.Add(pair.Key, pair.Value);
-
-
-                    }
-                    DicInfo_Filtered = SortXY_DIC_Load;
+                    Main.Height_TB.Text = Main.Width_TB.Text;
                 }
-            }
-            else
-            {
-                if (DicInfo_Filtered.Count != 0 && OpenFilterType == "NoneFilter")
+                this.Controls.Clear();
+                PictureData.Clear();
+
+                if (!Main.Exceed_CB.Checked && Filter_NO_1 != 1 && Filter_F9 != 1 && Filter_F10 != 1 && Filter_F5 != 1 && Filter_F != 1 && Main.List_filter != 1 && Main.State_Filter != 1 && Frame_Filter_check != 1 && Main.ImageSize_Filter_NO != 1 && OpenFilterType == "NoneFilter" && Main.Filter_CheckEQ_Dic.Count == 0)
+                {
+                    dicInfo_Filter = Main.DicInfo;
+
+                }
+                else if (Main.Exceed_CB.Checked)
+                {
+                    dicInfo_Filter = Main.Exceed_filter;
+
+                }
+                if (dicInfo_Filter.Count != 0 && OpenFilterType == "NoneFilter")
                 {
                     if (Main.Frame_BT.Checked)
                     {
-                        Sorted_dic = DicInfo_Filtered.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                        Sorted_dic = dicInfo_Filter.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 
                         DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
                     }
@@ -814,9 +738,9 @@ namespace ViewPort.Views
                     {
 
                         Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
-                        int maxY = DicInfo_Filtered.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
+                        int maxY = dicInfo_Filter.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
 
-                        foreach (KeyValuePair<string, ImageInfo> pair in DicInfo_Filtered)
+                        foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Filter)
 
                         {
 
@@ -829,7 +753,7 @@ namespace ViewPort.Views
 
 
                         }
-                        var keyValues = DicInfo_Filtered.OrderBy(x => x.Value.SortedXY);
+                        var keyValues = dicInfo_Filter.OrderBy(x => x.Value.SortedXY);
                         foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
                         {
 
@@ -840,121 +764,165 @@ namespace ViewPort.Views
                         DicInfo_Filtered = SortXY_DIC_Load;
                     }
                 }
-
-                else if(OpenFilterType == "Filter")
+                else
                 {
-                    if (Main.Frame_BT.Checked)
+                    if (DicInfo_Filtered.Count != 0 && OpenFilterType == "NoneFilter")
                     {
-                        Sorted_dic = Main.Filter_CheckEQ_Dic.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+                        if (Main.Frame_BT.Checked)
+                        {
+                            Sorted_dic = DicInfo_Filtered.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 
-                        Main.Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(Sorted_dic);
-                    }
-                    else if (Main.XY_BT.Checked)
-                    {
-
-                        Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
-                        int maxY = Main.Filter_CheckEQ_Dic.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
-
-                        foreach (KeyValuePair<string, ImageInfo> pair in Main.Filter_CheckEQ_Dic)
-
+                            DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
+                        }
+                        else if (Main.XY_BT.Checked)
                         {
 
-                            int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
-                            int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
+                            Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                            int maxY = DicInfo_Filtered.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
 
-                            int SortedXY = y * (maxY * 10) + x;
+                            foreach (KeyValuePair<string, ImageInfo> pair in DicInfo_Filtered)
 
-                            pair.Value.SortedXY = SortedXY;
+                            {
+
+                                int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
+                                int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
+
+                                int SortedXY = y * (maxY * 10) + x;
+
+                                pair.Value.SortedXY = SortedXY;
 
 
+                            }
+                            var keyValues = DicInfo_Filtered.OrderBy(x => x.Value.SortedXY);
+                            foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                            {
+
+                                SortXY_DIC_Load.Add(pair.Key, pair.Value);
+
+
+                            }
+                            DicInfo_Filtered = SortXY_DIC_Load;
                         }
-                        var keyValues = Main.Filter_CheckEQ_Dic.OrderBy(x => x.Value.SortedXY);
-                        foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                    }
+
+                    else if (OpenFilterType == "Filter")
+                    {
+                        if (Main.Frame_BT.Checked)
+                        {
+                            Sorted_dic = Main.Filter_CheckEQ_Dic.OrderBy(x => x.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+                            Main.Filter_CheckEQ_Dic = new Dictionary<string, ImageInfo>(Sorted_dic);
+                        }
+                        else if (Main.XY_BT.Checked)
                         {
 
-                            SortXY_DIC_Load.Add(pair.Key, pair.Value);
+                            Dictionary<string, ImageInfo> SortXY_DIC_Load = new Dictionary<string, ImageInfo>();
+                            int maxY = Main.Filter_CheckEQ_Dic.Max(x => Int32.Parse(x.Value.Y_Location)) / Main.Px;
+
+                            foreach (KeyValuePair<string, ImageInfo> pair in Main.Filter_CheckEQ_Dic)
+
+                            {
+
+                                int x = Int32.Parse(pair.Value.X_Location) / Main.Px;
+                                int y = Int32.Parse(pair.Value.Y_Location) / Main.Px;
+
+                                int SortedXY = y * (maxY * 10) + x;
+
+                                pair.Value.SortedXY = SortedXY;
 
 
+                            }
+                            var keyValues = Main.Filter_CheckEQ_Dic.OrderBy(x => x.Value.SortedXY);
+                            foreach (KeyValuePair<string, ImageInfo> pair in keyValues)
+                            {
+
+                                SortXY_DIC_Load.Add(pair.Key, pair.Value);
+
+
+                            }
+                            Main.Filter_CheckEQ_Dic = SortXY_DIC_Load;
                         }
-                        Main.Filter_CheckEQ_Dic = SortXY_DIC_Load;
                     }
                 }
-            }
-            
-            
-            //if (Main.Camera_NO_Filter_TB.Text != "")
-            //{
-            //    string[] Split_String = null;
-            //    Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
-            //    bool Target = false;
-            //    DicInfo_Filtered.Clear();
-            //    foreach (string No in Main.DicInfo.Keys.ToList())
-            //    {
-            //        if (Main.DicInfo.ContainsKey(No))
-            //        {
-            //            if (Split_String.Contains(Main.DicInfo[No].CameraNo.ToString()))
-            //            {
-            //                DicInfo_Filtered.Add(No, Main.DicInfo[No]);
-            //            }
-                        
-            //        }
 
-            //    }
-            //    if (DicInfo_Filtered.Count == 0)
-            //    {
-            //        DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
-            //        MessageBox.Show("해당 카메라 이미지가 없습니다.");
-            //        Main.Camera_NO_Filter_TB.Text = string.Empty;
-            //    }
 
-            //}
+                //if (Main.Camera_NO_Filter_TB.Text != "")
+                //{
+                //    string[] Split_String = null;
+                //    Split_String = Main.Camera_NO_Filter_TB.Text.Split(',');
+                //    bool Target = false;
+                //    DicInfo_Filtered.Clear();
+                //    foreach (string No in Main.DicInfo.Keys.ToList())
+                //    {
+                //        if (Main.DicInfo.ContainsKey(No))
+                //        {
+                //            if (Split_String.Contains(Main.DicInfo[No].CameraNo.ToString()))
+                //            {
+                //                DicInfo_Filtered.Add(No, Main.DicInfo[No]);
+                //            }
 
-            if (Main.Waiting_Del.Count > 0)
-            {
-                foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                //        }
+
+                //    }
+                //    if (DicInfo_Filtered.Count == 0)
+                //    {
+                //        DicInfo_Filtered = new Dictionary<string, ImageInfo>(Sorted_dic);
+                //        MessageBox.Show("해당 카메라 이미지가 없습니다.");
+                //        Main.Camera_NO_Filter_TB.Text = string.Empty;
+                //    }
+
+                //}
+
+                if (Main.Waiting_Del.Count > 0)
                 {
-                    if (Main.Waiting_Del.ContainsKey(pair))
-                        DicInfo_Filtered.Remove(pair);
+                    foreach (string pair in DicInfo_Filtered.Keys.ToList())
+                    {
+                        if (Main.Waiting_Del.ContainsKey(pair))
+                            DicInfo_Filtered.Remove(pair);
+                    }
                 }
+
+                cols = int.Parse(Main.Cols_TB.Text);
+                rows = int.Parse(Main.Rows_TB.Text);
+                width = int.Parse(Main.Width_TB.Text);
+                height = int.Parse(Main.Height_TB.Text);
+
+                Current_PageNum = 1;
+                Current_Frame_PageNum = 1;
+
+
+
+                Main.S_Page_TB.Text = Current_PageNum.ToString();
+                Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
+                Main.E_Page_TB.Text = Total_PageNum.ToString();
+
+                Set_PictureBox();
+
+                if (Main.Frame_View_CB.Checked)
+                {
+                    Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
+                    Total_Frame_PageNum = frame_List_Img.Count;
+                    Main.Frame_E_Page_TB.Text = Total_Frame_PageNum.ToString();
+
+
+                    Frame_Set_Image();
+                }
+                else
+                    Set_Image();
+
+                Last_Picture_Selected_Index = -1;
+
+                //Main.List_Count_TB.Text = String.Format("{0:#,##0}", DicInfo_Filtered.Count);
+
+
+                //Main.Print_List();
+                this.Focus();
+                //Filter_NO_Set();
             }
-
-            cols = int.Parse(Main.Cols_TB.Text);
-            rows = int.Parse(Main.Rows_TB.Text);
-            width = int.Parse(Main.Width_TB.Text);
-            height = int.Parse(Main.Height_TB.Text);
-
-            Current_PageNum = 1;
-            Current_Frame_PageNum = 1;
-
-
-
-            Main.S_Page_TB.Text = Current_PageNum.ToString();
-            Total_PageNum = ((dicInfo_Filter.Count - 1) / (cols * rows)) + 1;
-            Main.E_Page_TB.Text = Total_PageNum.ToString();
-
-            Set_PictureBox();
-
-            if (Main.Frame_View_CB.Checked)
+            catch
             {
-                Main.Frame_S_Page_TB.Text = Current_PageNum.ToString();
-                Total_Frame_PageNum = frame_List_Img.Count;
-                Main.Frame_E_Page_TB.Text = Total_Frame_PageNum.ToString();
-
-
-                Frame_Set_Image();
+                MessageBox.Show("Error");
             }
-            else
-                Set_Image();
-
-            Last_Picture_Selected_Index = -1;
-
-            //Main.List_Count_TB.Text = String.Format("{0:#,##0}", DicInfo_Filtered.Count);
-
-
-            //Main.Print_List();
-            this.Focus();
-            //Filter_NO_Set();
-
         }
         
         public void Code_200_Set_View()

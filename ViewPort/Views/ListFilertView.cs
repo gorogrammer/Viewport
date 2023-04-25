@@ -25,7 +25,7 @@ namespace ViewPort.Views
             Main = parent;
             DataTable dt = new DataTable();
             dt.Columns.Add("List Name");
-
+            //Main.fil
 
             dt.PrimaryKey = new DataColumn[] { dt.Columns["List Name"] };
 
@@ -35,11 +35,15 @@ namespace ViewPort.Views
 
         private void 복사ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             List_Filter.Clear();
             char[] rowSplitter = { '\r', '\n' };
             char[] columnSplitter = { '\t' };
 
             IDataObject datainClip = Clipboard.GetDataObject();
+
+            if (datainClip == null)
+                return;
             string stringinClip = (string)datainClip.GetData(DataFormats.Text);
 
 

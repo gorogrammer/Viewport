@@ -90,6 +90,9 @@ namespace ViewPort.Views
                     else
                         ImageViewer.Set_EngData(EQ_STR.SHORT, textBox20.Text, textBox19.Text, textBox4.Text, textBox3.Text);
 
+
+                    if(ImageViewer.Main.Eng_dicinfo.Count == 0)
+                        NormalCheck.Checked = true;
                 }
                 else
                 {
@@ -118,6 +121,9 @@ namespace ViewPort.Views
                     }
                     else
                         ImageViewer.Set_EngData(EQ_STR.SPIN, textBox22.Text, textBox21.Text, textBox6.Text, textBox5.Text);
+
+                    if (ImageViewer.Main.Eng_dicinfo.Count == 0)
+                        NormalCheck.Checked = true;
                 }
                 else
                 {
@@ -146,6 +152,9 @@ namespace ViewPort.Views
                     }
                     else
                         ImageViewer.Set_EngData(EQ_STR.OPEN, textBox24.Text, textBox23.Text, textBox8.Text, textBox7.Text);
+
+                    if (ImageViewer.Main.Eng_dicinfo.Count == 0)
+                        NormalCheck.Checked = true;
                 }
                 else
                 {
@@ -173,6 +182,9 @@ namespace ViewPort.Views
                     }
                     else
                         ImageViewer.Set_EngData(EQ_STR.MB, textBox26.Text, textBox25.Text, textBox10.Text, textBox9.Text);
+
+                    if (ImageViewer.Main.Eng_dicinfo.Count == 0)
+                        NormalCheck.Checked = true;
                 }
                 else
                 {
@@ -200,6 +212,9 @@ namespace ViewPort.Views
                     }
                     else
                         ImageViewer.Set_EngData(EQ_STR.TOP, textBox28.Text, textBox27.Text, textBox12.Text, textBox11.Text);
+
+                    if (ImageViewer.Main.Eng_dicinfo.Count == 0)
+                        NormalCheck.Checked = true;
                 }
                 else
                 {
@@ -227,6 +242,9 @@ namespace ViewPort.Views
                     }
                     else
                         ImageViewer.Set_EngData(EQ_STR.DISCOLORATION, textBox30.Text, textBox29.Text, textBox14.Text, textBox13.Text);
+
+                    if (ImageViewer.Main.Eng_dicinfo.Count == 0)
+                        NormalCheck.Checked = true;
                 }
                 else
                 {
@@ -254,6 +272,9 @@ namespace ViewPort.Views
                     }
                     else
                         ImageViewer.Set_EngData(EQ_STR.SR, textBox32.Text, textBox31.Text, textBox16.Text, textBox15.Text);
+
+                    if (ImageViewer.Main.Eng_dicinfo.Count == 0)
+                        NormalCheck.Checked = true;
                 }
                 else
                 {

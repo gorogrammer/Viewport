@@ -14,6 +14,7 @@ using ViewPort.Functions;
 using System.IO.Compression;
 using System.IO;
 using System.Diagnostics;
+using DevExpress.XtraSplashScreen;
 
 namespace ViewPort.Views
 {
@@ -98,8 +99,10 @@ namespace ViewPort.Views
                         if (OpenFilterType == "Filter")
                         {
                             dicInfo_Filter = new Dictionary<string, ImageInfo>(Main.Filter_CheckEQ_Dic);
+                            SplashScreenManager.ShowForm(typeof(WaitFormSplash));
                             Key_shift_del();
-                            if(Main.Filter_CheckEQ_Dic.Count !=0)
+                            SplashScreenManager.CloseForm();
+                            if (Main.Filter_CheckEQ_Dic.Count !=0)
                             {
                                 if (Main.XY_BT.Checked)
                                     Main.XY_BT_CheckedChanged(null, null);
@@ -134,7 +137,9 @@ namespace ViewPort.Views
 
                         else
                         {
+                            SplashScreenManager.ShowForm(typeof(WaitFormSplash));
                             Key_shift_del();
+                            SplashScreenManager.CloseForm();
                             Current_PageNum = 1;
                             Main.S_Page_TB.Text = Current_PageNum.ToString();
                          

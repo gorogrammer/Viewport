@@ -111,7 +111,7 @@ namespace ViewPort.Views
                     if (UserList[Worker].WorkTime != 0)
                         UserList[Worker].ImageSpeed = UserList[Worker].ViewImage / (UserList[Worker].WorkTime * 8);
 
-
+                    if(UserList[Worker].WorkTime !=0)
                     SearchData.Rows.Add(Worker, UserList[Worker].SuLot, UserList[Worker].WorkTime, UserList[Worker].IdleTime, UserList[Worker].ImageSpeed, UserList[Worker].PassImage, UserList[Worker].ViewImage);
                 }
 

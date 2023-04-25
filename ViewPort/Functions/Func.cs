@@ -574,54 +574,49 @@ namespace ViewPort.Functions
 
                 if (ImgEntry == null)
                 {
-                    MessageBox.Show(MSG_STR.NONE_XY_TXT);
+                    //MessageBox.Show(MSG_STR.NONE_XY_TXT);
                     return;
                 }
 
                 StreamReader SR = new StreamReader(ImgEntry.Open(), Encoding.Default);
                 string text = SR.ReadToEnd();
-                SR.Dispose();
+                SR.Close();
                 string[] items = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+              
                 int E_index = Array.FindIndex(items, i => i == "E") + 1;
                 dic_ready = items.ToList();
-                
-                int Maxindex = dic_ready.Count - 1;
-                
-                using (StreamWriter writer = new StreamWriter(ImgEntry.Open(),Encoding.Default))
+                string[] EList = new string[E_index];
+                for (int i = 0; i < E_index; i++)
+                    EList[i] = dic_ready[i];
+                for (int i = 0; i < E_index; i++)
+                    dic_ready.RemoveAt(0);
+                dic_ready.Remove("");
+                dic_ready = dic_ready.Where(x => !Waiting_Del.Keys.Contains(x.Substring(0,12))).ToList();
+                ImgEntry.Delete();
+                ZipArchiveEntry readmeEntry = zip.CreateEntry(Func.GetXYFromPath(FilePath));
+                using (StreamWriter writer = new StreamWriter(readmeEntry.Open()))
                 {
+                    
                     string TestList = string.Empty;
                     for(int i=0; i< E_index; i++)
                     {
-                        TestList = dic_ready[i];
+                        TestList = EList[i];
                         writer.WriteLine(TestList);
                         
                     }
-                    for (int i = E_index; i < Maxindex; i++)
+                    for (int i = 0; i < dic_ready.Count; i++)
                     {
-                        bool deleteCheck = false;
+                      
                         if (dic_ready[i] == "")
                         {
                             return;
                         }
                         else
                         {
-                            foreach (string del in Waiting_Del.Keys)
-                            {
-                                if (del.Equals(dic_ready[i].Substring(0, 12)))
-                                {
-                                    deleteCheck = true;
-                                }
-                            }
-                            if (deleteCheck)
-                            {
-
-                            }
-                            else
-                            {
-                                TestList = dic_ready[i];
-                                writer.WriteLine(TestList);
+                          TestList = dic_ready[i];
+                          writer.WriteLine(TestList);
                                 
-                            }
+                         
                         }
                     }
                     

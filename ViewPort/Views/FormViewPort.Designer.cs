@@ -540,7 +540,7 @@
             // 
             this.중간종료ToolStripMenuItem.Enabled = false;
             this.중간종료ToolStripMenuItem.Name = "중간종료ToolStripMenuItem";
-            this.중간종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.중간종료ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.중간종료ToolStripMenuItem.Text = "중간종료";
             this.중간종료ToolStripMenuItem.Visible = false;
             this.중간종료ToolStripMenuItem.Click += new System.EventHandler(this.중간종료ToolStripMenuItem_Click);
@@ -548,7 +548,7 @@
             // 완전종료ToolStripMenuItem
             // 
             this.완전종료ToolStripMenuItem.Name = "완전종료ToolStripMenuItem";
-            this.완전종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.완전종료ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.완전종료ToolStripMenuItem.Text = "완전종료";
             this.완전종료ToolStripMenuItem.Click += new System.EventHandler(this.완전종료ToolStripMenuItem_Click);
             // 
@@ -615,7 +615,7 @@
             this.splitContainer3.Panel2.Controls.Add(this.panel5);
             this.splitContainer3.Panel2MinSize = 10;
             this.splitContainer3.Size = new System.Drawing.Size(330, 655);
-            this.splitContainer3.SplitterDistance = 597;
+            this.splitContainer3.SplitterDistance = 588;
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -637,8 +637,8 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.Equipment_DF_CLB);
-            this.splitContainer5.Size = new System.Drawing.Size(330, 597);
-            this.splitContainer5.SplitterDistance = 474;
+            this.splitContainer5.Size = new System.Drawing.Size(330, 588);
+            this.splitContainer5.SplitterDistance = 465;
             this.splitContainer5.TabIndex = 0;
             // 
             // splitContainer7
@@ -655,8 +655,8 @@
             // splitContainer7.Panel2
             // 
             this.splitContainer7.Panel2.Controls.Add(this.splitContainer9);
-            this.splitContainer7.Size = new System.Drawing.Size(330, 474);
-            this.splitContainer7.SplitterDistance = 406;
+            this.splitContainer7.Size = new System.Drawing.Size(330, 465);
+            this.splitContainer7.SplitterDistance = 396;
             this.splitContainer7.TabIndex = 0;
             // 
             // splitContainer8
@@ -674,7 +674,7 @@
             // splitContainer8.Panel2
             // 
             this.splitContainer8.Panel2.Controls.Add(this.panel4);
-            this.splitContainer8.Size = new System.Drawing.Size(330, 406);
+            this.splitContainer8.Size = new System.Drawing.Size(330, 396);
             this.splitContainer8.SplitterDistance = 211;
             this.splitContainer8.TabIndex = 999;
             // 
@@ -727,7 +727,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(211, 406);
+            this.panel3.Size = new System.Drawing.Size(211, 396);
             this.panel3.TabIndex = 0;
             // 
             // MouseXY_FT_Y
@@ -1043,14 +1043,14 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(115, 406);
+            this.panel4.Size = new System.Drawing.Size(115, 396);
             this.panel4.TabIndex = 0;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // FrameFilterReseve
             // 
             this.FrameFilterReseve.AutoSize = true;
-            this.FrameFilterReseve.Location = new System.Drawing.Point(9, 235);
+            this.FrameFilterReseve.Location = new System.Drawing.Point(9, 256);
             this.FrameFilterReseve.Name = "FrameFilterReseve";
             this.FrameFilterReseve.Size = new System.Drawing.Size(76, 16);
             this.FrameFilterReseve.TabIndex = 32;
@@ -1115,7 +1115,7 @@
             // Frame_View_CB
             // 
             this.Frame_View_CB.AutoSize = true;
-            this.Frame_View_CB.Location = new System.Drawing.Point(9, 256);
+            this.Frame_View_CB.Location = new System.Drawing.Point(9, 235);
             this.Frame_View_CB.Name = "Frame_View_CB";
             this.Frame_View_CB.Size = new System.Drawing.Size(76, 16);
             this.Frame_View_CB.TabIndex = 30;
@@ -1149,8 +1149,8 @@
             // 
             this.splitContainer9.Panel2.Controls.Add(this.panel2);
             this.splitContainer9.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer9_Panel2_Paint);
-            this.splitContainer9.Size = new System.Drawing.Size(330, 64);
-            this.splitContainer9.SplitterDistance = 27;
+            this.splitContainer9.Size = new System.Drawing.Size(330, 65);
+            this.splitContainer9.SplitterDistance = 26;
             this.splitContainer9.TabIndex = 0;
             // 
             // panel1
@@ -1163,7 +1163,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.MinimumSize = new System.Drawing.Size(330, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(330, 27);
+            this.panel1.Size = new System.Drawing.Size(330, 26);
             this.panel1.TabIndex = 0;
             // 
             // Frame_BT
@@ -1201,7 +1201,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.MinimumSize = new System.Drawing.Size(330, 27);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(330, 33);
+            this.panel2.Size = new System.Drawing.Size(330, 35);
             this.panel2.TabIndex = 0;
             // 
             // View_Mode_RB
@@ -1240,7 +1240,7 @@
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.MinimumSize = new System.Drawing.Size(330, 25);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(330, 57);
+            this.panel5.Size = new System.Drawing.Size(330, 66);
             this.panel5.TabIndex = 0;
             // 
             // EQ_Filter_BT

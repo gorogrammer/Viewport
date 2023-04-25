@@ -13,6 +13,7 @@ using System.IO.Compression;
 using System.IO;
 using MetroFramework.Forms;
 using DevExpress.XtraSplashScreen;
+using System.Diagnostics;
 
 namespace ViewPort.Views
 {
@@ -882,6 +883,9 @@ namespace ViewPort.Views
 
         private void Delete_wait_img_bt_Click(object sender, EventArgs e)
         {
+            if (Main.Waiting_Del.Count == 0)
+                return;
+            SplashScreenManager.ShowForm(typeof(WaitFormSplash));
             Get_Delete_IMG();
             
             
@@ -909,18 +913,14 @@ namespace ViewPort.Views
             {
                 for (int i = 0; i < Select_Pic.Count; i++)
                 {
-                    if (Main_Dic.ContainsKey(Select_Pic[i]))
+                    try
                     {
-                        if(Main.F5_code_dicInfo.Keys.ToList().Contains(Select_Pic[i]))
+                        if (Main.F5_code_dicInfo.Keys.ToList().Contains(Select_Pic[i]))
                         {
-                            
+
                             Main.F5_code_dicInfo[Select_Pic[i]].ReviewDefectName = "양품";
                             Main.F5_code_dicInfo[Select_Pic[i]].DeleteCheck = "0";
-                            if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
-                            {
-                                dicInfo_Filter_Del.Remove(Select_Pic[i]);
-                            }
-
+                            dicInfo_Filter_Del.Remove(Select_Pic[i]);
                             Main_Dic.Remove(Select_Pic[i]);
                             Main.Waiting_Del.Remove(Select_Pic[i]);
                         }
@@ -929,18 +929,13 @@ namespace ViewPort.Views
                             Main_Dic[Select_Pic[i]].ReviewDefectName = "양품";
                             Main_Dic[Select_Pic[i]].DeleteCheck = "0";
                             Main.DicInfo[Select_Pic[i]] = Main_Dic[Select_Pic[i]];
-                            //Main.selected_Pic.Add(Select_Pic[i]);
-                            if (dicInfo_Filter_Del.ContainsKey(Select_Pic[i]))
-                            {
-                                dicInfo_Filter_Del.Remove(Select_Pic[i]);
-                            }
-
+                            dicInfo_Filter_Del.Remove(Select_Pic[i]);
                             Main_Dic.Remove(Select_Pic[i]);
                             Main.Waiting_Del.Remove(Select_Pic[i]);
                         }
-                      
+
                     }
-                  
+                    catch { continue; }
 
 
                 }
@@ -964,12 +959,15 @@ namespace ViewPort.Views
             Main.filterMode = Enums.FILTERTYPE.NULL;
 
             dicInfo_Delete_Sel.Clear();
+            SplashScreenManager.CloseForm();
         }
 
         private void Delete_Img_In_ZIp_Click(object sender, EventArgs e)
         {
             try
             {
+                
+
                 Waiting_Del_DLView = Main.Waiting_Del;
                 if (Waiting_Del_DLView.Count > 0)
                 {
@@ -977,10 +975,10 @@ namespace ViewPort.Views
                     {
                         
                         
-                        
+                        SplashScreenManager.ShowForm(typeof(WaitFormSplash));
                         Main.Delete_ZipImg();
-                        //Main.TopMost = true;
-                        // this.Close();
+                        SplashScreenManager.CloseForm();
+                      
                         Dispose(true);
                     }
                     else
@@ -991,6 +989,7 @@ namespace ViewPort.Views
 
 
                 }
+
                 DBFunc dBFunc = new DBFunc();
                 dBFunc.DeleteUplaod(Main.delete, Main.LotName);
                 Main.delete_W = 0;
@@ -1000,9 +999,13 @@ namespace ViewPort.Views
                 // ProgressBar1.CloseBar(Main);
                 SplashScreenManager.ShowForm(typeof(WaitFormSplash));
                 Main.MapTxtChange();
+
+                if (!Main.Information.OffLineMode)
+                    Func.Delete_Insert_text(Main.Delete_List_Main, Main.Information.DeletePath, Main.Information.Name, Main.LotName);
+
+                Main.Delete_List_Main.Clear();
                 SplashScreenManager.CloseForm();
                 MessageBox.Show("Map 변경되었습니다.");
-                Main.TopMost = false;
             }
             catch(Exception ex)
             {
@@ -1444,23 +1447,26 @@ namespace ViewPort.Views
         public void Get_Delete_IMG()
         {
             Select_Pic.Clear();
-            foreach (string name in dicInfo_Filter_Del.Keys.ToList())
-            {
-                if (dicInfo_Filter_Del[name].DeleteCheck == "0")
-                {
-                    Select_Pic.Add(name);
-                }
 
-            }
+            var dic = dicInfo_Filter_Del.Where(x => x.Value.DeleteCheck == "0").ToDictionary(x => x.Key, x => x.Value);
+            Select_Pic = dic.Keys.ToList();
+            //foreach (string name in dicInfo_Filter_Del.Keys.ToList())
+            //{
+            //    if (dicInfo_Filter_Del[name].DeleteCheck == "0")
+            //    {
+            //        Select_Pic.Add(name);
+            //    }
+
+            //}
             for (int p = 0; p < Select_Pic.Count; p++)
             {
-                if (Main_Dic.ContainsKey(Select_Pic[p]))
+                try
                 {
-
                     dicInfo_Delete_Sel.Add(Select_Pic[p], Main_Dic[Select_Pic[p]]);
 
                     dicInfo_Delete_Sel[Select_Pic[p]].DeleteCheck = "삭제대기";
                 }
+                catch { continue; }
             }
          
         }

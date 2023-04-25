@@ -35,6 +35,7 @@
             // marqueeProgressBarControl1
             // 
             this.marqueeProgressBarControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.marqueeProgressBarControl1.EditValue = 0;
             this.marqueeProgressBarControl1.Location = new System.Drawing.Point(0, 0);
             this.marqueeProgressBarControl1.Name = "marqueeProgressBarControl1";
             this.marqueeProgressBarControl1.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;

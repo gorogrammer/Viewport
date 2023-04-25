@@ -88,6 +88,12 @@ namespace ViewPort.Views
 
 
                 }
+
+                if(Main.Eng_dicinfo.Count == 0)
+                {
+                    return;
+                }
+
                 if (Main.Frame_BT.Checked)
                 {
                   

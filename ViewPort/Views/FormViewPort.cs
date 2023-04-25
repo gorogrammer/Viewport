@@ -499,31 +499,38 @@ namespace ViewPort
             }
             else
             {
-                for (int i = 0; i < selected_Pic.Count; i++)
+                Dictionary<string, ImageInfo> dic = new Dictionary<string, ImageInfo>();
+                for (int i = 0; i < selected_Pic.Count; i++) 
                 {
-                    if(DicInfo.Keys.ToList().Contains(selected_Pic[i]) && !Return_dicInfo.ContainsKey(selected_Pic[i]))
+                    try
                     {
-                        Return_dicInfo.Add(selected_Pic[i], dicInfo[selected_Pic[i]]);
-
-                        if (dt.Rows.Contains(selected_Pic[i]))
-                            continue;
-                        else
-                            dt.Rows.Add(dicInfo[selected_Pic[i]].Imagename, dicInfo[selected_Pic[i]].ReviewDefectName);
+                        Return_dicInfo.Add(selected_Pic[i], DicInfo[selected_Pic[i]]);
                     }
-                    else if(F5_code_dicInfo.Keys.ToList().Contains(selected_Pic[i]))
-                    {
-                        Return_dicInfo.Add(selected_Pic[i], F5_code_dicInfo[selected_Pic[i]]);
-
-                        if (dt.Rows.Contains(selected_Pic[i]))
-                            continue;
-                        else
-                            dt.Rows.Add(F5_code_dicInfo[selected_Pic[i]].Imagename, F5_code_dicInfo[selected_Pic[i]].ReviewDefectName);
-                    }
-                    
-
-                
+                    catch { continue; }
                 }
 
+                //var dic = DicInfo.Where(kvp => selected_Pic.Contains(kvp.Key)).ToDictionary(x => x.Key, x => x.Value);             
+                Return_dicInfo = Return_dicInfo.Union(dic).ToDictionary(x => x.Key, x => x.Value);
+                var f5dic = F5_code_dicInfo.Where(kvp => selected_Pic.Contains(kvp.Key)).ToDictionary(x => x.Key, x => x.Value);
+                Return_dicInfo = Return_dicInfo.Union(f5dic).ToDictionary(x => x.Key, x => x.Value);
+                foreach (KeyValuePair<string, ImageInfo> t in dic)
+                {
+                    try
+                    {
+                        dt.Rows.Add(t.Value.Imagename, t.Value.ReviewDefectName);
+                    }
+                    catch { continue; }
+
+
+                }
+                foreach (KeyValuePair<string, ImageInfo> t in f5dic)
+                {
+                    try
+                    {
+                        dt.Rows.Add(t.Value.Imagename, t.Value.ReviewDefectName);
+                    }
+                    catch { continue; }
+                }
             }
 
             if(return_dicInfo.Count == 0)
@@ -686,11 +693,11 @@ namespace ViewPort
 
             for (int i = 0; i < Selected_Pic.Count; i++)
             {
-                if (Waiting_Del.Keys.ToList().Contains(Selected_Pic[i]))
+                try
                 {
                     Waiting_Del.Remove(Selected_Pic[i]);
                 }
-
+                catch { continue; }
             }
             
 
@@ -2818,13 +2825,16 @@ namespace ViewPort
             List<string> changed_eq = new List<string>();
             
             int index = 0;
-            Char[] sd = { '-' };         
-            foreach (string id in deleted_pic)
+            Char[] sd = { '-' };
+            if (F5_code_dicInfo.Count > 0)
             {
-                if (F5_code_dicInfo.ContainsKey(id))
+                foreach (string id in deleted_pic)
                 {
-                    return;
+                    if (F5_code_dicInfo.ContainsKey(id))
+                    {
+                        return;
 
+                    }
                 }
             }
 
@@ -3044,24 +3054,11 @@ namespace ViewPort
         }
         public void Delete_ZipImg()
         {
-            ProgressBar1 progressBar = new ProgressBar1();
-            progressBar.SetProgressBarMaxSafe(100 + dicInfo_Waiting_Del.Count);
-            progressBar.Text = "Dicinfo Deleting...";
-            progressBar.TopMost = true;
-            progressBar.Show();
-            progressBar.Activate();
+            
             Func.DeleteJPG_inZIP(zipFilePath, dicInfo_Waiting_Del);
-            progressBar.tabProgressBarSafe(100);
-            // Func.Rewrite_XY_TxtAsync(zipFilePath, dicInfo_Waiting_Del);
-            foreach (KeyValuePair<string, ImageInfo> pair in dicInfo_Waiting_Del)
-            {
-                if (DicInfo.ContainsKey(pair.Key))
-                    DicInfo.Remove(pair.Key);
-                if (!Delete_List_Main.Contains(pair.Key))
-                    Delete_List_Main.Add(pair.Key);
-                progressBar.AddProgressBarValueSafe(1);
-            }
-            progressBar.ExitProgressBarSafe();
+            //Func.Rewrite_XY_TxtAsync(zipFilePath, dicInfo_Waiting_Del);
+            DicInfo = DicInfo.Except(dicInfo_Waiting_Del).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            Delete_List_Main = dicInfo_Waiting_Del.Keys.Union(Delete_List_Main).Distinct().ToList();
             delete = delete + dicInfo_Waiting_Del.Count;
             dicInfo_Waiting_Del.Clear();
             ((DataTable)dataGridView2.DataSource).Rows.Clear();
@@ -4011,6 +4008,11 @@ namespace ViewPort
                 {
                     SplashScreenManager.ShowForm(typeof(WaitFormSplash));
                     MapTxtChange();
+
+                    if (!Information.OffLineMode && Delete_List_Main.Count > 0)
+                        Func.Delete_Insert_text(Delete_List_Main, Information.DeletePath, Information.Name, LotName);
+
+                    Delete_List_Main.Clear();
                     SplashScreenManager.CloseForm();
                     MessageBox.Show("Map 변경되었습니다.");
                 }
@@ -4040,14 +4042,20 @@ namespace ViewPort
         {
             try
             {
-
+                
                 final_Frame_List.Clear();
                 if (open.F12_del_list.Count > 0)
                 {
                     DicInfo = DicInfo.Where(kvp => !open.F12_del_list.Contains(kvp.Key)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
                     foreach (string pair in open.F12_del_list)
-                        dicInfo.Add(pair, DicInfo_Copy[pair]);
+                    {
+                        try
+                        {
+                            dicInfo.Add(pair, DicInfo_Copy[pair]);
+                        }
+                        catch { continue; }
+                    }
                 }
                 // SDIP코드 1이아닌 프레임들을 저장
                 List<int> FinalFrame = DicInfo.Values.Where(kvp => kvp.sdip_no != "1").Select(x => x.FrameNo).Distinct().ToList();
@@ -4060,34 +4068,41 @@ namespace ViewPort
                 Dictionary<int, int> special_frame = new Dictionary<int, int>();
                 foreach (KeyValuePair<int, int> pair in Map_List_Dic_main)
                 {
-
-                    if (pair.Value == 88)
+                    try
                     {
-                        if (Map_List_Dic_Compare_main[pair.Key] != 39 && Map_List_Dic_Compare_main[pair.Key] != 40)
+                        if (pair.Value == 88)
                         {
+                            if (Map_List_Dic_Compare_main[pair.Key] != 39 && Map_List_Dic_Compare_main[pair.Key] != 40)
+                            {
 
-                        }
-                        else
-                        {
-                            special_frame.Add(pair.Key, Map_List_Dic_main[pair.Key]);
+                            }
+                            else
+                            {
+                                special_frame.Add(pair.Key, Map_List_Dic_main[pair.Key]);
+                            }
                         }
                     }
+                    catch { continue; }
 
                 }
                 foreach (int pair in Map_List_Dic_main.Keys.ToList())
                 {
-                    if (Map_List_Dic_main[pair] != 88)
+                    try
                     {
-                        if (special_frame.ContainsKey(pair))
+                        if (Map_List_Dic_main[pair] != 88)
                         {
+                            if (special_frame.ContainsKey(pair))
+                            {
+
+                            }
+                            else
+                            {
+                                special_frame.Add(pair, Map_List_Dic_main[pair]);
+                            }
 
                         }
-                        else
-                        {
-                            special_frame.Add(pair, Map_List_Dic_main[pair]);
-                        }
-
                     }
+                    catch { continue; }
 
                 }
                 var RemoveSpeicalFrame = special_frame.Where(kvp => Exception_Frame.Contains(kvp.Key)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
@@ -4103,15 +4118,19 @@ namespace ViewPort
 
                 foreach (int pair in final_Frame_List)
                 {
-                    if (Map_List_Dic_main.Keys.ToList().Contains(pair))
+                    try
                     {
+                        if (Map_List_Dic_main.Keys.ToList().Contains(pair))
+                        {
 
+                        }
+                        else
+                        {
+                            Map_List_Dic_main.Add(pair, 88);
+                            Map_List_Dic_Compare_main.Add(pair, 31);
+                        }
                     }
-                    else
-                    {
-                        Map_List_Dic_main.Add(pair, 88);
-                        Map_List_Dic_Compare_main.Add(pair, 31);
-                    }
+                    catch { continue; }
                     //progressBar.tabProgressBarSafe(10);
 
                 }
@@ -4175,16 +4194,20 @@ namespace ViewPort
 
                 foreach (int pair in Map_List_Dic_main.Keys.ToList())
                 {
-                    if (Map_TXT_NO_Counting.ContainsKey(Map_List_Dic_main[pair]) == false)
-                        Map_TXT_NO_Counting.Add(Map_List_Dic_main[pair], 1);
-                    else
+                    try
                     {
-                        Map_TXT_NO_Counting[Map_List_Dic_main[pair]] = Map_TXT_NO_Counting[Map_List_Dic_main[pair]] + 1;
+                        if (Map_TXT_NO_Counting.ContainsKey(Map_List_Dic_main[pair]) == false)
+                            Map_TXT_NO_Counting.Add(Map_List_Dic_main[pair], 1);
+                        else
+                        {
+                            Map_TXT_NO_Counting[Map_List_Dic_main[pair]] = Map_TXT_NO_Counting[Map_List_Dic_main[pair]] + 1;
+                        }
                     }
+                    catch { continue; }
 
                 }
                 Func.Map_TXT_Update_inZip(ZipFilePath, Map_TXT_NO_Counting, Map_List_Dic_main, Map_List_Dic_Compare_main, Between);
-                
+
             }
             catch (Exception ex)
             {
@@ -4370,7 +4393,7 @@ namespace ViewPort
             {
                 ListFilertView Listfilter = new ListFilertView(this);
                 Listfilter.ShowDialog();
-                Set_List_Filter();
+                Set_List_Filter(Listfilter.FrameCheck.Checked);
             }
             else
             {
@@ -4385,7 +4408,7 @@ namespace ViewPort
             {
                 ListFilertView Listfilter = new ListFilertView(this);
                 Listfilter.ShowDialog();
-                Set_Frame_List_Filter();
+                Set_Frame_List_Filter(Listfilter.FrameCheck.Checked);
             }
             else
             {
@@ -4394,21 +4417,28 @@ namespace ViewPort
 
         }
 
-        public void Set_List_Filter()
+        public void Set_List_Filter(bool check)
         {
             ListFiler = "List_FIlter";
             List_filter = 1;
             set_filter.Clear();
 
+            
+
             if (List_Filter_Main.Count > 0 && List_Filter_Main[0].Length > 7)
             {
+               
                 for (int i = 0; i < List_Filter_Main.Count; i++)
                 {
 
                     set_filter.Add(List_Filter_Main[i], DicInfo[List_Filter_Main[i]]);
 
                 }
-                open.DicInfo_Filtered = set_filter;
+                if (check)
+                    open.DicInfo_Filtered = dicInfo.Except(set_filter).ToDictionary(x => x.Key, x => x.Value);
+                else
+                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(set_filter);
+
                 open.Set_View();
 
                 Print_List();
@@ -4417,7 +4447,7 @@ namespace ViewPort
             List_filter = 0;
         }
 
-        public void Set_Frame_List_Filter()
+        public void Set_Frame_List_Filter(bool check)
         {
             ListFiler = "FrameList_FIlter";
             List_filter = 1;
@@ -4432,6 +4462,7 @@ namespace ViewPort
 
                 }
 
+                
 
                 foreach (string pair in DicInfo.Keys.ToList())
                 {
@@ -4441,7 +4472,10 @@ namespace ViewPort
                     }
 
                 }
-                open.DicInfo_Filtered = set_filter;
+                if (check)
+                    open.DicInfo_Filtered = DicInfo.Except(set_filter).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                else
+                    open.DicInfo_Filtered = new Dictionary<string, ImageInfo>(set_filter);
                 open.Set_View();
                 Print_List();
             }
